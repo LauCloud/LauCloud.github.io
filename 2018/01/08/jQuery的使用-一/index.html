@@ -1,0 +1,1720 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jQuery," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章主要是想介绍关于 jQuery 的基本使用，重点的内容就是 jQuery 的选择器、jQuery 对于 DOM 文档的操作以及 jQuery 的事件机制，其中也会有非常多的 jQuery 方法，都提供了非常有用而且强大的功能，因为 jQuery 中的内容是非常多的，因此如果介绍时，只是方法和选择器的罗列的话，看一会之后就会很无聊了，而且就算很认真的看下去，往往都会记住了当前的，而忘记了前面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery的使用(一)">
+<meta property="og:url" content="http://yoursite.com/2018/01/08/jQuery的使用-一/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="这篇文章主要是想介绍关于 jQuery 的基本使用，重点的内容就是 jQuery 的选择器、jQuery 对于 DOM 文档的操作以及 jQuery 的事件机制，其中也会有非常多的 jQuery 方法，都提供了非常有用而且强大的功能，因为 jQuery 中的内容是非常多的，因此如果介绍时，只是方法和选择器的罗列的话，看一会之后就会很无聊了，而且就算很认真的看下去，往往都会记住了当前的，而忘记了前面">
+<meta property="og:updated_time" content="2018-10-20T07:52:25.556Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jQuery的使用(一)">
+<meta name="twitter:description" content="这篇文章主要是想介绍关于 jQuery 的基本使用，重点的内容就是 jQuery 的选择器、jQuery 对于 DOM 文档的操作以及 jQuery 的事件机制，其中也会有非常多的 jQuery 方法，都提供了非常有用而且强大的功能，因为 jQuery 中的内容是非常多的，因此如果介绍时，只是方法和选择器的罗列的话，看一会之后就会很无聊了，而且就算很认真的看下去，往往都会记住了当前的，而忘记了前面">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/08/jQuery的使用-一/"/>
+
+
+
+
+
+  <title> jQuery的使用(一) | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/08/jQuery的使用-一/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                jQuery的使用(一)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-08T15:47:56+08:00">
+                2018-01-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/jQuery/" itemprop="url" rel="index">
+                    <span itemprop="name">jQuery</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/08/jQuery的使用-一/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/01/08/jQuery的使用-一/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/01/08/jQuery的使用-一/" class="leancloud_visitors" data-flag-title="jQuery的使用(一)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章主要是想介绍关于 <code>jQuery</code> 的基本使用，重点的内容就是 <code>jQuery</code> 的选择器、<code>jQuery</code> 对于 <code>DOM</code> 文档的操作以及 <code>jQuery</code> 的事件机制，其中也会有非常多的 <code>jQuery</code> 方法，都提供了非常有用而且强大的功能，因为 <code>jQuery</code> 中的内容是非常多的，因此如果介绍时，只是方法和选择器的罗列的话，看一会之后就会很无聊了，而且就算很认真的看下去，往往都会记住了当前的，而忘记了前面的，因此这篇文章想要通过一些小的例子来介绍，通过实现一些简单的功能来介绍相关的内容，同时也会遇到很多有用的方法，这样的话，看起来会有意思一点。</p>
+<a id="more"></a>
+<h3 id="1-jQuery简介"><a href="#1-jQuery简介" class="headerlink" title="1.jQuery简介"></a>1.jQuery简介</h3><p><code>jQuery</code> 是一个 <code>JavaScript</code> 框架，相当于封装了之前由 <code>JavaScript</code> 编写的功能代码，然后提供了更加简单以及简洁的方法调用，所以我们使用起来会非常简单，我们使用 <code>jQuery</code> 可以进行如下几方面的操作：</p>
+<pre><code>1.操作HTML文档对象；
+2.进行事件处理；
+3.简单的动画特效；
+4.进行ajax交互。
+</code></pre><p>其实除了 <code>jQuery</code> 这个 <code>JavaScript</code> 框架之外，还有很多别的优秀的 <code>JavaScript</code> 框架，我们也可以进行学习，比如 <code>AngularJS</code> 之类的框架，其实学会使用了一种 <code>JavaScript</code> 框架之后，对于再去学习别的 <code>JavaScript</code> 框架也会有很大帮助，因此还是要相信技多不压身这个道理，努力先把当下这个技术学好。</p>
+<p><code>jQuery</code> 除了自身提供很多简单而高效的方法之外，也还有很多优秀的插件，也是提供了很多强大的功能，比如表单校验的插件、树形结构的插件等等，因此我们可以利用 <code>jQuery</code> 做到的事还是蛮多的。</p>
+<h3 id="2-jQuery入门"><a href="#2-jQuery入门" class="headerlink" title="2.jQuery入门"></a>2.jQuery入门</h3><p>先写一个简单的例子来看 <code>jQuery</code> 是如何使用的，要想使用 <code>jQuery</code> 的话，首先需要引入它的文件，我们这里使用的版本就是 <code>jquery-1.8.3.js</code> 了，所以我们就先在 <code>&lt;head&gt;</code> 标签中使用下面的语句引入 <code>jQuery</code> 的文件。</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;./js/jquery-1.8.3.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>然后我们写一个最简单的例子，就是当页面加载完成之后去触发事件。</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function(){
+        alert(&quot;jQuery coming&quot;);
+    });
+&lt;/script&gt;
+</code></pre><p>这里代码的意思就是当页面加载完成之后，会在页面中弹出 <code>jQuery coming</code> 的文本信息，而如果我们不使用 <code>jQuery</code> ，直接使用 <code>JavaScript</code> 的话，那代码就应该是下面这样的：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    // 页面加载完成函数
+    window.onload = function() {
+        alert(&quot;jQuery coming&quot;);
+    }
+&lt;/script&gt;
+</code></pre><p>对比上下的代码之后，很容易就会发现，使用了 <code>jQuery</code> 的代码会更加简洁，而且实现的功能都是一样的，还可以看下面的代码：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    // 页面加载完成函数
+    window.onload = function() {
+        alert(&quot;jQuery coming&quot;);
+    }
+    window.onload = function() {
+        alert(&quot;jQuery coming2&quot;);
+    }
+&lt;/script&gt;
+</code></pre><p>当我们像这样使用 <code>JavaScript</code> 代码绑定两个页面加载完成事件后，是两个文本都会被弹出吗？其实不会，浏览器只会弹回一个值，那就是 <code>jQuery coming2</code>，这是因为使用 <code>JavaScript</code> 绑定事件的话，只能绑定一次。再看下面的 <code>jQuery</code> 代码：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function(){
+        alert(&quot;jQuery coming&quot;);
+    });
+    $(function(){
+        alert(&quot;jQuery coming2&quot;);
+    });
+&lt;/script&gt;
+</code></pre><p>这个的话是会在浏览器中依次弹出两个文本值的，这是因为 <code>jQuery</code> 是允许绑定事件多次的。</p>
+<h3 id="3-jQuery核心函数"><a href="#3-jQuery核心函数" class="headerlink" title="3.jQuery核心函数"></a>3.jQuery核心函数</h3><p>这里我们想要介绍的核心函数主要是以下 <code>3</code> 个：</p>
+<pre><code>jQuery(callback)
+jQuery(html,[ownerDocument])
+jQuery([selector,[context]])
+</code></pre><p>单看函数的名称还是不容易理解的，但是我们看一些小的例子就好多了。</p>
+<h4 id="3-1-jQuery-callback"><a href="#3-1-jQuery-callback" class="headerlink" title="3.1 jQuery(callback)"></a>3.1 jQuery(callback)</h4><p><code>jQuery(callback)</code> 函数其实是 <code>$(document).ready()</code> 的简写，而 <code>$(document).ready(function(){})</code> 的意思就是当页面完全加载之后执行函数，其实我们在 <code>jQuery</code> 的源码中就可以发现其实 <code>jQuery</code> 就是 <code>$</code> 的，源码如下：</p>
+<pre><code>window.jQuery = window.$ = jQuery;
+</code></pre><p>因此我们如果想设置一个函数是在页面加载完成之后执行的话，最完整的写法到最简洁的写法应该是这样的：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    // 最完整的写法
+    jQuery(document).ready(function() {
+        alert(&quot;jQuery 1&quot;);
+    });
+
+    // 简写1
+    $(document).ready(function() {
+        alert(&quot;jQuery 2&quot;);
+    });
+
+    // 简写2
+    jQuery(function() {
+        alert(&quot;jQuery 3&quot;);
+    });
+
+    // 简写3
+    $(function() {
+        alert(&quot;jQuery 4&quot;);
+    });
+&lt;/script&gt;
+</code></pre><h4 id="3-2-jQuery-html-ownerDocument"><a href="#3-2-jQuery-html-ownerDocument" class="headerlink" title="3.2 jQuery(html,[ownerDocument])"></a>3.2 jQuery(html,[ownerDocument])</h4><p>下面再看 <code>jQuery(html,[ownerDocument])</code> 函数，这个函数的作用就是可以将我们网页中的 <code>dom</code> 对象转换为 <code>jQuery</code> 对象，那我们为什么需要 <code>jQuery</code> 对象呢？就是因为 <code>jQuery</code> 中提供的方法和属性，只有 <code>jQuery</code> 对象才能使用。关于这个函数其中的参数的话：</p>
+<pre><code>第1个参数：html代码，即将被转换成jQuery对象的元素；
+第2个参数：可选的，用来设置dom对象的相关属性。
+</code></pre><p>下面我们看一下简单的代码示例，比如想往网页中添加一些网页元素，就可以使用这个函数。</p>
+<pre><code>$(&quot;&lt;font&gt;good news&lt;/font&gt;&quot;).attr(&quot;color&quot;,&quot;red&quot;).appendTo(&quot;body&quot;);
+</code></pre><p>上面的代码就是在 <code>body</code> 中添加一下文本内容，并设置相关的字体颜色，需要说明的是 <code>appendTo()</code> 函数是 <code>jQuery</code> 用来操作 <code>dom</code> 对象进行插入的一个函数，就是在 <code>body</code> 标签中插入相关的网页元素。</p>
+<pre><code>$(&quot;&lt;input&gt;&quot;,{
+    &quot;type&quot;: &quot;text&quot;,
+    &quot;value&quot;: &quot;test&quot;,
+    &quot;click&quot;: function(){
+        alert(&quot;ddd&quot;);
+    }
+}).appendTo(&quot;body&quot;);
+</code></pre><p>这个例子的话就是在 <code>body</code> 标签中插入一个普通文本输入项元素了，第 <code>1</code> 属性只是说明了想插入的是一个 <code>input</code> 元素，第 <code>2</code> 个属性才为前面的 <code>input</code> 元素中的属性进行了赋值。</p>
+<h4 id="3-3-jQuery-selector-context"><a href="#3-3-jQuery-selector-context" class="headerlink" title="3.3 jQuery([selector,[context]])"></a>3.3 jQuery([selector,[context]])</h4><p>这个函数主要是用来在页面中进行查找元素的，其中函数的参数说明如下：</p>
+<pre><code>第1个参数：css选择器，jQuery中提供了9种选择器；
+第2个参数：就是指定我们想要查找的dom集。
+</code></pre><p>因为我们 <code>jQuery</code> 中提供的选择器有很多，因此我们在网页中查找相关元素的方法也就会有很多，而且在网页中查找相关元素也是我们平时开发中的重点内容，因此掌握好 <code>9</code> 种选择器和这个核心函数还是非常重要的。</p>
+<h4 id="3-4-dom对象与jQuery对象相互转换"><a href="#3-4-dom对象与jQuery对象相互转换" class="headerlink" title="3.4 dom对象与jQuery对象相互转换"></a>3.4 dom对象与jQuery对象相互转换</h4><p>能够将 <code>dom</code> 对象和 <code>jQuery</code> 对象进行相互转换是非常重要的，因为这会使我们编码的方法更多，而且这两者之间的相互转换也是非常简单的，只要平时多注意一下就好了。</p>
+<pre><code>dom对象转为jQuery对象：只需要使用$()将dom对象包裹起来就行了，$(dom);
+jQuery对象转为dom对象：只需要使用jQuery对象[0]，或者jQuery对象.get(0)。
+</code></pre><p>下面我们还是写一个简单的例子来帮忙理解，其实代码的用意也很清楚，就是将 <code>dom</code> 对象转换为 <code>jQuery</code> 对象之后调用 <code>jQuery</code> 对象的方法，同样的，将 <code>jQuery</code> 对象转换为 <code>dom</code> 对象后使用 <code>dom</code> 对象的属性，这样的话，就可以证明 <code>dom</code> 对象和 <code>jQuery</code> 对象之间相互转换是没有问题的。</p>
+<p>首先在 <code>body</code> 标签当中有一个 <code>div</code> 元素，然后我们想做的就是在 <code>div</code> 元素中加入文本内容：</p>
+<pre><code>&lt;div id=&quot;dd&quot;&gt;&lt;/div&gt;
+</code></pre><p>首先是使用 <code>dom</code> 对象来完成。</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function(){
+        // 得到div的dom对象
+        var div = document.getElementById(&quot;dd&quot;);
+
+        // 将dom对象转换为jQuery对象
+        $(div).html(&quot;dom对象转换为jQuery对象&quot;);
+    });
+&lt;/script&gt;
+</code></pre><p>这样就可以证明 <code>dom</code> 对象转换为 <code>jQuery</code> 对象是可以的，下面再使用 <code>jQuery</code> 对象来完成。</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function(){
+        // 得到div的jQuery对象
+        var jqueryDiv = $(&quot;#dd&quot;);
+
+        // 将jQuery对象转换为dom对象
+        // jqueryDiv[0].innerHTML= &quot;将jQuery对象转换为dom对象&quot;;
+        jqueryDiv.get(0).innerHTML= &quot;将jQuery对象转换为dom对象&quot;;
+    });
+&lt;/script&gt;
+</code></pre><p>上面的代码同样也证明了 <code>jQuery</code> 对象也是可以转换为 <code>dom</code> 对象的。</p>
+<h3 id="4-jQuery选择器"><a href="#4-jQuery选择器" class="headerlink" title="4.jQuery选择器"></a>4.jQuery选择器</h3><p>从现在开始，我们开始介绍 <code>jQuery</code> 选择器的内容，这一部分内容是非常重要的，因为我们开发时经常会需要查找网页中的某些元素，并进行操作，因此熟练地掌握选择器是至关重要的，同时 <code>jQuery</code> 的选择器是非常多的，一共有 <code>9</code> 个，如果能够灵活地使用这 <code>9</code> 个选择器，那么我们想在页面中查找某些元素就是非常简单的事了，当然一开始学习的话，不要想着一下子就完全掌握这 <code>9</code> 个选择器，而是应该一个一个认真去学，把每一个选择器当做一个点，当掌握的点多了之后，就会形成一个面，解决问题的方法也就会越来越多。</p>
+<p>还需要说明的就是，在我们介绍每个选择器的时候，会尽量使用小的例子进行说明，因为这样的话不会太枯燥，而且结合实际情况也更加便于理解，同时完成例子的过程中可能还会使用到很多方法，我们都会一起进行说明。</p>
+<h4 id="4-1-基本选择器"><a href="#4-1-基本选择器" class="headerlink" title="4.1 基本选择器"></a>4.1 基本选择器</h4><p>基本选择器一共有 <code>5</code> 个，当然也是最简单的几个了，因为有几个在我们之前已经学过了，比如 <code>id</code> 选择器、<code>class</code> 选择器这些，我们在使用 <code>JavaScript</code> 编程的时候就使用过，下面先具体看看这基本选择器到底是哪几个以及它们具体的功能是什么。</p>
+<pre><code>#id        ：根据id属性查找一个元素；
+element    ：根据标签名称查找元素；
+.class    ：根据class属性查找元素；
+    *    ：匹配所有元素；
+selector1,selector2,selectorN    ：将每一个选择器匹配到的元素合并后一起返回。
+</code></pre><p>下面通过一个小例子来进行说明，首先看页面中已有的元素：</p>
+<pre><code>&lt;body&gt;
+    &lt;div id=&quot;d1&quot;&gt;&lt;a&gt;Kobe&lt;/a&gt;&lt;/div&gt;
+    &lt;div class=&quot;d2&quot;&gt;Jordan&lt;/div&gt;
+    &lt;div class=&quot;d2&quot;&gt;James&lt;/div&gt;
+    &lt;div&gt;Nash&lt;/div&gt;
+    &lt;div&gt;Paul&lt;/div&gt;
+&lt;/body&gt;
+</code></pre><p>然后再看我们想要实现的功能：</p>
+<p>1.得到id=d1的元素里面的内容</p>
+<pre><code>var html = $(&quot;#d1&quot;).html();// 获取元素中所有的html
+alert(html);
+var text = $(&quot;#d1&quot;).text();// 获取元素中所有的文本
+alert(text);
+</code></pre><p>上面代码中的 <code>html()</code> 方法和 <code>text()</code> 都可以获得选中元素中的内容，但是第 <code>1</code> 个方法获得的是元素中所有的 <code>html</code> 代码，而第 <code>2</code> 个方法则是只获得元素中所有的文本信息，因此通过使用第 <code>1</code> 个方法在浏览器中弹出的应该是 <code>&lt;a&gt;Kobe&lt;/a&gt;</code>，而通过第 <code>2</code> 个方法在浏览器中弹出的应该是 <code>Kobe</code>，这就是两个方法的差别。</p>
+<p>2.将所有class=d2的元素内容后面加上play basketball</p>
+<pre><code>$(&quot;.d2&quot;).each(function(){
+    // this在这里是dom对象，应该先转换为jQuery对象
+    $(this).html($(this).html()+&quot; play basketball&quot;);
+});
+</code></pre><p>这里的 <code>.d2</code> 就是我们的 <code>class</code> 选择器了，而我们需要注意的就是 <code>each()</code> 这个方法，它的作用就是遍历之前选择器选中的每一个元素，因为 <code>each()</code> 方法的参数是一个函数，因此也是表明可以使用这个函数对每一个遍历的元素对象进行操作。关于 <code>$(this)</code> 这种写法的话，是因为 <code>this</code> 是一个 <code>dom</code> 对象，我们这里就将它转换为一个 <code>jQuery</code> 对象来进行操作。这里的 <code>html()</code> 方法也需要再进行说明一下，当方法里面没有参数时，其用法是获取对应对象里面的全部 <code>html</code> 代码，而如果方法中有参数的话，那就是赋值操作了，就是将参数中的 <code>html</code> 代码赋值给相关对象。</p>
+<p>3.得到id=d1的div元素在所有的div元素中是第几个</p>
+<pre><code>var index = $(&quot;div&quot;).index($(&quot;#d1&quot;));
+alert(index);
+</code></pre><p>这里就是分别使用了 <code>id</code> 选择器和标签选择器了，然后通过 <code>index()</code> 方法得到一个元素在另一个元素集合中的索引值，这个索引值是从 <code>0</code> 开始计数的。</p>
+<p>4.得到class=d2的元素个数</p>
+<pre><code>var size = $(&quot;.d2&quot;).size();
+alert(size);
+</code></pre><p>通过这个例子的话，我们就可以知道 <code>size()</code> 方法是得到前面选择器选中元素的个数的。</p>
+<p>5.将class=d2或者id=d1的元素内容修改为Java</p>
+<pre><code>$(&quot;.d2,#d1&quot;).html(&quot;Java&quot;);
+</code></pre><p>两个选择器通过逗号 <code>,</code> 并列使用，则是说明将两个选择器选中的元素合并之后返回，然后使用 <code>html()</code> 方法为元素中的内容赋值。</p>
+<p>在上面使用小的例子介绍选择器的时候，可以发现我们也使用了很多有用的方法，因此还是在这里进行总结说明一下，在后面使用也更加熟练。</p>
+<p><strong>方法总结</strong></p>
+<p><code>html()</code> 方法：无参数方法代表获取元素中的 <code>html</code> 代码，而带参数的方法则表示为元素中的 <code>html</code> 代码赋值。</p>
+<p><code>text()</code> 方法：无参数方法表示获取元素中的文本信息，而带参数的方法则是为元素中的文本信息赋值。</p>
+<p><code>each()</code> 方法：用来遍历元素，其中可以传入一个函数 <code>each(function(n))</code>，其中的 <code>n</code> 是表示每一个元素的序号，我们可以在函数中使用 <code>this</code> 来获取遍历元素的 <code>dom</code> 对象。</p>
+<p><code>index()</code> 方法：用来获取一个元素在一个元素集合当中的索引值，索引值从 <code>0</code> 开始。</p>
+<p><code>size()</code> 方法：用来获取元素集合中的元素个数。</p>
+<h4 id="4-2-层级选择器"><a href="#4-2-层级选择器" class="headerlink" title="4.2 层级选择器"></a>4.2 层级选择器</h4><p>由于在我们网页都是由标签组成的，往往都是一个标签包含另外一个标签，因此在网页中就会有很多的层级关系，这时候查找某个父元素中所有的子元素，或者某个兄弟元素查找另外一个兄弟元素，使用层级选择器的话，类似这样的需求都可以很容易地解决。</p>
+<p>层级选择器一共有 <code>4</code> 种，分别如下：</p>
+<pre><code>1.空格(&quot; &quot;)：获取元素中所有的子元素，包括直接子元素和间接子元素；
+2.大于号(&quot;&gt;&quot;)：获取元素中的直接子元素；
+3.加号(&quot;+&quot;)：获取元素直接的一个兄弟元素；
+4.波浪线(&quot;~&quot;)：获取元素后面所有的兄弟元素。
+</code></pre><p>还是通过小例子的方式进行说明，网页中已有的元素为：</p>
+<pre><code>&lt;body&gt;
+    &lt;div id=&quot;d1&quot;&gt;
+        &lt;a&gt;java&lt;/a&gt;
+        &lt;p&gt;
+            &lt;a&gt;shell&lt;/a&gt;
+        &lt;/p&gt;
+        &lt;a&gt;c&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;p&gt;python&lt;/p&gt;
+    &lt;p&gt;php&lt;/p&gt;
+&lt;/body&gt;
+</code></pre><p>然后再看我们需要实现的功能：</p>
+<p>1.获取id=d1元素里面的所有a元素</p>
+<pre><code>var size = $(&quot;#d1 a&quot;).size();
+alert(size);
+</code></pre><p>这里便是使用的空格，也就是选取元素下面的 <code>a</code> 标签子元素，根据我们的网页内容，这里获取到的格式就应该是 <code>3</code> 了。</p>
+<p>2.获取id=d1的所有直接a元素</p>
+<pre><code>var size = $(&quot;#d1&gt;a&quot;).size();
+alert(size);
+</code></pre><p>这里是使用的大于号，就是获取元素的直接子元素，不包括间接子元素了，因此获取到的元素个数应该是 <code>2</code>。</p>
+<p>3.获取id=d1的第一个兄弟p元素</p>
+<pre><code>var html = $(&quot;#d1+p&quot;).html();
+alert(html);
+</code></pre><p>这里就是使用的加号了，获取到元素的第一个直接兄弟元素，所以这里在浏览器中弹出的内容应该是 <code>python</code>。</p>
+<p>4.获取id=d1的所有兄弟p元素</p>
+<pre><code>var size = $(&quot;#d1~p&quot;).size();
+alert(size);
+</code></pre><p>这里使用的是波浪线，用于获取元素后面所有的兄弟元素，因此这里获取到的元素个数应该是 <code>2</code>。</p>
+<p>5.将所有id=d1元素里面的a元素字体颜色设置为红色</p>
+<pre><code>$(&quot;#d1 a&quot;).css(&quot;color&quot;,&quot;red&quot;);
+</code></pre><p>这里首先是获取到所有满足条件的 <code>a</code> 标签，然后为 <code>a</code> 标签的属性赋值，这里需要注意的就是 <code>css()</code> 方法了，它主要是用来设置元素的样式，当我们只需要设置元素的一个样式属性时，那就可以像上面这样写了，但是如果想要设置多个样式属性的话，则必须使用下面这种格式了。</p>
+<pre><code>$(&quot;#d1 a&quot;).css({&quot;color&quot;:&quot;red&quot;,&quot;background&quot;:&quot;blue&quot;});
+</code></pre><p>是的，需要将多个属性放在一个大括号之中，然后分别使用键值对的方式来进行设置。</p>
+<p><strong>方法总结</strong></p>
+<p><code>css()</code> 方法：用来设置元素的样式，当只有一个样式属性需要设置的时候，使用 <code>css(name,value)</code> 这样的方式，当有多个样式属性需要设置的时候，使用 <code>css({name:value,name:value})</code> 这样的方式。</p>
+<p>现在已经介绍了基本选择器和层级选择器了，下面就要开始介绍过滤选择器了，其实过滤器就是当我们使用基本选择器和层级选择器选中满足条件的元素之后，然后再进行过滤操作，过滤选择器的个数很多，一共有 <code>7</code> 个，除了属性过滤选择器之外，一般的过滤选择器都是以冒号 <code>:</code> 进行开头的。下面开始分别进行介绍。</p>
+<h4 id="4-3-基本过滤选择器"><a href="#4-3-基本过滤选择器" class="headerlink" title="4.3 基本过滤选择器"></a>4.3 基本过滤选择器</h4><p>下面我们先看基本过滤选择器有哪些。</p>
+<pre><code>:first    ：选择第一个元素；
+:last    ：选择最后一个元素；
+:not(selector)    ：排除掉参数选择器选中元素集合中的元素；
+:even    ：匹配所有索引值为偶数的元素，索引值是从0开始的；
+:odd    ：匹配所有索引值为奇数的元素，索引值是从0开始的；
+:eq(index)    ：配置索引值等于某个数的元素，同样的，索引值也是从0开始的；
+:gt(index)    ：匹配索引值大于某个数的元素，索引值从0开始；
+:lt(index)    ：匹配索引值小于某个数的元素，索引值从0开始；
+:header        ：匹配h1,h2,h3这样的标题元素。
+</code></pre><p>我们还是通过小的例子来掌握上面这些内容，首先还是网页中已经存在的元素如下：</p>
+<pre><code>&lt;body&gt;
+    &lt;h1&gt;商品信息&lt;/h1&gt;
+    &lt;table border=&apos;1&apos;&gt;
+        &lt;tr&gt;
+            &lt;td&gt;商品编号&lt;/td&gt;
+            &lt;td&gt;商品名称&lt;/td&gt;
+            &lt;td&gt;价格&lt;/td&gt;
+            &lt;td&gt;数量&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;001&lt;/td&gt;
+            &lt;td&gt;电视机&lt;/td&gt;
+            &lt;td&gt;2100&lt;/td&gt;
+            &lt;td&gt;100&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;002&lt;/td&gt;
+            &lt;td&gt;洗衣机&lt;/td&gt;
+            &lt;td&gt;1100&lt;/td&gt;
+            &lt;td&gt;200&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;003&lt;/td&gt;
+            &lt;td&gt;缝纫机&lt;/td&gt;
+            &lt;td&gt;200&lt;/td&gt;
+            &lt;td&gt;1000&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;004&lt;/td&gt;
+            &lt;td&gt;割草机&lt;/td&gt;
+            &lt;td&gt;1100&lt;/td&gt;
+            &lt;td&gt;10&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/body&gt;
+</code></pre><p>下面再看我们需要实现的功能。</p>
+<p>1.设置表格的第1行，显示为红色</p>
+<pre><code>$(&quot;tr:first&quot;).css(&quot;color&quot;,&quot;red&quot;);
+</code></pre><p>这里就是首先获得所有的 <code>tr</code> 标签，然后过滤得到第 <code>1</code> 个 <code>tr</code> 标签，最后为我们选中元素的某些样式属性赋值。</p>
+<p>2.设置除了表格的第1行之外，显示为蓝色</p>
+<pre><code>$(&quot;tr:not(tr:first)&quot;).css(&quot;color&quot;,&quot;blue&quot;);
+$(&quot;tr:gt(0)&quot;).css(&quot;color&quot;,&quot;blue&quot;);
+</code></pre><p>上面两行代码中的任意一行都可以实现我们的需求，只是实现的思路不同罢了，第 <code>1</code> 行代码是选择所有的 <code>tr</code> 元素，但是要排除掉第 <code>1</code> 个 <code>tr</code> 元素；第 <code>2</code> 行代码则是选择所有的 <code>tr</code> 元素中序列号大于 <code>0</code> 的，这样也是可以达到要求的。</p>
+<p>3.将表格的行设置为不同的颜色，奇数行设置为红色，偶数行设置为蓝色</p>
+<pre><code>$(&quot;tr:odd&quot;).css(&quot;color&quot;,&quot;blue&quot;);
+$(&quot;tr:even&quot;).css(&quot;color&quot;,&quot;red&quot;);
+</code></pre><p>需要注意的是我们代码中的 <code>odd()</code> 和 <code>even()</code> 这两个函数所表示的奇偶数意义，都是表示的元素索引值，而这个索引值是从 <code>0</code> 开始的。</p>
+<p>4.设置页面上面的标题为灰色</p>
+<pre><code>$(&quot;:header&quot;).css(&quot;color&quot;,&quot;gray&quot;);
+</code></pre><p>这也是非常好理解了，直接获取得到页面中的标题元素，然后对相关属性进行赋值操作。</p>
+<h4 id="4-4-内容过滤选择器"><a href="#4-4-内容过滤选择器" class="headerlink" title="4.4 内容过滤选择器"></a>4.4 内容过滤选择器</h4><p>内容过滤选择器是根据元素内容的文本内容进行过滤选择的，内容过滤选择器一共有以下这些：</p>
+<pre><code>:contains(text)    ：包含某些文本的元素；
+:empty            ：没有子元素的元素；
+:has(selector)    ：包含某些元素的元素；
+:parent            ：选择带有子元素或者带有文本的元素。
+</code></pre><p>下面还是根据实际的例子进行学习，首先看网页中已经存在的元素：</p>
+<pre><code>&lt;body&gt;
+    &lt;div&gt;学习Java&lt;/div&gt;
+    &lt;div&gt;学习PHP&lt;/div&gt;
+    &lt;div&gt;&lt;/div&gt;
+    &lt;div&gt;
+        &lt;a&gt;学习&lt;/a&gt;欢迎您
+    &lt;/div&gt;
+    &lt;div&gt;
+        世界第一语言&lt;a&gt;Java&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;span&gt;今天天天气很好&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+</code></pre><p>然后再看我们需要实现的功能：</p>
+<p>1.设置含有文本内容Java的div字体颜色为红色</p>
+<pre><code>$(&quot;div:contains(&apos;Java&apos;)&quot;).css(&quot;color&quot;,&quot;red&quot;);
+</code></pre><p>这里就是先选中带有 <code>Java</code> 文本的元素，然后再为这些元素赋上样式属性。</p>
+<p>2.设置没有子元素的div文本内容为”这是一个空的div”</p>
+<pre><code>$(&quot;div:empty&quot;).html(&quot;这是一个空的div&quot;);
+</code></pre><p>同样的也是首先选中没有子元素的元素，然后再为选中元素的 <code>html</code> 代码赋值。</p>
+<p>3.包含 <code>&lt;a&gt;</code> 元素的div字体颜色为黄色</p>
+<pre><code>&lt;style type=&quot;text/css&quot;&gt;
+.divColor {
+    color: yellow;
+}
+&lt;/style&gt;
+
+$(&quot;div:has(a)&quot;).addClass(&quot;divColor&quot;);
+</code></pre><p>当然前面就是选中带有 <code>a</code> 标签的元素了，然后后面就是使用 <code>addClass()</code> 为选中的元素增加 <code>class</code> 属性，当前前面是需要定义好 <code>class</code> 所对应的属性名以及属性值的。</p>
+<p>4.设置所有含有子元素的span的字体为蓝色</p>
+<pre><code>$(&quot;span:parent&quot;).css(&quot;color&quot;,&quot;blue&quot;);
+</code></pre><p>这里的 <code>:parent</code> 便是选中有子元素或者是包含文本的内容，其实反过来说也就是父元素。</p>
+<p><strong>方法总结</strong></p>
+<p><code>addClass()</code> 方法：就是为我们选中的元素添加 <code>class</code> 属性，当有多个 <code>class</code> 属性需要添加的时候，则应该使用空格进行分割。</p>
+<h4 id="4-5-可见性过滤选择器"><a href="#4-5-可见性过滤选择器" class="headerlink" title="4.5 可见性过滤选择器"></a>4.5 可见性过滤选择器</h4><p>可见性过滤选择器主要是根据元素的可见性来匹配元素的，所以主要就是针对于 <code>display:none</code> 或者表单中 <code>&lt;input type=&quot;hidden&quot;&gt;</code> 这样的元素的，可见性过滤选择器一共有 <code>2</code> 个，如下所示：</p>
+<pre><code>:hidden        ：匹配隐藏的元素；
+:visible    ：匹配可见的元素。
+</code></pre><p>我们还是通过例子来进行学习，首先在网页中已经存在的元素为：</p>
+<pre><code>&lt;body&gt;
+    &lt;form&gt;
+        &lt;input type=&quot;text&quot; name=&quot;email&quot; /&gt;&lt;br&gt;
+        &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;10&quot; /&gt;
+    &lt;/form&gt;
+    &lt;table&gt;
+        &lt;tr style=&quot;display: none&quot;&gt;
+            &lt;td&gt;Value 1&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Value 2&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Value 3&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/body&gt;
+</code></pre><p>然后再看具体的需求是怎样的：</p>
+<p>1.获取表单中隐藏域的值</p>
+<pre><code>var value = $(&quot;input:hidden&quot;).val();
+alert(value);
+</code></pre><p>这样的话就可以得到我们网页中隐藏的 <code>input</code> 元素了，然后再获取到其中的值，其实还有下面这种方式也是可以获取到值的。</p>
+<pre><code>alert($(&quot;form :hidden&quot;).val());
+</code></pre><p>即获取表单元素中隐藏的子元素，这里就只有一个了。</p>
+<p>2.设置table中所有可见tr背景色为蓝色</p>
+<pre><code>$(&quot;tr:visible&quot;).css(&quot;background-color&quot;,&quot;blue&quot;);
+</code></pre><p>这个当然也是很好理解的了，就是获取所有可见的 <code>tr</code> 元素，然后再为其的样式属性赋值。</p>
+<p>3.获取table中所有隐藏tr中文本值，并将隐藏tr显示出来，原来显示的tr隐藏起来</p>
+<p>这个其实应该是有 <code>3</code> 个操作，应该分开来做的，首先是获取table中所有隐藏tr中文本值，这个因为隐藏的只有 <code>1</code> 个，因此可以直接使用下面的代码。</p>
+<pre><code>var text = $(&quot;tr:hidden&quot;).text();
+alert(text);
+</code></pre><p>然后就是将隐藏tr显示出来，这个也好办，那就是：</p>
+<pre><code>$(&quot;tr:hidden&quot;).show();
+</code></pre><p>这里的 <code>show()</code> 方法便是将隐藏元素进行显示的，再看最后一个需求：原来显示的tr隐藏起来</p>
+<pre><code>$(&quot;tr:visible&quot;).hide();
+</code></pre><p>这里的 <code>hide()</code> 方法就是将显示的元素进行隐藏的。</p>
+<p><strong>方法总结</strong></p>
+<p><code>val()</code> 方法：获取元素当前的 <code>value</code> 值；</p>
+<p><code>show()</code> 方法：将原本隐藏的元素在页面上进行显示；</p>
+<p><code>hide()</code> 方法：将原本在网页上显示的元素进行隐藏。</p>
+<h4 id="4-6-属性过滤选择器"><a href="#4-6-属性过滤选择器" class="headerlink" title="4.6 属性过滤选择器"></a>4.6 属性过滤选择器</h4><p>属性过滤选择器就是根据元素的属性来进行选择元素的，分别有以下几种：</p>
+<pre><code>[attribute]            ：具有某属性的元素；
+[attribute=value]    ：某属性取值为value的元素；
+[attribute!=value]    ：某属性取值不等于value的元素；
+[attribute^=value]    ：某属性取值以value开始的元素；
+[attribute$=value]    ：某属性取值以value结尾的元素；
+[attribute*=value]    ：某属性取值包含value的元素；
+[attrSel1][attrSel2][attrSelN]    ：满足多个属性选择器筛选条件的元素。
+</code></pre><p>下面也是以例子来进行学习，首先看网页中已经存在的元素：</p>
+<pre><code>&lt;body&gt;
+    &lt;div id=&quot;d&quot;&gt;这是一个div&lt;/div&gt;
+    &lt;form&gt;
+        &lt;input type=&quot;text&quot; name=&quot;username&quot; value=&quot;tom&quot;&gt;&lt;br&gt; 
+        &lt;input type=&quot;checkbox&quot; class=&quot;kobe1&quot; name=&quot;food&quot; value=&quot;米饭&quot;&gt;米饭 
+        &lt;input type=&quot;checkbox&quot; class=&quot;kobe2&quot; name=&quot;food&quot; value=&quot;牛奶&quot;&gt;牛奶 
+        &lt;input type=&quot;checkbox&quot; class=&quot;kobe3&quot; name=&quot;food&quot; value=&quot;洋肉&quot;&gt;洋肉
+        &lt;hr&gt;
+        &lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; class=&quot;james1&quot; value=&quot;篮球&quot;&gt;篮球
+        &lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; class=&quot;james2&quot; value=&quot;篮球&quot;&gt;篮球
+        &lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; class=&quot;james3&quot; value=&quot;足球&quot;&gt;足球
+    &lt;/form&gt;
+    &lt;span id=&quot;s&quot;&gt; 这是一个span&lt;/span&gt;
+&lt;/body&gt;
+</code></pre><p>然后再看我们具体要实现的需求：</p>
+<p>1.设置所有含有id属性的div，字体颜色红色</p>
+<pre><code>$(&quot;div[id]&quot;).css(&quot;color&quot;,&quot;red&quot;);
+</code></pre><p>这个是很好理解的，只需要选择带有 <code>id</code> 属性的 <code>div</code> 元素即可。</p>
+<p>2.获取name=username的value值</p>
+<pre><code>var value = $(&quot;[name=username]&quot;).val();
+alert(value);
+</code></pre><p>这个便是根据 <code>name</code> 属性取值为 <code>username</code> 的元素了，然后获取该元素的值。</p>
+<p>3.设置所有多选框被选中</p>
+<pre><code>$(&quot;input[type=checkbox]&quot;).attr(&quot;checked&quot;,&quot;true&quot;);
+</code></pre><p>首先是选中所有的多选框元素，即 <code>type</code> 属性取值为 <code>checkbox</code> 的元素，然后再使用 <code>attr()</code> 方法将这些元素的 <code>checked</code> 属性赋值为 <code>true</code> ，这样就可以完成需求了。</p>
+<p>4.设置class中包含kobe的多选框被选中</p>
+<pre><code>$(&quot;input[type=checkbox][class*=kobe]&quot;).attr(&quot;checked&quot;,&quot;true&quot;);
+</code></pre><p>这个需求需要选中的元素其实是，首先为多选框，然后 <code>class</code> 属性中包含 <code>kobe</code> ，这样就是我们需要的元素，最后选中这些多选框元素的话，其实就是将这些元素的 <code>checked</code> 属性赋值为 <code>true</code>。</p>
+<p>5.获取class包含kobe的多选框的name属性值</p>
+<pre><code>alert($(&quot;input[type=checkbox][class*=kobe]&quot;).attr(&quot;name&quot;));
+</code></pre><p>首先还是选中 <code>class</code> 属性取值包含 <code>kobe</code> 的多选框元素，然后再获取这些元素的 <code>name</code> 属性取值。</p>
+<p><strong>方法总结</strong></p>
+<p><code>attr()</code> 方法：这个方法是用来获取元素相关属性的属性值或者设置相关元素的属性值的，使用方法的话，就是如果是获取属性值的话，那就应该只传入一个参数，也就是属性名，如 <code>attr(name)</code>，而如果想设置一个属性值的话，则需要传入两个参数，也就是属性名和属性值，如 <code>attr(name,value)</code>。</p>
+<h4 id="4-7-子元素过滤选择器"><a href="#4-7-子元素过滤选择器" class="headerlink" title="4.7 子元素过滤选择器"></a>4.7 子元素过滤选择器</h4><p>子元素过滤选择器就是用来获取元素的子元素的，使用起来也是非常简单，一共有以下 <code>4</code> 个：</p>
+<pre><code>:nth-child        ：传入一个参数，代表是第几个子元素，从1开始计数，也可以通过odd或者even这样的奇偶性来获得元素，同时也可以通过设置倍数来获得元素，比如2n则是表示只要是2的倍数就应该获取得到；
+:first-child    ：第一个子元素；
+:last-child        ：最后一个子元素；
+:only-child        ：唯一的一个子元素。
+</code></pre><p>下面还是通过例子来学习，首先在网页中的元素为：</p>
+<pre><code>&lt;body&gt;
+    &lt;ul&gt;
+        &lt;li&gt;JAVA&lt;/li&gt;
+        &lt;li&gt;IOS&lt;/li&gt;
+        &lt;li&gt;PYTHON&lt;/li&gt;
+        &lt;li&gt;C++&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;ul&gt;
+        &lt;li&gt;刘德华&lt;/li&gt;
+        &lt;li&gt;张学友&lt;/li&gt;
+        &lt;li&gt;郭富城&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;ul&gt;
+        &lt;li&gt;NodeJS&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/body&gt;
+</code></pre><p>然后再看具体的需求：</p>
+<p>1.设置列表中第2个li字号为30</p>
+<pre><code>$(&quot;ul li:nth-child(2)&quot;).css(&quot;font-size&quot;,30);
+</code></pre><p>这里就是获取 <code>ul</code> 元素下第 <code>2</code> 个 <code>li</code> 子元素了，然后再对该元素的样式属性进行赋值。</p>
+<p>2.设置列表中第一行字体为红色</p>
+<pre><code>$(&quot;ul li:first-child&quot;).css(&quot;color&quot;,&quot;red&quot;);
+</code></pre><p>这里就是获取 <code>ul</code> 下的第 <code>1</code> 个 <code>li</code> 子元素了。</p>
+<p>3.设置列表中最后一行字体为蓝色</p>
+<pre><code>$(&quot;ul li:last-child&quot;).css(&quot;color&quot;,&quot;blue&quot;);
+</code></pre><p>这里便是获得 <code>ul</code> 下最后一个 <code>li</code> 子元素了。</p>
+<p>4.获取ul下只有一个li的信息</p>
+<pre><code>var html = $(&quot;ul li:only-child&quot;).html();
+alert(html);
+</code></pre><p>这里便是获得只有唯一一个 <code>li</code> 子元素的 <code>ul</code> 元素的子元素了，然后再获取其中的 <code>html</code> 代码。</p>
+<h4 id="4-8-表单过滤选择器"><a href="#4-8-表单过滤选择器" class="headerlink" title="4.8 表单过滤选择器"></a>4.8 表单过滤选择器</h4><p>表单过滤选择器就是选择表单中的元素的，从选择器的名称中就可以看出来，如下所示：</p>
+<pre><code>:input
+:text
+:password
+:radio
+:checkbox
+:submit
+:image
+:reset
+:button
+:file
+:hidden
+</code></pre><p>因为我们之前就学过 <code>html</code> 里面的元素，因此看到上面这些名称也就应该很清楚它们所对应的元素了，还是通过例子来进行学习，网页中已经存在的元素如下：</p>
+<pre><code>&lt;body&gt;
+    &lt;form&gt;
+        USERNAME:&lt;input type=&quot;text&quot; name=&quot;username&quot;&gt;&lt;br&gt;
+        PASSWORD:&lt;input type=&quot;password&quot; name=&quot;password&quot;&gt;&lt;br&gt;
+        &lt;input type=&quot;button&quot; value=&quot;按钮&quot;&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+</code></pre><p>再看我们需要实现的需求：</p>
+<p>1.当username与password失去焦点后，判断录入的数据不能为空</p>
+<pre><code>$(&quot;:text,:password&quot;).blur(function() {
+    var value = $(this).val();
+    if ($.trim(value) == &quot;&quot;) {
+        alert($(this).attr(&quot;name&quot;) + &quot;不能为空！&quot;);
+    }
+});
+</code></pre><p>上面的 <code>blur()</code> 方法便是为我们的用户名输入框和密码输入框绑定失焦事件，在这两者失去焦点之后触发其中的函数，而我们就需要在函数中判断两个输入框之中的值都不能为空，其中的 <code>trim()</code> 方法就是去掉字符串前后的空格。</p>
+<p>2.对button添加点击事件，提交form表单</p>
+<pre><code>$(&quot;:button&quot;).click(function() {
+    $(&quot;form&quot;).submit();
+});
+</code></pre><p>这里的 <code>click()</code> 方法便是为我们的按钮元素添加点击事件，当按钮被点击时，我们在函数中便可以提交表单了。</p>
+<p><strong>方法总结</strong></p>
+<p><code>trim()</code> 方法：去除文本前后的空格。</p>
+<p><code>blur(function(){})</code> ：失去焦点事件。</p>
+<p><code>click(function(){})</code> ：点击事件。</p>
+<p><code>submit()</code> 方法：表单提交。</p>
+<h4 id="4-9-表单对象属性过滤选择器"><a href="#4-9-表单对象属性过滤选择器" class="headerlink" title="4.9 表单对象属性过滤选择器"></a>4.9 表单对象属性过滤选择器</h4><p>表单对象属性过滤选择器是根据表单中元素属性来选择元素的，一共有如下 <code>4</code> 个：</p>
+<pre><code>:enabled    ：用于判断表单元素可用；
+:disabled    ：用于判断表单元素不可用；
+:checked    ：用于radio或者checkbox判断被选中；
+:selected    ：用于select下拉框判断选中。
+</code></pre><p>下面还是通过例子来进行学习，首先看页面中已经存在的元素：</p>
+<pre><code>&lt;body&gt;
+    &lt;form&gt;
+        性别: &lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&apos;男&apos;&gt;男
+             &lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&apos;女&apos;&gt;女
+        &lt;hr&gt;
+        爱好: &lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; class=&quot;itheima1&quot; value=&quot;篮球&quot;&gt;篮球
+        &lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; class=&quot;itheima2&quot; value=&quot;排球&quot;&gt;排球
+        &lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; class=&quot;itheima3&quot; value=&quot;足球&quot;&gt;足球
+        &lt;hr&gt;
+        城市 &lt;select&gt;
+            &lt;option value=&quot;&quot;&gt;--请选择--&lt;/option&gt;
+            &lt;option value=&quot;北京&quot;&gt;北京&lt;/option&gt;
+            &lt;option value=&quot;上海&quot;&gt;上海&lt;/option&gt;
+            &lt;option value=&quot;广州&quot;&gt;广州&lt;/option&gt;
+        &lt;/select&gt; &lt;br&gt;
+        &lt;input type=&quot;button&quot; value=&quot;打印&quot;&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+</code></pre><p>然后再来看我们需要做的具体需求：</p>
+<p>1.获取选中的性别信息</p>
+<pre><code>alert($(&quot;:radio:checked&quot;).val());
+</code></pre><p>这里就是判断 <code>radio</code> 单选框哪一个被选中了。</p>
+<p>2.获取选中的爱好信息</p>
+<pre><code>$(&quot;:checkbox:checked&quot;).each(function(){
+    alert($(this).val());
+})
+</code></pre><p>这里便是获取到多选框中被选中的元素，然后进行遍历操作。</p>
+<p>3.获取选中的城市</p>
+<pre><code>alert($(&quot;select option:selected&quot;).val());
+</code></pre><p>这里就是获取到下拉框中被选中的元素了。</p>
+<h4 id="4-10-选择器总结"><a href="#4-10-选择器总结" class="headerlink" title="4.10 选择器总结"></a>4.10 选择器总结</h4><p>上面就是我们想要介绍的 <code>jQuery</code> 选择器部分的内容，对于这么多选择器来说，当然全部掌握是最好的，但是也不要太过于心急，想一下子就全部掌握，这样反而会让我们变得比较浮躁，其实最好的办法还是在实际中进行运用，碰到不会的赶快回来查，这也是我们为什么自己需要整理一下的原因，知识都是一个一个点进行学习掌握的，掌握的点多了之后才能形成面，对于这么多的选择器来说，我们在开发中用的比较多的是哪些呢？</p>
+<pre><code>1.基本选择器：id,class,element
+2.层级选择器：父子关系，兄弟关系
+3.过滤选择器：属性过滤，基本过滤，内容过滤，表单过滤
+</code></pre><h3 id="5-jQuery对DOM的操作"><a href="#5-jQuery对DOM的操作" class="headerlink" title="5.jQuery对DOM的操作"></a>5.jQuery对DOM的操作</h3><p>介绍了 <code>jQuery</code> 中的选择器之后，我们再来看 <code>jQuery</code> 中另一个十分重要的部分，那就是对于 <code>DOM</code> 对象的操作了，其实对于 <code>DOM</code> 对象的操作的话，也无非就是插入、删除、替换和克隆这几项操作，当我们掌握了这几项操作之后，也就掌握了对于 <code>DOM</code> 对象的操作了，当然我们还是根据实际的小例子来进行学习。</p>
+<h4 id="5-1-插入操作"><a href="#5-1-插入操作" class="headerlink" title="5.1 插入操作"></a>5.1 插入操作</h4><p>关于插入操作，一般的动作只有 <code>2</code> 个，那就是在前面插入和在后面插入，我们看一下具体的方法以及说明。</p>
+<pre><code>内部插入
+    append(content|fn)    ：在元素后面插入
+    appendTo(content)    ：在元素后面插入
+    prepend(content|fn)    ：在元素前面插入
+    prependTo(content)    ：在元素前面插入
+外部插入
+    after(content|fn)        ：在元素后面插入
+    before(content|fn)        ：在元素前面插入
+    insertAfter(content)    ：在元素后面插入
+    insertBefore(content)    ：在元素前面插入
+</code></pre><p>插入操作的话，分为内部插入和外部插入，其实这只是看的角度不一样而已，内部插入的话肯定就是相对于外部元素来说的了，这个外部元素也就是我们想在它其中插入元素的元素了，这时候插入的元素也就是在相对元素的子级了，而外部插入肯定是相对于内部元素来说的了，在元素的外部插入一个元素，这时候插入的元素和相对元素来说就是同级元素了，下面的讲解我们也还是通过小例子来进行说明。</p>
+<p>首先看网页中已经存在的元素：</p>
+<pre><code>&lt;body&gt;
+    &lt;select id=&quot;edu&quot;&gt;
+        &lt;option value=&quot;小学&quot;&gt;小学&lt;/option&gt;
+        &lt;option value=&quot;中学&quot;&gt;中学&lt;/option&gt;
+        &lt;option value=&quot;本科&quot;&gt;本科&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/body&gt;
+</code></pre><p>下面再看内部插入和外部插入具体需要实现的功能。</p>
+<p><strong>内部插入</strong></p>
+<p>1.在select中的开始添加一项 <code>&lt;option value=&#39;学前班&#39;&gt;学前班&lt;/option&gt;</code></p>
+<pre><code>$(&quot;#edu&quot;).prepend($(&quot;&lt;option value=&apos;学前班&apos;&gt;学前班&lt;/option&gt;&quot;));
+</code></pre><p>或</p>
+<pre><code>$(&quot;&lt;option value=&apos;学前班&apos;&gt;学前班&lt;/option&gt;&quot;).prependTo($(&quot;#edu&quot;));
+</code></pre><p>其实这里代码写出来之后，就可以很清楚地看明白 <code>prepend()</code> 方法和 <code>prependTo()</code> 方法的差别了，其实就是相当于一个是插入，而另一个是插入到，因此动作的主体是不一样的，一个是在前面添加，另一个则是前面添加到。</p>
+<p>2.在select最后添加一项 <code>&lt;option value=&#39;研究生&#39;&gt;研究生&lt;/option&gt;</code></p>
+<pre><code>$(&quot;#edu&quot;).append($(&quot;&lt;option value=&apos;研究生&apos;&gt;研究生&lt;/option&gt;&quot;));
+</code></pre><p>或</p>
+<pre><code>$(&quot;&lt;option value=&apos;研究生&apos;&gt;研究生&lt;/option&gt;&quot;).appendTo($(&quot;#edu&quot;));
+</code></pre><p>这里的 <code>append()</code> 方法与 <code>appendTo()</code> 方法和前面的意思也是一样的了，一个是在后面添加，另一个则是后面添加到，同样的动作主体不一样，两者是互为相反的。</p>
+<p><strong>外部插入</strong></p>
+<p>1.在select中开始添加一项 <code>&lt;option value=&#39;学前班&#39;&gt;学前班&lt;/option&gt;</code></p>
+<pre><code>$(&quot;select option:first&quot;).before($(&quot;&lt;option value=&apos;学前班&apos;&gt;学前班&lt;/option&gt;&quot;));
+</code></pre><p>或</p>
+<pre><code>$(&quot;&lt;option value=&apos;学前班&apos;&gt;学前班&lt;/option&gt;&quot;).insertBefore($(&quot;select option:first&quot;));
+</code></pre><p>这里的 <code>before()</code> 方法和 <code>insertBefore()</code> 方法也是和上面的一样，动作的主体的是互换的，一个是在前面插入，而另外一个则是在前面插入到。</p>
+<p>2.在select最后添加一项 <code>&lt;option value=&#39;研究生&#39;&gt;研究生&lt;/option&gt;</code></p>
+<pre><code>$(&quot;select option:last&quot;).after($(&quot;&lt;option value=&apos;研究生&apos;&gt;研究生&lt;/option&gt;&quot;));
+</code></pre><p>或</p>
+<pre><code>$(&quot;&lt;option value=&apos;研究生&apos;&gt;研究生&lt;/option&gt;&quot;).insertAfter($(&quot;select option:last&quot;));
+</code></pre><p>这个的意思也是和上面的是一致的，一个是在后面插入，另一个则是在后面插入到。</p>
+<p>其实插入操作的话，不管是内部插入还是外部插入，它们的在前面插入和在后面插入都提供了两种不同的方式，平时在使用的时候多加注意就好了，也可以先熟练掌握一种方法，然后再向其它的方法扩展，这样也是可以的，只要能灵活运用就行。</p>
+<h4 id="5-2-删除操作"><a href="#5-2-删除操作" class="headerlink" title="5.2 删除操作"></a>5.2 删除操作</h4><p>删除操作的话就是将我们网页中的元素进行删除了，一共是有下面的 <code>3</code> 个方法：</p>
+<pre><code>empty()            ：删除元素下面所有的子元素
+remove([expr])    ：删除元素，并同时删除元素所绑定的方法
+detach([expr])    ：删除元素，但是不删除元素所绑定的方法
+</code></pre><p>下面我们也还是通过实际的例子来进行学习相关的方法，首先网页中已有的元素为：</p>
+<pre><code>&lt;body&gt;
+    &lt;div id=&quot;d1&quot;&gt;
+        &lt;p&gt;ppppp&lt;/p&gt;
+        &lt;span&gt;ssssss&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;d2&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+</code></pre><p>再看具体需要实现的需求。</p>
+<p>1.empty代表的是将元素下所有子元素删除</p>
+<pre><code>$(&quot;#d1&quot;).empty();
+</code></pre><p>使用这个 <code>empty()</code> 方法的话，就是删除我们选中元素中所有的子元素。</p>
+<p>2.remove与detach的删除功能</p>
+<p>其实我们可以对这两个方法的不同进行测试的，首先在 <code>div</code> 元素下面的 <code>p</code> 元素上面绑定一个方法，然后将该元素从 <code>id</code> 为 <code>d1</code> 的 <code>div</code> 中删除掉，并将它添加到 <code>id</code> 为 <code>d2</code> 的 <code>div</code> 元素中，在进行删除操作的时候，我们就可以分别使用这两个不同的方法，然后看是否有差别。</p>
+<pre><code>$(&quot;div p&quot;).click(function(){
+    alert($(this).text());
+});
+var p =  $(&quot;div p&quot;).remove();
+// var p = $(&quot;div p&quot;).detach();
+$(&quot;#d2&quot;).append(p);
+</code></pre><p>其实当我们在页面中再去点击 <code>id</code> 为 <code>d2</code> 的 <code>div</code> 元素下面的 <code>p</code> 元素时，就可以看到其中的差别了，当我们使用 <code>remove()</code> 方法时，当我们在页面中取点击 <code>p</code> 元素时，是不会看到有弹窗事件的，而如果是使用的 <code>detach()</code> 方法的话，则还会看到弹窗方法，这就是因为我们使用 <code>remove()</code> 方法时，不仅会删除掉选中元素，而且还会删除掉元素绑定的事件，而 <code>detach()</code> 方法则只会删除选中元素，不会删除相关的绑定事件。</p>
+<h4 id="5-3-克隆和替换操作"><a href="#5-3-克隆和替换操作" class="headerlink" title="5.3 克隆和替换操作"></a>5.3 克隆和替换操作</h4><p>下面我们再看看克隆和替换操作，克隆就是将选中元素进行复制了，而替换操作则是使用某个元素替换之前的元素了，先看具体的方法。</p>
+<pre><code>克隆：
+    clone([Even[,deepEven]])
+替换：
+    replaceWith(content|fn)
+    replaceAll(selector)
+</code></pre><p>下面还是通过具体的例子来进行学习，首先看页面中已经存在的元素：</p>
+<pre><code>&lt;body&gt;
+    &lt;div id=&quot;d1&quot;&gt;
+        &lt;p&gt;
+            &lt;a&gt;p1&lt;/a&gt;
+        &lt;/p&gt;
+        &lt;p&gt;p2&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;d2&quot;&gt;
+        &lt;span&gt;span1&lt;/span&gt; &lt;span&gt;span2&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+</code></pre><p>然后再看我们具体需要实现的功能。</p>
+<p>1.将id=d1中的第一个p来克隆一份来替换id=d2的div中的第二个span</p>
+<p>其实整个需要实现的功能是可以分成两步来做的，第一步就是先获取得到 <code>id</code> 为 <code>d1</code> 的 <code>div</code> 元素里面的第 <code>1</code> 个 <code>p</code> 元素，然后再对其进行克隆，第二步便是使用前面的克隆元素来替换 <code>id</code> 为 <code>d2</code> 的 <code>div</code> 元素里面的第 <code>2</code> 个 <code>span</code> 元素，这样就可以完成具体的需求了。</p>
+<pre><code>var cp = $(&quot;#d1 p:first&quot;).clone();
+$(&quot;#d2 :nth-child(2)&quot;).replaceWith(cp);
+// cp.replaceAll($(&quot;#d2 :nth-child(2)&quot;));
+</code></pre><p>这里需要注意的是 <code>replaceWith()</code> 方法和 <code>replaceAll()</code> 方法的差别，和前面插入操作相类似的，都是角度不对的原因，<code>replaceWith()</code> 方法则是使用什么元素来替换方法调用的元素，而 <code>replaceAll()</code> 方法则是方法调用的元素会替换掉方法参数中的元素。</p>
+<p>这里还需要注意的一点就是，<code>clone()</code> 方法里面其实是可以传递两个参数的，比如：<code>clone(true,true)</code>，关于方法中两个参数的具体意义，如下所示：</p>
+<pre><code>第1个参数表示当前元素的绑定事件是否会被复制，为true表示会被复制，为false则不会被复制；
+第2个参数表示当前元素的子元素绑定的事件是否会被复制，为true则会复制，false则不会复制，(当然第2个参数起作用的前提是第1个参数为true，否则第2个参数不会起作用)
+</code></pre><p>其实我们是可以在被替换元素的子元素上面绑定相关事件进行测试的，这样就能明白相关参数的作用了。</p>
+<pre><code>$(&quot;#d1 p:first&quot;).click(function(){
+    alert($(this).text());
+});
+$(&quot;a&quot;).mouseover(function(){
+    alert($(this).text());
+});
+</code></pre><h4 id="5-4-综合练习"><a href="#5-4-综合练习" class="headerlink" title="5.4 综合练习"></a>5.4 综合练习</h4><p>下面我们再看一个综合练习，具体的要求就是：在页面中，有一个表格，然后下面还有姓名、电话以及邮箱对应的输入框，当我们在 <code>3</code> 个输入框中输入数据之后，然后点击添加按钮，输入框中的值就会加入到表格当中，对于表格中的每一条数据，最后都有一个删除按钮，点击该按钮就会删除对应行的记录，这样我们就能够对表格中的数据进行增加和删除操作了。</p>
+<p>首先我们可以先在页面中写一个表格元素，以及三个输入框。</p>
+<pre><code>&lt;body&gt;
+    &lt;div align=&quot;center&quot;&gt;
+        &lt;table id=&quot;tab&quot; border=&apos;1&apos;&gt;
+            &lt;tr&gt;
+                &lt;td&gt;姓名&lt;/td&gt;
+                &lt;td&gt;电话&lt;/td&gt;
+                &lt;td&gt;邮箱&lt;/td&gt;
+                &lt;td&gt;删除&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/table&gt;
+        &lt;hr&gt;
+        姓名:&lt;input type=&quot;text&quot; id=&quot;username&quot;&gt;
+        电话:&lt;input type=&quot;text&quot; id=&quot;phone&quot;&gt;
+        邮箱:&lt;input type=&quot;text&quot; id=&quot;email&quot;&gt;
+        &lt;input type=&quot;button&quot; value=&quot;添加&quot;&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+</code></pre><p>其实最原始的界面出来之后，我们就会发现，最重要的功能就是为页面中的添加按钮绑定事件，就是点击添加按钮时，获取到三个输入框当中的值，然后将它们组合之后形成一个 <code>tr</code> 元素添加到表格当中，同时为了之后能够进行删除操作，需要在每行数据后面添加一个删除按钮，用来删除该行数据。</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function(){
+        $(&quot;:button&quot;).click(function(){
+            var tr = $(&quot;&lt;tr&gt;&lt;/tr&gt;&quot;);
+            var td1 = $(&quot;&lt;td&gt;&lt;/td&gt;&quot;);
+            td1.append($(&quot;#username&quot;).val());
+            var td2 = $(&quot;&lt;td&gt;&lt;/td&gt;&quot;);
+            td2.append($(&quot;#phone&quot;).val());
+            var td3 = $(&quot;&lt;td&gt;&lt;/td&gt;&quot;);
+            td3.append($(&quot;#email&quot;).val());
+            var td4 = $(&quot;&lt;td&gt;&lt;/td&gt;&quot;);
+            var a = $(&quot;&lt;a href=&apos;javascript:void(0)&apos; onclick=&apos;del(this)&apos;&gt;删除&lt;/a&gt;&quot;);
+            td4.append(a);
+
+            tr.append(td1).append(td2).append(td3).append(td4);
+            $(&quot;#tab&quot;).append(tr);
+        });
+    });
+
+    function del(who){
+        // $(who).parent().parent().remove();
+        $(who).parents(&quot;tr&quot;).remove();
+    }
+&lt;/script&gt;
+</code></pre><p>这样的话就可以完成我们的需求了，其中需要说明一下就是的 <code>parent()</code> 方法，这个方法就是用来获取当前元素的父元素，如果需要获取高几级的父元素的话，也可以使用 <code>parents()</code> 方法，然后其中传入一个参数，用来确实具体需要到哪一级，这里的 <code>parents(&quot;tr&quot;)</code>，那就是表示确认到 <code>tr</code> 这一级了。</p>
+<h4 id="5-5-筛选操作"><a href="#5-5-筛选操作" class="headerlink" title="5.5 筛选操作"></a>5.5 筛选操作</h4><p>这里所说的筛选操作，其实是包含过滤操作和查找操作的，而过滤操作所做的事，其实我们前面介绍的选择器也可以做，只是这里的过滤操作提供了更加简单的操作方法，这样我们使用起来也更加简单，而查找操作也是一样，同样也能使我们能够更加简单地使用。</p>
+<p>这里只是简单地找几个方法进行说明，比如过滤操作中的:</p>
+<pre><code>eq(index)    ：获取到第n个元素，从0算起
+first()        ：得到第1个元素
+last()        ：得到最后一个元素
+</code></pre><p>下面还是通过一个简单的例子来进行说明，如果有如下的元素：</p>
+<pre><code>&lt;ul&gt;
+    &lt;li&gt;list item 1&lt;/li&gt;
+    &lt;li&gt;list item 2&lt;/li&gt;
+    &lt;li&gt;list item 3&lt;/li&gt;
+    &lt;li&gt;list item 4&lt;/li&gt;
+    &lt;li&gt;list item 5&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre><p>那我们使用 <code>$(&#39;li&#39;).first()</code> 的话，就是获取到的第 <code>1</code> 个元素，也就是 <code>&lt;li&gt;list item 1&lt;/li&gt;</code>，而如果使用的是 <code>$(&#39;li&#39;).last()</code>，那么获取到的就是最后一个元素，也就是 <code>&lt;li&gt;list item 5&lt;/li&gt;</code>，最后如果我们使用的是 <code>$(&#39;li&#39;).eq(1)</code>，那就是获取得到第 <code>2</code> 个元素了，因为是从 <code>0</code> 开始计数的，因此最后获取得到的也就是 <code>&lt;li&gt;list item 2&lt;/li&gt;</code> 了。</p>
+<p>下面再看关于查找操作的，其实我们在上面的综合练习中就已经使用过了，那就是 <code>parent()</code> 和 <code>parents()</code> 方法，这两个都是查找父元素的方法，其实还有查找子元素的方法，比如 <code>children()</code> 这个方法，其实这些方法中都是可以传入参数的，比如 <code>parents(&quot;tr&quot;)</code>，就是查找父元素时，查找到 <code>tr</code> 元素这一级。</p>
+<p>所有的这些操作其实也都可以使用前面的选择器实现，但是这里确实是更简单的操作，比如我们需要查找 <code>p</code> 元素下面的 <code>span</code> 元素，如果我们使用选择器的话，那就应该是 <code>$(&quot;p span&quot;)</code>，而如果使用筛选操作的话，就是 <code>$(&quot;p&quot;).find(&quot;span&quot;)</code>，这样看起来也会更加直观。关于筛选操作的方法还有很多，在需要使用时，还是应该多去查阅 <code>api</code> 说明，这样就能知道具体的使用方法了。</p>
+<h3 id="6-jQuery的事件机制"><a href="#6-jQuery的事件机制" class="headerlink" title="6.jQuery的事件机制"></a>6.jQuery的事件机制</h3><p>关于 <code>jQuery</code> 的事件机制，我们首先看看 <code>jQuery</code> 中的事件和 <code>JavaScript</code> 中的有什么不同，然后再看看 <code>jQuery</code> 的事件绑定机制，最后就是看 <code>jQuery</code> 中有哪些特殊的方法，可以供我们在平时开发时使用，以便提升我们的开发效率。</p>
+<h4 id="6-1-jQuery事件介绍"><a href="#6-1-jQuery事件介绍" class="headerlink" title="6.1 jQuery事件介绍"></a>6.1 jQuery事件介绍</h4><p>我们先看看 <code>jQuery</code> 事件与 <code>JavaScript</code> 事件有什么关系，首先看页面加载完成事件，如果是 <code>JavaScript</code> 的话，那相应的代码就是：</p>
+<pre><code>window.onload = function() {
+    alert(&quot;页面1加载完成&quot;);
+};
+</code></pre><p>于是当页面加载完成时，就会弹出相应的文本内容，那如果想使用 <code>JavaScript</code> 来绑定两个加载完成事件呢？是不是就应该如下面所示：</p>
+<pre><code>window.onload = function() {
+    alert(&quot;页面1加载完成&quot;);
+};
+window.onload = function() {
+    alert(&quot;页面2加载完成&quot;);
+};
+</code></pre><p>但其实这样的话，当页面加载完成时，还是只会有一个文本弹出，那就是 <code>页面2加载完成</code>，而不是两个文本依次弹出；如果我们使用 <code>jQuery</code> 来完成相同的功能的话，那代码应该是：</p>
+<pre><code>$(function(){
+    alert(&quot;页面1加载完成&quot;);
+});
+$(function(){
+    alert(&quot;页面2加载完成&quot;);
+});
+</code></pre><p>这种情况就能得到我们预想的结果，两个文本依次弹出，那这是为什么呢？其实就是因为 <code>JavaScript</code> 一个事件只能绑定一个函数，而 <code>jQuery</code> 中一个事件是可以绑定多个函数的。</p>
+<p>除了页面加载完成事件之外，我们还可以看其它的普通事件，比如为一个普通的按钮绑定事件，首先页面中有一个按钮:</p>
+<pre><code>&lt;body&gt;
+    &lt;input type=&quot;button&quot; id=&quot;btn&quot; value=&quot;按钮&quot;&gt;
+&lt;/body&gt;
+</code></pre><p>如果我们使用 <code>JavaScript</code> 为该按钮绑定事件的话，那相应的代码就是：</p>
+<pre><code>window.onload = function() {
+    document.getElementById(&quot;btn&quot;).onclick = function() {
+    alert(&quot;btn1&quot;);
+};
+document.getElementById(&quot;btn&quot;).onclick = function() {
+    alert(&quot;btn2&quot;);
+    };
+};
+</code></pre><p>这样就是在 <code>JavaScript</code> 中尝试为一个按钮绑定多个事件，但是如我们上面已经知道的，其实在 <code>JavaScript</code> 中一个事件是只能绑定一个函数的，因此，当我们点击按钮时，只会有 <code>btn2</code> 文本会弹出。</p>
+<p>而如果使用 <code>jQuery</code> 进行事件的绑定的话，那代码就如下：</p>
+<pre><code>$(function() {
+    $(&quot;#btn&quot;).click(function() {
+        alert(&quot;btn1&quot;);
+    });
+    $(&quot;#btn&quot;).click(function() {
+        alert(&quot;btn2&quot;);
+    });
+});
+</code></pre><p>这样的话，两个文本就会依次弹出了，因为 <code>jQuery</code> 是允许一个事件绑定多个函数的。</p>
+<h4 id="6-2-jQuery事件绑定"><a href="#6-2-jQuery事件绑定" class="headerlink" title="6.2 jQuery事件绑定"></a>6.2 jQuery事件绑定</h4><p>在说 <code>jQuery</code> 进行事件绑定之前，我们可以先看看 <code>JavaScript</code> 是如何进行事件的绑定的，<code>JavaScript</code> 绑定事件一般有如下两种方式：</p>
+<pre><code>&lt;input type=&quot;button&quot; id=&quot;btn&quot; value=&quot;按钮&quot; onclick=&quot;fun1()&quot;&gt;
+</code></pre><p>和</p>
+<pre><code>window.onload = function() {
+    document.getElementById(&quot;btn&quot;).onclick = function() {
+        alert(&quot;JavaScript绑定事件&quot;);
+    }
+};
+</code></pre><p>第 <code>1</code> 种方式是直接在页面元素中使用 <code>onclick</code> 属性来进行事件的绑定的，这种方式就显得代码太过于耦合，第 <code>2</code> 种方式则是先获取到对应元素，然后再将元素的 <code>onclick</code> 属性赋值为一个函数，这样就可以实现函数的绑定了。</p>
+<p>那我们再看看 <code>jQuery</code> 是如何进行事件的绑定的：</p>
+<pre><code>$(&quot;#btn&quot;).click(function(){
+    alert(&quot;jQuery绑定事件&quot;);
+});
+</code></pre><p>上面的 <code>click()</code> 函数中传入一个函数，其实就是将选中元素的点击事件和我们参数中的函数进行绑定，在 <code>jQuery</code> 中为我们提供了很多这样的方法，比如 <code>click()</code> 是点击事件，<code>dblclick()</code> 是双击事件，类似于这样，还有很多，可以查阅 <code>api</code> 进行详细的理解，使用方法都是类似的，同时，一个按钮想要绑定点击方法除了上面的这种方法之外，也还有其它的方法，比如使用 <code>bind()</code> 方法，其中需要传递两个参数，分别为事件类型和绑定的函数，这样也是能够实现事件的绑定的，比如：</p>
+<pre><code>$(&quot;#btn&quot;).bind(&quot;click&quot;,function(){
+    alert(&quot;jQuery使用bind()绑定事件&quot;);
+});
+</code></pre><p>当然，这里如果不是想要绑定点击事件，那么第 <code>1</code> 个参数就不要传 <code>click</code> 了，而是其它的事件类型，比如 <code>submit</code>，这就是绑定选中元素的提交事件，当我们想要解除事件的绑定时，也可以通过 <code>unbind()</code> 方法来解除事件的绑定。</p>
+<pre><code>$(&quot;#btn&quot;).unbind(&quot;click&quot;);
+</code></pre><p>其实在这里除了 <code>bind()</code> 和 <code>unbind()</code> 方法能够完成对事件的绑定和解除绑定之外，<code>live()</code> 和 <code>die()</code> 这两个方法也可以完成相同的功能。</p>
+<pre><code>$(&quot;#btn&quot;).live(&quot;click&quot;,function(){
+    alert(&quot;jQuery使用live()绑定事件&quot;);
+});
+$(&quot;#btn&quot;).die(&quot;click&quot;);
+</code></pre><p>我们使用 <code>bind()</code> 方法来绑定事件和使用 <code>live()</code> 方法有什么区别呢？其实区别就是在于两者作用的范围不一样，<code>bind()</code> 方法是只能为当前就存在的元素绑定事件，而 <code>live()</code> 则是可以为后面添加的元素绑定事件，比如，我们现在在页面中有一个按钮，而且我们使用 <code>bind()</code> 为所有的按钮绑定点击事件，当我们在绑定之后再到页面上添加一个按钮时，前面按钮的点击事件是可以执行的，但是后面的就执行不了了，但是如果我们是使用的 <code>live()</code> 方法进行绑定的时候，则所有的按钮都是可以触发点击事件的。</p>
+<pre><code>$(&quot;:button&quot;).bind(&quot;click&quot;,function(){
+    alert(&quot;jQuery使用bind()绑定事件&quot;);
+});
+/* $(&quot;:button&quot;).live(&quot;click&quot;,function(){
+    alert(&quot;jQuery使用live()绑定事件&quot;);
+}); */
+$(&quot;#btn&quot;).after(&quot;&lt;input type=&apos;button&apos; value=&apos;新按钮&apos;&gt;&quot;)
+</code></pre><h4 id="6-3-一次性事件和事件触发"><a href="#6-3-一次性事件和事件触发" class="headerlink" title="6.3 一次性事件和事件触发"></a>6.3 一次性事件和事件触发</h4><p>下面我们就开始介绍一些比较特殊的函数，用来帮助我们更好地实现需求功能，比如这里的一次性事件，所谓的一次性事件，那就是只会触发执行一次的事件。</p>
+<p>还是先假设网页中已经有一个按钮，然后我们使用 <code>one()</code> 方法绑定实现一次性事件。</p>
+<pre><code>&lt;body&gt;
+    &lt;input type=&quot;button&quot; id=&quot;btn&quot; value=&quot;按钮&quot;&gt;
+&lt;/body&gt;
+</code></pre><p>下面我们就可以使用 <code>one()</code> 方法来进行绑定。</p>
+<pre><code>$(&quot;#btn&quot;).one(&quot;click&quot;, function() {
+    alert(&quot;jQuery一次性事件&quot;);
+});
+</code></pre><p>这样当我们点击按钮时，就会触发对应的点击事件，但是也只会触发一次。</p>
+<p>下面我们再来看事件的触发，其实也就是通过 <code>trigger()</code> 方法来触发别的事件，下面看具体的例子，当然页面中还是有上面那个按钮。</p>
+<p>首先我们为这个按钮绑定一个点击事件：</p>
+<pre><code>$(&quot;#btn&quot;).bind(&quot;click&quot;, function() {
+    alert(&quot;btn被触发了&quot;);
+});
+</code></pre><p>这次我们不是直接点击该按钮来触发该事件了，而是在另一个事件中进行触发：</p>
+<pre><code>$(&quot;#btn&quot;).mouseover(function(){
+    $(this).trigger(&quot;click&quot;);
+});
+</code></pre><p>也就是在鼠标经过该按钮时进行触发，这样看代码的话就能明白它的使用方法了。</p>
+<h4 id="6-4-事件切换"><a href="#6-4-事件切换" class="headerlink" title="6.4 事件切换"></a>6.4 事件切换</h4><p>下面再看两个关于事件切换的函数，其实就是下面这两个函数：</p>
+<pre><code>hover()：绑定两个函数，当触发mouseover事件时，第1个函数执行，当触发mouseout事件时，第2个函数执行
+toggle()：绑定多个函数，当触发click事件时，多个函数轮流执行
+</code></pre><p>下面我们就可以根据这两个函数写一些具体的案例了，首先是使用 <code>hover()</code> 函数，我们可以将一段介绍文字隐藏，然后鼠标移动到相应标题时进行展示，鼠标移出再将其隐藏，首先在网页中需要的元素：</p>
+<pre><code>&lt;body&gt;
+    &lt;h1&gt;jquery介绍&lt;/h1&gt;
+    &lt;div&gt;
+        jQuery是一个快速、简洁的JavaScript框架，是继Prototype之后又一个优秀的JavaScript代码库（或JavaScript框架）。&lt;br&gt;
+        jQuery设计的宗旨是“write Less，Do More”，即倡导写更少的代码，做更多的事情。&lt;br&gt;
+        它封装JavaScript常用的功能代码，提供一种简便的JavaScript设计模式，优化HTML文档操作、事件处理、动画设计和Ajax交互。&lt;br&gt;
+        jQuery的核心特性可以总结为：具有独特的链式语法和短小清晰的多功能接口；具有高效灵活的css选择器，并且可对CSS选择器进行扩展；拥有便捷的插件扩展机制和丰富的插件。&lt;br&gt;
+        jQuery兼容各种主流浏览器，如IE6.0+、FF 1.5+、Safari 2.0+、Opera 9.0+等。[1]&lt;br&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+</code></pre><p>然后最重要的就是为我们的标题元素绑定事件了：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function() {
+        $(&quot;div&quot;).hide();
+
+        $(&quot;h1&quot;).hover(function() {
+            // $(&quot;div&quot;).show(2000);
+            // $(&quot;div&quot;).slideDown(2000);
+            $(&quot;div&quot;).fadeIn(2000);
+        }, function() {
+            // $(&quot;div&quot;).hide(2000);
+            // $(&quot;div&quot;).slideUp(2000);
+            $(&quot;div&quot;).fadeOut(2000);
+        });
+    });
+&lt;/script&gt;
+</code></pre><p>需要说明的是，上面代码中的 <code>fadeIn()</code> 和 <code>fadeOut()</code> 以及 <code>slideDown()</code> 这些都是 <code>jQuery</code> 中的一些动画特效，比如淡入淡出、文字滑出之类，其实是可以查询 <code>api</code> 的，这些方法中的数字则是动画运行的时间，比如 <code>2</code> 秒钟滑动显示文字这样，时间是可以进行设置的。</p>
+<p>下面我们再看 <code>toggle()</code> 方法的使用，这个就是用来绑定多个函数的，那我们就可以在页面中进行图片的展示，但是绑定的多个函数改变图片的 <code>src</code> 属性，这样我们就可以实现变换图片的效果了，首先还是需要在网页中有一个图片元素：</p>
+<pre><code>&lt;body&gt;
+    &lt;img alt=&quot;图片&quot; src=&quot;1.png&quot;&gt;
+&lt;/body&gt;
+</code></pre><p>然后在绑定的多个函数中进行图片元素 <code>src</code> 属性的改变：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function() {
+        $(&quot;img&quot;).toggle(function() {
+            $(this).attr(&quot;src&quot;, &quot;2.png&quot;);
+        }, function() {
+            $(this).attr(&quot;src&quot;, &quot;3.png&quot;);
+        }, function() {
+            $(this).attr(&quot;src&quot;, &quot;1.png&quot;);
+        });
+    });
+&lt;/script&gt;
+</code></pre><p>这样我们就实现图片切换的效果了，这里我就不提供具体的图片了，其实自己可以找几张图片试一下。</p>
+<h3 id="7-总结"><a href="#7-总结" class="headerlink" title="7.总结"></a>7.总结</h3><p>这篇文章主要是介绍了 <code>jQuery</code> 的选择器、对 <code>dom</code> 对象进行操作，以及 <code>jQuery</code> 事件这些内容，其实内容还是非常多的，要想掌握的话，还是只有在平时多使用，如果有不熟悉的地方赶快查 <code>api</code> 文档或者笔记，这样有问题时及时进行查询，印象反而会更加深刻，其实静下心来想想，写博客不就是为了以后方便查找吗？</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jQuery/" rel="tag"># jQuery</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/28/文件上传和下载/" rel="next" title="文件上传和下载">
+                <i class="fa fa-chevron-left"></i> 文件上传和下载
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/16/jQuery的使用-二/" rel="prev" title="jQuery的使用(二)">
+                jQuery的使用(二) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-jQuery简介"><span class="nav-number">1.</span> <span class="nav-text">1.jQuery简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-jQuery入门"><span class="nav-number">2.</span> <span class="nav-text">2.jQuery入门</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-jQuery核心函数"><span class="nav-number">3.</span> <span class="nav-text">3.jQuery核心函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-jQuery-callback"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 jQuery(callback)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-jQuery-html-ownerDocument"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 jQuery(html,[ownerDocument])</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-jQuery-selector-context"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 jQuery([selector,[context]])</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-dom对象与jQuery对象相互转换"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 dom对象与jQuery对象相互转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-jQuery选择器"><span class="nav-number">4.</span> <span class="nav-text">4.jQuery选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-基本选择器"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 基本选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-层级选择器"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 层级选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-基本过滤选择器"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 基本过滤选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-内容过滤选择器"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 内容过滤选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-可见性过滤选择器"><span class="nav-number">4.5.</span> <span class="nav-text">4.5 可见性过滤选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-6-属性过滤选择器"><span class="nav-number">4.6.</span> <span class="nav-text">4.6 属性过滤选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-7-子元素过滤选择器"><span class="nav-number">4.7.</span> <span class="nav-text">4.7 子元素过滤选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-8-表单过滤选择器"><span class="nav-number">4.8.</span> <span class="nav-text">4.8 表单过滤选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-9-表单对象属性过滤选择器"><span class="nav-number">4.9.</span> <span class="nav-text">4.9 表单对象属性过滤选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-10-选择器总结"><span class="nav-number">4.10.</span> <span class="nav-text">4.10 选择器总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-jQuery对DOM的操作"><span class="nav-number">5.</span> <span class="nav-text">5.jQuery对DOM的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-插入操作"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 插入操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-删除操作"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 删除操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-克隆和替换操作"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 克隆和替换操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-综合练习"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 综合练习</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-筛选操作"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 筛选操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-jQuery的事件机制"><span class="nav-number">6.</span> <span class="nav-text">6.jQuery的事件机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-jQuery事件介绍"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 jQuery事件介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-jQuery事件绑定"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 jQuery事件绑定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-一次性事件和事件触发"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 一次性事件和事件触发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-4-事件切换"><span class="nav-number">6.4.</span> <span class="nav-text">6.4 事件切换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-总结"><span class="nav-number">7.</span> <span class="nav-text">7.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2018/01/08/jQuery的使用-一/';
+
+      var disqus_title = "jQuery的使用(一)";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

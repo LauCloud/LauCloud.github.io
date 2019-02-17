@@ -1,0 +1,1891 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jQuery," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章我们主要想介绍的是 Ajax，也就是一种浏览器向服务器发送异步请求的技术，在之前的文章中，其实所有的对于后台的请求操作都是同步请求，即当浏览器向服务器发送一个请求之后，那么就必须等待服务器有所响应之后，浏览器端才能再进行下一次请求，而且同步请求每次更新都是更新的整个页面，而异步请求就不一样了，每次请求更新的可以只是页面的局部内容，而且在浏览器端向后台发送一次请求之后，浏览器端也无需等待，可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery的使用(二)">
+<meta property="og:url" content="http://yoursite.com/2018/01/16/jQuery的使用-二/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="这篇文章我们主要想介绍的是 Ajax，也就是一种浏览器向服务器发送异步请求的技术，在之前的文章中，其实所有的对于后台的请求操作都是同步请求，即当浏览器向服务器发送一个请求之后，那么就必须等待服务器有所响应之后，浏览器端才能再进行下一次请求，而且同步请求每次更新都是更新的整个页面，而异步请求就不一样了，每次请求更新的可以只是页面的局部内容，而且在浏览器端向后台发送一次请求之后，浏览器端也无需等待，可">
+<meta property="og:updated_time" content="2019-02-17T05:39:01.698Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jQuery的使用(二)">
+<meta name="twitter:description" content="这篇文章我们主要想介绍的是 Ajax，也就是一种浏览器向服务器发送异步请求的技术，在之前的文章中，其实所有的对于后台的请求操作都是同步请求，即当浏览器向服务器发送一个请求之后，那么就必须等待服务器有所响应之后，浏览器端才能再进行下一次请求，而且同步请求每次更新都是更新的整个页面，而异步请求就不一样了，每次请求更新的可以只是页面的局部内容，而且在浏览器端向后台发送一次请求之后，浏览器端也无需等待，可">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/16/jQuery的使用-二/"/>
+
+
+
+
+
+  <title> jQuery的使用(二) | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/16/jQuery的使用-二/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                jQuery的使用(二)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-16T13:36:40+08:00">
+                2018-01-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/jQuery/" itemprop="url" rel="index">
+                    <span itemprop="name">jQuery</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/16/jQuery的使用-二/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/01/16/jQuery的使用-二/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/01/16/jQuery的使用-二/" class="leancloud_visitors" data-flag-title="jQuery的使用(二)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章我们主要想介绍的是 <code>Ajax</code>，也就是一种浏览器向服务器发送异步请求的技术，在之前的文章中，其实所有的对于后台的请求操作都是同步请求，即当浏览器向服务器发送一个请求之后，那么就必须等待服务器有所响应之后，浏览器端才能再进行下一次请求，而且同步请求每次更新都是更新的整个页面，而异步请求就不一样了，每次请求更新的可以只是页面的局部内容，而且在浏览器端向后台发送一次请求之后，浏览器端也无需等待，可以接着执行其它操作，比如再发送一次异步请求，这样来看的话，使用异步请求可以使用户的体验更好，因为没有了同步请求时所需要的等待，因此，在开发过程中使用 <code>Ajax</code> 异步请求，可以使我们的网站更加友好。</p>
+<a id="more"></a>
+<h3 id="1-Ajax介绍"><a href="#1-Ajax介绍" class="headerlink" title="1.Ajax介绍"></a>1.Ajax介绍</h3><p><code>Ajax</code> 其实是 <code>Asynchronous Javascript And XML</code> 的缩写，也就是异步的 <code>JavaScript</code> 和 <code>XML</code>，其实 <code>Ajax</code> 并不是一种新的技术，而是之前已经出现技术的组合，流行起来的原因也是由于 <code>Google</code> 的相关应用，如 <code>Google</code> 地图和搜索。<code>Ajax</code> 最大的优点就在于可以实现页面的局部刷新，当然这就是因为可以使用它向后台发送异步请求了，因此就不必像同步请求那样，每次向后台发送请求之后，都必须等待后台有所响应之后才能进行别的操作，而且同步请求每次更新时都是更新的整个页面。</p>
+<p>现在的浏览器中都包含有 <code>Ajax</code> 引擎，而 <code>Ajax</code> 引擎中核心对象就是 <code>JavaScript</code>  对象 <code>XMLHttpRequest</code> 了，使用这个对象，我们就能向后台发送异步请求了。其实当我们在前端页面中发送一次异步请求时，就是使用的 <code>JavaScript</code> 代码调用 <code>XMLHttpRequest</code> 向后台发送一次 <code>HttpRequest</code> 请求，等到有数据响应回 <code>Ajax</code> 引擎时，就可以再调用 <code>JavaScript</code> 代码解析返回的数据并显示在页面中，这样就是一次完整的 <code>Ajax</code> 异步请求过程，这样的请求最大的优点就是当页面向 <code>Ajax</code> 引擎发送一次请求之后，不必等待服务器端数据的响应就可以再发送一次请求，这样的话用户在使用时就不会感到长时间的等待了。</p>
+<p>上面也说到了 <code>Ajax</code> 引擎中核心的对象就是 <code>XMLHttpRequest</code> 对象了，因此下面我们会详细地介绍该对象的使用，并详细地说明该对象的 <code>api</code> 方法以及属性，当然后面我们也会介绍使用 <code>jQuery</code> 来发送 <code>Ajax</code> 异步请求，其实使用 <code>jQuery</code> 的话就是相当于对底层使用 <code>XMLHttpRequest</code> 发送请求进行封装，当然封装了之后我们使用起来就会非常简单，其实我们以后开发过程中使用的最多的肯定就是 <code>jQuery</code> 了，不过我们应该不仅要掌握使用 <code>jQuery</code> 来发送异步请求，而且也应该掌握它底层的 <code>XMLHttpRequest</code> 对象是如何工作的，这样的话我们就能把知识理解的更加透彻。</p>
+<h3 id="2-XMLHttpRequest对象的使用"><a href="#2-XMLHttpRequest对象的使用" class="headerlink" title="2.XMLHttpRequest对象的使用"></a>2.XMLHttpRequest对象的使用</h3><p>这里想要说明的就是 <code>XMLHttpRequest</code> 对象的基本使用，其实在 <code>w3cschool</code> 网站中对于这个对象有很详细的说明，而且还有具体的例子进行了演示，我们可以参照该网站进行学习。</p>
+<p>当然我们的重点还是在于使用 <code>XMLHttpRequest</code> 对象来向后台发送异步请求，因此可以设置一个场景，比如在前端页面中有一个按钮，当我们点击按钮时，就会向后台发送一次 <code>Ajax</code> 异步请求，当后台对于我们的请求有所响应时，我们也应该在前台页面处理后端返回的数据，那我们处理的思路应该是怎样的呢？其实是可以如下的：</p>
+<pre><code>1.获得XMLHttpRequest对象；
+2.设置回调函数；回调函数其实就是用来处理后台返回的数据的
+3.设置请求方式以及请求路径；
+4.向服务器端发送请求；
+5.在回调函数中处理服务器端响应的数据。
+</code></pre><p>其实上面的步骤也就是我们开发时常用的步骤，首先我们看如何获取 <code>XMLHttpRequest</code> 对象，其实在 <code>w3cschool</code> 网站中介绍这个对象的时候，就给了很清晰的获取代码，如下所示：</p>
+<pre><code>// 1.获取XMLHttpRequest对象
+if (window.XMLHttpRequest) {
+    // code for all new browsers
+    xmlhttp = new XMLHttpRequest();
+} else if (window.ActiveXObject) {
+    // code for IE5 and IE6
+    xmlhttp = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+}
+</code></pre><p>上面这段代码便可以兼容新旧的浏览器了，从而可以得到 <code>XMLHttpRequest</code> 对象，获取到核心对象之后，我们便需要设置回调函数，以便于用来处理后台响应回来的数据，当然这个是通过核心对象的 <code>onreadystatechange</code> 属性来设置的：</p>
+<pre><code>// 2.设置回调函数
+xmlhttp.onreadystatechange = callback;
+</code></pre><p>上面代码中的 <code>callback</code> 其实是一个函数名，也就是我们处理响应数据的回调函数的名称，因此我们还需要在下面写一个名为 <code>callback</code> 的函数，用来接收响应数据并进行处理，关于响应函数的说明我们还是稍后再进行展示，下面再看设置请求方式和请求路径。</p>
+<pre><code>// 3.设置请求方式和url
+var url = &quot;/ajax/ajaxServlet&quot;;
+xmlhttp.open(&quot;GET&quot;, url, true);
+</code></pre><p>设置请求方式和请求路径的话是使用的核心对象的 <code>open()</code> 方法，其中的 <code>url</code> 便是请求路径，我们这里是使用的一个 <code>Servlet</code> 来接收请求的，而在 <code>url</code> 中的 <code>ajax</code> 便是我们工程的名称，<code>ajaxServlet</code> 便是 <code>Servlet</code> 的请求路径，关于请求方式的话，我们平时使用的最多的就是 <code>post</code> 和 <code>get</code> 这两种了，在这里的话可以看到，我们是使用的 <code>get</code> 方式。</p>
+<p>下面的话就是发送真正的请求了，就可以直接使用核心对象的 <code>send()</code> 方法，这样就是真正地发送了一次异步请求，</p>
+<pre><code>// 4.发送请求
+xmlhttp.send(null);
+</code></pre><p>因为我们这次的操作只是点击页面中的一个按钮，然后向后台发送一次请求，其实是不需要往后台传送什么数据的，因此可以在 <code>send()</code> 方法中直接写一个 <code>null</code>。</p>
+<p>最后的话就是看后台返回响应数据，然后我们在前端的回调函数中处理响应数据，我们在后台是使用的 <code>Servlet</code> 来接收请求的，这里的话<code>Servlet</code> 是没有做特殊的逻辑处理的，只是使用 <code>response</code> 对象简单的返回了一个字符串：</p>
+<pre><code>response.getWriter().write(&quot;You are right!!!&quot;);
+</code></pre><p>所以后台的处理是非常简单的，最后的话就是要看我们在前端的回调函数中处理响应数据了，在之前设置回调函数的时候，我们就提到过，我们回调函数的名称为 <code>callback</code> ,因此我们需要写一个 <code>callback()</code> 函数来处理响应数据。</p>
+<pre><code>function callback() {
+    if (xmlhttp.readyState == 4) {// 4 = &quot;loaded&quot;
+        if (xmlhttp.status == 200) {// 200 = OK
+            var text = xmlhttp.responseText;
+            alert(text);
+        }
+    }
+}
+</code></pre><p>其实回调函数中的处理也非常简单，就是使用核心函数的 <code>responseText</code> 属性获取到后台返回的响应数据，然后在浏览器中进行弹出显示。这样的话，我们就使用 <code>XMLHttpRequest</code> 对象完成了一次异步请求，完整的代码如下：首先是页面中需要一个按钮</p>
+<pre><code>&lt;input type=&quot;button&quot; value=&quot;按钮&quot; onclick=&quot;sendAjax()&quot;&gt;
+</code></pre><p>然后就是该按钮所对应的点击事件了，主要便是 <code>JavaScript</code> 代码的编写了。</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    var xmlhttp = null;
+    function sendAjax() {
+        // 1.获取XMLHttpRequest对象
+        if (window.XMLHttpRequest) {// code for all new browsers
+            xmlhttp = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {// code for IE5 and IE6
+            xmlhttp = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+        }
+
+        // 2.设置回调函数
+        xmlhttp.onreadystatechange = callback;
+
+        // 3.设置请求方式和url
+        var url = &quot;/ajax/ajaxServlet&quot;;
+        xmlhttp.open(&quot;GET&quot;, url, true);
+
+        // 4.发送请求
+        xmlhttp.send(null);
+
+    }
+
+    function callback() {
+        alert(xmlhttp.readyState);
+        if (xmlhttp.readyState == 4) {// 4 = &quot;loaded&quot;
+            if (xmlhttp.status == 200) {// 200 = OK
+                var text = xmlhttp.responseText;
+                alert(text);
+            }
+        } else {
+            alert(&quot;Problem retrieving XML data&quot;);
+        }
+    }
+&lt;/script&gt;
+</code></pre><p>这样的话，我们就学会如何使用 <code>XMLHttpRequest</code> 对象了，关于该对象的相关属性和方法，下面我们再进行详细介绍。</p>
+<h3 id="3-XMLHttpRequest对象的属性和方法"><a href="#3-XMLHttpRequest对象的属性和方法" class="headerlink" title="3.XMLHttpRequest对象的属性和方法"></a>3.XMLHttpRequest对象的属性和方法</h3><p>下面我们就对 <code>XMLHttpRequest</code> 对象常用的属性和方法进行介绍，首先看如何获取 <code>XMLHttpRequest</code> 对象，对于现代浏览器来说，只需要使用下面这行代码就可以获取得到：</p>
+<pre><code>xmlhttp=new XMLHttpRequest();
+</code></pre><p>而旧的浏览器的话，则需要使用下面这行代码来进行获取：</p>
+<pre><code>xmlhttp=new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+</code></pre><h4 id="3-1-XMLHttpRequest对象常用属性"><a href="#3-1-XMLHttpRequest对象常用属性" class="headerlink" title="3.1 XMLHttpRequest对象常用属性"></a>3.1 XMLHttpRequest对象常用属性</h4><p>1.onreadystatechange属性</p>
+<p>该属性用于绑定回调函数，当我们向服务器端发送请求，而服务器端接受请求并处理以及响应回数据的时候，我们便可以在回调函数中处理服务器端响应回来的数据了。</p>
+<p>2.readyState属性</p>
+<p>该属性表示 <code>HTTP</code> 的请求状态，一共是分为 <code>0</code>,<code>1</code>,<code>2</code>,<code>3</code>,<code>4</code> 这 <code>5</code> 个状态，分别是对应着 <code>XMLHttpRequest</code> 对象创建时的 <code>0</code> 一直到接受到完整的 <code>HTTP</code> 响应的状态 <code>4</code>，完整的描述可以看下面的说明。</p>
+<pre><code>状态        名称                描述
+0        Uninitialized    初始化状态。XMLHttpRequest对象已创建或已被 abort() 方法重置。
+1        Open            open() 方法已调用，但是send()方法未调用，请求还没有被发送。
+2        Send            send() 方法已调用，HTTP请求已发送到 Web 服务器，但未接收到响应。
+3        Receiving        所有响应头部都已经接收到，响应体开始接收但未完成。
+4        Loaded            HTTP 响应已经完全接收。
+</code></pre><p>其实仔细看上面各个状态的描述的话，就可以发现上面状态对应的就是一次完整请求所经过的各个阶段，记住了一次完整请求所要经历的几个重要步骤，那么上面几个状态也就好理解了。</p>
+<p>3.status属性</p>
+<p>该属性表示的是 <code>HTTP</code> 的状态代码，比较常见的有 <code>200</code>,<code>404</code>,<code>500</code> 这些，<code>200</code> 表示的则是成功，<code>404</code> 表示的则是未找到，<code>500</code> 则是表示内部服务器错误。</p>
+<p>4.responseText和responseXML属性</p>
+<p>这两个属性则是表示服务器端返回的响应数据，<code>responseText</code> 属性则是表示返回的数据类型是普通文本类型，而 <code>responseXML</code> 属性则是表示返回的数据类型为 <code>XML</code>。</p>
+<h4 id="3-2-XMLHttpRequest对象常用方法"><a href="#3-2-XMLHttpRequest对象常用方法" class="headerlink" title="3.2 XMLHttpRequest对象常用方法"></a>3.2 XMLHttpRequest对象常用方法</h4><p>1.open()方法</p>
+<p>该方法主要是用来设置请求方式、<code>url</code> 以及是否异步的，第 <code>1</code> 个参数就是请求方式，一般我们常用的就是 <code>post</code> 和 <code>get</code> 这两种了，第 <code>2</code> 个参数则是我们要访问的 <code>url</code> 路径，第 <code>3</code> 个参数则是表示请求是否是异步的，取值为 <code>true/false</code>，为 <code>true</code> 则表示是异步的，<code>false</code> 则表示为同步的，默认情况下则是为异步的。</p>
+<p>2.send()方法</p>
+<p>该方法就是向服务器发送请求了，这个方法只有 <code>1</code> 个参数，那就是请求体，因为 <code>get</code> 请求方式是没有请求体的，因此当我们使用 <code>get</code> 方式向服务器发送请求时，就可以直接将该方法的参数设置为 <code>null</code>，而使用 <code>post</code> 请求方式时，就可以在方法参数中设置需要的请求体了。</p>
+<p>3.setRequestHeader()方法</p>
+<p>这个方法就是用来设置请求头的，需要注意的一点就是，在我们使用 <code>post</code> 方式向服务器端发送异步请求时，一定要设置一个请求头，那就是：</p>
+<pre><code>xmlhttp.setRequestHeader(&quot;content-type&quot;,&quot;application/x-www-form-urlencoded&quot;);
+</code></pre><h3 id="4-验证用户名是否可以使用"><a href="#4-验证用户名是否可以使用" class="headerlink" title="4.验证用户名是否可以使用"></a>4.验证用户名是否可以使用</h3><p>上面我们介绍了 <code>XMLHttpRequest</code> 对象的基本使用和常用属性以及方法，下面我们就可以使用 <code>XMLHttpRequest</code> 对象来做一些小的案例，比如通过 <code>XMLHttpRequest</code> 对象来验证我们用户名输入框中输入的用户名是否已经被占用了，并给出响应的提示信息。</p>
+<p>要完成上面的例子其实还是很简单的，首先当用户在输入框中输入用户名并失焦的时候，我们获取得到输入框中输入的用户名并向后台发送一次 <code>Ajax</code> 请求，这样我们就可以在后台验证该用户名是否已经被占用了，当然我们这里为了方便，就不去查询数据库了，而是直接判断用户名是否等于某个特定的值了，最后将判断结果返回到前台，前端解析后台返回的数据，并将相关信息展示在页面中。</p>
+<p>首先我们前端页面中需要一个输入框，然后输入框后面可以紧跟一个展示返回信息的 <code>span</code> 元素，用来展示服务器返回的响应信息，如下所示：</p>
+<pre><code>用户名：&lt;input type=&quot;text&quot; id=&quot;user&quot; onblur=&quot;checkUserName()&quot;&gt;
+&lt;span id=&quot;msg&quot;&gt;&lt;/span&gt;
+</code></pre><p>可以看到，<code>onblur</code> 属性则是为元素绑定了失焦事件，当元素失去焦点时便会触发该事件，其实我们想要做的就是当输入框失去焦点时能够获取得到输入框中的值，并带着该值向后台发送一次异步请求，也就是我们 <code>checkUserName()</code> 方法中需要做的了。</p>
+<p>当我们使用 <code>XMLHttpRequest</code> 对象发送异步请求时，一定是先获取到该对象，这样的话我们就可以将获取该对象抽取成一个方法，先创建一个 <code>my.js</code> 文件，然后在该文件中写抽取的方法。</p>
+<pre><code>function getXmlHttpRequest() {
+    var xmlhttp = null;
+    // 1.获取XMLHttpRequest对象
+    if (window.XMLHttpRequest) {// code for all new browsers
+        xmlhttp = new XMLHttpRequest();
+    } else if (window.ActiveXObject) {// code for IE5 and IE6
+        xmlhttp = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+    }
+    return xmlhttp;
+}
+</code></pre><p>这样我们每次想要使用该方法时，只需要在页面中引入 <code>my.js</code> 文件就可以直接使用了，引用方法如下：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;./js/my.js&quot;&gt;&lt;/script&gt;
+</code></pre><p><code>src</code> 属性所对应的属性值便是 <code>my.js</code> 文件相对于当前页面来说的相对路径了，引入之后我们便可以在当前页面直接调用 <code>getXmlHttpRequest()</code> 方法获取得到 <code>XMLHttpRequest</code> 对象了。</p>
+<p>我们现在可以获取 <code>XMLHttpRequest</code> 对象之后，那接下来需要做的就是获取输入框中输入的用户名，然后将该用户名发送到后台以作验证，首先是获取到输入框中的值：</p>
+<pre><code>var userName = document.getElementById(&quot;user&quot;).value;
+</code></pre><p>下面那就是使用 <code>XMLHttpRequest</code> 对象发送异步请求了，这里设置回调函数的时候我们就直接声明一个函数了，而不在外面再进行定义了。</p>
+<pre><code>var xmlhttp = getXmlHttpRequest();
+xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4) {// 4 = &quot;loaded&quot;
+        if (xmlhttp.status == 200) {
+            // 根据服务器响应回的信息，在页面中进行显示
+            var msg = xmlhttp.responseText;
+            document.getElementById(&quot;msg&quot;).innerHTML = msg;
+        }
+    }
+};
+</code></pre><p>最后就是设置请求方式以及请求路径的一些操作了，直接看代码就能理解了。</p>
+<pre><code>xmlhttp.open(&quot;POST&quot;, &quot;/ajax/userServlet&quot;);
+// 发送请求,post发送需要设置content-type请求头
+xmlhttp.setRequestHeader(&quot;content-type&quot;,&quot;application/x-www-form-urlencoded&quot;);
+xmlhttp.send(&quot;userName=&quot; + userName);
+</code></pre><p><code>open()</code> 方法是设置了请求方式和请求路径，这里是采用的 <code>post</code> 请求方式，请求路径就是 <code>/ajax/userServlet</code> 了，因为是使用的 <code>post</code> 请求方式，因此需要设置一个请求头，那就是 <code>content-type</code>，最后我们使用 <code>send()</code> 方法正式发送请求时，请求体中便带上了 <code>userName</code> 参数，这样在后台也就可以获取到该参数以及对应的参数值了。</p>
+<p>前端的代码其实还是非常简单的，主要是输入框失焦时触发的函数 <code>checkUserName()</code> 完成了主要功能，下面可以看看完整的代码：</p>
+<pre><code>function checkUserName() {
+    // 1.得到文本框中的值
+    var userName = document.getElementById(&quot;user&quot;).value;
+    // alert(userName);
+    // 2.使用ajax向服务器发送请求，并携带userName
+    // 2.1 获取XMLHttpRequest
+    var xmlhttp = getXmlHttpRequest();
+    // 2.2 设置回调函数
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4) {// 4 = &quot;loaded&quot;
+            if (xmlhttp.status == 200) {
+                // 3.根据服务器响应回的信息，在页面中进行显示
+                var msg = xmlhttp.responseText;
+                document.getElementById(&quot;msg&quot;).innerHTML = msg;
+            }
+        }
+    };
+
+    // 2.3 设置请求方式和url
+    xmlhttp.open(&quot;POST&quot;, &quot;/ajax/userServlet&quot;);
+    // 2.4 发送请求,post发送需要设置content-type请求头
+    xmlhttp.setRequestHeader(&quot;content-type&quot;,
+            &quot;application/x-www-form-urlencoded&quot;);
+    xmlhttp.send(&quot;userName=&quot; + userName);
+}
+</code></pre><p>前端的代码就介绍完了，我们再来看后端的代码，我们这里是使用的 <code>UserServlet</code> 来处理的前端请求，其实也是非常简单的：</p>
+<pre><code>String userName = request.getParameter(&quot;userName&quot;);
+String msg = &quot;&quot;;
+if (&quot;tom&quot;.equals(userName)) {
+    msg = &quot;&lt;font color=&apos;red&apos;&gt;用户名已经被占用&lt;/font&gt;&quot;;
+} else {
+    msg = &quot;&lt;font color=&apos;green&apos;&gt;用户名可以使用&lt;/font&gt;&quot;;
+}
+// 解决中文响应乱码
+response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+response.getWriter().write(msg);
+</code></pre><p>这样的话，我们就处理了前端页面过来的请求，并根据前端传过来的用户名进行处理返回了相应的数据。最后我们只需要在前端回调函数中处理后台返回的数据就好了，当然我们这里只需要将后台返回的数据插入到输入框后面的 <code>span</code> 元素就好了，代码如下：</p>
+<pre><code>var msg = xmlhttp.responseText;
+document.getElementById(&quot;msg&quot;).innerHTML = msg;
+</code></pre><p>这样的话我们就完成了验证用户名是否可用的例子了，其实最关键的还是要掌握其中具体的步骤，理解了每一步需要做什么也就能很好的完成该例子了。</p>
+<h3 id="5-使用XMLHttpRequest对象完成省市二级联动"><a href="#5-使用XMLHttpRequest对象完成省市二级联动" class="headerlink" title="5.使用XMLHttpRequest对象完成省市二级联动"></a>5.使用XMLHttpRequest对象完成省市二级联动</h3><p>下面我们再使用 <code>XMLHttpRequest</code> 对象完成一个省市二级联动的例子，其实就是有两个下拉选择框，第一个下拉选择框展示省份信息，第二个下拉选择框展示城市信息，当页面加载完成时，我们会向后台发送一次请求，以便得到省份信息，并展示在第一个下拉选择框当中，而当我们选择第一个下拉选择框中的省份时，也会向后台发送一次请求，以便得到选择省份所对应的城市信息，并将城市信息展示在第二个下拉选择框当中，这就是我们需要完成的功能。</p>
+<p>首先我们看前端的页面元素，当然是需要有两个下拉选择框了，用于展示省份和城市信息，然后就是还需要设置页面加载完成事件以及选择省份时触发对相应城市信息的请求，页面加载完成事件可以通过 <code>body</code> 元素的 <code>onload</code> 属性来设置，而选择省份时触发对城市信息的请求则可以在第一个下拉选择框元素中设置 <code>onchange</code> 属性来完成，具体的代码如下：</p>
+<pre><code>&lt;body onload=&quot;getProvince()&quot;&gt;
+    &lt;select id=&quot;province&quot; onchange=&quot;getCity()&quot;&gt;
+        &lt;option&gt;--请选择省份--&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;select id=&quot;city&quot;&gt;
+        &lt;option&gt;--请选择城市--&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/body&gt;
+</code></pre><p>因为我们省份和城市的信息都是向后台请求得到的，因此我们先看后台的数据是怎么组织的，这里为了方便，就不去数据库进行查询操作了，而是直接硬编码在工具类里面了，并且在工具类中我们也可以提供获取省份信息以及根据省份名称获取相应城市信息的方法，这样也方便我们获取数据，下面便是工具类 <code>(CityUtil)</code> 的具体代码了。</p>
+<pre><code>public class CityUtil {
+    private static Map&lt;String, String&gt; citys = new HashMap&lt;&gt;();
+    static {
+        citys.put(&quot;湖北&quot;, &quot;武汉,天门&quot;);
+        citys.put(&quot;四川&quot;, &quot;成都,都江堰&quot;);
+    }
+
+    public static String getProvince() {
+        Set&lt;String&gt; keySet = citys.keySet();
+        String province = &quot;&quot;;
+        for (String key : keySet) {
+            province += key + &quot;,&quot;;
+        }
+        return province.substring(0, province.length() - 1);
+    }
+
+    public static String getCitys(String province) {
+        return citys.get(province);
+    }
+}
+</code></pre><p>有了封装省份和城市信息的工具类之后，我们在后台编码时就可以很容易地获取到相关数据了，而我们在后台接收前端请求时，是使用的 <code>Servlet</code> 进行接收的，对于省份信息的请求我们是使用的 <code>ProvinceServlet</code>，对于城市信息的请求我们是使用的 <code>CityServlet</code>，这样就能很清晰地处理对于省份信息和城市信息的请求了，下面我们来看这两个 <code>Servlet</code> 是如何来处理相应的请求的，先看 <code>ProvinceServlet</code>，因为对省份信息的请求，前端页面是不需要携带什么请求参数的，因此我们只需要把所有的省份信息返回就好了：</p>
+<pre><code>String province = CityUtil.getProvince();
+response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+response.getWriter().write(province);
+</code></pre><p>这样的话我们就可以完成前端页面对于省份信息的请求了，下面再看 <code>CityServlet</code> 如何处理前端页面对于城市信息的请求，获取城市信息的话我们需要知道是获取哪个省份的，因此需要前端页面发送请求时携带着省份信息，这样就能根据省份信息获取到对应的城市信息。</p>
+<pre><code>// 防止中文乱码
+request.setCharacterEncoding(StandardCharsets.UTF_8.name());
+response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+
+String province = request.getParameter(&quot;province&quot;);
+String citys = CityUtil.getCitys(province);
+response.getWriter().write(citys);
+</code></pre><p>这样的话前端页面对于城市信息的请求后台部分也是可以处理的了，所以后台部分代码就是这样的了，那最后就是看前端发送异步请求的代码了，先看前端页面为了获取省份信息的代码：</p>
+<pre><code>// 获取省份信息
+function getProvince() {
+    // 1.创建XMLHTTPRequest请求对象
+    var xmlhttp = getXmlHttpRequest();
+    // 2.设置回调函数
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4) {// 4 = &quot;loaded&quot;
+            if (xmlhttp.status == 200) {
+                // 3.根据服务器响应回的信息，在页面中进行显示
+                var province = xmlhttp.responseText;
+                var pros = province.split(&quot;,&quot;);
+                for (var i = 0; i &lt; pros.length; i++) {
+                    // 创建一个option对象，并赋上文本值
+                    var option = document.createElement(&quot;option&quot;);
+                    option.text = pros[i];
+                    // 将option选项添加到select对象中
+                    document.getElementById(&quot;province&quot;).add(option);
+                }
+            }
+        }
+    };
+    // 3.设置请求方法和url
+    xmlhttp.open(&quot;POST&quot;, &quot;/ajax/provinceServlet&quot;);
+    // 4.发送请求,post发送需要设置content-type请求头
+    xmlhttp.setRequestHeader(&quot;content-type&quot;,
+            &quot;application/x-www-form-urlencoded&quot;);
+    xmlhttp.send(null);
+}
+</code></pre><p>现在来看的话，因为之前我们对如何获取 <code>XMLHttpRequest</code> 对象以及如何设置请求方式和请求路径已经有了详细的介绍了，因此我们现在可以直接关注对于服务端响应回来的数据，在回调函数中应该如何处理，细心的话会发现我们之前后台代码中的工具类在返回省份信息和城市信息时，省份名称和城市名称之间都是使用逗号隔开的，因此在前端我们处理后端返回的数据时，也应该要根据逗号来分割返回的数据，这样才能得到一个一个的省份或者城市名称，其实上面的代码也就是这样做的，分割得到一个一个省份名称之后，然后再创建对应数量的 <code>option</code> 元素，<code>option</code> 元素中的文本则是省份名称，最后则将这些创建的 <code>option</code> 元素都添加到第一个下拉选择框当中，也就是展示省份信息的下拉选择框了。</p>
+<p>介绍完了对于省份信息的请求以及返回数据的处理之后，我们再看对于城市信息的请求以及对于服务器端响应数据的处理了，其实处理逻辑还是和处理省份信息的相类似的。</p>
+<pre><code>// 获取城市信息
+function getCity() {
+    var proEle = document.getElementById(&quot;province&quot;);
+    var opts = proEle.options;
+    // 得到选中的option对象
+    var option = opts[proEle.selectedIndex];
+    var province = option.text;
+    // 1.创建XMLHTTPRequest请求对象
+    var xmlhttp = getXmlHttpRequest();
+    // 2.设置回调函数
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4) {// 4 = &quot;loaded&quot;
+            if (xmlhttp.status == 200) {
+                document.getElementById(&quot;city&quot;).innerHTML = &quot;&lt;option&gt;--请选择城市--&lt;/option&gt;&quot;;
+                // 3.根据服务器响应回的信息，在页面中进行显示
+                var city = xmlhttp.responseText;
+                var citys = city.split(&quot;,&quot;);
+                for (var i = 0; i &lt; citys.length; i++) {
+                    // 创建一个option对象，并赋上文本值
+                    var option = document.createElement(&quot;option&quot;);
+                    option.text = citys[i];
+                    // 将option选项添加到select对象中
+                    document.getElementById(&quot;city&quot;).add(option);
+                }
+            }
+        }
+    };
+    // 3.设置请求方法和url
+    xmlhttp.open(&quot;POST&quot;, &quot;/ajax/cityServlet&quot;);
+    // 4.发送请求,post发送需要设置content-type请求头
+    xmlhttp.setRequestHeader(&quot;content-type&quot;,
+            &quot;application/x-www-form-urlencoded&quot;);
+    xmlhttp.send(&quot;province=&quot; + province);
+}
+</code></pre><p>当然处理城市信息相比较于处理省份信息的话，多出的步骤就是我们需要先知道当前选中的省份是哪一个，然后才能向后台发送请求，其余的处理也就是类似的了，也是在回调函数中处理服务器端响应回来的数据，将数据分割得到一个一个的城市名称，然后创建对应的 <code>option</code> 元素，<code>option</code> 元素中的文本就是城市名称，最后将这些 <code>option</code> 元素都添加到展示城市信息的下拉选择框当中，这样就完成最终的功能了，不过有一点需要注意的是，在每一次请求城市信息时，都需要将上一次请求得到的城市信息清空，也就是将展示城市信息的下拉选择框清空，这样就不会导致多次请求的城市信息进行叠加，具体代码如下：</p>
+<pre><code>document.getElementById(&quot;city&quot;).innerHTML = &quot;&lt;option&gt;--请选择城市--&lt;/option&gt;&quot;;
+</code></pre><p>这样的话，我们就完成了省市二级联动的功能，其实只要清楚这个功能具体需要哪几个步骤，还是很容易实现这个功能的。</p>
+<h3 id="6-jQuery中的Ajax开发"><a href="#6-jQuery中的Ajax开发" class="headerlink" title="6.jQuery中的Ajax开发"></a>6.jQuery中的Ajax开发</h3><p>上面我们是介绍的使用 <code>XMLHttpRequest</code> 进行 <code>Ajax</code> 开发的内容，使用过程中会发现使用 <code>XMLHttpRequest</code> 的话，代码量会比较多，而且很多代码都是重复的，因此我们下面就介绍使用 <code>jQuery</code> 进行 <code>Ajax</code> 开发，相当于是对 <code>XMLHttpRequest</code> 对象进行了封装，因此使用起来非常简单和简洁，下面先看具体有哪几种方式。</p>
+<h4 id="6-1-jQuery中Ajax请求的种类"><a href="#6-1-jQuery中Ajax请求的种类" class="headerlink" title="6.1 jQuery中Ajax请求的种类"></a>6.1 jQuery中Ajax请求的种类</h4><p><code>jQuery</code> 中 <code>Ajax</code> 的请求方式一共有以下这几种：</p>
+<pre><code>$.ajax(url,[settings])
+load(url,[data],[callback])
+$.get(url,[data],[fn],[type])
+$.getJSON(url,[data],[fn])
+$.getScript(url,[callback])
+$.post(url,[data],[fn],[type])
+</code></pre><p>其中最基本的一种方式就是 <code>$.ajax()</code> 这种方式了，使用这种方式的话我们会看到发送 <code>Ajax</code> 请求需要的各种参数，这样我们也能对发送请求有一个比较完整的了解，而 <code>load()</code>，<code>$.get()</code> 以及 <code>$.post()</code> 这三种方式则是对 <code>$.ajax()</code> 方式的简化，我们使用起来会更加简单，因此在实际开发中会使用的比较多，而最后的 <code>$.getJSON()</code> 和 <code>$.getScript()</code> 则是针对于跨域使用的，后面我们也会进行详细的介绍，这 <code>6</code> 种便是 <code>jQuery</code> 进行 <code>Ajax</code> 开发的主要方式了，熟练掌握的话我们就能轻松应对相关问题的解决了。</p>
+<h4 id="6-2-load-方式"><a href="#6-2-load-方式" class="headerlink" title="6.2 load()方式"></a>6.2 load()方式</h4><p>下面我们就来看一下 <code>jQuery</code> 中进行 <code>Ajax</code> 开发的第 <code>1</code> 种方式，那就是 <code>load()</code> 方法了，使用这种方法是直接将服务器端响应回来的 <code>HTML</code> 数据插入到 <code>DOM</code> 元素中，那具体应该是插入到哪个 <code>DOM</code> 元素中呢?那就要看是哪个 <code>DOM</code> 元素调用的这个 <code>load()</code> 方法了。下面我们再看 <code>load()</code> 方法中的 <code>3</code> 个参数：</p>
+<pre><code>load(url, [data], [callback])
+url:请求路径
+data:前端发送到服务器端的键值对参数
+callback:请求成功时的回调函数
+</code></pre><p>我们还是通过一个具体的例子来看该方法，这样可以更清晰地明白该方法应该如何使用，还是验证用户名是否可以使用的例子。</p>
+<p>前端页面中仍然是一个输入框用于输入用户名，后面我们可以放一个 <code>span</code> 元素用来显示之后服务器端响应回来的数据，当然，因为最终服务器端响应回来的 <code>HTML</code> 数据需要插入到这个 <code>span</code> 元素当中，所以等一下应该也是使用该元素来调用 <code>load()</code> 方法，代码如下：</p>
+<pre><code>用户名：&lt;input type=&quot;text&quot; id=&quot;userName&quot;&gt;&lt;span id=&quot;msg&quot;&gt;&lt;/span&gt;
+</code></pre><p>接着我们再看后端使用 <code>Servlet</code> 处理前端请求的代码，其实和之前的代码是一样的，这里也还是放上来 <code>(LoadServlet)</code>：</p>
+<pre><code>// 防止乱码
+request.setCharacterEncoding(StandardCharsets.UTF_8.name());
+response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+
+String userName = request.getParameter(&quot;userName&quot;);
+String msg = &quot;&quot;;
+if (&quot;tom&quot;.equals(userName)) {
+    msg = &quot;&lt;font color=&apos;color&apos;&gt;用户名已经被占用&lt;/font&gt;&quot;;
+} else {
+    msg = &quot;&lt;font color=&apos;green&apos;&gt;用户名可以使用&lt;/font&gt;&quot;;
+}
+response.getWriter().write(msg);
+</code></pre><p>最后我们就来看在前端页面使用 <code>load()</code> 方法向后台发送 <code>Ajax</code> 请求了，先看代码：</p>
+<pre><code>$(function() {
+    $(&quot;#userName&quot;).blur(function() {
+        var userName = $(&quot;#userName&quot;).val();
+        // 使用load方法发送ajax请求
+        var url = &quot;/jqueryAjax/loadServlet&quot;;
+        $(&quot;#msg&quot;).load(url,{&quot;userName&quot;:userName},function(data){
+            alert(data);
+        });
+    });
+})
+</code></pre><p>可以看到，上面是由 <code>span</code> 元素直接调用的 <code>load()</code> 方法，然后服务器端响应回来的数据就会直接插入到该 <code>span</code> 元素中，其实这里的参数只需要 <code>url</code> 请求路径和 <code>data</code> 请求参数这两个就好了，是不需要最后一个参数 <code>callback</code> 回调函数的，这里只是为了看得更清楚该方法的使用，所以才加上的，加上的效果就是会在浏览器中直接弹出服务器端响应的数据。</p>
+<p><code>load()</code> 方法使用需要注意的地方，第一点就是我们上面已经说过的，使用该方法是直接将服务器端响应回来的数据插入到调用该方法的 <code>DOM</code> 元素当中，第二点那就是使用该方法是使用的哪种请求方式，其实也非常容易记忆，那就是没有参数时是使用的 <code>GET</code> 方式，而有参数时是使用的 <code>POST</code> 方式。</p>
+<h4 id="6-3-ajax-方式"><a href="#6-3-ajax-方式" class="headerlink" title="6.3 $.ajax()方式"></a>6.3 $.ajax()方式</h4><p>下面我们再接着看如何使用 <code>$.ajax()</code> 方式进行 <code>Ajax</code> 请求，其实 <code>$.ajax()</code> 方式是最基本的一种方式了，<code>load()</code>，<code>$.get()</code> 和 <code>$.post()</code> 都是对这一种方式的简化，我们学习这一种方式的话，可以看到比较全的参数设置，即最基本的这种 <code>Ajax</code> 请求方式一般会设置哪些参数：</p>
+<pre><code>url:请求路径
+data:前端发送到服务器端的键值对参数
+type:请求方式，如GET或者POST
+dataType:服务器端返回数据类型，可以为以下类型
+    xml:返回XML数据
+    html:返回HTML文本
+    script:返回JavaScript代码
+    json:返回JSON数据
+    jsonp:JSONP格式，主要用于跨域操作
+    text:返回纯文本字符串
+success:请求成功时的回调函数
+</code></pre><p>下面我们还是通过验证用户名是否可用这个例子来学习 <code>$.ajax()</code> 请求方式，其实需要修改的代码也就是使用 <code>load()</code> 方法那一句，完整的代码为：</p>
+<pre><code>$(function() {
+    $(&quot;#userName&quot;).blur(function() {
+        var userName = $(&quot;#userName&quot;).val();
+        // 使用load方法发送ajax请求
+        var url = &quot;/jqueryAjax/loadServlet&quot;;
+        $.ajax({
+            type:&quot;post&quot;,
+            url:url,
+            data:{&quot;userName&quot;:userName},
+            dataType:&quot;html&quot;,
+            success:function(data){
+                $(&quot;#msg&quot;).html(data);
+            }
+        });
+    });
+})
+</code></pre><p>使用 <code>$.ajax()</code> 不会为 <code>DOM</code> 元素自动插入服务器端响应的数据，因此需要在回调函数中处理服务器端响应的数据，即将返回的数据插入到指定的 <code>DOM</code> 元素中，别的需要注意的地方就是这种方式设置的各个参数吧，在上面也进行了说明。</p>
+<h4 id="6-4-get-和-post-方式"><a href="#6-4-get-和-post-方式" class="headerlink" title="6.4 $.get()和$.post()方式"></a>6.4 $.get()和$.post()方式</h4><p>下面我们再看 <code>$.get()</code> 和 <code>$.post()</code> 请求方式，这两种方式是我们在开发中会经常使用的两种方式，因为使用起来非常简单，所以这两种方式我们都应该能熟练掌握，这两种请求方式主要是请求方式不同，它们所需要的参数设置都是一样的，如下所示：</p>
+<pre><code>url:请求路径
+data:前端发送到服务器端的键值对参数
+callback:请求成功时的回调函数
+type:服务器端响应数据的格式
+</code></pre><p>同样的我们也还是用上面验证用户名是否可以使用的案例来学习这两种请求方式，主要的不同当然就是发送请求时的代码了，当我们使用 <code>post</code> 请求方式时，代码应该为：</p>
+<pre><code>var url = &quot;/jqueryAjax/loadServlet&quot;;
+$.post(url,{&quot;userName&quot;:userName},function(data){
+    $(&quot;#msg&quot;).html(data);
+},&quot;html&quot;);
+</code></pre><p>当使用 <code>get</code> 请求方式，代码则应该为：</p>
+<pre><code>var url = &quot;/jqueryAjax/loadServlet&quot;;
+$.get(url,{&quot;userName&quot;:userName},function(data){
+    $(&quot;#msg&quot;).html(data);
+},&quot;html&quot;);
+</code></pre><p>上面两种请求方式的代码进行比较的话，就会发现，代码完全是一样的，只是请求方式不一样而已，因此我们在实际使用只要学会了其中的一种，另外的一种也就学会了，需要说明的一点是，回调函数中的 <code>data</code> 参数就是服务器端响应回来的数据了。</p>
+<h3 id="7-JSON数据"><a href="#7-JSON数据" class="headerlink" title="7.JSON数据"></a>7.JSON数据</h3><p>在我们上面所写的案例当中，当判断输入的用户名是否可用时，服务器端会响应相应的信息给前端，以便让前端页面进行展示，这里返回的信息只是普通的文本信息，那在实际开发中，比如我们想获取相关产品的相关信息时，普通文本还能满足我们的要求吗？很明显如果还使用普通文本的话，是满足不了相关要求的，因为可能一件商品的属性就比较多，在前端页面对普通文本信息进行解析就会非常麻烦，因此我们就要来学习另外的一种数据交换格式，也就是 <code>JSON</code> 了，使用了 <code>JSON</code> 之后，就会发现，描述相关数据可以如此简单，而且 <code>JSON</code> 数据也十分容易阅读，容易理解。</p>
+<p><code>JSON</code> 是一种轻量级的数据交换格式，是 <code>JavaScript</code> 的一个子集，<code>JSON</code> 数据结构只有对象和数组两种结构：</p>
+<pre><code>对象:{key:value}
+数组:[&quot;key&quot;,&quot;value&quot;,&quot;string&quot;]
+</code></pre><p>需要注意的一点就是在 <code>JSON</code> 中，对象和数组这两种结构是可以相互嵌套的，比如：</p>
+<pre><code>{key:[&quot;key&quot;,&quot;value&quot;,&quot;string&quot;]}
+[{key:value},{key:value},{key:value}]
+</code></pre><p>正是因为可以像这样嵌套使用，<code>JSON</code> 所能表示的信息就十分丰富了。</p>
+<h4 id="7-1-fastjson的使用"><a href="#7-1-fastjson的使用" class="headerlink" title="7.1 fastjson的使用"></a>7.1 fastjson的使用</h4><p>关于在 <code>Java</code> 对象和字符串之间进行转换的 <code>json</code> 工具有很多，比如 <code>Gson</code>、<code>Jackson</code>、<code>fastjson</code> 这些，都是可以做到的，但是我们这里主要还是想介绍阿里的 <code>fastjson</code>，其实能够熟练使用一种 <code>json</code> 工具之后，别的工具使用起来也是十分类似的，那我们就先看看使用 <code>fastjson</code> 的基本步骤：</p>
+<pre><code>1.导入fastjson的jar包
+2.使用相关对象进行Java对象与json字符串之间的转换
+</code></pre><p>在 <code>Java</code> 对象与 <code>json</code> 字符串之间的转换当中，将 <code>Java</code> 对象转换为 <code>json</code> 字符串是使用的比较多的，因此我们在这里重点就是介绍如何将 <code>Java</code> 对象转换为 <code>json</code> 对象了，为了展示方便，我们先新建一个产品类 <code>(Product)</code>：</p>
+<pre><code>private int id;
+
+private String name;
+
+private int count;
+
+private double price;
+</code></pre><p>产品类中主要的字段也就是上面这四个了，分别代表的意思为编号、名称、数量和价格，类中对应字段的 <code>getter</code> 和 <code>setter</code> 方法在这里就不写了，下面就是将一个 <code>Java</code> 对象转为 <code>json</code> 字符串的代码了。</p>
+<pre><code>Product product = new Product();
+product.setId(1);
+product.setName(&quot;收音机&quot;);
+product.setCount(10);
+product.setPrice(20);
+String json = JSONObject.toJSONString(product);
+System.out.println(json);
+</code></pre><p>这样我们就能看到 <code>Java</code> 对象转换得到的 <code>json</code> 字符串了。</p>
+<pre><code>{&quot;count&quot;:10,&quot;id&quot;:1,&quot;name&quot;:&quot;收音机&quot;,&quot;price&quot;:20}
+</code></pre><p>这样就得到我们所需要的 <code>json</code> 字符串了，其实想将 <code>json</code> 字符串转换为 <code>Java</code> 对象也是十分简单的，如：</p>
+<pre><code>Product pp = JSONObject.parseObject(json, Product.class);
+System.out.println(pp);
+</code></pre><p>这样的话，我们就能将刚才得到的 <code>json</code> 字符串转换为 <code>Java</code> 对象了，打印出来的结果就是该 <code>Java</code> 对象的地址了。</p>
+<pre><code>party.laucloud.domain.Product@1500955a
+</code></pre><p>上面就是将一个 <code>Java</code> 对象转换为 <code>json</code> 字符串的过程了，下面我们再看如果是一个 <code>List</code> 集合呢？集合中包含多个 <code>Java</code> 对象，又如何转换为 <code>json</code> 对象呢？</p>
+<pre><code>Product product = new Product();
+product.setId(1);
+product.setName(&quot;收音机&quot;);
+product.setCount(10);
+product.setPrice(20);
+
+Product tvProduct = new Product();
+tvProduct.setId(2);
+tvProduct.setName(&quot;电视机&quot;);
+tvProduct.setCount(30);
+tvProduct.setPrice(200);
+
+List&lt;Product&gt; products = new ArrayList&lt;&gt;();
+products.add(product);
+products.add(tvProduct);
+String json = JSONObject.toJSONString(products);
+System.out.println(json);
+</code></pre><p>最后打印的结果会是怎样的呢？因为在 <code>List</code> 集合中有多个 <code>Java</code> 对象，因此最后得到的结果应该是一个数组，然后其中包含多个对象。</p>
+<pre><code>[{&quot;count&quot;:10,&quot;id&quot;:1,&quot;name&quot;:&quot;收音机&quot;,&quot;price&quot;:20},{&quot;count&quot;:30,&quot;id&quot;:2,&quot;name&quot;:&quot;电视机&quot;,&quot;price&quot;:200}]
+</code></pre><h4 id="7-2-使用fastjson中的一些问题"><a href="#7-2-使用fastjson中的一些问题" class="headerlink" title="7.2 使用fastjson中的一些问题"></a>7.2 使用fastjson中的一些问题</h4><p>在使用 <code>fastjson</code> 的过程中，我们可能会碰到一些问题，将问题在这里记录下来，可以使自己的记忆更加深刻，而且以后碰到类似的问题也好查询，下面看具体的问题。</p>
+<h5 id="7-2-1-指定属性别名和时间属性格式"><a href="#7-2-1-指定属性别名和时间属性格式" class="headerlink" title="7.2.1 指定属性别名和时间属性格式"></a>7.2.1 指定属性别名和时间属性格式</h5><p>在我们上面的例子中，生成 <code>json</code> 数据时，所得到的 <code>json</code> 文本都是直接根据 <code>Java</code> 对象的属性名以及对应的属性值直接转换得到的，比如在 <code>Java</code> 对象中有一个 <code>id</code> 属性，那在转换得到的 <code>json</code> 文本中有一个键值对的键就一定是 <code>id</code> 了，但是如果我们不想得到的是 <code>id</code> 呢？而是对应的中文名称，比如编号，那应该怎么办呢？其实就可以在 <code>Java</code> 类的 <code>id</code> 属性上面加一个注解，那就是</p>
+<pre><code>@JSONField(name = &quot;编号&quot;)
+</code></pre><p>那我们得到的 <code>json</code> 结果就是下面这样的了。</p>
+<pre><code>{&quot;count&quot;:10,&quot;name&quot;:&quot;收音机&quot;,&quot;price&quot;:20,&quot;编号&quot;:1}
+</code></pre><p>还有一个就是关于时间字段的格式问题，比如产品类可能不只有上面我们说的 <code>4</code> 个属性，可能还有一个生产日期属性 <code>(productDate)</code></p>
+<pre><code>private Date productDate;
+</code></pre><p>这样的话，当我们直接生成 <code>json</code> 字符串时，结果就会是这样的了：</p>
+<pre><code>{&quot;count&quot;:10,&quot;name&quot;:&quot;收音机&quot;,&quot;price&quot;:20,&quot;productDate&quot;:1549978370621,&quot;编号&quot;:1}
+</code></pre><p>可以发现，<code>productDate</code> 所对应的值为 <code>1549978370621</code>，很明显是一个毫秒数，如果直接这样展示的话，我们是不好理解的，那要怎么办，才能将该生产日期转换为我们容易理解的格式呢？其实也可以通过上面的注解，如下：</p>
+<pre><code>@JSONField(format = &quot;yyyy-MM-dd&quot;)
+</code></pre><p>就是在 <code>productDate</code> 字段的上面加上该注解，这样就能得到指定时间格式的 <code>json</code> 字符串了。</p>
+<pre><code>{&quot;count&quot;:10,&quot;name&quot;:&quot;收音机&quot;,&quot;price&quot;:20,&quot;productDate&quot;:&quot;2018-02-12&quot;,&quot;编号&quot;:1}
+</code></pre><h5 id="7-2-2-指定Java对象中的哪些属性生成在json中"><a href="#7-2-2-指定Java对象中的哪些属性生成在json中" class="headerlink" title="7.2.2 指定Java对象中的哪些属性生成在json中"></a>7.2.2 指定Java对象中的哪些属性生成在json中</h5><p>有时候我们不想将 <code>Java</code> 对象中所有的属性都转化到 <code>json</code> 字符串当中，比如编号，那我们应该怎么办呢？</p>
+<p>其实 <code>JSONObject</code> 类中的 <code>toJSONString()</code> 是有很多重载方法的，除了直接将需要转换的 <code>Java</code> 对象传入该方法之后，它还有一个重载方法，可以传入一个 <code>SerializeFilter</code> 对象，这个对象就可以对哪些属性可以生成在 <code>json</code> 字符串中进行过滤操作，这样我们就能完成我们想要的功能了。</p>
+<p><code>SerializeFilter</code> 是一个接口，它有一个子接口为 <code>PropertyFilter</code>，我们就通过实例化 <code>PropertyFilter</code> 的一个匿名内部类来完成相关功能，实现该接口需要实现它其中的一个抽象方法 <code>apply()</code>，具体的代码如下：</p>
+<pre><code>SerializeFilter filter = new PropertyFilter() {
+
+    @Override
+    public boolean apply(Object arg0, String arg1, Object arg2) {
+        System.out.println(arg0);
+        System.out.println(arg1);
+        System.out.println(arg2);
+        if (&quot;编号&quot;.equals(arg1)) {
+            return false;
+        }
+        return true;
+    }
+};
+String json = JSONObject.toJSONString(product, filter);
+</code></pre><p>要想搞清楚 <code>apply()</code> 方法的作用，那我们就需要先知道方法中三个参数的作用了，我们可以像上面的代码这样将三个参数都打印出来，这样就能知道各个参数的意思了。</p>
+<pre><code>party.laucloud.domain.Product@42f93a98
+count
+10
+party.laucloud.domain.Product@42f93a98
+name
+收音机
+party.laucloud.domain.Product@42f93a98
+price
+20.0
+party.laucloud.domain.Product@42f93a98
+productDate
+Tue Feb 12 22:14:57 CST 2019
+party.laucloud.domain.Product@42f93a98
+编号
+1
+</code></pre><p>从上面的结果就能知道，三个参数的意义了，第一个参数就是类对象本身了，第二个参数则是类对象中的属性名称了，最后第三个参数则是对应的属性值了，由此便可以知道其实 <code>apply()</code> 方法的作用就是，遍历类对象中的各个属性，每个属性都要过一遍 <code>apply()</code> 方法，如果该方法是返回的 <code>false</code>，那就表示对应的属性将不会出现在生成的 <code>json</code> 字符串当中，如果返回的是 <code>true</code> ，则表示该属性会出现在生成的 <code>json</code> 字符串当中。</p>
+<p>因此我们现在看上面的代码的话，就能看出编号是不会出现在生成的 <code>json</code> 字符串当中的，因为当属性名称为编号时，<code>apply()</code> 方法会返回 <code>false</code>，而其它的都会返回 <code>true</code>。</p>
+<pre><code>{&quot;count&quot;:10,&quot;name&quot;:&quot;收音机&quot;,&quot;price&quot;:20,&quot;productDate&quot;:&quot;2019-02-12&quot;}
+</code></pre><p>上面的方法是不是感觉使用起来会有点繁琐，其实还有一中简便方法，那就是 <code>SerializeFilter</code> 是有一个实现类的，那就是 <code>SimplePropertyPreFilter</code>，该类有一个构造方法，将我们需要在生成 <code>json</code> 中显示的属性名称传进去，我们就能在生成的 <code>json</code> 字符串中看到，没有传入的属性名就不会出现在生成的 <code>json</code> 字符串当中。</p>
+<pre><code>SerializeFilter filter = new SimplePropertyPreFilter(&quot;name&quot;, &quot;count&quot;, &quot;price&quot;, &quot;productDate&quot;);
+String json = JSONObject.toJSONString(product, filter);
+</code></pre><p>这样同样也能实现我们想要的功能的。</p>
+<h5 id="7-2-3-Java对象转换成json字符串时的循环引用问题"><a href="#7-2-3-Java对象转换成json字符串时的循环引用问题" class="headerlink" title="7.2.3 Java对象转换成json字符串时的循环引用问题"></a>7.2.3 Java对象转换成json字符串时的循环引用问题</h5><p>上面在介绍将 <code>Java</code> 对象转换为 <code>json</code> 字符串时，已经介绍了将 <code>List</code> 集合对象转换为 <code>json</code> 字符串，这里需要注意的一种情况就是，如果集合中装入的多个对象都是一个对象，那生成的 <code>json</code> 字符串会是怎样的呢？</p>
+<pre><code>Product product = new Product();
+product.setId(1);
+product.setName(&quot;收音机&quot;);
+product.setCount(10);
+product.setPrice(20);
+product.setProductDate(new Date());
+
+List&lt;Product&gt; products = new ArrayList&lt;&gt;();
+products.add(product);
+products.add(product);
+products.add(product);
+
+String json = JSONObject.toJSONString(products);
+System.out.println(json);
+</code></pre><p>得到的结果应该是怎样的呢？</p>
+<pre><code>[{&quot;count&quot;:10,&quot;name&quot;:&quot;收音机&quot;,&quot;price&quot;:20,&quot;productDate&quot;:&quot;2019-02-12&quot;,&quot;编号&quot;:1},{&quot;$ref&quot;:&quot;$[0]&quot;},{&quot;$ref&quot;:&quot;$[0]&quot;}]
+</code></pre><p>我们可以看到，生成的 <code>json</code> 字符串当中，数组中的第一个对象是和以前一样根据单个 <code>Java</code> 对象生成的 <code>json</code> 字符串，但是第二个和第三个对象则是 <code>{&quot;$ref&quot;:&quot;$[0]&quot;}</code>，而不是和第一个一样是完整的消息，这就是因为集合中装入的对象都是一样的，所以在生成 <code>json</code> 字符串时，第二个和第三个对象就简化为了引用的形式，那要解决这个问题应该怎么办呢？</p>
+<p>其实解决办法也十分简单，还是 <code>JSONObject</code> 类中的 <code>toJSONString()</code> 方法，有一个重载方法，可以传入一个 <code>SerializerFeature</code> 对象，<code>SerializerFeature</code> 对象中有一个属性为 <code>DisableCircularReferenceDetect</code>，就可以使循环引用失效了。具体代码为：</p>
+<pre><code>String json = JSONObject.toJSONString(products, SerializerFeature.DisableCircularReferenceDetect);
+</code></pre><p>这样就可以完成我们想要的功能了。</p>
+<h3 id="8-以json格式返回响应数据案例"><a href="#8-以json格式返回响应数据案例" class="headerlink" title="8.以json格式返回响应数据案例"></a>8.以json格式返回响应数据案例</h3><p>我们在上面已经学习了使用 <code>jQuery</code> 进行 <code>Ajax</code> 请求开发和 <code>json</code> 数据格式了，那我们现在就可以结合这两点来做一些小的案例来加深我们的印象。</p>
+<h4 id="8-1-显示商品信息"><a href="#8-1-显示商品信息" class="headerlink" title="8.1 显示商品信息"></a>8.1 显示商品信息</h4><p>我们想要的效果就是，在页面中有一个名称为显示商品信息的按钮，当我们第一次点击该按钮时，会向后台发送一次 <code>Ajax</code> 请求，获取得到商品信息，然后在前台页面中进行展示，当我们再点击一次页面中的显示商品信息按钮时，商品信息会隐藏，再点击一次页面中的按钮，就又会和第一次点击按钮一样，显示出商品信息，依次循环。这便是我们想要的效果。</p>
+<p>要完成上面所说的切换效果，我们可以使用 <code>jQuery</code> 中的 <code>toggle()</code> 方法进行事件的切换，就是 <code>toggle()</code> 方法中的函数会依次循环执行，那我们可以借助于这一功能，传入两个函数，第一个是向后台发送 <code>Ajax</code> 请求，获取得到商品信息，然后在前端页面中进行展示，第二个函数就是将展示的商品信息进行隐藏，这样的话，我们就能实现想要的功能了。</p>
+<p>首先我们先看页面中应该有的元素，当然是需要有一个点击按钮，然后就是一片用于显示商品信息的区域了。</p>
+<pre><code>&lt;body&gt;
+    &lt;a href=&quot;javascript:void(0)&quot; id=&quot;link&quot;&gt;显示商品信息&lt;/a&gt;
+    &lt;div id=&quot;content&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+</code></pre><p>接着我们再看后台的 <code>Servlet</code> 应该如何组织返回响应数据，其实也是比较简单的，就是在一个 <code>List</code> 集合中包含多个商品信息，然后再将该集合转换为 <code>json</code> 数据响应到前端就好了。</p>
+<pre><code>public class ProductServlet extends HttpServlet {
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // 防止乱码
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+
+        Product product = new Product();
+        product.setId(1);
+        product.setName(&quot;收音机&quot;);
+        product.setCount(10);
+        product.setPrice(20);
+        product.setProductDate(new Date());
+
+        Product tvProduct = new Product();
+        tvProduct.setId(2);
+        tvProduct.setName(&quot;电视机&quot;);
+        tvProduct.setCount(30);
+        tvProduct.setPrice(200);
+        tvProduct.setProductDate(new Date());
+
+        List&lt;Product&gt; products = new ArrayList&lt;&gt;();
+        products.add(product);
+        products.add(tvProduct);
+        String json = JSONObject.toJSONString(products);
+        response.getWriter().write(json);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
+    }
+}
+</code></pre><p>最后就是为页面中的按钮添加事件了，当我们第一次点击时显示商品信息，第二次点击时则会隐藏商品信息，先看完整的代码：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function() {
+        $(&quot;#link&quot;).toggle(function() {
+            var url = &quot;/jqueryAjax/productServlet&quot;;
+            $.post(url, function(data) {
+                $(&quot;#content&quot;).html(&quot;&quot;);
+                var json = eval(data);
+                var tab=$(&quot;&lt;table border=&apos;1&apos;&gt;&lt;tr&gt;&lt;td&gt;编号&lt;/td&gt;&lt;td&gt;名称&lt;/td&gt;&lt;td&gt;数量&lt;/td&gt;&lt;td&gt;价格&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&quot;);
+                for(var i=0;i&lt;json.length;i++){
+                    var obj = json[i];
+                    var tr = $(&quot;&lt;tr&gt;&lt;td&gt;&quot;+obj.id+&quot;&lt;/td&gt;&lt;td&gt;&quot;+obj.name+&quot;&lt;/td&gt;&lt;td&gt;&quot;+obj.count+&quot;&lt;/td&gt;&lt;td&gt;&quot;+obj.price+&quot;&lt;/td&gt;&lt;/tr&gt;&quot;);
+                    tab.append(tr);
+                }
+                $(&quot;#content&quot;).append(tab);
+                $(&quot;#content&quot;).show();
+            }, &quot;json&quot;);
+        }, function() {
+            $(&quot;#content&quot;).hide();
+        });
+    });
+&lt;/script&gt;
+</code></pre><p>看代码的话就会发现，其实重点就在于第一个函数，发送 <code>Ajax</code> 请求获取得到商品信息，然后将后端响应回来的数据解析展示在前端页面，这里发送 <code>Ajax</code> 请求时就是使用的 <code>$.post()</code> 方法，可以看到使用起来也是非常简单，需要注意设置响应回来数据的格式为 <code>json</code>，接着的重点就是解析数据然后进行展示了，这里我们是使用的 <code>eval()</code> 方法将响应数据解析为 <code>JavaScript</code> 对象的，然后遍历该对象包含多少个商品信息，就拼接多少个表格对象中的 <code>tr</code> 对象，然后将这些 <code>tr</code> 对象再全部追加到表格对象 <code>table</code> 中，最后将表格对象追加到用于展示商品信息的 <code>div</code> 中，这样就完成了我们所需要的功能。</p>
+<h4 id="8-2-省市二级联动"><a href="#8-2-省市二级联动" class="headerlink" title="8.2 省市二级联动"></a>8.2 省市二级联动</h4><p>下面我们再做一次省市二级联动的案例，不过这次后端响应数据的格式是 <code>json</code> 格式的，还是在页面中有两个下拉框，第一个下拉框为省份下拉框，第二个下拉框为城市下拉框，当页面加载完成时，就会向后台发送一次 <code>Ajax</code> 请求，获取得到省份信息，然后响应 <code>json</code> 数据回前端，前端页面进行解析并展示，而当我们选择省份下拉框中的选项时，也会向后台发送一次 <code>Ajax</code> 请求，这次请求会带上我们刚才在省份下拉框选中的省份名称，然后获取得到对应的城市信息，也是转换为 <code>json</code> 格式的数据，然后响应给前端页面，前端页面解析后台响应数据并将城市信息展示到城市下拉框中。</p>
+<p>首先我们看前端页面所需要的网页元素，就是两个下拉选择框，一个省份下拉框，还有一个城市下拉框，具体代码为：</p>
+<pre><code>&lt;select id=&quot;province&quot;&gt;
+    &lt;option&gt;--请选择省份--&lt;/option&gt;
+&lt;/select&gt;省
+
+&lt;select id=&quot;city&quot;&gt;
+    &lt;option&gt;--请选择城市--&lt;/option&gt;
+&lt;/select&gt;市
+</code></pre><p>这样的话，就可以在页面中显示两个下拉选择框了，接着我们再来看看省份以及对应的城市信息在后台应该如何存储，我们使用 <code>Province</code> 类来表示省份信息，用 <code>City</code> 类来表示城市信息，那我们就可以使用一个 <code>Map</code> 集合来保存所有的省份以及对应的城市信息了，也就是：</p>
+<pre><code>Map&lt;Province, List&lt;City&gt;&gt;
+</code></pre><p>而且 <code>Province</code> 类和 <code>City</code> 类的主要字段都是为：</p>
+<pre><code>private int id;
+
+private String name;
+</code></pre><p>因为我们是使用 <code>Servlet</code> 来处理前端请求的，因此我们可以在 <code>Servlet</code> 的 <code>init()</code> 方法中加载好所有的省份以及城市信息，后面需要时就可以直接使用了，代码如下：</p>
+<pre><code>public class CityServlet extends HttpServlet {
+
+    private Map&lt;Province, List&lt;City&gt;&gt; map = new HashMap&lt;&gt;();
+
+    @Override
+    public void init() throws ServletException {
+        Province province = new Province();
+        province.setId(1);
+        province.setName(&quot;湖北&quot;);
+
+        City c1 = new City();
+        c1.setId(1);
+        c1.setName(&quot;武汉&quot;);
+
+        City c2 = new City();
+        c2.setId(2);
+        c2.setName(&quot;天门&quot;);
+
+        List&lt;City&gt; cityList = new ArrayList&lt;&gt;();
+        cityList.add(c1);
+        cityList.add(c2);
+        map.put(province, cityList);
+
+        Province scProvince = new Province();
+        scProvince.setId(2);
+        scProvince.setName(&quot;四川&quot;);
+
+        City c3 = new City();
+        c3.setId(3);
+        c3.setName(&quot;成都&quot;);
+
+        City c4 = new City();
+        c4.setId(4);
+        c4.setName(&quot;都江堰&quot;);
+
+        List&lt;City&gt; scCityList = new ArrayList&lt;&gt;();
+        scCityList.add(c3);
+        scCityList.add(c4);
+        map.put(scProvince, scCityList);
+    }
+}
+</code></pre><p>前端过来的对于省份信息和城市信息的请求，我们都会使用 <code>CityServlet</code> 来处理，但是我们前面分析的时候就知道，是有两次请求的，一次是请求省份信息，另一次则是请求城市信息，那我们在后端应该如何区分这两次请求呢？其实很简单，可以在前端请求时加入一个参数 <code>method</code>，当请求省份信息时，将该属性的属性值赋为 <code>province</code>，当请求某个省份所对应的城市信息时，将该属性的属性值赋为 <code>city</code>，这样在后端我们就可以区分两次请求了。</p>
+<p>后端具体的处理逻辑代码为：</p>
+<pre><code>    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    // 防止乱码
+    request.setCharacterEncoding(StandardCharsets.UTF_8.name());
+    response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+
+    String method = request.getParameter(&quot;method&quot;);
+    if (&quot;province&quot;.equals(method)) {
+        Set&lt;Province&gt; keySet = map.keySet();
+        String json = JSONObject.toJSONString(keySet);
+        response.getWriter().write(json);
+    }
+
+    if (&quot;city&quot;.equals(method)) {
+        String province = request.getParameter(&quot;province&quot;);
+        for (Province pro : map.keySet()) {
+            if (province.equals(pro.getName())) {
+                List&lt;City&gt; citys = map.get(pro);
+                String json = JSONObject.toJSONString(citys);
+                response.getWriter().write(json);
+                break;
+            }
+        }
+    }
+}
+
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    doGet(request, response);
+}
+</code></pre><p>最后我们再来看前端向后端发送 <code>Ajax</code> 请求的代码了，其实也是十分简单的了，页面加载完成后就向后台发送一次 <code>Ajax</code> 请求得到省份信息，得到数据后解析并展示在省份下拉框中。</p>
+<pre><code>$(function(){
+    var url = &quot;/jqueryAjax/cityServlet&quot;
+    $.post(url,{&quot;method&quot;:&quot;province&quot;},function(data){
+        var jsonObj = eval(data);
+
+        for(var i=0;i&lt;jsonObj.length;i++){
+            var optionObj = jsonObj[i];
+            var option = $(&quot;&lt;option&gt;&quot;+optionObj.name+&quot;&lt;/option&gt;&quot;);
+            $(&quot;#province&quot;).append(option);
+        }
+    },&quot;json&quot;);
+});
+</code></pre><p>接着，当我们在省份下拉选择框选择某个省份时，也需要向后台发送一次 <code>Ajax</code> 请求得到对应省份的城市信息，得到数据后解析展示在城市下拉框中。</p>
+<pre><code>$(&quot;#province&quot;).bind(&quot;change&quot;,function(){
+
+    var province = $(this).val();
+    $.post(url,{&quot;method&quot;:&quot;city&quot;,&quot;province&quot;:province},function(data){
+        $(&quot;#city&quot;).html(&quot;&lt;option&gt;--请选择城市--&lt;/option&gt;&quot;);
+        var cityObj = eval(data);
+
+        $(cityObj).each(function(){
+            var cityName = this.name;
+            var option = $(&quot;&lt;option&gt;&quot;+cityName+&quot;&lt;/option&gt;&quot;);
+            $(&quot;#city&quot;).append(option);
+        });
+    },&quot;json&quot;);
+});
+</code></pre><p>这样就完成我们想要的功能了。</p>
+<h3 id="9-XStream的使用"><a href="#9-XStream的使用" class="headerlink" title="9.XStream的使用"></a>9.XStream的使用</h3><p>上面我们介绍了在服务器端将 <code>Java</code> 对象转换为 <code>json</code> 字符串后，响应给前端页面处理，下面我们想要做的就是，如果在服务器端需要响应 <code>xml</code> 格式的数据给前端，我们应该怎么做？这时候我们就可以使用 <code>XStream</code> 了，使用 <code>XStream</code>，我们就可以完成 <code>Java</code> 对象与 <code>xml</code> 格式文本之间的转换，也就可以在服务器端响应 <code>xml</code> 格式的数据了。</p>
+<p>在使用 <code>XStream</code> 工具之前，我们要先导入其所需要的 <code>jar</code> 包，一共为 <code>3</code> 个：</p>
+<pre><code>xstream-1.4.9.jar
+xpp3_min-1.1.4c.jar
+xmlpull-1.1.3.1.jar
+</code></pre><p>这样的话，我们就可以使用 <code>XStream</code> 来完成我们想要的功能了，为了更好地看到效果，我们还是使用前面省市二级联动案例中的数据来做演示。</p>
+<pre><code>Map&lt;Province, List&lt;City&gt;&gt; map = new HashMap&lt;&gt;();
+Province province = new Province();
+province.setId(1);
+province.setName(&quot;湖北&quot;);
+
+City c1 = new City();
+c1.setId(1);
+c1.setName(&quot;武汉&quot;);
+
+City c2 = new City();
+c2.setId(2);
+c2.setName(&quot;天门&quot;);
+
+List&lt;City&gt; cityList = new ArrayList&lt;&gt;();
+cityList.add(c1);
+cityList.add(c2);
+map.put(province, cityList);
+
+Province scProvince = new Province();
+scProvince.setId(2);
+scProvince.setName(&quot;四川&quot;);
+
+City c3 = new City();
+c3.setId(3);
+c3.setName(&quot;成都&quot;);
+
+City c4 = new City();
+c4.setId(4);
+c4.setName(&quot;都江堰&quot;);
+
+List&lt;City&gt; scCityList = new ArrayList&lt;&gt;();
+scCityList.add(c3);
+scCityList.add(c4);
+map.put(scProvince, scCityList);
+</code></pre><p>下面我们就来看如何将上面 <code>Map</code> 集合中的数据转换为 <code>xml</code> 格式的数据，代码也是非常简单：</p>
+<pre><code>XStream xStream = new XStream();
+String xml = xStream.toXML(map);
+System.out.println(xml);
+</code></pre><p>这样就可以得到 <code>xml</code> 格式的数据了，结果为：</p>
+<pre><code>&lt;map&gt;
+  &lt;entry&gt;
+    &lt;party.laucloud.domain.Province&gt;
+      &lt;id&gt;2&lt;/id&gt;
+      &lt;name&gt;四川&lt;/name&gt;
+    &lt;/party.laucloud.domain.Province&gt;
+    &lt;list&gt;
+      &lt;party.laucloud.domain.City&gt;
+        &lt;id&gt;3&lt;/id&gt;
+        &lt;name&gt;成都&lt;/name&gt;
+      &lt;/party.laucloud.domain.City&gt;
+      &lt;party.laucloud.domain.City&gt;
+        &lt;id&gt;4&lt;/id&gt;
+        &lt;name&gt;都江堰&lt;/name&gt;
+      &lt;/party.laucloud.domain.City&gt;
+    &lt;/list&gt;
+  &lt;/entry&gt;
+  &lt;entry&gt;
+    &lt;party.laucloud.domain.Province&gt;
+      &lt;id&gt;1&lt;/id&gt;
+      &lt;name&gt;湖北&lt;/name&gt;
+    &lt;/party.laucloud.domain.Province&gt;
+    &lt;list&gt;
+      &lt;party.laucloud.domain.City&gt;
+        &lt;id&gt;1&lt;/id&gt;
+        &lt;name&gt;武汉&lt;/name&gt;
+      &lt;/party.laucloud.domain.City&gt;
+      &lt;party.laucloud.domain.City&gt;
+        &lt;id&gt;2&lt;/id&gt;
+        &lt;name&gt;天门&lt;/name&gt;
+      &lt;/party.laucloud.domain.City&gt;
+    &lt;/list&gt;
+  &lt;/entry&gt;
+&lt;/map&gt;
+</code></pre><p>下面我们再来看使用 <code>XStream</code> 的过程中的一些常用方法，掌握这些常用方法，可以使我们平时的开发更加高效。</p>
+<h4 id="9-1-设置别名"><a href="#9-1-设置别名" class="headerlink" title="9.1 设置别名"></a>9.1 设置别名</h4><p>看上面的 <code>xml</code> 数据，我们会发现生成结果的文本中有些信息看起来不是那么直观，比如省份和城市的节点，结果中仍然是以类的全限定名进行展示的，如果我们就想以省份或者城市这样的中文作为节点名称应该怎么做呢？其实在 <code>XStream</code> 类中也提供了十分简便的方法供我们使用。</p>
+<pre><code>xStream.alias(&quot;省份&quot;, Province.class);
+xStream.alias(&quot;城市&quot;, City.class);
+</code></pre><p>不仅可以为我们自己创建的类设置别名，也可以为 <code>List</code> 这样的类设置别名，如：</p>
+<pre><code>xStream.alias(&quot;城市们&quot;, List.class);
+</code></pre><p>当然，除了给类设置别名之外，我们还可以为类中的属性设置别名，比如将 <code>City</code> 类中的 <code>id</code> 属性设置为编号：</p>
+<pre><code>xStream.aliasField(&quot;编号&quot;, City.class, &quot;id&quot;);
+</code></pre><p>通过上面的设置，我们就可以看一下现在得到的 <code>xml</code> 数据应该是怎样的。</p>
+<pre><code>&lt;map&gt;
+  &lt;entry&gt;
+    &lt;省份&gt;
+      &lt;id&gt;2&lt;/id&gt;
+      &lt;name&gt;四川&lt;/name&gt;
+    &lt;/省份&gt;
+    &lt;城市们&gt;
+      &lt;城市&gt;
+        &lt;编号&gt;3&lt;/编号&gt;
+        &lt;name&gt;成都&lt;/name&gt;
+      &lt;/城市&gt;
+      &lt;城市&gt;
+        &lt;编号&gt;4&lt;/编号&gt;
+        &lt;name&gt;都江堰&lt;/name&gt;
+      &lt;/城市&gt;
+    &lt;/城市们&gt;
+  &lt;/entry&gt;
+  &lt;entry&gt;
+    &lt;省份&gt;
+      &lt;id&gt;1&lt;/id&gt;
+      &lt;name&gt;湖北&lt;/name&gt;
+    &lt;/省份&gt;
+    &lt;城市们&gt;
+      &lt;城市&gt;
+        &lt;编号&gt;1&lt;/编号&gt;
+        &lt;name&gt;武汉&lt;/name&gt;
+      &lt;/城市&gt;
+      &lt;城市&gt;
+        &lt;编号&gt;2&lt;/编号&gt;
+        &lt;name&gt;天门&lt;/name&gt;
+      &lt;/城市&gt;
+    &lt;/城市们&gt;
+  &lt;/entry&gt;
+&lt;/map&gt;
+</code></pre><h4 id="9-2-忽略属性"><a href="#9-2-忽略属性" class="headerlink" title="9.2 忽略属性"></a>9.2 忽略属性</h4><p>在生成 <code>xml</code> 数据的过程中，有时候我们不想将某些属性生成到 <code>xml</code> 文件当中，比如我们不想将 <code>Province</code> 类中的 <code>id</code> 属性生成到 <code>xml</code> 文件当中，那我们可以进行如下操作：</p>
+<pre><code>xStream.omitField(Province.class, &quot;id&quot;);
+</code></pre><p>生成的结果为：</p>
+<pre><code>&lt;map&gt;
+  &lt;entry&gt;
+    &lt;省份&gt;
+      &lt;name&gt;四川&lt;/name&gt;
+    &lt;/省份&gt;
+    &lt;城市们&gt;
+      &lt;城市&gt;
+        &lt;编号&gt;3&lt;/编号&gt;
+        &lt;name&gt;成都&lt;/name&gt;
+      &lt;/城市&gt;
+      &lt;城市&gt;
+        &lt;编号&gt;4&lt;/编号&gt;
+        &lt;name&gt;都江堰&lt;/name&gt;
+      &lt;/城市&gt;
+    &lt;/城市们&gt;
+  &lt;/entry&gt;
+  &lt;entry&gt;
+    &lt;省份&gt;
+      &lt;name&gt;湖北&lt;/name&gt;
+    &lt;/省份&gt;
+    &lt;城市们&gt;
+      &lt;城市&gt;
+        &lt;编号&gt;1&lt;/编号&gt;
+        &lt;name&gt;武汉&lt;/name&gt;
+      &lt;/城市&gt;
+      &lt;城市&gt;
+        &lt;编号&gt;2&lt;/编号&gt;
+        &lt;name&gt;天门&lt;/name&gt;
+      &lt;/城市&gt;
+    &lt;/城市们&gt;
+  &lt;/entry&gt;
+&lt;/map&gt;
+</code></pre><h4 id="9-3-将Java类的属性设置为xml中节点的属性"><a href="#9-3-将Java类的属性设置为xml中节点的属性" class="headerlink" title="9.3 将Java类的属性设置为xml中节点的属性"></a>9.3 将Java类的属性设置为xml中节点的属性</h4><p>之前在 <code>Province</code> 类中的 <code>id</code> 属性生成到 <code>xml</code> 文件中时，是直接将 <code>id</code> 属性生成到省份节点的下一级的，如：</p>
+<pre><code>&lt;省份&gt;
+  &lt;id&gt;1&lt;/id&gt;
+&lt;/省份&gt;
+</code></pre><p>如果想要将 <code>id</code> 属性作为省份节点的一个属性呢？那应该怎么办呢？想要的效果就是这样的：</p>
+<pre><code>&lt;省份 id=&quot;1&quot;&gt;
+&lt;/省份&gt;
+</code></pre><p>其实在 <code>XStream</code> 类中也提供了非常简便的方法供我们使用，就是：</p>
+<pre><code>xStream.useAttributeFor(Province.class, &quot;id&quot;);
+</code></pre><p>设置完成后，生成的完整 <code>xml</code> 数据应该是这样的：</p>
+<pre><code>&lt;map&gt;
+  &lt;entry&gt;
+    &lt;省份 id=&quot;2&quot;&gt;
+      &lt;name&gt;四川&lt;/name&gt;
+    &lt;/省份&gt;
+    &lt;城市们&gt;
+      &lt;城市&gt;
+        &lt;编号&gt;3&lt;/编号&gt;
+        &lt;name&gt;成都&lt;/name&gt;
+      &lt;/城市&gt;
+      &lt;城市&gt;
+        &lt;编号&gt;4&lt;/编号&gt;
+        &lt;name&gt;都江堰&lt;/name&gt;
+      &lt;/城市&gt;
+    &lt;/城市们&gt;
+  &lt;/entry&gt;
+  &lt;entry&gt;
+    &lt;省份 id=&quot;1&quot;&gt;
+      &lt;name&gt;湖北&lt;/name&gt;
+    &lt;/省份&gt;
+    &lt;城市们&gt;
+      &lt;城市&gt;
+        &lt;编号&gt;1&lt;/编号&gt;
+        &lt;name&gt;武汉&lt;/name&gt;
+      &lt;/城市&gt;
+      &lt;城市&gt;
+        &lt;编号&gt;2&lt;/编号&gt;
+        &lt;name&gt;天门&lt;/name&gt;
+      &lt;/城市&gt;
+    &lt;/城市们&gt;
+  &lt;/entry&gt;
+&lt;/map&gt;
+</code></pre><p>上面三个就是我们想要介绍的在 <code>XStream</code> 中经常使用的方法，掌握了上面三个常用方法对提升我们的开发效率还是很有帮助的。</p>
+<h4 id="9-4-XStream的注解使用"><a href="#9-4-XStream的注解使用" class="headerlink" title="9.4 XStream的注解使用"></a>9.4 XStream的注解使用</h4><p>其实 <code>XStream</code> 除了上面使用编码的方式来实现相关功能外，也还可以使用注解的方式来完成相关功能。要想能够使用注解的方式，我们首先必须要开启注解扫描功能。</p>
+<pre><code>xStream.autodetectAnnotations(true);
+</code></pre><p>设置了之后我们就可以使用注解来完成相关功能了，这里我们也还是演示上面常用的三个方法，只不过这次便是使用注解功能了。</p>
+<h5 id="9-4-1-设置别名"><a href="#9-4-1-设置别名" class="headerlink" title="9.4.1 设置别名"></a>9.4.1 设置别名</h5><p>使用注解为类或者类中属性设置别名，只需要使用 <code>@XStreamAlias</code> 注解就好了，如为 <code>City</code> 类设置别名。</p>
+<pre><code>@XStreamAlias(&quot;城市&quot;)
+public class City {
+
+    @XStreamAlias(&quot;编号&quot;)
+    private int id;
+
+    private String name;
+}
+</code></pre><p>这里需要说明的是，类中属性的 <code>getter</code> 和 <code>setter</code> 方法，我们在这里是没有写的。不管是为类设置别名，还是为类中的属性设置别名，我们都只需要使用 <code>@XStreamAlias</code> 就好了。</p>
+<h5 id="9-4-2-忽略属性"><a href="#9-4-2-忽略属性" class="headerlink" title="9.4.2 忽略属性"></a>9.4.2 忽略属性</h5><p>使用注解忽略类中的属性，则是需要使用 <code>@XStreamOmitField</code> 注解，比如我们过滤 <code>Province</code> 类中的 <code>id</code> 属性：</p>
+<pre><code>@XStreamAlias(&quot;省份&quot;)
+public class Province {
+
+    @XStreamOmitField
+    private int id;
+
+    private String name;
+}
+</code></pre><p>同样的，类中属性的 <code>getter</code> 和 <code>setter</code> 方法，我们在这里也是没有写的。通过上面这个注解的设置，在最终生成的 <code>xml</code> 文件中，关于省份信息部分 <code>id</code> 属性则是被忽略的了。</p>
+<h5 id="9-4-3-将Java类的属性设置为xml中节点的属性"><a href="#9-4-3-将Java类的属性设置为xml中节点的属性" class="headerlink" title="9.4.3 将Java类的属性设置为xml中节点的属性"></a>9.4.3 将Java类的属性设置为xml中节点的属性</h5><p>使用注解将 <code>Java</code> 类的属性设置为 <code>xml</code> 中节点的属性，则可以通过 <code>@XStreamAsAttribute</code> 注解来完成，比如我们想要将 <code>Province</code> 类中的 <code>id</code> 属性设置成在 <code>xml</code> 文件中省份节点中的属性：</p>
+<pre><code>@XStreamAlias(&quot;省份&quot;)
+public class Province {
+
+    @XStreamAsAttribute
+    private int id;
+
+    private String name;
+}
+</code></pre><p>这样我们就完成想要的功能了，<code>Province</code> 类中的 <code>id</code> 属性在生成 <code>xml</code> 文件中的省份节点中便会作为该节点的属性存在了。</p>
+<h4 id="9-5-以xml格式响应数据案例"><a href="#9-5-以xml格式响应数据案例" class="headerlink" title="9.5 以xml格式响应数据案例"></a>9.5 以xml格式响应数据案例</h4><p>上面学习了如何将 <code>Java</code> 对象转换为 <code>xml</code> 文件之后，我们现在就可以在服务器端响应前端请求时不返回 <code>json</code> 数据，而返回 <code>xml</code> 数据了，这里做的案例就还是省市二级联动的例子，不过这次服务器端响应的数据格式就是 <code>xml</code> 了，需要说明的是保存省份以及对应城市信息，我们还是使用原来的 <code>Map</code> 集合，即保存数据的结构仍然是 <code>Map&lt;Province, List&lt;City&gt;&gt;</code>。</p>
+<p>这次请求数据时就只发送一次请求了，一次便将所有的省份和城市信息响应给前端页面，然后在前端页面进行解析并进行展示，下面先看后端代码：</p>
+<pre><code>if (&quot;xml&quot;.equals(method)) {
+    XStream xsStream = new XStream();
+    xsStream.autodetectAnnotations(true);
+    String xml = xsStream.toXML(map);
+    response.getWriter().write(xml);
+}
+</code></pre><p>也就是将保存信息的 <code>Map</code> 集合直接转换为 <code>xml</code> 格式的数据，然后响应给前端页面了，下面主要看前端页面了。页面中需要的元素还是两个下拉选择框：</p>
+<pre><code>&lt;body&gt;
+    &lt;select id=&quot;province&quot;&gt;
+        &lt;option&gt;--请选择省份--&lt;/option&gt;
+    &lt;/select&gt;省
+
+    &lt;select id=&quot;city&quot;&gt;
+        &lt;option&gt;--请选择城市--&lt;/option&gt;
+    &lt;/select&gt;市
+&lt;/body&gt;
+</code></pre><p>在前端如何发送 <code>Ajax</code> 请求，这我们已经非常熟悉了，在这里的话最主要的就是如何解析 <code>xml</code> 文件的数据了，先看完整的代码，然后再进行详细说明。</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function() {
+        var url = &quot;/jqueryAjax/cityServlet&quot;
+        $.post(url,{&quot;method&quot;:&quot;xml&quot;},function(data){
+            console.log(data);
+            var xml = $(data);
+            var names = xml.find(&quot;省份 name&quot;);
+            names.each(function(){
+                var province = $(this).text();
+                var proObj = $(&quot;&lt;option&gt;&quot;+province+&quot;&lt;/option&gt;&quot;)
+                $(&quot;#province&quot;).append(proObj);
+            });
+
+            $(&quot;#province&quot;).bind(&quot;change&quot;,function(){
+                $(&quot;#city&quot;).html(&quot;&lt;option&gt;--请选择城市--&lt;/option&gt;&quot;);
+                var province = $(this).val();
+                var provinceNode = xml.find(&quot;name:contains(&quot;+province+&quot;)&quot;).parent();
+                var list = provinceNode.next();
+                var citys = list.find(&quot;name&quot;);
+                citys.each(function(){
+                    var city = $(this).text();
+                    var cityObj = $(&quot;&lt;option&gt;&quot;+city+&quot;&lt;/option&gt;&quot;)
+                    $(&quot;#city&quot;).append(cityObj);
+                });
+            });
+        },&quot;xml&quot;);
+    });
+&lt;/script&gt;
+</code></pre><p>首先在页面加载完成之后，就会向后台发送请求获得省份以及城市信息，关键就在于我们如何在响应的文本中查找省份信息和城市信息，然后再将它们展示在页面中，首先看如何获取省份信息，想要获取省份的名称，那就应该是查找 <code>xml</code> 文件中所有省份节点下面的 <code>name</code> 节点，然后再遍历所有的省份名称，将它们都放到省份下拉选择框中，也就是：</p>
+<pre><code>var names = xml.find(&quot;省份 name&quot;);
+names.each(function(){
+    var province = $(this).text();
+    var proObj = $(&quot;&lt;option&gt;&quot;+province+&quot;&lt;/option&gt;&quot;)
+    $(&quot;#province&quot;).append(proObj);
+});
+</code></pre><p>接着便是根据省份名称查找对应的城市名称了，我们可以根据省份名称找到对应的 <code>name</code> 节点，然后找到 <code>name</code> 节点的父节点 <code>(省份节点)</code>，然后再找紧接着的兄弟节点，也就是包含城市信息的集合节点了，最后找出该集合节点中所有的 <code>name</code> 节点，也就找到了所有的城市信息。</p>
+<pre><code>var province = $(this).val();
+var provinceNode = xml.find(&quot;name:contains(&quot;+province+&quot;)&quot;).parent();
+var list = provinceNode.next();
+var citys = list.find(&quot;name&quot;);
+citys.each(function(){
+    var city = $(this).text();
+    var cityObj = $(&quot;&lt;option&gt;&quot;+city+&quot;&lt;/option&gt;&quot;)
+    $(&quot;#city&quot;).append(cityObj);
+});
+</code></pre><p>其实在上面的案例中，最重要的部分还是在前端解析服务器端响应回来的 <code>xml</code> 数据，从 <code>xml</code> 文件中找到我们想要的信息进行展示就好了。</p>
+<h3 id="10-总结"><a href="#10-总结" class="headerlink" title="10.总结"></a>10.总结</h3><p>这篇博客主要介绍的便是如何发送 <code>Ajax</code> 请求了，最开始介绍的是用 <code>XMLHttpRequest</code> 对象来完成的方式，接着便介绍了使用 <code>jQuery</code> 发送 <code>Ajax</code> 请求的方式，同时还介绍了 <code>json</code> 数据格式，我们在前端发送 <code>Ajax</code> 请求之后可以接受并处理 <code>json</code> 格式的数据，最后也介绍了以 <code>xml</code> 作为响应数据的格式，其实只要多去实现，还是很简单的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jQuery/" rel="tag"># jQuery</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/08/jQuery的使用-一/" rel="next" title="jQuery的使用(一)">
+                <i class="fa fa-chevron-left"></i> jQuery的使用(一)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Ajax介绍"><span class="nav-number">1.</span> <span class="nav-text">1.Ajax介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-XMLHttpRequest对象的使用"><span class="nav-number">2.</span> <span class="nav-text">2.XMLHttpRequest对象的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-XMLHttpRequest对象的属性和方法"><span class="nav-number">3.</span> <span class="nav-text">3.XMLHttpRequest对象的属性和方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-XMLHttpRequest对象常用属性"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 XMLHttpRequest对象常用属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-XMLHttpRequest对象常用方法"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 XMLHttpRequest对象常用方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-验证用户名是否可以使用"><span class="nav-number">4.</span> <span class="nav-text">4.验证用户名是否可以使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-使用XMLHttpRequest对象完成省市二级联动"><span class="nav-number">5.</span> <span class="nav-text">5.使用XMLHttpRequest对象完成省市二级联动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-jQuery中的Ajax开发"><span class="nav-number">6.</span> <span class="nav-text">6.jQuery中的Ajax开发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-jQuery中Ajax请求的种类"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 jQuery中Ajax请求的种类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-load-方式"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 load()方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-ajax-方式"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 $.ajax()方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-4-get-和-post-方式"><span class="nav-number">6.4.</span> <span class="nav-text">6.4 $.get()和$.post()方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-JSON数据"><span class="nav-number">7.</span> <span class="nav-text">7.JSON数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-fastjson的使用"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 fastjson的使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-使用fastjson中的一些问题"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 使用fastjson中的一些问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-1-指定属性别名和时间属性格式"><span class="nav-number">7.2.1.</span> <span class="nav-text">7.2.1 指定属性别名和时间属性格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-2-指定Java对象中的哪些属性生成在json中"><span class="nav-number">7.2.2.</span> <span class="nav-text">7.2.2 指定Java对象中的哪些属性生成在json中</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-3-Java对象转换成json字符串时的循环引用问题"><span class="nav-number">7.2.3.</span> <span class="nav-text">7.2.3 Java对象转换成json字符串时的循环引用问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-以json格式返回响应数据案例"><span class="nav-number">8.</span> <span class="nav-text">8.以json格式返回响应数据案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8-1-显示商品信息"><span class="nav-number">8.1.</span> <span class="nav-text">8.1 显示商品信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2-省市二级联动"><span class="nav-number">8.2.</span> <span class="nav-text">8.2 省市二级联动</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-XStream的使用"><span class="nav-number">9.</span> <span class="nav-text">9.XStream的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#9-1-设置别名"><span class="nav-number">9.1.</span> <span class="nav-text">9.1 设置别名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-2-忽略属性"><span class="nav-number">9.2.</span> <span class="nav-text">9.2 忽略属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-3-将Java类的属性设置为xml中节点的属性"><span class="nav-number">9.3.</span> <span class="nav-text">9.3 将Java类的属性设置为xml中节点的属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-4-XStream的注解使用"><span class="nav-number">9.4.</span> <span class="nav-text">9.4 XStream的注解使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#9-4-1-设置别名"><span class="nav-number">9.4.1.</span> <span class="nav-text">9.4.1 设置别名</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#9-4-2-忽略属性"><span class="nav-number">9.4.2.</span> <span class="nav-text">9.4.2 忽略属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#9-4-3-将Java类的属性设置为xml中节点的属性"><span class="nav-number">9.4.3.</span> <span class="nav-text">9.4.3 将Java类的属性设置为xml中节点的属性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-5-以xml格式响应数据案例"><span class="nav-number">9.5.</span> <span class="nav-text">9.5 以xml格式响应数据案例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-总结"><span class="nav-number">10.</span> <span class="nav-text">10.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2018/01/16/jQuery的使用-二/';
+
+      var disqus_title = "jQuery的使用(二)";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
