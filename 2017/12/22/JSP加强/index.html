@@ -1,0 +1,1233 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JSP," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章主要的内容是介绍更多的 JSP 内容，主要包括 JSP 的指令元素、JSP 的内置对象、EL 表达式以及 JSTL 标准标签库，能够熟练的掌握更多的工具就可以更熟练的开发，也能提高自己的开发效率，因此下面会介绍的知识和工具还是非常有用的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSP加强">
+<meta property="og:url" content="http://yoursite.com/2017/12/22/JSP加强/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="这篇文章主要的内容是介绍更多的 JSP 内容，主要包括 JSP 的指令元素、JSP 的内置对象、EL 表达式以及 JSTL 标准标签库，能够熟练的掌握更多的工具就可以更熟练的开发，也能提高自己的开发效率，因此下面会介绍的知识和工具还是非常有用的。">
+<meta property="og:updated_time" content="2018-09-24T14:10:59.268Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSP加强">
+<meta name="twitter:description" content="这篇文章主要的内容是介绍更多的 JSP 内容，主要包括 JSP 的指令元素、JSP 的内置对象、EL 表达式以及 JSTL 标准标签库，能够熟练的掌握更多的工具就可以更熟练的开发，也能提高自己的开发效率，因此下面会介绍的知识和工具还是非常有用的。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/22/JSP加强/"/>
+
+
+
+
+
+  <title> JSP加强 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/JSP加强/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JSP加强
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T22:16:46+08:00">
+                2017-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Java Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/22/JSP加强/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/12/22/JSP加强/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/12/22/JSP加强/" class="leancloud_visitors" data-flag-title="JSP加强">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章主要的内容是介绍更多的 <code>JSP</code> 内容，主要包括 <code>JSP</code> 的指令元素、<code>JSP</code> 的内置对象、<code>EL</code> 表达式以及 <code>JSTL</code> 标准标签库，能够熟练的掌握更多的工具就可以更熟练的开发，也能提高自己的开发效率，因此下面会介绍的知识和工具还是非常有用的。</p>
+<a id="more"></a>
+<h3 id="1-JSP模板"><a href="#1-JSP模板" class="headerlink" title="1.JSP模板"></a>1.JSP模板</h3><p>在我们使用 <code>Eclipse</code> 开发 <code>Web</code> 项目时，如果新建一个 <code>JSP</code> 文件，当我们打开新建的 <code>JSP</code> 文件时，会发现文件中所有关于字符编码的设置都是 <code>ISO8859-1</code> 的，但是现在来说，我们最常使用的字符编码是 <code>UTF-8</code> 的，那就需要我们修改 <code>JSP</code> 页面的字符编码了，但是如果等 <code>JSP</code> 文件新建之后再去修改编码的话，那就太麻烦了，因为文件一多起来之后，修改的地方就太多了，其实比较简单的方法就是修改新建 <code>JSP</code> 文件时使用模板里面的字符编码，只要将该编码修改为我们所需要的，那么后面再新建 <code>JSP</code> 文件就全部都是我们需要的了。</p>
+<p>修改 <code>JSP</code> 文件使用模板中的字符编码的方法为：首先点击 <code>Eclipse</code> 中的 <code>Window</code> 菜单，然后选择其中的 <code>Preferences</code> ，再选择 <code>Web</code> ，就可以看到其中有一个选项为 <code>JSP Files</code> ，然后对于右侧的 <code>Encoding</code> 选择自己想要使用的字符编码，当然我们这里就直接选择 <code>UTF-8</code> 了。</p>
+<h3 id="2-JSP中的注释"><a href="#2-JSP中的注释" class="headerlink" title="2.JSP中的注释"></a>2.JSP中的注释</h3><p><code>JSP</code> 文件简单看做是由 <code>HTML</code> 和 <code>Java</code> 代码组成的，因此在 <code>JSP</code> 中是可以使用 <code>HTML</code> 注释和 <code>Java</code> 的注释的，当然 <code>JSP</code> 也有自己的注释，因此这三者都是可以使用的。</p>
+<p>首先看 <code>HTML</code> 的注释，格式为：</p>
+<pre><code>&lt;!-- HTML注释 --&gt;
+</code></pre><p>那 <code>HTML</code> 注释在 <code>JSP</code> 的整个生命周期存在的情况是怎样的呢？答案就是 <code>HTML</code> 的注释在 <code>JSP</code> 被翻译为 <code>Servlet</code> 文件还会存在，而且在生成 <code>HTML</code> 文件响应到浏览器之后也会存在，这个我们在浏览器中查看页面源代码就可以知道了。</p>
+<p>再看 <code>Java</code> 的注释，当然 <code>Java</code> 的注释我们就很熟悉了，主要分为三种：单行注释、多行注释和文档注释，具体看下面：</p>
+<pre><code>&lt;%
+    // 单行注释
+    /*  */ 多行注释
+    /**
+    *    文档注释
+    */
+%&gt;
+</code></pre><p>那 <code>Java</code> 的注释在 <code>JSP</code> 的生存周期中存在的情况是怎样的呢？在 <code>JSP</code> 文件翻译为 <code>Servlet</code> 之后 <code>Java</code> 的注释是依然存在的，不过在生成 <code>HTML</code> 文件响应给浏览器之后就不会存在了。</p>
+<p>最后就是 <code>JSP</code> 自身的注释了，格式为：</p>
+<pre><code>&lt;%-- JSP注释 --%&gt;
+</code></pre><p><code>JSP</code> 的注释在其生命周期存在的情况就是只存在于 <code>JSP</code> 的源码当中，当 <code>JSP</code> 翻译为 <code>Servlet</code> 之后就不会存在了。</p>
+<h3 id="3-JSP的指令元素"><a href="#3-JSP的指令元素" class="headerlink" title="3.JSP的指令元素"></a>3.JSP的指令元素</h3><p><code>JSP</code> 的指令元素相当于是一些特殊的命令，指示 <code>JSP</code> 页面执行特定的行为，指令元素的语法如下所示：</p>
+<pre><code>&lt;%@ 指令名称 属性名称=属性值 属性名称=属性值 %&gt;
+</code></pre><p><code>JSP</code> 一共有 <code>3</code> 种指令元素，名称以及对应的作用如下：</p>
+<pre><code>page指令：指定JSP页面的属性和行为
+include指令：指定JSP包含哪些页面
+taglib指令：指定JSP页面使用的标准标签库
+</code></pre><h4 id="3-1-page指令"><a href="#3-1-page指令" class="headerlink" title="3.1 page指令"></a>3.1 page指令</h4><p><code>page</code> 指令主要是用于设置页面中的属性的属性值，其基本的语法为：</p>
+<pre><code>&lt;%@ page 属性名=属性值 %&gt;
+</code></pre><p><code>page</code> 指令有很多属性可以设置，在一个页面中可以只设置一个属性，也可以设置多个属性，不过一般属性都只能出现一次，即被设置一次，但是 <code>import</code> 属性是可以被使用多次的。</p>
+<p>下面是 <code>page</code> 指令的属性名称以及相对应的含义：</p>
+<pre><code>language：指定JSP中所使用的脚本语言，现在只能为Java
+extends：指定JSP翻译为Servlet时要继承的类，默认值为HttpJspBase
+session：指定JSP中是否可以直接使用session对象，默认值为true
+buffer：指定JSP对客户端的缓冲区大小，默认值为8kb
+autoFlush：指定达到缓冲区大小，是否自动刷新，默认值为true
+import：用于导入Java类或包
+contentType：指定JSP被浏览器解析和打开时所使用的字符集编码
+pageEncoding：指定JSP以及被翻译成的Servlet文件保存到硬盘中采取的字符集编码
+isErrorPage：指定是否为页面发生异常时所跳转到的页面
+errorPage：指定页面发生异常时所要跳转到的页面
+isELIgnored：指定JSP页面是否忽略EL表达式
+</code></pre><p>其实看上面列出的内容就知道 <code>page</code> 指令的属性是非常多的，全部记在脑袋里面的话，也没有那个必要，因为内容相对来说还是太多了，而且写博客的目的也是为了整理知识，所以只需要记得到哪里可以查找到就可以了。</p>
+<h4 id="3-2-include指令"><a href="#3-2-include指令" class="headerlink" title="3.2 include指令"></a>3.2 include指令</h4><p><code>include</code> 主要是用来进行页面的包含，因为有的网站页面中有的部分相对于来说比较固定，比如说网站 <code>logo</code>、网站菜单栏以及网页的尾部，如果每个页面都去写一遍的话，重复代码就会很多，经常会变得难以维护，所以可以将一些比较固定的部分抽取出来，然后需要使用的页面直接进行包含就好了，这样就可以减少代码的重复。</p>
+<p><code>include</code> 指令的语法为：</p>
+<pre><code>&lt;%@ include 属性名=属性值 %&gt;
+</code></pre><p><code>include</code> 指令中的属性相对来说较少，只有一个 <code>file</code> 属性，其属性值的取值就是要包含页面所在的路径了。</p>
+<p>这种 <code>include</code> 指令的包含，我们一般称之为<code>静态包含</code>，需要重点说明的就是静态包含的原理，其实静态包含的过程也是很简单的，就是比如主页 <code>index.jsp</code> 需要包含其它页面，那这时 <code>index.jsp</code> 就会先将别的需要包含的部分一起合起来成为一个大的 <code>JSP</code> 文件，然后再翻译为一个 <code>Servlet</code> 文件，最后生成 <code>HTML</code> 响应给用户浏览器，这就是静态包含的整个过程。</p>
+<p>因为静态包含是先将 <code>JSP</code> 文件合在一起再翻译为 <code>Servlet</code> 文件的，因此是可以去掉被包含文件中的页面结构的，而且在被包含页面中声明变量，也是可以直接在包含页面中使用的。</p>
+<h4 id="3-3-taglib指令"><a href="#3-3-taglib指令" class="headerlink" title="3.3 taglib指令"></a>3.3 taglib指令</h4><p><code>taglib</code> 主要是用来在页面中引入标准标签库，像我们后面将会介绍的 <code>JSTL</code>，在使用之前就需要在页面之中先进行引用。<code>taglib</code> 指令的语法为：</p>
+<pre><code>&lt;%@ taglib 属性名=属性值 %&gt;
+</code></pre><p><code>taglib</code> 指令起来也是很简单的，因为就只有 <code>uri</code> 和 <code>prefix</code> 这两个属性，下面分别说一下这两个属性所对应的含义。</p>
+<pre><code>uri：所引入标签库的路径
+prefix：所引入标签库在使用时的别名
+</code></pre><h3 id="4-JSP的内置对象"><a href="#4-JSP的内置对象" class="headerlink" title="4.JSP的内置对象"></a>4.JSP的内置对象</h3><p>为了简化开发，<code>JSP</code> 提供了很多的内置对象供我们使用，都是可以在页面中直接使用的，这样就可以大大的提升开发效率，<code>JSP</code> 中一共有 <code>9</code> 个内置对象，它们各自的作用如下：</p>
+<pre><code>request：从客户端向服务器端发送的请求对象
+response：从服务器端向客户端响应的响应对象
+session：服务器端为客户端创建的会话对象
+application：代表的是整个应用，也就是ServletContext对象
+out：向输出流写入内容的对象
+page：JSP翻译为Servlet之后的对象引用
+pageContext：JSP页面的上下文对象
+config：该JSP的配置对象，对应于ServletConfig
+exception：表示JSP运行时产生的异常对象
+</code></pre><p>上面是说的 <code>JSP</code> 内置对象所代表的含义，那它们各自对应的 <code>Java</code> 对象又是什么呢？</p>
+<pre><code>request：HttpServletRequest
+response：HttpServletResponse
+session：HttpSession
+application：ServletContext
+out：JspWriter
+page：Object
+pageContext：PageContext
+config：ServletConfig
+exception：Throwable
+</code></pre><p>那是如何知道这些 <code>JSP</code> 内置对象所对应的 <code>Java</code> 类是什么的呢？其实在 <code>JSP</code> 翻译为 <code>Servlet</code> 的响应方法之中就可以看到了，因为是 <code>JSP</code> 已经内置好的，因此不管多么简单的 <code>JSP</code> 文件翻译之后都可以看到。</p>
+<h4 id="4-1-pageContext对象"><a href="#4-1-pageContext对象" class="headerlink" title="4.1 pageContext对象"></a>4.1 pageContext对象</h4><p>在 <code>JSP</code> 这 <code>9</code> 个内置对象当中，有一个需要十分注意的，那就是 <code>pageContext</code> 对象了，因为通过这个对象我们是可以拿到其它的 <code>8</code> 个内置对象的，因此只要记住了这个对象，其它的对象也就很自然的引出来了，下面就先看 <code>pageContext</code> 对象的 <code>api</code> 方法吧。</p>
+<p>首先 <code>pageContext</code> 是可以作为域对象来存取数据的，这是因为在它的父类 <code>javax.servlet.jsp.JspContext</code> 中是有下面两个方法的。</p>
+<pre><code>abstract public void setAttribute(String name, Object value)
+abstract public Object getAttribute(String name)
+</code></pre><p>上面这两个方法就是 <code>pageContext</code> 父类所定义的存取数据的抽象方法，而 <code>javax.servlet.jsp.PageContext</code> 作为子类当然也就可以覆盖使用了，而且父类中还有</p>
+<pre><code>abstract public void removeAttribute(String name, int scope)
+abstract public Object findAttribute(String name)
+</code></pre><p>这两个方法，其中 <code>removeAttribute()</code> 方法当然就是从域对象中移除相关数据了，而 <code>findAttribute()</code> 则是在域对象中查找相关数据。</p>
+<p>下面还需要介绍的 <code>api</code> 方法就是使用 <code>pageContext</code> 对象获取其它 <code>8</code> 个内置对象的方法了。先看 <code>javax.servlet.jsp.PageContext</code> 类中的：</p>
+<pre><code>abstract public ServletRequest getRequest()
+abstract public ServletResponse getResponse()
+abstract public HttpSession getSession()
+abstract public ServletContext getServletContext()
+abstract public Object getPage()
+abstract public ServletConfig getServletConfig()
+abstract public Exception getException()
+</code></pre><p>在它的父类 <code>javax.servlet.jsp.JspContext</code> 中也有一个方法用来获取其它的内置对象，那就是</p>
+<pre><code>abstract public JspWriter getOut()
+</code></pre><p>这样的话，使用 <code>pageContext</code> 对象来获取其它 <code>8</code> 的内置对象的方法就介绍完了。</p>
+<h4 id="4-2-pageContext的四个作用范围"><a href="#4-2-pageContext的四个作用范围" class="headerlink" title="4.2 pageContext的四个作用范围"></a>4.2 pageContext的四个作用范围</h4><p>上面已经介绍了 <code>pageContext</code> 对象作为域对象存取数据的 <code>api</code> 方法，那就是 <code>setAttribute()</code> 和 <code>getAttribute()</code> 方法了，其实使用这两个方法就是相当于对当前页面范围进行数据的存取，作用范围也就是当前 <code>JSP</code> 页面了。</p>
+<p>而在前面学习过的知识中，我们已经知道，其实除了这里的当前页面范围之外，还有就是请求范围、会话范围以及整个应用范围，那已经学了 <code>9</code> 个内置对象了，如果使用内置对象来对上面的四个作用范围存值呢？其实也是很简单的。</p>
+<pre><code>// 页面范围
+pageContext.setAttribute(&quot;name&quot;, &quot;one1&quot;);
+// 请求范围
+request.setAttribute(&quot;name&quot;, &quot;one2&quot;);
+// 会话范围
+session.setAttribute(&quot;name&quot;, &quot;one3&quot;);
+// 应用范围
+application.setAttribute(&quot;name&quot;, &quot;one4&quot;);
+</code></pre><p>这样的话就可以对上面的四个范围存值了，其实响应的取数据的方法也是十分简单的，那就是：</p>
+<pre><code>pageContext.getAttribute(&quot;name&quot;)
+request.getAttribute(&quot;name&quot;)
+session.getAttribute(&quot;name&quot;)
+application.getAttribute(&quot;name&quot;)
+</code></pre><p>这样也就能实现在四个范围内取数据了，这里需要注意的一点就是，其实使用 <code>pageContext</code> 对象也可以实现上面对四个作用范围的存取值，因为 <code>pageContext</code> 对象的 <code>setAttribute()</code> 方法和 <code>getAttribute()</code> 方法其实都是有重载方法的，在它的父类 <code>JspContext</code> 中就可以看到了，如下：</p>
+<pre><code>abstract public Object getAttribute(String name)
+abstract public Object getAttribute(String name, int scope)
+</code></pre><p>第二个方法中的第二个参数 <code>scope</code> 就是代表的不同作用范围，而在 <code>PageContext</code> 类中就定义了这几个作用范围，分别是：</p>
+<pre><code>REQUEST_SCOPE：请求作用域
+SESSION_SCOPE：会话作用域
+APPLICATION_SCOPE：应用作用域
+</code></pre><p>因此想往四个作用域中存值的话，也是可以这样写的：</p>
+<pre><code>// 页面范围
+pageContext.setAttribute(&quot;name&quot;, &quot;one1&quot;);
+// 请求范围
+pageContext.setAttribute(&quot;name&quot;, &quot;one2&quot;, PageContext.REQUEST_SCOPE);
+// 会话范围
+pageContext.setAttribute(&quot;name&quot;, &quot;one3&quot;, PageContext.SESSION_SCOPE);
+// 应用范围
+pageContext.setAttribute(&quot;name&quot;, &quot;one4&quot;, PageContext.APPLICATION_SCOPE);
+</code></pre><p>上面就是说明了使用 <code>pageContext</code> 对象也是可以向四个作用范围存值的，其实取值的操作也是一样的，因为 <code>getAttribute()</code> 方法其实也是有重载方法的。</p>
+<pre><code>abstract public Object getAttribute(String name)
+abstract public Object getAttribute(String name, int scope)
+</code></pre><p>因此取值的时候也是可以这样操作的：</p>
+<pre><code>pageContext.getAttribute(&quot;name&quot;)
+pageContext.getAttribute(&quot;name&quot;, PageContext.REQUEST_SCOPE)
+pageContext.getAttribute(&quot;name&quot;, PageContext.SESSION_SCOPE)
+pageContext.getAttribute(&quot;name&quot;, PageContext.APPLICATION_SCOPE)
+</code></pre><p>需要注意的一点就是使用内置对象取值和 <code>pageContext</code> 对象取值取不到数据的时候，比如</p>
+<pre><code>request.getAttribute(&quot;name&quot;)
+pageContext.getAttribute(&quot;name&quot;, PageContext.REQUEST_SCOPE)
+</code></pre><p>如果取不到数据的话，第一个表达式返回的会是 <code>null</code>，而第二个表达式返回的则是空字符串。这样就说完了使用 <code>pageContext</code> 对象往四个作用域存取数据的方法了，那四个作用域的范围大小是怎样的呢？其实四个作用范围从小到大的排序应该是：</p>
+<pre><code>当前页面范围--请求范围--会话范围--应用范围
+</code></pre><p>其实是可以进行测试的，先像上面那样在一个页面中为四个作用范围保存属性名相同的四个值，然后在当前页面取值，在使用请求转发之后在另一个页面再取值，在当前页面使用超链接跳转到另一个页面之后再取值，关闭浏览器之后再到另一个页面取值，这样就可以测试四个作用范围的大小了，这里也引出了另一个方法的使用，那就是：</p>
+<pre><code>abstract public Object findAttribute(String name)
+</code></pre><p>其实使用这个方法取值的话，它是会根据作用范围来取数据的，先到作用范围小的取值，取不到的话再到作用范围大的取值，如果一直取不到，就一直向上寻找，直到最后返回一个空字符串。</p>
+<h3 id="5-JSP的动作标签"><a href="#5-JSP的动作标签" class="headerlink" title="5.JSP的动作标签"></a>5.JSP的动作标签</h3><p><code>JSP</code> 的动作标签其实就是用来在页面中执行相关动作的，比如请求转发，或者包含其它文件，常用的动态标签有如下几个：</p>
+<pre><code>&lt;jsp:forward /&gt;：请求转发
+&lt;jsp:include /&gt;：包含标签(这里就是动态包含了)
+&lt;jsp:param /&gt;：传递参数
+</code></pre><p>先说 <code>&lt;jsp:forward /&gt;</code> 动作标签，一般使用的时候语法为：</p>
+<pre><code>&lt;jsp:forward page=&quot;/demo/demo2.jsp&quot;&gt;&lt;/jsp:forward&gt;
+</code></pre><p>则表示当有浏览器请求当前页面时，会自动请求转发到 <code>demo2.jsp</code> 页面上，这样的话我们就可以不使用 <code>Java</code> 代码而实现请求转发了，当然请求转发时也可能会需要携带参数，那就可以使用 <code>&lt;jsp:param /&gt;</code> 动作标签了，比如下面这样：</p>
+<pre><code>&lt;jsp:forward page=&quot;/demo/demo2.jsp&quot;&gt;
+    &lt;jsp:param value=&quot;Kobe&quot; name=&quot;name&quot;/&gt;
+&lt;/jsp:forward&gt;
+</code></pre><p>上面就是实现在请求转发时携带参数过去了，不过也可以直接将参数放在 <code>request</code> 对象当中，这样也是可以的，所以现在 <code>&lt;jsp:param /&gt;</code> 的使用还是比较少的。</p>
+<p>最后就是动态包含标签 <code>&lt;jsp:include /&gt;</code>，还是先说它运行的整个过程吧，现在假如有 <code>index.jsp</code> ,<code>menu.jsp</code>和 <code>foot.jsp</code> 三个页面，而 <code>index.jsp</code> 需要包含 <code>menu.jsp</code>和 <code>foot.jsp</code> 这两个页面，如果是使用动态包含的话，那整个过程应该是怎样的呢？其实就是三个 <code>JSP</code> 页面分别翻译为 <code>3</code> 个 <code>Servlet</code> ，然后再分别运行出结果，最后由 <code>index.jsp</code> 运行出来的结果包含其它两个 <code>JSP</code> 页面运行出来的结果，这就是动态包含的整个过程了。</p>
+<p>和之前我们说过的静态包含相比的话，就会很容易发现两者的不同，静态包含是先使用包含 <code>JSP</code> 将被包含 <code>JSP</code> 整合为一个大的 <code>JSP</code> 页面，然后再一起翻译为 <code>Servlet</code>，最后再运行；而动态包含则是分别进行翻译运行之后，由包含页面最后包含另外两个页面运行的结果，其实在它们各自编译为 <code>Servlet</code> 的目录就可以看到区别了，静态包含的 <code>Servlet</code> 目录只会看到一个 <code>Servlet</code> ，而动态包含的则会看到三个，这也是由于上面包含方式的不同导致的。</p>
+<h3 id="6-EL表达式"><a href="#6-EL表达式" class="headerlink" title="6.EL表达式"></a>6.EL表达式</h3><p><code>EL</code> 表达式其实就是 <code>Expression Language</code> 的缩写，其实使用 <code>EL</code> 的话主要是为了使 <code>JSP</code> 使用起来更加简单，使用 <code>EL</code> 和后面将要介绍的 <code>JSTL</code> 可以有效去除 <code>JSP</code> 页面中的 <code>Java</code> 代码，这样就使 <code>JSP</code> 的功能更加单一，也便于开发维护。</p>
+<h4 id="6-1-EL表达式的功能"><a href="#6-1-EL表达式的功能" class="headerlink" title="6.1 EL表达式的功能"></a>6.1 EL表达式的功能</h4><p><code>EL</code> 表达式的功能主要有以下这些：</p>
+<pre><code>可以用来获取数据
+可以用来执行运算
+可以用来获取Web开发中常用的对象
+可以用来调用Java方法
+</code></pre><p>最后一个功能用来调用 <code>Java</code> 方法的话，其实现在用的很少了，我们就不进行介绍了，<code>EL</code> 表达式的语法为：</p>
+<pre><code>${ EL表达式 }
+</code></pre><h4 id="6-2-EL表达式获取数据"><a href="#6-2-EL表达式获取数据" class="headerlink" title="6.2 EL表达式获取数据"></a>6.2 EL表达式获取数据</h4><p>使用 <code>EL</code> 表达式获取数据的时候，底层其实是调用的内置对象 <code>pageContext</code> 的 <code>findAttribute()</code> 方法，也就是说取数据时是依次在 <code>page</code>、<code>request</code>、<code>session</code>和 <code>application</code> 这四个作用范围来寻找数据的，先找到就先返回，如果都找不到，那就只能返回空字符串了。</p>
+<p>下面请看例子：</p>
+<pre><code>&lt;%
+    pageContext.setAttribute(&quot;name&quot;, &quot;James&quot;);
+    request.setAttribute(&quot;name&quot;, &quot;Jordan&quot;);
+    session.setAttribute(&quot;name&quot;, &quot;Nash&quot;);
+    application.setAttribute(&quot;name&quot;, &quot;Kobe&quot;);
+%&gt;
+
+&lt;%=pageContext.getAttribute(&quot;name&quot;) %&gt;-${ pageScope.name }&lt;br&gt;
+&lt;%=request.getAttribute(&quot;name&quot;) %&gt;-${ requestScope.name }&lt;br&gt;
+&lt;%=session.getAttribute(&quot;name&quot;) %&gt;-${ sessionScope.name }&lt;br&gt;
+&lt;%=application.getAttribute(&quot;name&quot;) %&gt;-${ applicationScope.name }&lt;br&gt;
+</code></pre><p>后面使用 <code>EL</code> 表达式取值时，里面的 <code>pageScope</code>、<code>requestScope</code>、<code>sessionScope</code> 以及 <code>applicationScope</code> ，这些都是 <code>EL</code> 中定义的常用对象，表示的就是在哪个作用域中取数据，其实上面使用 <code>EL</code> 表达式取数据时，还可以直接使用 <code>${ name }</code> 来取，然后依次注释掉上面的设值方法，这样就可以看出其实 <code>EL</code> 表达式取数据时其实还是使用的 <code>pageContext</code> 对象的 <code>findAttribute()</code> 方法了。</p>
+<p>当然也有可能后台返回的是一个数组，或者是集合这样的数据结构，那使用 <code>EL</code> 表达式也是可以取到数据的。先看取集合时候的情况：</p>
+<pre><code>&lt;%
+    String[] strs = {&quot;aaa&quot;,&quot;bbb&quot;,&quot;ccc&quot;};
+    pageContext.setAttribute(&quot;strs&quot;, strs);
+%&gt;
+
+${ strs[0] }
+${ strs[1] }
+${ strs[2] }
+</code></pre><p>其实使用 <code>EL</code> 表达式取数组中的值时，就像直接使用该数组就可以了，这也看出了 <code>EL</code> 表达式的好用之处。</p>
+<p>下面再看使用 <code>EL</code> 表达式获取 <code>List</code> 集合中的数据，其实也是非常简单的。</p>
+<pre><code>&lt;%
+    List&lt;String&gt; list = new ArrayList&lt;String&gt;();
+    list.add(&quot;aaa&quot;);
+    list.add(&quot;bbb&quot;);
+    list.add(&quot;ccc&quot;);
+    pageContext.setAttribute(&quot;list&quot;, list);
+%&gt;
+${ list[0] }
+${ list[1] }
+${ list[2] }
+</code></pre><p>获取 <code>List</code> 集合中数据的时候，也是和操作数组一样，使用元素的下标就可以获取对应数据结构中的数据了。下面再看获取 <code>Map</code> 集合中的数据，<code>Map</code> 中保存数据的格式是键值对的，使用 <code>EL</code> 表达式获取其中的数据时，是将键值对中的键当做 <code>Map</code> 集合的属性，而值则是当做 <code>Map</code> 集合的属性值，因为访问元素的属性时是使用点号 <code>.</code> 来访问的，那有一种特殊情况就是，当 <code>Map</code> 集合中的键也包含像点号 <code>.</code> 这样的特殊符号时，应该如何取值呢？其实还可以像数组那样取值，只是这里不是传入元素所在的下标了，而是直接传入键的名称了，看一下下面的代码就明了了。</p>
+<pre><code>&lt;%
+    Map&lt;String,String&gt; map = new HashMap&lt;String,String&gt;();
+    map.put(&quot;aaa&quot;, &quot;111&quot;);
+    map.put(&quot;bbb&quot;, &quot;222&quot;);
+    map.put(&quot;ccc.ddd&quot;, &quot;333&quot;);
+    pageContext.setAttribute(&quot;map&quot;, map, PageContext.SESSION_SCOPE);
+%&gt;
+${ map.aaa }
+${ map.bbb }
+${ map[&quot;ccc.ddd&quot;] }
+</code></pre><h4 id="6-3-EL表达式执行运算"><a href="#6-3-EL表达式执行运算" class="headerlink" title="6.3 EL表达式执行运算"></a>6.3 EL表达式执行运算</h4><p>我们可以使用 <code>EL</code> 表达式执行很多数学运算，比如算数运算、关系运算、逻辑运算、三元运算等等，这些都可以使用 <code>EL</code> 表达式轻松地搞定，其实只要看一下代码就知道是怎么回事了。</p>
+<p>算数运算：</p>
+<pre><code>&lt;%
+    pageContext.setAttribute(&quot;a1&quot;, &quot;10&quot;);
+    pageContext.setAttribute(&quot;a2&quot;, &quot;30&quot;);
+%&gt;
+${ a1+a2 }
+</code></pre><p>这里得到的结果是 <code>40</code> ,<code>EL</code> 表达式自动将字符串转换为整形数据然后再进行加法操作。</p>
+<p>关系运算：</p>
+<pre><code>&lt;%
+    pageContext.setAttribute(&quot;a1&quot;, &quot;10&quot;);
+    pageContext.setAttribute(&quot;a2&quot;, &quot;30&quot;);
+%&gt;
+${ a1 &lt; a2 }-${ a1 lt a2 }&lt;br&gt;
+${ a1 &gt; a2 }-${ a1 gt a2 }&lt;br&gt;
+${ a1 == a2 }-${ a1 eq a2 }&lt;br&gt;
+${ a1 &lt;= a2 }-${ a1 le a2 }&lt;br&gt;
+${ a1 &gt;= a2 }-${ a1 ge a2 }&lt;br&gt;
+${ a1 != a2 }-${ a1 ne a2 }
+</code></pre><p>逻辑运算：</p>
+<pre><code>&lt;%
+    pageContext.setAttribute(&quot;a1&quot;, &quot;10&quot;);
+    pageContext.setAttribute(&quot;a2&quot;, &quot;20&quot;);
+    pageContext.setAttribute(&quot;a3&quot;, &quot;30&quot;);
+    pageContext.setAttribute(&quot;a4&quot;, &quot;40&quot;);
+%&gt;
+${ (a1&lt;a2) &amp;&amp; (a2&lt;a4) }-${ (a1&lt;a2) and (a2&lt;a4) }
+&lt;br&gt; ${ (a1&lt;a2) || (a2&lt;a4) }-${ (a1&lt;a2) or (a2&lt;a4) }
+&lt;br&gt; ${ !(a1&lt;a2) }-${ not (a1&lt;a2) }
+</code></pre><p>三元运算：</p>
+<pre><code>&lt;%
+    pageContext.setAttribute(&quot;a1&quot;, &quot;10&quot;);
+    pageContext.setAttribute(&quot;a2&quot;, &quot;20&quot;);
+%&gt;
+${ a1 &lt; a2?&quot;a1小于a2&quot;:&quot;a1不小于a2&quot; }
+</code></pre><p><code>empty</code> 运算符：</p>
+<p>这个运算符主要是判断对象是否为 <code>null</code>,或者空字符串 <code>&quot;&quot;</code>，以及空集合，如果是这三者的话，那就会返回 <code>true</code> 了，否则就会返回 <code>false</code> 了。</p>
+<pre><code>&lt;%
+    pageContext.setAttribute(&quot;user&quot;, &quot;&quot;);
+    pageContext.setAttribute(&quot;member&quot;, &quot;Kobe&quot;);
+%&gt;
+${ empty user } ${ empty member }
+</code></pre><p>其实上面的代码最好还是要自己写一遍运行一下，看看结果，这样才能理解的深刻，因为当输入的时候，自己会使用各种情况的数据，根据不同的输出结果则可以把握原理了。</p>
+<h4 id="6-4-EL表达式获取Web常用开发对象"><a href="#6-4-EL表达式获取Web常用开发对象" class="headerlink" title="6.4 EL表达式获取Web常用开发对象"></a>6.4 EL表达式获取Web常用开发对象</h4><p><code>EL</code> 表达式提供了 <code>11</code> 个 <code>Web</code> 开发的常用对象，使用这些对象可以很轻松地获取 <code>Web</code> 开发中需要使用的对象，并且同时可以获得其中的数据，下面分别列举这 <code>11</code> 个对象以及它们对应的说明。</p>
+<pre><code>pageContext：相当于JSP内置对象中的pageContext
+pageScope：获取当前页面范围作用域的数据
+requestScope：获取请求范围作用域的数据
+sessionScope：获取会话范围作用域的数据
+applicationScope：获取应用范围作用域的数据
+param：在页面中接受请求参数(适用于一个名称对应一个值的参数)
+paramValues：在页面中接受请求参数(适用于一个名称对应多个值的参数)
+header：在页面中获取请求头(适用于一个key对应一个值的请求头)
+headerValues：在页面中获取请求头(适用于一个key对应多个值的请求头)
+cookie：获取cookie的名称和值
+initParam：获取全局初始化参数的值
+</code></pre><p>就拿最后的 <code>initParam</code> 来举例子吧，这个是获取全局化的参数配置的，因此需要在 <code>web.xml</code> 中配置一下如下内容：</p>
+<pre><code>&lt;context-param&gt;
+    &lt;param-name&gt;team&lt;/param-name&gt;
+      &lt;param-value&gt;Lakers&lt;/param-value&gt;
+&lt;/context-param&gt;
+</code></pre><p>然后当项目启动，就可以在页面中使用 <code>${ initParam.team }</code> 来获取数据了，当然获取到的值就是 <code>Lakers</code> 了。</p>
+<h3 id="7-JSTL标签"><a href="#7-JSTL标签" class="headerlink" title="7.JSTL标签"></a>7.JSTL标签</h3><p><code>JSTL</code> 其实就是 <code>JSP Standard Tag Library</code> 的缩写，意思当然也就是 <code>JSP</code> 标准标签库了，它的作用就是和 <code>EL</code> 表达式来替换 <code>JSP</code> 页面中的 <code>Java</code> 代码了，以便于提高代码的可读性和维护性。</p>
+<p><code>JSTL</code> 的版本一共有 <code>3</code> 个，分别为 <code>JSTL1.0</code>、<code>JSTL1.1</code> 以及 <code>JSTL1.2</code> 了，需要注意的是 <code>1.0</code> 版本是不支持 <code>EL</code> 表达式的，而后面的 <code>1.1</code> 和 <code>1.2</code> 版本是支持 <code>EL</code> 表达式的。</p>
+<p><code>JSTL</code> 标签库的标签一共分为以下几种：</p>
+<pre><code>c标签(core标签库)
+fmt标签(国际化标签库)
+xml标签
+sql标签
+jstl函数库(EL函数)
+</code></pre><p>我们使用的最多的还是 <code>c</code> 标签库了，也就是核心标签库了，这里提供了很多标签能使我们的开发变得更简单，下面具体介绍。</p>
+<h4 id="7-1-JSTL标签库的使用"><a href="#7-1-JSTL标签库的使用" class="headerlink" title="7.1 JSTL标签库的使用"></a>7.1 JSTL标签库的使用</h4><p>要想使用 <code>JSTL</code> 进行开发的话，首先需要引入两个 <code>jar</code> 包，那就是：</p>
+<pre><code>jstl.jar
+standard.jar
+</code></pre><p>添加 <code>jar</code> 包成功之后，那就可以在 <code>JSP</code> 页面中引用 <code>JSTL</code> 的标签库进行开发了，引入的方式就是使用之前已经介绍过的 <code>taglib</code> 指令了，如下所示：</p>
+<pre><code>&lt;%@ taglib uri=&quot;http://java.sun.com/jsp/jstl/core&quot; prefix=&quot;c&quot; %&gt;
+</code></pre><p>上面就是引入的 <code>JSTL</code> 标签库里面的核心库了，<code>uri</code> 的属性值代表的是核心标签库所在的目录，而 <code>prefix</code> 的属性值则是代表的在页面中使用核心标签时所需要使用的前缀，下面就是使用的例子：</p>
+<pre><code>&lt;c:set var=&quot;name&quot; value=&quot;Kobe&quot; scope=&quot;page&quot;&gt;&lt;/c:set&gt;
+</code></pre><p>代表的就是在当前页面范围内，存储一个名称为 <code>name</code> 的变量，其取值为 <code>Kobe</code>。</p>
+<h4 id="7-2-JSTL标签库中的if标签"><a href="#7-2-JSTL标签库中的if标签" class="headerlink" title="7.2 JSTL标签库中的if标签"></a>7.2 JSTL标签库中的if标签</h4><p><code>JSTL</code> 标签库中的 <code>if</code> 标签则是来解决条件判断的问题的，具体的格式为：</p>
+<pre><code>&lt;c:set var=&quot;i&quot; value=&quot;10&quot; scope=&quot;page&quot;&gt;&lt;/c:set&gt;
+&lt;c:if test=&quot;${ i &lt; 10 }&quot;&gt;
+    i小于10
+&lt;/c:if&gt;
+&lt;c:if test=&quot;${ i &gt;= 10 }&quot;&gt;
+    i大于等于10
+&lt;/c:if&gt;
+</code></pre><p>核心标签库中是只有 <code>if</code> 标签，而没有 <code>else</code> 标签的，因此在需要判断多个分支时，其实是需要把各个分支的条件都写清楚的，<code>if</code> 标签中的 <code>test</code> 属性则是判断条件的地方，很明显可以看到这里是可以使用 <code>EL</code> 表达式的，而且使用起来非常简洁，</p>
+<h4 id="7-3-JSTL中的foreach标签"><a href="#7-3-JSTL中的foreach标签" class="headerlink" title="7.3 JSTL中的foreach标签"></a>7.3 JSTL中的foreach标签</h4><p>使用 <code>foreach</code> 可以很方便地获取数组或集合中的数据，这里就直接看代码了。</p>
+<p>遍历数组：</p>
+<pre><code>&lt;%
+    String[] arr = { &quot;aa&quot;, &quot;bb&quot;, &quot;cc&quot; };
+    pageContext.setAttribute(&quot;arr&quot;, arr);
+%&gt;
+&lt;c:forEach var=&quot;ele&quot; items=&quot;${ arr }&quot;&gt;
+    ${ ele }
+&lt;/c:forEach&gt;
+</code></pre><p>遍历 <code>List</code> 集合：</p>
+<pre><code>&lt;%
+    List&lt;String&gt; list = new ArrayList&lt;String&gt;();
+    list.add(&quot;11&quot;);
+    list.add(&quot;22&quot;);
+    list.add(&quot;33&quot;);
+    pageContext.setAttribute(&quot;list&quot;, list);
+%&gt;
+&lt;c:forEach var=&quot;ele&quot; items=&quot;${ list }&quot;&gt;
+    ${ ele }
+&lt;/c:forEach&gt;
+</code></pre><p>遍历 <code>Map</code> 集合：</p>
+<pre><code>&lt;%
+    Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();
+    map.put(&quot;aaa&quot;, &quot;111&quot;);
+    map.put(&quot;bbb&quot;, &quot;222&quot;);
+    map.put(&quot;ccc&quot;, &quot;333&quot;);
+    pageContext.setAttribute(&quot;map&quot;, map);
+%&gt;
+&lt;c:forEach var=&quot;entry&quot; items=&quot;${ map }&quot;&gt;
+    ${ entry.key }-${ entry.value }
+&lt;/c:forEach&gt;
+</code></pre><p>其实上面的知识还是需要多敲代码，只有自己在敲的过程中才能真正理解很多细节，比如 <code>foreach</code> 都有哪些属性，每个属性的作用都是什么？再看下面一个例子：</p>
+<pre><code>&lt;c:forEach var=&quot;i&quot; begin=&quot;1&quot; end=&quot;10&quot; step=&quot;2&quot; varStatus=&quot;status&quot;&gt;
+    &lt;c:if test=&quot;${ status.count%3 == 0 }&quot;&gt;
+        &lt;font color=&quot;red&quot;&gt;${ i }&lt;/font&gt;
+    &lt;/c:if&gt;
+    &lt;c:if test=&quot;${ status.count%3 != 0 }&quot;&gt;
+        &lt;font color=&quot;green&quot;&gt;${ i }&lt;/font&gt;
+    &lt;/c:if&gt;
+&lt;/c:forEach&gt;
+</code></pre><p><code>varStatus</code> 这个属性就代表了遍历数据过程中的状态，而它的属性值又有很多的属性，比如 <code>count</code> 属性则是代表计数走到了哪一位，因此上面的这个例子就是以步长为 <code>2</code> 遍历 <code>1</code> 到 <code>10</code> 的过程中，每当遍历第 <code>3</code> 个数时，都将对应的数字显示为红色，而其它的数字则显示为绿色。</p>
+<h3 id="8-总结"><a href="#8-总结" class="headerlink" title="8.总结"></a>8.总结</h3><p>真的是不整理不知道，一整理的话发现知识点有这么多，其实这也是要整理的目的，就是方便以后需要用到相关知识点的话，可以快速回来查找，由于是自己已经整理过的知识，所以就能很快的找到对应的位置，以便迅速地解决问题，整理完成之后，还有一点蛮深刻的就是，还是应该多敲代码，因为只有在敲代码的过程中，才是真正的在使用，而且编程也是一项更加注重实践的技能，所以还是要多动手。 </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JSP/" rel="tag"># JSP</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/20/Cookie和Session/" rel="next" title="Cookie和Session">
+                <i class="fa fa-chevron-left"></i> Cookie和Session
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/24/Listener和Filter/" rel="prev" title="Listener和Filter">
+                Listener和Filter <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-JSP模板"><span class="nav-number">1.</span> <span class="nav-text">1.JSP模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-JSP中的注释"><span class="nav-number">2.</span> <span class="nav-text">2.JSP中的注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-JSP的指令元素"><span class="nav-number">3.</span> <span class="nav-text">3.JSP的指令元素</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-page指令"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 page指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-include指令"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 include指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-taglib指令"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 taglib指令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-JSP的内置对象"><span class="nav-number">4.</span> <span class="nav-text">4.JSP的内置对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-pageContext对象"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 pageContext对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-pageContext的四个作用范围"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 pageContext的四个作用范围</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-JSP的动作标签"><span class="nav-number">5.</span> <span class="nav-text">5.JSP的动作标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-EL表达式"><span class="nav-number">6.</span> <span class="nav-text">6.EL表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-EL表达式的功能"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 EL表达式的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-EL表达式获取数据"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 EL表达式获取数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-EL表达式执行运算"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 EL表达式执行运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-4-EL表达式获取Web常用开发对象"><span class="nav-number">6.4.</span> <span class="nav-text">6.4 EL表达式获取Web常用开发对象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-JSTL标签"><span class="nav-number">7.</span> <span class="nav-text">7.JSTL标签</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-JSTL标签库的使用"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 JSTL标签库的使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-JSTL标签库中的if标签"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 JSTL标签库中的if标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-JSTL中的foreach标签"><span class="nav-number">7.3.</span> <span class="nav-text">7.3 JSTL中的foreach标签</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-总结"><span class="nav-number">8.</span> <span class="nav-text">8.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/12/22/JSP加强/';
+
+      var disqus_title = "JSP加强";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

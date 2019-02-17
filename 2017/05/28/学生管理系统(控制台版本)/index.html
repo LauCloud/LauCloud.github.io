@@ -1,0 +1,1116 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这个系统提供的主要功能是查看所有学生信息、增加学生信息、删除学生信息和修改学生信息，所有学生的信息都是保存在一个ArrayList集合之中，然后操作这个集合来进行各项功能，完成了主要了功能之后，就可以进一步地去完善了，比如加一个登录验证，还有一些细节也需要注意，比如设置学号不能为空和不能重复。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学生管理系统(控制台版本)">
+<meta property="og:url" content="http://yoursite.com/2017/05/28/学生管理系统(控制台版本)/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="这个系统提供的主要功能是查看所有学生信息、增加学生信息、删除学生信息和修改学生信息，所有学生的信息都是保存在一个ArrayList集合之中，然后操作这个集合来进行各项功能，完成了主要了功能之后，就可以进一步地去完善了，比如加一个登录验证，还有一些细节也需要注意，比如设置学号不能为空和不能重复。">
+<meta property="og:updated_time" content="2017-05-28T09:20:09.464Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学生管理系统(控制台版本)">
+<meta name="twitter:description" content="这个系统提供的主要功能是查看所有学生信息、增加学生信息、删除学生信息和修改学生信息，所有学生的信息都是保存在一个ArrayList集合之中，然后操作这个集合来进行各项功能，完成了主要了功能之后，就可以进一步地去完善了，比如加一个登录验证，还有一些细节也需要注意，比如设置学号不能为空和不能重复。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/28/学生管理系统(控制台版本)/"/>
+
+
+
+
+
+  <title> 学生管理系统(控制台版本) | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/28/学生管理系统(控制台版本)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                学生管理系统(控制台版本)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-28T17:09:20+08:00">
+                2017-05-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/28/学生管理系统(控制台版本)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/28/学生管理系统(控制台版本)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/05/28/学生管理系统(控制台版本)/" class="leancloud_visitors" data-flag-title="学生管理系统(控制台版本)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这个系统提供的主要功能是查看所有学生信息、增加学生信息、删除学生信息和修改学生信息，所有学生的信息都是保存在一个ArrayList集合之中，然后操作这个集合来进行各项功能，完成了主要了功能之后，就可以进一步地去完善了，比如加一个登录验证，还有一些细节也需要注意，比如设置学号不能为空和不能重复。</p>
+<a id="more"></a>
+<h3 id="1-新建一个Student学生类"><a href="#1-新建一个Student学生类" class="headerlink" title="1.新建一个Student学生类"></a>1.新建一个Student学生类</h3><p>这个主要是对学生信息的管理，当然就少不了学生类了，主要的属性为学号(id)、姓名(name)、年龄(age)和居住地(address),定义类时当然也少不了构造器函数，以及对于属性的set()和get()方法,将完整的Student类的定义放在下面：</p>
+<pre><code>public class Student {
+    private String id;
+    private String name;
+    private String age;
+    private String address;
+
+    public Student() {
+        super();
+    }
+
+    public Student(String id, String name, String age, String address) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.address = address;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+}
+</code></pre><h3 id="2-主界面的展示"><a href="#2-主界面的展示" class="headerlink" title="2.主界面的展示"></a>2.主界面的展示</h3><p>因为是控制台版本的系统，所以展示也相对简陋，主要是将几个选项打印到控制台，然后有一个接受输入的光标，因为只有当用户确认想要退出的时候才会退出系统，因此需要将这个选择做成一个循环的，因为毕竟是要和用户有交互的，不能只有一次输入和输出，</p>
+<pre><code>while (true) {
+    System.out.println(&quot;-----欢迎进入学生管理系统-----&quot;);
+    System.out.println(&quot;1.显示所有学生信息&quot;);
+    System.out.println(&quot;2.增加学生信息&quot;);
+    System.out.println(&quot;3.删除学生信息&quot;);
+    System.out.println(&quot;4.修改学生信息&quot;);
+    System.out.println(&quot;5.退出&quot;);
+    System.out.print(&quot;请输入您的选择:&quot;);
+    Scanner sc = new Scanner(System.in);
+    String choice = sc.nextLine();
+    switch (choice) {
+    case &quot;1&quot;:
+        showAllStudent(arr);
+        break;
+    case &quot;2&quot;:
+        addStudent(arr);
+        break;
+    case &quot;3&quot;:
+        deleteStudent(arr);
+        break;
+    case &quot;4&quot;:
+        updateStudent(arr);
+        break;
+    case &quot;5&quot;:
+    default:
+        System.out.println(&quot;谢谢您的使用！&quot;);
+        System.exit(0);
+        break;
+    }
+}
+</code></pre><h3 id="3-查看所有学生信息"><a href="#3-查看所有学生信息" class="headerlink" title="3.查看所有学生信息"></a>3.查看所有学生信息</h3><p>上面的switch语句中也可以看到，每当用户输入一个指令，系统就会执行相应的功能，最开始的时候也说了，这个系统现在所有的学生信息都是放在ArrayList中，因此应该在最开始定义一个集合。</p>
+<pre><code>ArrayList&lt;Student&gt; arr = new ArrayList&lt;Student&gt;();
+</code></pre><p>这样所有的查看、增加、删除以及修改操作都会对这个集合产生作用，现在就说明一下查看集合中的所有学生信息，最重要的是做一个判断，有信息的话就循环遍历输出，没有的话就要给出提示，当然输出的时候也要注意格式，最好能用制表符分割(“\t”)一下。</p>
+<pre><code>    public static void showAllStudent(ArrayList&lt;Student&gt; arr) {
+    if (arr.size() == 0) {
+        System.out.println(&quot;抱歉！还没有录入学生信息，请重新选择操作！&quot;);
+        return;
+    }
+    System.out.println(&quot;学号\t姓名\t年龄\t居住地&quot;);
+    for (int i = 0; i &lt; arr.size(); i++) {
+        Student s = arr.get(i);
+        System.out.println(s.getId() + &quot;\t&quot; + s.getName() + &quot;\t&quot;
+                + s.getAge() + &quot;\t&quot; + s.getAddress());
+    }
+}
+</code></pre><h3 id="4-增加学生信息"><a href="#4-增加学生信息" class="headerlink" title="4.增加学生信息"></a>4.增加学生信息</h3><p>提示用户要输入相应的属性信息：学号、姓名、年龄和居住地，然后用用户输入的这些信息去新建一个学生对象，之后就是保存到集合当中。其中需要注意的两个点是：学号不能为空和不能重复，判断重复的话就需要先遍历一下集合中已有的学生对象，当然出现这两种情况的时候就要及时给出提示，并且让循环继续。</p>
+<pre><code>public static void addStudent(ArrayList&lt;Student&gt; arr) {
+    Scanner sc = new Scanner(System.in);
+    String id;
+    while (true) {
+        System.out.println(&quot;请输入学生学号:&quot;);
+        id = sc.nextLine();
+        if(id.isEmpty()){
+            System.out.println(&quot;学生学号不能为空！请重新输入！&quot;);
+        }else{
+        boolean flag = false;
+        for (int i = 0; i &lt; arr.size(); i++) {
+            Student s = arr.get(i);
+            if (s.getId().equals(id)) {
+                flag = true;
+                break;
+            }
+        }
+        if (flag) {
+            System.out.println(&quot;该学号&quot; + id + &quot;已存在对应的学生信息，请重新输入!&quot;);
+        } else {
+            break;
+        }
+        }
+    }
+
+    System.out.println(&quot;请输入学生姓名:&quot;);
+    String name = sc.nextLine();
+    System.out.println(&quot;请输入学生年龄:&quot;);
+    String age = sc.nextLine();
+    System.out.println(&quot;请输入学生居住地:&quot;);
+    String address = sc.nextLine();
+
+    Student s = new Student(id, name, age, address);
+    arr.add(s);
+    System.out.println(&quot;学生信息添加成功！&quot;);
+}
+</code></pre><h3 id="5-删除学生信息"><a href="#5-删除学生信息" class="headerlink" title="5.删除学生信息"></a>5.删除学生信息</h3><p>删除学生信息的话是根据用户输入的学号去删除，因此需要先判断一下集合中是否存在该学号对应的学生信息，不存在的话就要给出相应的提示，有的话就应该执行删除操作。</p>
+<pre><code>public static void deleteStudent(ArrayList&lt;Student&gt; arr) {
+    Scanner sc = new Scanner(System.in);
+    System.out.println(&quot;请输入要删除学生的学号:&quot;);
+    String id = sc.nextLine();
+    int index = -1;
+    for (int i = 0; i &lt; arr.size(); i++) {
+        Student s = arr.get(i);
+        if (s.getId().equals(id)) {
+            index = i;
+            break;
+        }
+    }
+    if (index == -1) {
+        System.out.println(&quot;该学号&quot; + id + &quot;对应的学生信息不存在，请选择其它操作！&quot;);
+    } else {
+        arr.remove(index);
+        System.out.println(&quot;删除学生信息成功!&quot;);
+    }
+}
+</code></pre><h3 id="6-修改学生信息"><a href="#6-修改学生信息" class="headerlink" title="6.修改学生信息"></a>6.修改学生信息</h3><p>修改学生信息也是根据用户输入的学号，如果该学号确实存在，那就要提示用户输入新的属性信息进行修改，不存在的话，就应该提示没有对应的用户信息。</p>
+<pre><code>public static void updateStudent(ArrayList&lt;Student&gt; arr) {
+    Scanner sc = new Scanner(System.in);
+    System.out.println(&quot;请输入要修改学生的学号:&quot;);
+    String id = sc.nextLine();
+    int index = -1;
+    for (int i = 0; i &lt; arr.size(); i++) {
+        Student s = arr.get(i);
+        if (s.getId().equals(id)) {
+            index = i;
+            break;
+        }
+    }
+    if (index == -1) {
+        System.out.println(&quot;该学号&quot; + id + &quot;对应的学生信息不存在，请重新选择操作！&quot;);
+    } else {
+        System.out.println(&quot;请输入新姓名:&quot;);
+        String name = sc.nextLine();
+        System.out.println(&quot;请输入新年龄:&quot;);
+        String age = sc.nextLine();
+        System.out.println(&quot;请输入新居住地:&quot;);
+        String address = sc.nextLine();
+
+        Student s = new Student(id, name, age, address);
+        arr.set(index, s);
+        System.out.println(&quot;修改学生信息成功！&quot;);
+    }
+}
+</code></pre><h3 id="7-增加登录检验功能"><a href="#7-增加登录检验功能" class="headerlink" title="7.增加登录检验功能"></a>7.增加登录检验功能</h3><p>上面的就是对四个主要功能的描述，完成了上面的功能之后，我还在系统的最前面添加了这个登录功能，用户有三次机会，没输错一次机会便会减1，当然，如果输入正确，就会进入到后面的管理功能，也直接把代码放到这里吧。</p>
+<pre><code>for (int i = 0; i &lt; 3; i++) {
+    System.out.println(&quot;---欢迎登陆学生管理系统---&quot;);
+    Scanner sc = new Scanner(System.in);
+    System.out.print(&quot;用户名:&quot;);
+    String user = sc.nextLine();
+    System.out.print(&quot;密码:&quot;);
+    String password = sc.nextLine();
+    if (!(user.isEmpty()) &amp;&amp; !(password.isEmpty())) {
+        if (user.equals(&quot;root&quot;) &amp;&amp; password.equals(&quot;123&quot;)) {
+            System.out.println(&quot;恭喜您！登陆成功!&quot;);
+            break;
+        } else {
+            if (2 - i == 0) {
+                System.out.println(&quot;用户名或密码错误！请重新输入！&quot;);
+                System.out.println(&quot;该账号已被锁定！请与管理员联系！&quot;);
+                System.exit(0);
+            } else {
+                System.out.println(&quot;用户名或密码错误！请重新输入！&quot;);
+                System.out.println(&quot;您还有&quot; + (2 - i) + &quot;次机会！&quot;);
+            }
+        }
+    } else {
+        if (2 - i == 0) {
+            System.out.println(&quot;用户名或密码不能为空！请重新输入！&quot;);
+            System.out.println(&quot;该账号已被锁定！请与管理员联系！&quot;);
+            System.exit(0);
+        } else {
+            System.out.println(&quot;用户名或密码不能为空！请重新输入！&quot;);
+            System.out.println(&quot;您还有&quot; + (2 - i) + &quot;次机会！&quot;);
+        }
+    }
+}
+</code></pre><h3 id="8-说明"><a href="#8-说明" class="headerlink" title="8.说明"></a>8.说明</h3><p>程序的代码已经上传到GitHub里面了，其实也就两个类，不过写完还是有点小成就感的，把链接放到这里吧。<a href="https://github.com/LauCloud/studentManager" target="_blank" rel="external">https://github.com/LauCloud/studentManager</a>  </p>
+<p>还有一点是，因为数据都放在ArrayList集合中，每次程序跑完之后数据都会被清空，下一次就是一次重新的开始，肯定不是很好的，所以想讲学生信息通过IO流写入到文本文件中，这样就可以一直保存下来，每次程序运行的时候读取一下保存数据的文本文件就可以了，尽快更新吧！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/25/Java中的字符串(String和StringBuilder)/" rel="next" title="Java中的字符串(String和StringBuilder)">
+                <i class="fa fa-chevron-left"></i> Java中的字符串(String和StringBuilder)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/30/Java中IO流读写文本文件/" rel="prev" title="Java中IO流读写文本文件">
+                Java中IO流读写文本文件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-新建一个Student学生类"><span class="nav-number">1.</span> <span class="nav-text">1.新建一个Student学生类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-主界面的展示"><span class="nav-number">2.</span> <span class="nav-text">2.主界面的展示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-查看所有学生信息"><span class="nav-number">3.</span> <span class="nav-text">3.查看所有学生信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-增加学生信息"><span class="nav-number">4.</span> <span class="nav-text">4.增加学生信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-删除学生信息"><span class="nav-number">5.</span> <span class="nav-text">5.删除学生信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-修改学生信息"><span class="nav-number">6.</span> <span class="nav-text">6.修改学生信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-增加登录检验功能"><span class="nav-number">7.</span> <span class="nav-text">7.增加登录检验功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-说明"><span class="nav-number">8.</span> <span class="nav-text">8.说明</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/05/28/学生管理系统(控制台版本)/';
+
+      var disqus_title = "学生管理系统(控制台版本)";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

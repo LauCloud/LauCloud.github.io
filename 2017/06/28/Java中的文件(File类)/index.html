@@ -1,0 +1,1210 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="File类," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章主要想介绍的就是File类，这个类既可以表示文件(文本、图片和视频)，也可以表示文件夹(文件路径)，因此使用起来也是非常方便。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中的文件(File类)">
+<meta property="og:url" content="http://yoursite.com/2017/06/28/Java中的文件(File类)/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="这篇文章主要想介绍的就是File类，这个类既可以表示文件(文本、图片和视频)，也可以表示文件夹(文件路径)，因此使用起来也是非常方便。">
+<meta property="og:updated_time" content="2017-06-28T08:09:51.461Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java中的文件(File类)">
+<meta name="twitter:description" content="这篇文章主要想介绍的就是File类，这个类既可以表示文件(文本、图片和视频)，也可以表示文件夹(文件路径)，因此使用起来也是非常方便。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/28/Java中的文件(File类)/"/>
+
+
+
+
+
+  <title> Java中的文件(File类) | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/28/Java中的文件(File类)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java中的文件(File类)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-28T16:08:06+08:00">
+                2017-06-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IO流/" itemprop="url" rel="index">
+                    <span itemprop="name">IO流</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/28/Java中的文件(File类)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/28/Java中的文件(File类)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/06/28/Java中的文件(File类)/" class="leancloud_visitors" data-flag-title="Java中的文件(File类)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章主要想介绍的就是File类，这个类既可以表示文件(文本、图片和视频)，也可以表示文件夹(文件路径)，因此使用起来也是非常方便。</p>
+<a id="more"></a>
+<pre><code>1.文件(文本、图片和视频)
+2.文件夹(文件路径)
+</code></pre><p>主要是想写一下它的常用方法吧，还有比如遍历文件夹、查看文件夹里面某种类型的文件等操作</p>
+<h3 id="1-构造方法"><a href="#1-构造方法" class="headerlink" title="1.构造方法"></a>1.构造方法</h3><pre><code>File(File parent,String child)
+File(String pathname)
+File(String parent,String child)
+</code></pre><p>构建文件对象的方法很多，直接传入文件所在的路径就可以得到文件对象，但是要注意，传入的路径参数应该是String类型的，所以传入 <code>&quot;C:\a.txt&quot;</code> 是不对的，因为 <code>\</code>是转义字符，要想表示这个字符，就必须使用 <code>\\</code> 这样，当然不用 <code>\</code> 这个斜杠也是可以的，将文件路径写成 <code>C:/a.txt</code> 也是可以的，这里就是使用的反斜杠 <code>/</code>，因此这两种方式都可以表示文件路径，但是使用反斜杠 <code>/</code> 这种方式并不推荐，具体完整的描述在下面说吧。</p>
+<h3 id="2-创建和删除方法"><a href="#2-创建和删除方法" class="headerlink" title="2.创建和删除方法"></a>2.创建和删除方法</h3><p>文件的创建</p>
+<pre><code>boolean createNewFile()
+</code></pre><p>文件夹的创建</p>
+<pre><code>boolean mkdir()     单层路径
+boolean mkdirs()    多层路径
+</code></pre><p>当使用上面的构造方法创建了对于文件或文件夹的对象之后，其实只是相当于对传入路径的文件或文件夹有了一个引用，而不代表它们一定存在，如果不存在的话就需要创建它们了，而创建它们则可以使用上面列出的几个方法，对于文件的创建就应该使用 <code>createNewFile()</code> 方法，而文件夹则应该使用 <code>mkdir()</code> 和 <code>mkdirs()</code> 了，关于文件夹创建的两个方法，区别主要就是在于要创建的文件夹是单层的还是多层的，单层就是使用 <code>mkdir()</code>，双层那就是使用 <code>mkdirs()</code> 了。</p>
+<p>删除方法都是一样的</p>
+<pre><code>boolean delete() 
+</code></pre><p>不过需要注意的是，删除文件夹的时候，它里面不能存在文件或者文件夹，也就是说在删除文件夹的时候，要首先删除掉它里面的文件和文件夹，当然如果它里面的文件夹同时也包含文件或文件夹的话，那就应该使用一个递归删除的方法，循环地去遍历，循环地删除。</p>
+<h3 id="3-判断方法"><a href="#3-判断方法" class="headerlink" title="3.判断方法"></a>3.判断方法</h3><p>File类提供了一些常用的判断方法</p>
+<pre><code>boolean exists()        判断文件或者文件夹是否存在 
+boolean isAbsolute()    判断当前的路径是否是绝对路径
+boolean isDirectory()   判断当前的文件是否是文件夹
+boolean isFile()        判断当前的文件是否是文件
+boolean isHidden()      判断当前的文件是否是隐藏文件
+</code></pre><p>其实看到名字就大致可以知道这些方法的用途了，确实是见名知意。</p>
+<p><code>exist()</code>是用来判断文件或者文件夹是否存在的，比如在读对文件进行读写操作之前，就需要先判断一下，这样也会比较严谨。</p>
+<p><code>isAbsolute()</code>方法则是用来判断调用该方法的路径是否为绝对路径，绝对路径一般就是从盘符出发的路径名，而与其相对应的便是相对路径，相对路径则是指一个文件相对于另一个文件所在的路径。</p>
+<p><code>isDirectory()</code>则是用来判断调用该方法的对象是否是一个目录(文件夹),它一般与<code>isFile()</code>这个方法结合使用，因为一般不是文件，那就是文件夹了，遍历一个目录的时候就需要进行这两者的区分了。</p>
+<p><code>isFile()</code>则是用来判断调用该方法的对象是否是一个文件，是文件便可以执行操作文件的方法，也是对于文件和文件夹的一个区分。</p>
+<p><code>isHidden()</code>则是用来判断这个文件是否是一个隐藏文件，测试这个方法可以先在文件的属性页面将文件设置为隐藏的，然后再调用这个方法查看结果。</p>
+<h3 id="4-获取方法"><a href="#4-获取方法" class="headerlink" title="4.获取方法"></a>4.获取方法</h3><p>常用的获取方法有如下一些</p>
+<pre><code>File getAbsoluteFile()  
+String getAbsolutePath() 
+String getName()  
+String getParent()  
+File getParentFile() 
+String getPath()  
+long lastModified() 
+long length()
+</code></pre><p>上面这些方法很多都可以两两分成一组，因为很多都是一个返回字符串，一个返回对象</p>
+<pre><code>File getAbsoluteFile()  
+String getAbsolutePath() 
+</code></pre><p>这两个就是一个典型的例子，当我只是想输出一个文件或文件夹的绝对路径时，那我只需要调用<code>getAbsolutePath()</code>方法就可以了，因为打印信息的时候只需要字符串就可以满足功能了，而如果我还想使用这个路径做其它的功能，那就应该使用<code>getAbsoluteFile()</code>了，这次返回便是一个对象，使用这个对象是可以再创建其它新的对象的，就和File类的构造方法是一样的，就可以传入一个表示路径的字符串，当然也可以是一个表示路径的File对象了。</p>
+<pre><code>String getParent()  
+File getParentFile()
+</code></pre><p>这两个方法和上面的有同样的区别，那就是一个返回字符串，而另一个则是返回的对象，其实它们都是返回的父目录，只是表示方式不一样罢了。</p>
+<pre><code>String getName()                   
+String getPath()
+</code></pre><p>这两个方法就不是像之前的那样的联系了，第一个方法<code>getName()</code>是得到文件的名称，文件名以及后缀名，第二个方法<code>getPath()</code>是得到文件的路径，至于是绝对路径还是相对路径，就要看当初构造这个对象时使用的什么，当时传入的参数是什么，现在这个方法返回的就会是什么。</p>
+<pre><code>long lastModified()
+long length()
+</code></pre><p>第一个方法<code>lastModified()</code>返回的是这个文件最后修改的毫秒数，因为是毫秒数，那就和Date类的对象有点像了，表示的是距离某个时间点到现在的毫秒数，因此是可以用这个返回的值去构建一个Date对象的；第二个方法<code>length()</code>是返回当前文件的大小，单位是字节,如果需要得到比如兆(M)这样更加通用的格式，是需要自己进行转换的。</p>
+<h3 id="5-修改方法"><a href="#5-修改方法" class="headerlink" title="5.修改方法"></a>5.修改方法</h3><pre><code>boolean renameTo(File dest)
+</code></pre><p>这个方法就是用来修改文件名称的，不过需要注意的是里面的参数不是String类型的，而是一个File类型的，因此要先使用想要修改的文件名构造一个File对象，然后再用想要改变名称的文件对象调用这个方法。</p>
+<h3 id="6-几个应用的小例子"><a href="#6-几个应用的小例子" class="headerlink" title="6.几个应用的小例子"></a>6.几个应用的小例子</h3><h4 id="6-1-打印某个目录下指定类型的文件-包含子目录"><a href="#6-1-打印某个目录下指定类型的文件-包含子目录" class="headerlink" title="6.1 打印某个目录下指定类型的文件(包含子目录)"></a>6.1 打印某个目录下指定类型的文件(包含子目录)</h4><pre><code>public static void main(String[] args) {
+    File file = new File(&quot;F:\\&quot;);
+    printJavaFile(file);
+}
+
+public static void printJavaFile(File file) {
+    if (file.isFile()) {
+        if (file.getName().endsWith(&quot;.pdf&quot;)
+                || file.getName().endsWith(&quot;.pdf&quot;)) {
+            System.out.println(file.getPath());
+        }
+    } else if (file.isDirectory()) {
+        File[] files = file.listFiles();
+        if (files != null) {
+            for (int i = 0; i &lt; files.length; i++) {
+                printJavaFile(files[i]);
+            }
+        }
+    }
+}
+</code></pre><p>这个程序是打印出F盘符中所有pdf类型的文件，上面写的方法可以将文件目录传进去，其实方法中的文件类型也可以不用写死，比如pdf、java，也是可以设定一个String类型的参数进行传递的。</p>
+<h4 id="6-2-删除指定文件夹-包含文件和子文件夹"><a href="#6-2-删除指定文件夹-包含文件和子文件夹" class="headerlink" title="6.2 删除指定文件夹(包含文件和子文件夹)"></a>6.2 删除指定文件夹(包含文件和子文件夹)</h4><pre><code>public static void main(String[] args) {
+    File f = new File(&quot;D:\\360Downloads&quot;);
+    removeFile(f);
+}
+
+public static void removeFile(File file) {
+    if (file.isFile()) {
+        file.delete();
+    } else if (file.isDirectory()) {
+        File[] files = file.listFiles();
+        // 消除空指针异常
+        if (files != null) {
+            for (int i = 0; i &lt; files.length; i++) {
+                File f = files[i];
+                removeFile(f);
+            }
+        }
+        file.delete();
+    }
+}
+</code></pre><p>删除文件，直接调用<code>delete()</code>方法就好了,但是删除文件夹却需要多注意一点，如果文件夹里面还存在文件或子文件夹是删除不了的，因此如果想要删除文件夹就需要使用迭代方法了，是文件那就直接删除，但是如果是子文件夹，那就必须再去循环遍历这个子文件夹，里面是文件那就直接删除，如果还有子文件夹，那就再去遍历，当然当那个文件夹对象里面不存在东西的时候，也就可以调用<code>delete()</code>方法了。</p>
+<h4 id="6-3-计算一个文件夹的大小"><a href="#6-3-计算一个文件夹的大小" class="headerlink" title="6.3 计算一个文件夹的大小"></a>6.3 计算一个文件夹的大小</h4><p>我们知道对于文件大小是有一个<code>length()</code>方法的，返回的是这个文件的字节数，但是文件夹对象是没有这样的方法的，那最直接的方法就是把文件夹里面所有文件的大小加起来，那就是整个文件夹的大小了，所以这里我就先遍历一次文件夹，将文件夹里面的文件对象全部装到一个集合之中，然后再循环遍历这个集合，依次计算文件的大小，以此来计算文件夹的大小，这样计算就分为两步了，第一步是将文件装入集合当中，第二步就是计算集合中文件的大小，当然也可以直接在遍历集合的时候将文件的大小加起来，但感觉还是没有这样分为两步之后来的直观和好理解。</p>
+<pre><code>public static void main(String[] args) {
+    List&lt;File&gt; array = new ArrayList&lt;File&gt;();
+    File file = new File(&quot;D:\\Blog&quot;);
+    calFileSize(file, array);
+    long size = 0;
+    for (int i = 0; i &lt; array.size(); i++) {
+        File f = array.get(i);
+        size += f.length();
+    }
+    System.out.println(size);
+    String big = MySizeTool.formatFileSize(size, true);
+    System.out.println(big);
+}
+
+public static void calFileSize(File file, List&lt;File&gt; array) {
+    if (file.isFile()) {
+        array.add(file);
+    } else if (file.isDirectory()) {
+        File[] files = file.listFiles();
+        if (files != null) {
+            for (int i = 0; i &lt; files.length; i++) {
+                File f = files[i];
+                calFileSize(f, array);
+            }
+        }
+    }
+}
+</code></pre><p>这里面最后得到所有文件的字节数之后，有一个将字节数转换单位的工具类，这里也直接放在下面了。</p>
+<pre><code>public class MySizeTool {
+    /**
+     * 通过字节数得到当前的格式化字符串数据
+     * @param size 字节数大小
+     * @param flag 是否保留2位小数. true表示保留,false表示不保留
+     * @return 格式化好的字符串数据,例如: 36MB 或者 36.30MB
+     */
+    public static String formatFileSize(long size, boolean flag) {
+        // 定义需要返回的字符串
+        String result = null;
+        // 定义字符串
+        String grade = null;
+        // 定义整数部分和小数部分
+        long zhengShu = 0;
+        double xiaoShu = 0;
+        // 将size赋值
+        long mSize = size;
+        // 查看使用什么级别的数据
+        int count = -1;
+        while (mSize &gt; 0) {
+            // 计算需要多少个1024
+            mSize /= 1024;
+            count++;
+        }
+        // 如果需要0-B 1-KB 2-MB 3-GB 4-TB 5-PB
+
+        switch (count) {
+
+        case 0:
+            result = size + &quot;B&quot;;
+            break;
+        case 1:
+            zhengShu = size &gt;&gt; 10;
+            xiaoShu = 1.0 * size / 1024 - zhengShu;
+            grade = &quot;KB&quot;;
+            break;
+        case 2:
+            zhengShu = size &gt;&gt; 20;
+            xiaoShu = 1.0 * size / 1024 / 1024 - zhengShu;
+            grade = &quot;MB&quot;;
+            break;
+        case 3:
+            zhengShu = size &gt;&gt; 30;
+            xiaoShu = 1.0 * size / 1024 / 1024 / 1024 - zhengShu;
+            grade = &quot;GB&quot;;
+            break;
+        case 4:
+            zhengShu = size &gt;&gt; 40;
+            xiaoShu = 1.0 * size / 1024 / 1024 / 1024 / 1024 - zhengShu;
+            grade = &quot;TB&quot;;
+            break;
+        case 5:
+            zhengShu = size &gt;&gt; 50;
+            xiaoShu = 1.0 * size / 1024 / 1024 / 1024 / 1024 / 1024 - zhengShu;
+            grade = &quot;PB&quot;;
+            break;
+        }
+        // 判断
+        if (count != 0) {
+            // 得到结果
+            result = calculate(flag, zhengShu, xiaoShu, grade);
+        }
+        // 返回数据
+        return result;
+    }
+
+    // 用于计算的操作
+    private static String calculate(boolean flag, long zhengShu,
+            double xiaoShu, String grade) {
+        String result;
+        String xs;
+        xs = xiaoShu + &quot;&quot;;
+        // 去掉前面两个字符 0
+        // 是否可以保留数据
+        if (flag == true) {
+            if (xs.length() &lt; 2) {
+                xs = &quot;.00&quot;;
+            } else {
+                xs = xs.substring(1, 4);
+            }
+            result = zhengShu + xs + grade;
+        } else {
+            result = zhengShu + grade;
+        }
+        return result;
+    }
+}
+</code></pre><h4 id="6-4-确定一个文件目录中文件类型以及各种类型文件的个数"><a href="#6-4-确定一个文件目录中文件类型以及各种类型文件的个数" class="headerlink" title="6.4 确定一个文件目录中文件类型以及各种类型文件的个数"></a>6.4 确定一个文件目录中文件类型以及各种类型文件的个数</h4><p>解决这个问题主要是分两步，首先是要确定这个路径下有哪些类型的文件，当然主要是看文件的后缀名了，第二步再是去确定各个类型文件的数量，就是在遍历的过程中碰到某一种类型的文件，先将这种类型文件的数量取出来，然后在加1之后，再保存回去，这样就相当于增加了这一类型文件的数量。</p>
+<pre><code>import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Scanner;
+import java.util.Set;
+
+public class Test3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print(&quot;请输入一个文件夹路径:&quot;);
+        String path = sc.nextLine();
+        File file = new File(path);
+
+        Map&lt;String, Integer&gt; map = new HashMap&lt;String, Integer&gt;();
+        getKey(file, map);
+        getNum(file, map);
+        Set&lt;Entry&lt;String, Integer&gt;&gt; entrys = map.entrySet();
+        for (Entry&lt;String, Integer&gt; entry : entrys) {
+            String key = entry.getKey();
+            int num = entry.getValue();
+            if (key == null) {
+                System.out.println(&quot;没有后缀名的文件有&quot; + num + &quot;个&quot;);
+            } else {
+                System.out.println(key + &quot;类型的文件有&quot; + num + &quot;个&quot;);
+            }
+        }
+    }
+
+    public static void getKey(File file, Map&lt;String, Integer&gt; map) {
+        if (file.isFile()) {
+            if (!(file.getName().contains(&quot;.&quot;))) {
+                map.put(null, 0);
+            } else if (file.getName().contains(&quot;.&quot;)) {
+                String[] names = file.getName().split(&quot;\\.&quot;);
+                String key = names[names.length - 1];
+                map.put(key, 0);
+            }
+        } else if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files != null) {
+                for (int i = 0; i &lt; files.length; i++) {
+                    File f = files[i];
+                    if (f.isFile()) {
+                        if (!(f.getName().contains(&quot;.&quot;))) {
+                            map.put(null, 0);
+                        } else if (f.getName().contains(&quot;.&quot;)) {
+                            String[] names = f.getName().split(&quot;\\.&quot;);
+                            String key = names[names.length - 1];
+                            map.put(key, 0);
+                        }
+                    } else if (f.isDirectory()) {
+                        getKey(f, map);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void getNum(File file, Map&lt;String, Integer&gt; map) {
+        if (file.isFile()) {
+            if (!(file.getName().contains(&quot;.&quot;))) {
+                int num = map.get(null);
+                map.put(null, num + 1);
+            } else if (file.getName().contains(&quot;.&quot;)) {
+                String[] names = file.getName().split(&quot;\\.&quot;);
+                String key = names[names.length - 1];
+                int num = map.get(key);
+                map.put(key, num + 1);
+            }
+        } else if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files != null) {
+                for (int i = 0; i &lt; files.length; i++) {
+                    File f = files[i];
+                    if (f.isFile()) {
+                        if (!(f.getName().contains(&quot;.&quot;))) {
+                            int num = map.get(null);
+                            map.put(null, num + 1);
+                        }
+                        if (f.getName().contains(&quot;.&quot;)) {
+                            String[] names = f.getName().split(&quot;\\.&quot;);
+                            String key = names[names.length - 1];
+                            int num = map.get(key);
+                            map.put(key, num + 1);
+                        }
+                    } else if (f.isDirectory()) {
+                        getNum(f, map);
+                    }
+                }
+            }
+        }
+    }
+}
+</code></pre><h3 id="7-文件分隔符"><a href="#7-文件分隔符" class="headerlink" title="7.文件分隔符"></a>7.文件分隔符</h3><p>这里主要是想说一下文件分隔符，之前在构造函数中，说传入的字符串路径 <code>C:\\a.txt</code> 和 <code>C:/a.txt</code> 都是可以的，但是不推荐使用 <code>C:/a.txt</code> ,这是为什么呢？先说明一下反斜杠 <code>/</code> ，为什么它可以用作文件分隔符呢，是因为大部分Windows文件处理的函数调用都会将反斜杠 <code>/</code> 解释成文件分隔符，但是Windows系统函数的行为可能因为更新而发生变化，所以对于强调可移植性的程序来说，应该使用程序所运行平台的文件分隔符。</p>
+<p>获取程序所运行平台的文件分隔符：</p>
+<pre><code>System.out.println(java.io.File.separator);
+</code></pre><p>那就应该运行一下上面这条语句。没错会输出一个 <code>\</code>，只不过 <code>\</code> 在Java中是转义字符，为了表示它，那就要使用 <code>\\</code>了。</p>
+<p>以上内容，我也是在《Java核心技术 卷II》中看到的，看来，读书还是可以得到很多细节的。</p>
+<h3 id="8-总结"><a href="#8-总结" class="headerlink" title="8.总结"></a>8.总结</h3><p>看来提供的几个简简单单的方法，结合起来之后，就还可以写出蛮不错的程序，继续多敲多阅读吧！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/File类/" rel="tag"># File类</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/17/Java中的异常/" rel="next" title="Java中的异常">
+                <i class="fa fa-chevron-left"></i> Java中的异常
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/30/Java中的字节流和几种特殊的IO流/" rel="prev" title="Java中的字节流和几种特殊的IO流">
+                Java中的字节流和几种特殊的IO流 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-构造方法"><span class="nav-number">1.</span> <span class="nav-text">1.构造方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-创建和删除方法"><span class="nav-number">2.</span> <span class="nav-text">2.创建和删除方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-判断方法"><span class="nav-number">3.</span> <span class="nav-text">3.判断方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-获取方法"><span class="nav-number">4.</span> <span class="nav-text">4.获取方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-修改方法"><span class="nav-number">5.</span> <span class="nav-text">5.修改方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-几个应用的小例子"><span class="nav-number">6.</span> <span class="nav-text">6.几个应用的小例子</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-打印某个目录下指定类型的文件-包含子目录"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 打印某个目录下指定类型的文件(包含子目录)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-删除指定文件夹-包含文件和子文件夹"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 删除指定文件夹(包含文件和子文件夹)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-计算一个文件夹的大小"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 计算一个文件夹的大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-4-确定一个文件目录中文件类型以及各种类型文件的个数"><span class="nav-number">6.4.</span> <span class="nav-text">6.4 确定一个文件目录中文件类型以及各种类型文件的个数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-文件分隔符"><span class="nav-number">7.</span> <span class="nav-text">7.文件分隔符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-总结"><span class="nav-number">8.</span> <span class="nav-text">8.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/06/28/Java中的文件(File类)/';
+
+      var disqus_title = "Java中的文件(File类)";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

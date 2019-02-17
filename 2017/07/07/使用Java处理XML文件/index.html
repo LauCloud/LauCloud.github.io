@@ -1,0 +1,1128 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="XML," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="XML 是一种可扩展标记语言，它和 HTML 的区别就在于： HTML 中的标记是固定的，然后每个标记都会代表某些特殊含义，而 XML 中的标记却不是固定的，可以自己定义元素，所以它就不会像 HTML 那样每个元素都会有一个通用的含义，而 XML 中的元素因为是每个使用者自己根据需求定义的，因此每种元素的含义当然是自己最清楚了，不过 XML 文档的元素都会取见名知意的，因此阅读性也会有保证。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Java处理XML文件">
+<meta property="og:url" content="http://yoursite.com/2017/07/07/使用Java处理XML文件/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="XML 是一种可扩展标记语言，它和 HTML 的区别就在于： HTML 中的标记是固定的，然后每个标记都会代表某些特殊含义，而 XML 中的标记却不是固定的，可以自己定义元素，所以它就不会像 HTML 那样每个元素都会有一个通用的含义，而 XML 中的元素因为是每个使用者自己根据需求定义的，因此每种元素的含义当然是自己最清楚了，不过 XML 文档的元素都会取见名知意的，因此阅读性也会有保证。">
+<meta property="og:updated_time" content="2017-07-07T14:20:15.938Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Java处理XML文件">
+<meta name="twitter:description" content="XML 是一种可扩展标记语言，它和 HTML 的区别就在于： HTML 中的标记是固定的，然后每个标记都会代表某些特殊含义，而 XML 中的标记却不是固定的，可以自己定义元素，所以它就不会像 HTML 那样每个元素都会有一个通用的含义，而 XML 中的元素因为是每个使用者自己根据需求定义的，因此每种元素的含义当然是自己最清楚了，不过 XML 文档的元素都会取见名知意的，因此阅读性也会有保证。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/07/使用Java处理XML文件/"/>
+
+
+
+
+
+  <title> 使用Java处理XML文件 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/07/使用Java处理XML文件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用Java处理XML文件
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-07T21:55:40+08:00">
+                2017-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/07/使用Java处理XML文件/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/07/07/使用Java处理XML文件/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/07/07/使用Java处理XML文件/" class="leancloud_visitors" data-flag-title="使用Java处理XML文件">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>XML</code> 是一种可扩展标记语言，它和 <code>HTML</code> 的区别就在于： <code>HTML</code> 中的标记是固定的，然后每个标记都会代表某些特殊含义，而 <code>XML</code> 中的标记却不是固定的，可以自己定义元素，所以它就不会像 <code>HTML</code> 那样每个元素都会有一个通用的含义，而 <code>XML</code> 中的元素因为是每个使用者自己根据需求定义的，因此每种元素的含义当然是自己最清楚了，不过 <code>XML</code> 文档的元素都会取见名知意的，因此阅读性也会有保证。</p>
+<a id="more"></a>
+<h3 id="1-导入jar包"><a href="#1-导入jar包" class="headerlink" title="1.导入jar包"></a>1.导入jar包</h3><p>我们解析 <code>XML</code> 文件是使用 <code>Dom4j</code> 来进行的，这是第三方开源组织提供的开发包，因此必须先导入   <code>jar</code> 包才能使用，首先在项目根目录下新建一个 <code>lib</code> 文件夹，然后将 <code>Dom4j</code> 的 <code>jar</code> 包拷贝到里面，我使用的是 <code>dom4j-1.6.1.jar</code> ，其实只要在网上搜索都可以在官网下载到的，将 <code>jar</code> 包拷贝到 <code>lib</code> 文件夹之后，然后在该文件夹中选中这个 <code>jar</code> 包，单击右键选择 <code>Build Path</code> , 然后再选择 <code>Add to Build Path</code> ,这样就成功了。</p>
+<h3 id="2-解析方式"><a href="#2-解析方式" class="headerlink" title="2.解析方式"></a>2.解析方式</h3><p>解析 <code>XML</code> 文件有两种方式，分别是： <code>DOM</code> 解析和 <code>SAX</code> 解析， <code>DOM</code> 解析在解析的时候是一次性加载所有 <code>XML</code> 标签元素，因此能够快速地查找和操作标签元素，但是因为是一次性加载，所以如果加载的文档过大的话，就有可能导致内存溢出；而 <code>SAX</code> 解析在解析的时候是一个节点一个节点进行解析，因此不管文档多大都可以都可以进行解析，但是就不能快速方便地操作所有的节点和属性了。</p>
+<pre><code>解析方式：
+    DOM解析：一次性加载，查找和操作速度快，但文件过大时内存有可能溢出
+    SAX解析：一个节点一个节点进行解析，速度不是很快
+</code></pre><h3 id="3-解析文件"><a href="#3-解析文件" class="headerlink" title="3.解析文件"></a>3.解析文件</h3><h4 id="3-1-读入文档和写出文档"><a href="#3-1-读入文档和写出文档" class="headerlink" title="3.1 读入文档和写出文档"></a>3.1 读入文档和写出文档</h4><p>想要对 <code>XML</code> 文件进行解析，必须先使用程序将文档读入到内存当中，这样才能对节点和节点属性进行增删改查操作，当操作完成之后，要保存操作，当然就要将文档对象写回到文件当中。</p>
+<p>读入文档：</p>
+<pre><code>public static Document getDocument() throws DocumentException{
+    SAXReader reader = new SAXReader();
+    Document document = reader.read(&quot;src/day14/hero.xml&quot;);
+    return document;
+}
+</code></pre><p>写出文档：</p>
+<pre><code>public static void write2Xml(Document document) throws IOException {
+    XMLWriter writer = new XMLWriter(new FileWriter(&quot;src/day14/hero.xml&quot;));
+    OutputFormat format = OutputFormat.createPrettyPrint();
+    //设置字符编码
+    format.setEncoding(&quot;UTF-8&quot;);
+    writer = new XMLWriter(new FileOutputStream(new File(&quot;src/day14/hero.xml&quot;)), format);
+    writer.write(document);
+}
+</code></pre><h4 id="3-2-操作元素的方法"><a href="#3-2-操作元素的方法" class="headerlink" title="3.2 操作元素的方法"></a>3.2 操作元素的方法</h4><p>获取文档对象中的根元素</p>
+<pre><code>Element getRootElement()
+
+Element rootElement = document.getRootElement();
+</code></pre><p>操作子元素的方法<br>获取元素：</p>
+<pre><code>List elements() ：返回调用该方法元素中所有子元素的集合
+List elements(String name)：根据指定的元素名称来获取调用该方法元素的所有的子元素
+Element element(String name)：根据指定名称来获取调用该方法元素的子元素对象，如果有多个子元素都是指定的名称，则返回第一个子元素
+</code></pre><p>删除元素：<br>删除元素是无法自己删除自己的，只能靠父元素来删除自己。</p>
+<pre><code>Element parentElement = theElement.getParent();
+parentElement.remove(theElement); 
+</code></pre><p>添加元素：</p>
+<pre><code>Element cityElement = rootElement.addElement(&quot;City&quot;);
+cityElement.setText(&quot;南阳&quot;);
+</code></pre><h4 id="3-3-操作元素文本的方法"><a href="#3-3-操作元素文本的方法" class="headerlink" title="3.3 操作元素文本的方法"></a>3.3 操作元素文本的方法</h4><pre><code>String  elementText(String name) ：根据指定的子元素名称，来获取子元素中的文本
+String  getText() ：获取当前元素对象的文本
+void setText(String text)：设置当前元素对象的文本
+</code></pre><h4 id="3-4-操作元素属性的方法"><a href="#3-4-操作元素属性的方法" class="headerlink" title="3.4 操作元素属性的方法"></a>3.4 操作元素属性的方法</h4><pre><code>String  attributeValue(String name)：根据指定的属性名称获取其对应的值
+public Element addAttribute(String name,String value)：根据指定的属性名称和值进行添加或者修改
+</code></pre><h3 id="4-自己写的小例子"><a href="#4-自己写的小例子" class="headerlink" title="4.自己写的小例子"></a>4.自己写的小例子</h3><p>因为程序的注释写的还算清晰，所以直接把代码放在下面了</p>
+<p>操作的 <code>XML</code> 文件(<code>hreo.xml</code>)：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;lol company=&quot;tencent&quot;&gt; 
+  &lt;hero&gt; 
+    &lt;name&gt;盖伦&lt;/name&gt;  
+    &lt;dps&gt;80&lt;/dps&gt; 
+  &lt;/hero&gt;  
+  &lt;hero&gt; 
+    &lt;name&gt;张飞&lt;/name&gt;  
+    &lt;height&gt;190&lt;/height&gt;  
+    &lt;age&gt;19&lt;/age&gt; 
+  &lt;/hero&gt;  
+  &lt;hero&gt; 
+    &lt;name&gt;嘉文&lt;/name&gt;  
+    &lt;dps&gt;85&lt;/dps&gt; 
+  &lt;/hero&gt; 
+&lt;/lol&gt;
+</code></pre><p><code>Dom4jUtils</code>类：</p>
+<pre><code>public class Dom4jUtils {
+
+    public Dom4jUtils() {
+
+    }
+
+    public static Document getDocument() throws DocumentException {
+        SAXReader saxReader = new SAXReader();
+        Document document = saxReader.read(new File(&quot;src/day14/practice/hero.xml&quot;));
+        return document;
+    }
+
+    public static void write2Xml(Document document) throws IOException {
+        XMLWriter writer = new XMLWriter(new FileWriter(&quot;src/day14/practice/hero.xml&quot;));
+        OutputFormat format = OutputFormat.createPrettyPrint();
+        format.setEncoding(&quot;UTF-8&quot;);
+        writer = new XMLWriter(new FileOutputStream(new File(&quot;src/day14/practice/hero.xml&quot;)), format);
+        writer.write(document);
+    }
+}
+</code></pre><p><code>Dom4jDemo</code>类：</p>
+<pre><code>public class Dom4jDemo {
+    public static void main(String[] args) throws DocumentException,
+            IOException {
+        getAttribute();
+    }
+
+    public static void getAttribute() throws DocumentException, IOException {
+        // 获取xml文件对象
+        Document document = Dom4jUtils.getDocument();
+        // 获取到根元素
+        Element rootElement = document.getRootElement();
+        // 获取根元素中的属性
+        String companyName = rootElement.attributeValue(&quot;company&quot;);
+        System.out.println(&quot;companyName:&quot; + companyName);
+        // 将文件对象重新写入到文件中
+        Dom4jUtils.write2Xml(document);
+    }
+
+    public static void addAttribute() throws DocumentException, IOException {
+        // 获取xml文件对象
+        Document document = Dom4jUtils.getDocument();
+        // 获取到根元素
+        Element rootElement = document.getRootElement();
+        // 为根元素添加属性
+        rootElement.addAttribute(&quot;company&quot;, &quot;tencent&quot;);
+        // 将文件对象重新写入到文件中
+        Dom4jUtils.write2Xml(document);
+    }
+
+    public static void addElementWithLocation() throws DocumentException,
+            IOException {
+        // 获取xml文件对象
+        Document document = Dom4jUtils.getDocument();
+        // 获取根元素
+        Element rootElement = document.getRootElement();
+        // 获取根元素里面的子元素集合
+        List&lt;Element&gt; elements = rootElement.elements();
+        // 获取子元素集合中第二个元素
+        Element secondElement = elements.get(1);
+        // 创建一个新元素
+        Element heightElement = DocumentHelper.createElement(&quot;height&quot;);
+        // 设置元素中的文本
+        heightElement.setText(&quot;190&quot;);
+
+        List&lt;Element&gt; elements2 = secondElement.elements();
+        elements2.add(1, heightElement);
+        // 将文件对象重新写入文件
+        Dom4jUtils.write2Xml(document);
+    }
+
+    public static void addElement() throws DocumentException, IOException {
+        // 获取xml文件对象
+        Document document = Dom4jUtils.getDocument();
+        // 获取根元素
+        Element rootElement = document.getRootElement();
+        // 获取根元素里面的子元素集合
+        List&lt;Element&gt; elements = rootElement.elements();
+        // 获取子元素集合中第二个元素
+        Element secondElement = elements.get(1);
+        // //创建一个新元素
+        // Element ageElement = DocumentHelper.createElement(&quot;age&quot;);
+        // //设置元素中的文本
+        // ageElement.setText(&quot;19&quot;);
+        // //添加到指定元素中
+        // secondElement.add(ageElement);
+        Element ageEleElement = secondElement.addElement(&quot;age&quot;);
+        ageEleElement.setText(&quot;17&quot;);
+        // 将文件对象重新写入文件
+        Dom4jUtils.write2Xml(document);
+    }
+
+    public static void removeNode() throws DocumentException, IOException {
+        // 获取xml文件对象
+        Document document = Dom4jUtils.getDocument();
+        // 获取根元素
+        Element rootElement = document.getRootElement();
+        // 获取根元素里面子元素的集合
+        List&lt;Element&gt; elements = rootElement.elements();
+        // 获取集合之中的第二个元素
+        Element secondElement = elements.get(1);
+        // 获取这个元素之中的dps元素
+        Element dpsElement = secondElement.element(&quot;dps&quot;);
+        // 删除这个元素
+        secondElement.remove(dpsElement);
+        // 将文件对象重新写入文件
+        Dom4jUtils.write2Xml(document);
+    }
+
+    public static void changeText() throws DocumentException, IOException {
+        // 获取xml文件对象
+        Document document = Dom4jUtils.getDocument();
+        // 获取根元素
+        Element rootElement = document.getRootElement();
+        // 获取根元素下面的子元素集合
+        List&lt;Element&gt; elements = rootElement.elements();
+        // 获取子集合里面的第二个元素
+        Element secondeElement = elements.get(1);
+        // 获取其中的name元素
+        Element nameElement = secondeElement.element(&quot;name&quot;);
+        // 修改这个元素的文本值
+        nameElement.setText(&quot;张飞&quot;);
+        // 重新将文本对象写入到xml文件当中
+        Dom4jUtils.write2Xml(document);
+    }
+
+    public static void getAllNodes() throws DocumentException {
+        // 获取xml文件对象
+        Document document = Dom4jUtils.getDocument();
+        // 获取文件根元素
+        Element rootElement = document.getRootElement();
+        // 循环遍历根元素
+        rootWalk(rootElement);
+    }
+
+    public static void rootWalk(Element element) {
+        // 获取元素名称
+        String name = element.getName();
+        System.out.println(name);
+        // 得到元素的子元素集合
+        List&lt;Element&gt; elements = element.elements();
+        // 遍历集合，并在循环中对每个子元素进行迭代
+        for (int i = 0; i &lt; elements.size(); i++) {
+            Element e = elements.get(i);
+            rootWalk(e);
+        }
+    }
+
+    public static void getElement() throws DocumentException {
+        // 获取xml文件对象
+        Document document = Dom4jUtils.getDocument();
+        // 获取根元素
+        Element rootElement = document.getRootElement();
+        // 获取根元素里面的子元素集合
+        List&lt;Element&gt; elements = rootElement.elements();
+        // 获取子元素集合中的第2个元素
+        Element secondElement = elements.get(1);
+        // 获取这个元素的节点名称
+        System.out.println(&quot;name:&quot; + secondElement.getName());
+        // 获取这个节点之下的name子节点
+        Element nameElement = secondElement.element(&quot;name&quot;);
+        // 获取name子节点中的文本
+        System.out.println(nameElement.getText());
+        // 获取这个节点之下的dps子节点
+        Element dpsElement = secondElement.element(&quot;dps&quot;);
+        // 获取dps子节点中的文本
+        System.out.println(dpsElement.getText());
+    }
+}
+</code></pre><h3 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h3><p>其实自己现在对于 <code>Dom4j</code> 解析 <code>XML</code> 文件还没有使用的那么熟练，有很多东西都还要查 <code>API</code> 和资料，只能说对一些基础有了一点了解吧，需要使用更深入的东西的时候再回来查吧。感觉现在最重要的是知道如何解析 <code>XML</code> 文件，知道如何获取 <code>XML</code> 中存储的信息，如果有需要当然也要进行修改，就是要把这些基本操作把握稳固吧。个人感觉比较重要的一点就是在使用过程中有不清楚的地方就果断查 <code>API</code> 吧。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/XML/" rel="tag"># XML</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/05/反射/" rel="next" title="反射">
+                <i class="fa fa-chevron-left"></i> 反射
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/08/HTML基础/" rel="prev" title="HTML基础">
+                HTML基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-导入jar包"><span class="nav-number">1.</span> <span class="nav-text">1.导入jar包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-解析方式"><span class="nav-number">2.</span> <span class="nav-text">2.解析方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-解析文件"><span class="nav-number">3.</span> <span class="nav-text">3.解析文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-读入文档和写出文档"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 读入文档和写出文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-操作元素的方法"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 操作元素的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-操作元素文本的方法"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 操作元素文本的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-操作元素属性的方法"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 操作元素属性的方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-自己写的小例子"><span class="nav-number">4.</span> <span class="nav-text">4.自己写的小例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-总结"><span class="nav-number">5.</span> <span class="nav-text">5.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/07/07/使用Java处理XML文件/';
+
+      var disqus_title = "使用Java处理XML文件";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

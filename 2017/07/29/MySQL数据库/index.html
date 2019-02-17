@@ -1,0 +1,1023 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="MySQL," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="在开发的过程中，项目会根据实际的需要产生各种数据，我们做的主要工作也是对数据进行保存以及其它各种操作，那我们应该将数据保存到哪里呢？答案就是数据库。今天想说的是 MySQL 数据库，数据库有很多种，比如还有 Oracle、SQL Server这些，这些都是关系型的数据库，当然还有非关系型的数据库，现在我使用的最多的还是关系型的数据库，SQL Server是微软公司的产品，MySQL 和 Oracl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL数据库">
+<meta property="og:url" content="http://yoursite.com/2017/07/29/MySQL数据库/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="在开发的过程中，项目会根据实际的需要产生各种数据，我们做的主要工作也是对数据进行保存以及其它各种操作，那我们应该将数据保存到哪里呢？答案就是数据库。今天想说的是 MySQL 数据库，数据库有很多种，比如还有 Oracle、SQL Server这些，这些都是关系型的数据库，当然还有非关系型的数据库，现在我使用的最多的还是关系型的数据库，SQL Server是微软公司的产品，MySQL 和 Oracl">
+<meta property="og:updated_time" content="2017-07-30T16:26:30.531Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL数据库">
+<meta name="twitter:description" content="在开发的过程中，项目会根据实际的需要产生各种数据，我们做的主要工作也是对数据进行保存以及其它各种操作，那我们应该将数据保存到哪里呢？答案就是数据库。今天想说的是 MySQL 数据库，数据库有很多种，比如还有 Oracle、SQL Server这些，这些都是关系型的数据库，当然还有非关系型的数据库，现在我使用的最多的还是关系型的数据库，SQL Server是微软公司的产品，MySQL 和 Oracl">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/29/MySQL数据库/"/>
+
+
+
+
+
+  <title> MySQL数据库 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/29/MySQL数据库/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                MySQL数据库
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-29T19:44:19+08:00">
+                2017-07-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/29/MySQL数据库/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/07/29/MySQL数据库/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/07/29/MySQL数据库/" class="leancloud_visitors" data-flag-title="MySQL数据库">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在开发的过程中，项目会根据实际的需要产生各种数据，我们做的主要工作也是对数据进行保存以及其它各种操作，那我们应该将数据保存到哪里呢？答案就是数据库。今天想说的是 <code>MySQL</code> 数据库，数据库有很多种，比如还有 <code>Oracle</code>、<code>SQL Server</code>这些，这些都是关系型的数据库，当然还有非关系型的数据库，现在我使用的最多的还是关系型的数据库，<code>SQL Server</code>是微软公司的产品，<code>MySQL</code> 和 <code>Oracle</code> 都是属于 <code>Oracle</code> 公司的产品，当然这家公司现在还有一种技术很出名，那就是 <code>Java</code> 了。<code>Oracle</code>、<code>SQL Server</code> 都属于是大型的数据库，<code>MySQL</code> 数据库是属于比较小型的，从安装的文件就可以看出来，感觉对于初学者来说，<code>MySQL</code> 还是最容易操作的，不过熟练地使用一种数据库之后，再去学习别的数据库就感觉还好了，毕竟有信心了。</p>
+<a id="more"></a>
+<p>这里就不介绍 <code>MySQL</code> 的安装了，最主要是到官网下载好符合自己电脑的安装版本，然后一步一步看清提示内容进行安装，如果不敢确定一些选项的话，比如字符集的选择(推荐 <code>utf-8</code>)，可以事先在网上下载一份讲解安装步骤的文档，或者直接在线查看别人写的安装步骤。其实就算有些步骤安装的不对也没有关系，<code>MySQL</code> 的卸载很简单，多玩几次就好了，软件就是这样，使用地多了也就熟了，好像技术也是这样啊。</p>
+<h3 id="1-MySQL图形化工具"><a href="#1-MySQL图形化工具" class="headerlink" title="1.MySQL图形化工具"></a>1.MySQL图形化工具</h3><p>安装好 <code>MySQL</code> 之后，我们会发现 <code>MySQL</code> 的操作界面都是命令行界面，使用惯了 <code>Windows</code> 图形化界面的我们也许会有一点陌生，但是不要慌，<code>MySQL</code> 操作的命令没有想象中那么多，而且我们在实际开发过程中都是使用 <code>Java</code> 语言来操作数据库，因此常用的语句写的多了之后就会自然记住了，不过能记住很多这样的命令也是一件很酷的事，命令行的方式用多了之后以后在 <code>Linux</code> 操作系统上使用也是非常简单的。</p>
+<p>不要害怕命令行的方式，使用的多了就会轻车熟路了，不过使用图形化界面工具也有它的好处，图形化工具在查看数据变动的时候更加方便，比如我们往数据库插入一条数据或者修改了一条数据之后，可以在图形化工具中快速地看到数据的变化，这样可以为我们开发节省不少时间，当然最开始学习时一些创建数据库、删除数据库的操作，还有对于数据表的增删改查操作，最好还是在命令行之中进行，如果一开始就使用图形化界面工具进行这些操作，那样就不太好了，起不到那么好的学习效果，而且图形化工具中也有进行命令行输入的界面，不会像 <code>dos</code> 窗口那样单调，不过重点还是要多手敲一些常用命令。</p>
+<p>可以使用的图形化界面有很多，比如 <code>Navicat Premium</code>，我使用的就是这一个，它可以连接的数据库类型也比较多，<code>Oracle</code> 和 <code>SQL Server</code> 也都可以连接，还有 <code>SQLyog</code>，使用的人也是比较多的，不管选择哪一种工具，都要自己熟练使用。</p>
+<h3 id="2-对数据库的操作"><a href="#2-对数据库的操作" class="headerlink" title="2.对数据库的操作"></a>2.对数据库的操作</h3><p>对数据库最常见的操作就是增删改查了，一般一个项目都是对应一个数据库，因此在创建好一个数据库之后就不会轻易对它进行删除和修改操作了，因为更多的操作还是对数据库中的表进行的，不过这些操作也都是十分简单的，学习起来也不难。</p>
+<h4 id="2-1-创建数据库"><a href="#2-1-创建数据库" class="headerlink" title="2.1 创建数据库"></a>2.1 创建数据库</h4><pre><code>SQL：create database 数据库名 [character set 字符集 collate 字符集校对规则];
+</code></pre><p>这便是创建数据库的 <code>SQL</code> 语句，后面方括号之中的内容是可选的，因此最简洁的创建语句应该是</p>
+<pre><code>SQL：create database 数据库名;
+</code></pre><p>这里没有设置新建的数据库的字符集和校对规则，因此这里就会默认使用我们安装时选择的字符集编码。后面的可选项就不做演示了，可以根据自己的需要进行操作。</p>
+<h4 id="2-2-查看数据库"><a href="#2-2-查看数据库" class="headerlink" title="2.2 查看数据库"></a>2.2 查看数据库</h4><p>查看数据库分两种，一种是查看我们安装的数据库服务器中一共有多少个创建的数据库，第二种就是查看某个数据库在新建时具体的创建信息。</p>
+<pre><code>查看所有的数据库：
+    show databases;
+查看某个数据库：
+    show create database 数据库名;
+</code></pre><h4 id="2-3-修改数据库"><a href="#2-3-修改数据库" class="headerlink" title="2.3 修改数据库"></a>2.3 修改数据库</h4><p>我们修改数据库当然就是修改创建数据库时设置的相关属性信息了，从上面创建数据库设置的信息可以看出，我们修改的就是数据库所用的字符集编码以及字符集校对规则了。</p>
+<pre><code>SQL:alter database 数据库名 character set 字符集 collate 校对规则;
+</code></pre><h4 id="2-4-切换数据库"><a href="#2-4-切换数据库" class="headerlink" title="2.4 切换数据库"></a>2.4 切换数据库</h4><p>有时候我们的任务可能不只是要在一个数据库之中进行，而是还要切换到别的数据库当中，这时就要使用切换数据库的功能了，当然在切换数据库之前，可以先查看服务器端中现在已经存在多少个数据库了(<code>show databases;</code>)，然后再根据数据库名称进行切换。</p>
+<pre><code>SQL：use 数据库名;
+</code></pre><h4 id="2-5-显示当前使用的数据库"><a href="#2-5-显示当前使用的数据库" class="headerlink" title="2.5 显示当前使用的数据库"></a>2.5 显示当前使用的数据库</h4><p>这个功能可能一般都会和上一个结合使用，在进行切换数据库之后，就可以查看一下当前是在哪一个数据库之中。</p>
+<pre><code>SQL：select database();
+</code></pre><h3 id="3-数据库中使用的数据类型"><a href="#3-数据库中使用的数据类型" class="headerlink" title="3.数据库中使用的数据类型"></a>3.数据库中使用的数据类型</h3><p><code>Java</code> 中将数据分为了很多种类型，这样做是为了便于对数据进行操作，比如对字符串和整形数据以及浮点数，对于它们的操作肯定都有不一样的规则，因此才会分出这么多种数据类型，而在数据库中也是一样，同样也会根据需要将数据划分为不同的数据类型，因为以后主要是使用 <code>Java</code> 代码操作数据库，所以就对比看一下它们之间的数据类型吧。</p>
+<pre><code>Java中的类型                                    MySQL中的类型
+
+byte/short/int/long                            tinyint/smallint/int/bigint
+float                                        float
+double                                        double
+boolean                                        bit
+char/String                                    char和varchar类型
+Date                                        date/time/datetime/timestamp
+File                                        BLOB/TEXT
+</code></pre><p>上面列出的便是 <code>Java</code> 和 <code>MySQL</code> 两者相对应的数据类型，不过有些东西还是要说明一下，关于第一种整形数据，其实使用的最多的还是 <code>int</code> 类型的，这其实和在 <code>Java</code> 中是类似的，虽然有很多种不同的选择，但是重点肯定还是记住最常用的。</p>
+<p>关于字符串需要说明的是在于数据库中 <code>char</code> 和 <code>varchar</code> 的区别，<code>char</code> 是代表固定长度的字符或者字符串，如果在定义一个字段时是使用的 <code>char(8)</code>，但是在编程过程中存入这个字段的值是 <code>hello</code>，很明显这个字符串的长度是 <code>5</code>，这个时候数据库将会使用三个空格将它补齐，这样在编程中不注意就会导致一些问题，比如存入 <code>hello</code> 到数据库中之后，又从数据库中将这个值取出，拿出来与 <code>hello</code> 字符串相比较居然发现两者并不相等，这就是因为在存入数据库的过程中数据库自动为这个字符串补全了空格，当然也可以手动编码解决这个问题，那就是使用 <code>trim()</code> 函数去掉字符串前后的空格之后再比较，不过如果要存入数据库的字符串前后就带有空格那也会很麻烦。</p>
+<p><code>varchar</code> 代表的就是长度可变的字符串，比如在数据库中定义某个字段时是使用的 <code>varchar(8)</code>，然后往这个字段存的值是 <code>hello</code>,实际保存的值就是 <code>hello</code>，而数据库不会为这个字符串额外添加什么。</p>
+<p>表示日期时间的类型有四种，<code>date</code> 代表的是只有日期，而 <code>time</code> 表示的是只有时间，<code>datetime</code> 和 <code>timestamp</code> 则都是代表既有日期也有时间，不过需要注意的一点是，在没有往某一类型的日期时间字段存值的时候，数据库会向数据类型为 <code>datetime</code> 的字段存入 <code>null</code>，而会向数据类型为 <code>timestamp</code> 的字段存入当前的系统时间。</p>
+<h3 id="4-对数据表的操作"><a href="#4-对数据表的操作" class="headerlink" title="4.对数据表的操作"></a>4.对数据表的操作</h3><p>一个数据库是由一张张数据表组成的，现在要说明的就是对数据库之中的数据表的操作，不过和对数据库的操作相类似的是，也主要是对数据表的创建，查看，修改以及删除。</p>
+<h4 id="4-1-创建数据表"><a href="#4-1-创建数据表" class="headerlink" title="4.1 创建数据表"></a>4.1 创建数据表</h4><p>创建数据表主要就是先确定在哪个数据库里面建表，以及指定数据表的名称，然后就是要确定新建的这张表之中有哪些字段了，每一字段都必须给定字段名，数据类型以及约束条件。这些就构成了最基本的建表语句。</p>
+<pre><code>SQL：    use 数据库名;
+        create table 数据表名(
+            字段名1 数据类型 字段约束条件，
+            字段名2 数据类型 字段约束条件，
+            ......
+        );
+</code></pre><p>关于字段的约束条件，需要在这里说明一下，先说一下主键的概念，每张数据表之中都会有主键，这个主键可以是一个字段，也可以是多个字段的组合，主键的作用是什么呢？就是用来唯一确定一条数据表之中的记录的，因为数据表之中会保存很多条记录，我们只能通过主键来唯一确定某条记录，而且作为主键的字段不能为空，作为主键的字段会有许多限制，那这些限制怎么作用到字段上面呢？就是在创建数据表时每个字段上面的字段约束条件，其实不止主键字段会有约束条件，普通字段也可以，比如根据业务需要，某些字段是不能为空的，那就应该在创建数据表时为这个字段加上 <code>not null</code> 这样的约束，主键还可以设置为自动增长的 <code>auto_increment</code>。</p>
+<pre><code>主键的特点：
+    1.数据表中任何两行记录都不能具有相同的主键
+    2.每一行记录都必须具有一个主键值(主键值不能为null)
+    3.主键列中的值不允许修改或更新
+    4.主键值不能重用(如果某行记录从数据表之中被删除，它的主键值不能赋给以后的新行)
+</code></pre><p>关于主键字段的定义一般都是这样：</p>
+<pre><code>id int primary key auto_increment not null
+</code></pre><h4 id="4-2-查看数据表"><a href="#4-2-查看数据表" class="headerlink" title="4.2 查看数据表"></a>4.2 查看数据表</h4><p>查看数据表和查看数据库相类似，也是分为两种，第一种是查看这个数据库之中一共有哪些数据表，第二种是查看某一张数据表的结构。</p>
+<pre><code>查看所有的数据表：
+    show tables;
+查看某张数据表的结构：
+    desc 表名;
+</code></pre><h4 id="4-3-删除数据表"><a href="#4-3-删除数据表" class="headerlink" title="4.3 删除数据表"></a>4.3 删除数据表</h4><p>删除数据表的操作还是比较简单的，如下：</p>
+<pre><code>SQL：drop table 表名;
+</code></pre><h4 id="4-4-修改数据表"><a href="#4-4-修改数据表" class="headerlink" title="4.4 修改数据表"></a>4.4 修改数据表</h4><p>修改数据表可以是调整数据表的结构，比如对数据表进行增加一列或者删除某列的操作，也可以是修改数据表的名字以及修改数据表的字符集等操作。</p>
+<p>1.添加列：</p>
+<pre><code>SQL：alter table 表名 add 列名 字段类型(长度) [约束];
+</code></pre><p>2.删除列</p>
+<pre><code>SQL：alter table 表名 drop 列名;
+</code></pre><p>3.修改列名称</p>
+<pre><code>SQL：alter table 表名 change 旧列名 新列名 字段类型 [约束];
+</code></pre><p>4.修改列的数据类型、约束条件</p>
+<pre><code>SQL:alter table 表名 modify 列名 字段类型 [约束];
+</code></pre><p>5.修改表名</p>
+<pre><code>SQL：rename table 旧表名 to 新表名
+</code></pre><p>也可以是下面这一种：</p>
+<pre><code>SQL：alter table 旧表名 rename to 新表名
+</code></pre><p>6.修改数据表的字符集</p>
+<pre><code>SQL：alter table 表名 chatacter set 新字符集 [collate字符集校验规则]
+</code></pre><h3 id="5-对数据表中的记录进行操作"><a href="#5-对数据表中的记录进行操作" class="headerlink" title="5.对数据表中的记录进行操作"></a>5.对数据表中的记录进行操作</h3><p>之前讲了对数据库以及对数据库之中数据表的操作，最主要的操作还是集中在增删改查，不过平时开发过程中对数据库和数据表的操作还是相对比较少的，因为不可能动不动就去删除数据库和数据表，更多的操作还是在于数据表之中的记录，程序运行起来之后也是一样，大多数时候都是对表中记录的增删改查，下面还是分这四部分来看吧。</p>
+<h4 id="5-1-增加记录"><a href="#5-1-增加记录" class="headerlink" title="5.1 增加记录"></a>5.1 增加记录</h4><p>向数据表之中插入数据是使用的 <code>insert</code> 关键字，添加记录分为几种小的情况，第一种就是一次增加记录的时候只增加一行中的某些字段，第二种就是一次增加记录增加所有的字段，还有一种就是一次增加记录增加多条记录。</p>
+<p>1.一次只增加一行之中的某些字段</p>
+<pre><code>SQL：insert into 表名(列1,列2,列3…) values(值1,值2,值3…);
+</code></pre><p>2.一次增加一行中的所有字段</p>
+<pre><code>SQL：insert into 表名 values(值1,值2,值3…);
+</code></pre><p>3.一次增加多条记录</p>
+<pre><code>SQL：insert into 表名 values(值1,值2,值3…),(值1,值2,值3…),(值1,值2,值3…)…;
+</code></pre><p>往数据库之中添加数据时需要注意的一些点：</p>
+<p>1.存入数据表之中的值必须和数据表中各字段预定义的字段类型相一致<br>2.插入值的顺序要和数据表中各列的顺序相一致<br>3.插入数据表中值的长度不能超过数据表各字段预定义的长度<br>4.对于字符串和时间类型的数据，在插入数据库要使用引号包裹</p>
+<h4 id="5-2-修改记录"><a href="#5-2-修改记录" class="headerlink" title="5.2 修改记录"></a>5.2 修改记录</h4><p>修改数据表中的记录是使用的关键字 <code>update</code>，主要是根据一些条件选中符合条件的记录，然后再对这些记录之中各字段的值进行修改。</p>
+<pre><code>SQL：update 表名 set 列名1=值1,列名2=值2…[where条件];
+</code></pre><h4 id="5-3-删除记录"><a href="#5-3-删除记录" class="headerlink" title="5.3 删除记录"></a>5.3 删除记录</h4><p>删除数据表中的记录是使用的 <code>delete</code> 关键字，主要功能便是删除符合条件的记录。</p>
+<pre><code>SQL：delete from 表名 [where 条件]
+</code></pre><p>删除数据表之中的记录需要注意的一些点：</p>
+<p>1.删除数据是删除一行记录<br>2.如果删除语句不带后面的条件，那就代表会删除掉表中所有的记录数据，默认情况是全部选中<br>3.<code>delete from 表名</code> 和 <code>truncate table 表名</code> 的区别</p>
+<p><code>delete from 表名</code> 是属于 <code>DML</code> 语句，执行这条语句时是去一条一条删除数据表之中的记录，因为事务是可以作用在 <code>DML</code> 语句上面的，因此执行这个删除语句也是可以回滚的。</p>
+<p><code>truncate table 表名</code> 是属于 <code>DDL</code> 语句，执行这条指令的时候，是先删除表，然后再创建一个与之前一样的新表，由于事务是不能作用在 <code>DDL</code> 语句之上的，因此也代表执行这条语句之后是不能回滚的。</p>
+<h4 id="5-4-查询记录"><a href="#5-4-查询记录" class="headerlink" title="5.4 查询记录"></a>5.4 查询记录</h4><p>开发过程中涉及数据库操作最多的是对数据表记录的操作，而对表的记录进行操作之中查询又是最多的，因此查询记录绝对是要掌握的重点。</p>
+<h5 id="5-4-1-基础查询"><a href="#5-4-1-基础查询" class="headerlink" title="5.4.1 基础查询"></a>5.4.1 基础查询</h5><p>查询使用的关键字是 <code>select</code>，先从最简单的查询语句说起，可以一次查询所有的字段，也可以一次只查询我们指定的字段。</p>
+<p>一次查询所有的字段：</p>
+<pre><code>SQL：select * from 表名;
+</code></pre><p><code>*</code> 是通配符，表示的便是匹配所有的字段，因为上面的 <code>SQL</code> 语句也没有给出筛选条件，因此默认是选择全部，所以上面的查询语句会查询到该表中所有记录的所有字段信息。</p>
+<p>查询指定字段信息：</p>
+<pre><code>SQL：select 列1,列2…from 表名;
+</code></pre><p>上面的查询语句指定了两个列名，但是也没有给查询的筛选条件，因此查询出来的是所有记录的上面给定两个字段的信息。</p>
+<h5 id="5-4-2-条件查询"><a href="#5-4-2-条件查询" class="headerlink" title="5.4.2 条件查询"></a>5.4.2 条件查询</h5><p>条件查询就是给定查询条件，然后查询出所有符合条件的记录，条件查询使用的关键字是 <code>where</code>,在这个关键字之后就可以给出筛选的条件，筛选的条件中还可以使用 <code>&gt;</code>、<code>&lt;</code>、<code>&gt;=</code>、<code>=&lt;</code>、<code>&lt;&gt;</code>、<code>!=</code> 以及 <code>=</code> 这些关键字，通过这些元素就可以组合出符合我们要求的查询条件了。</p>
+<p>在写查询条件时，还有例如查询出所有姓李的人名字这样的需求，这时候使用上面给出的关键字就比较难构建出符合要求的查询条件了，这时候使用模糊查询就可以轻松地解决问题，模糊查询的关键字是 <code>like</code> ,如果要解决刚提出的这个问题，那就是 <code>where name like &#39;李%&#39;</code>，这里面的 <code>%</code> 也是一个通配符，代表的是任意多个字符，其实还有另外一个通配符，也可以表示字符，那就是 <code>_</code>，一个 <code>_</code> 就代表一个字符，李云龙就应该是 <code>李__</code>，而李敖则应该是 <code>李_</code> 了。</p>
+<pre><code>like &apos;李_&apos;：名字中必须是两个字，而且是以李开头的。
+like &apos;李%&apos;：名字是以李开头的，李字后可以有1个或任意个字符。
+like &apos;%四&apos;：名字中是以四结尾的。
+like &apos;%李%&apos;：只要名称中包含李这个字就可以。
+</code></pre><p>条件查询还可以使用 <code>in</code> 和 <code>between and</code> 这两个关键字，<code>in</code> 主要是在判断是否在给定的几个取值当中，比如 <code>in (80,90,100)</code>，而 <code>between and</code> 则是判断是否在一个范围之中，比如 <code>between 60 and 100</code>，则是判断是否在 <code>60</code> 和 <code>100</code> 之间。</p>
+<p>筛选条件之中不仅仅是只可以有一个条件，也可以是多个条件，比如名字既要以李开头，而某项分数也必须在 <code>80</code> 和 <code>100</code> 之间，这时候就可以使用一些条件关联的关键字了，比如 <code>and</code>、<code>or</code> 和 <code>not</code>。</p>
+<h5 id="5-4-3-排序查询"><a href="#5-4-3-排序查询" class="headerlink" title="5.4.3 排序查询"></a>5.4.3 排序查询</h5><p>所谓排序查询，更确切的说应该是将需要的记录查询出来之后以何种方式进行排序，比如以年龄字段排序，还是以出生日期字段进行排序，这些都是可以设定的。</p>
+<pre><code>SQL：select * from 表名 [where 条件] order by 列名 asc/desc,列名 asc/desc …
+</code></pre><p>以什么字段进行排序是使用的 <code>order by</code> 关键字，后面接的是字段名称，关于 <code>asc/desc</code>，这是用来设定是按照升序排列还是按照降序排列，<code>asc</code> 就是设置的升序，<code>desc</code> 就是设置的降序，当然也可以根据多个字段来排序，只要将多个字段使用逗号分隔开就好了，不过需要注意的是多个字段排序的规则是，先按第一个字段进行排序，在第一个字段相同的情况下，再按照第二个字段来进行排序，依次类推。</p>
+<h5 id="5-4-4-聚合函数查询"><a href="#5-4-4-聚合函数查询" class="headerlink" title="5.4.4 聚合函数查询"></a>5.4.4 聚合函数查询</h5><p><code>MySQL</code> 数据库提供了许多聚合函数，比如求总和，求最大值，最小值的函数，这些函数使用起来也是十分方便的，先看一些基础的函数。</p>
+<pre><code>sum(字段名); 查询某一列数据总和
+max(字段名)，计算最大值
+min(字段名)，计算最小值
+count(字段名)，统计记录条数
+avg(字段名)，计算平均值
+</code></pre><p>有一点需要注意，先说一个例子，如果有一张表记录的是每个学生的语文、数学和英语成绩，那为了计算所有学生这三门成绩的总和，<code>SUM(english)+SUM(chinese)+SUM(math)</code> 和 <code>SUM(english+chinese+math)</code> 效果是一样的吗？答案是在所有的字段都不为空的情况下求得的结果是相同的，但是如果有为空的数据，那两者求得的结果就不是一样的了，这是因为在使用 <code>SUM(english)+SUM(chinese)+SUM(math)</code> 进行计算的时候，如果有字段的值为空，那么聚合函数会将它忽略，而在使用 <code>SUM(english+chinese+math)</code> 进行计算的时候，由于会先计算 <code>english+chinese+math</code> 的值，如果这时候存在空值(null)的话，那计算这一行数据的时候结果也就是空值(null)了，之后在使用求和聚合函数，那么这样就会忽略掉这一行中其它非空的值。</p>
+<p>还有一个使用比较多的函数就是 <code>ifnull()</code> 了，一般的用法就是像 <code>ifnull(math,0)</code> 这样了，代表的意思就是如果在 <code>math</code> 这个字段中有存在空值(null)的情况，那就会将它转换为 <code>0</code> 这个值，将 <code>SUM(english+chinese+math)</code> 改写为 <code>SUM(ifnull(english,0)+ifnull(chinese,0)+ifnull(math,0))</code> 这样，那么就可以得到和 <code>SUM(english)+SUM(chinese)+SUM(math)</code> 一样的计算结果了。</p>
+<h5 id="5-4-5-分组查询"><a href="#5-4-5-分组查询" class="headerlink" title="5.4.5 分组查询"></a>5.4.5 分组查询</h5><p>分组查询主要就是先将要查询的记录根据某些条件分成不同的组别，在根据自己的需要求得想要的结果，分组查询使用的关键字是 <code>group by</code>，如果想要筛选分组后的记录，必定是要设置筛选条件的，这时使用的就不是 <code>where</code> 这个关键字了，而是 <code>having</code> 这个关键字。</p>
+<p>主要注意的点：</p>
+<p>在使用了 <code>group by</code> 进行分组之后，关键字 <code>where</code> 和 <code>having</code> 的区别：</p>
+<p>1.where一般用于分组前过滤，having用于分组后过滤.<br>2.having后面可以使用聚合函数，where后面不能用聚合函数.</p>
+<p><strong>完整的查询语句：</strong></p>
+<pre><code>select 字段名,... from 表名 where 条件 group by 字段名 hanving 条件 order by 字段名 asc/desc
+</code></pre><h3 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h3><p>上面所写的内容还只是 <code>MySQL</code> 数据库使用中涉及的一小部分，但却是最基本的部分，只有基础牢固了高楼才能建的稳固，因此希望自己能多熟悉这些基础吧，不过基础的内容也是在开发中使用的最多的，多用也能很好的促进理解。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/24/Bootstrap基础/" rel="next" title="Bootstrap基础">
+                <i class="fa fa-chevron-left"></i> Bootstrap基础
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/01/MySQL数据库加强/" rel="prev" title="MySQL数据库加强">
+                MySQL数据库加强 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-MySQL图形化工具"><span class="nav-number">1.</span> <span class="nav-text">1.MySQL图形化工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-对数据库的操作"><span class="nav-number">2.</span> <span class="nav-text">2.对数据库的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-创建数据库"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 创建数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-查看数据库"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 查看数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-修改数据库"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 修改数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-切换数据库"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 切换数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-显示当前使用的数据库"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 显示当前使用的数据库</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-数据库中使用的数据类型"><span class="nav-number">3.</span> <span class="nav-text">3.数据库中使用的数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-对数据表的操作"><span class="nav-number">4.</span> <span class="nav-text">4.对数据表的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-创建数据表"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 创建数据表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-查看数据表"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 查看数据表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-删除数据表"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 删除数据表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-修改数据表"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 修改数据表</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-对数据表中的记录进行操作"><span class="nav-number">5.</span> <span class="nav-text">5.对数据表中的记录进行操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-增加记录"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 增加记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-修改记录"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 修改记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-删除记录"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 删除记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-查询记录"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 查询记录</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5-4-1-基础查询"><span class="nav-number">5.4.1.</span> <span class="nav-text">5.4.1 基础查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-4-2-条件查询"><span class="nav-number">5.4.2.</span> <span class="nav-text">5.4.2 条件查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-4-3-排序查询"><span class="nav-number">5.4.3.</span> <span class="nav-text">5.4.3 排序查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-4-4-聚合函数查询"><span class="nav-number">5.4.4.</span> <span class="nav-text">5.4.4 聚合函数查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-4-5-分组查询"><span class="nav-number">5.4.5.</span> <span class="nav-text">5.4.5 分组查询</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-总结"><span class="nav-number">6.</span> <span class="nav-text">6.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/07/29/MySQL数据库/';
+
+      var disqus_title = "MySQL数据库";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1187 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章主要是想记录一下Java中集合的使用，平时写程序的过程中集合也是用的比较多的，一般不是数组就是集合，两者一起使用的也蛮多，集合的话，因为其中元素的个数是可变的，集合的长度也就可以变，因此比数组会更加灵活。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中的集合">
+<meta property="og:url" content="http://yoursite.com/2017/06/15/Java中的集合/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="这篇文章主要是想记录一下Java中集合的使用，平时写程序的过程中集合也是用的比较多的，一般不是数组就是集合，两者一起使用的也蛮多，集合的话，因为其中元素的个数是可变的，集合的长度也就可以变，因此比数组会更加灵活。">
+<meta property="og:updated_time" content="2017-06-15T07:07:49.291Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java中的集合">
+<meta name="twitter:description" content="这篇文章主要是想记录一下Java中集合的使用，平时写程序的过程中集合也是用的比较多的，一般不是数组就是集合，两者一起使用的也蛮多，集合的话，因为其中元素的个数是可变的，集合的长度也就可以变，因此比数组会更加灵活。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/15/Java中的集合/"/>
+
+
+
+
+
+  <title> Java中的集合 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/15/Java中的集合/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java中的集合
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-15T15:06:06+08:00">
+                2017-06-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/集合/" itemprop="url" rel="index">
+                    <span itemprop="name">集合</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/15/Java中的集合/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/15/Java中的集合/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/06/15/Java中的集合/" class="leancloud_visitors" data-flag-title="Java中的集合">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章主要是想记录一下Java中集合的使用，平时写程序的过程中集合也是用的比较多的，一般不是数组就是集合，两者一起使用的也蛮多，集合的话，因为其中元素的个数是可变的，集合的长度也就可以变，因此比数组会更加灵活。</p>
+<a id="more"></a>
+<h3 id="1-集合的分类"><a href="#1-集合的分类" class="headerlink" title="1.集合的分类"></a>1.集合的分类</h3><p>觉得可以将集合分为两类:单列集合和双列集合。单列集合又可以分为两类：List集合和Set集合。其中的双列集合也就是Map集合，之所以是双列集合，是因为Map集合中的每一个元素都是由键(key)和值(value)这两部分组成的，而单列集合中的每一个元素都只是一个独立的个体，如果是基本数据类型，那就是一个值，如果是一个引用类型数据，那就是一个类的对象。</p>
+<pre><code>单列集合
+    List集合
+    Set集合
+双列集合(Map集合)
+</code></pre><p>之所以单列集合要分List集合和Set集合，是因为它们有很大的区别:</p>
+<pre><code>1.List集合是有序的，Set集合是无序的
+    所谓有序就是元素存入集合的顺序和元素在集合中的位置是一致的，而无序就是元素存入集合的顺序和元素在集合中的位置是没有关联的
+2.List集合是可重复的，而Set集合是不可重复的
+    关于重复的话就是在集合中可以有多个同样的元素，比如一个集合保存数字的话，那List集合中是可以有两个1的，而Set集合不行，关于可重复这一点，很关键的一点就是List集合中的元素是有索引的，而Set集合中的元素没有，因为有索引，即使是存在两个1，集合也能通过索引分别找到它们，而且不会混淆，而Set集合就不行了，因为没有索引，根本无法区分两个1，因此Set集合是不允许存入两个1的。
+</code></pre><p>上面两点也就是List集合和Set集合的区别，也是它们各自的特点：<strong>List集合有序可重复，Set集合无序不可重复</strong></p>
+<p>说完了List集合和Set集合的特点，也看一下Map集合的特点：</p>
+<pre><code>Map集合中的元素都是一个一个键值对
+    Map中的元素都是由键值对组成，并且每个元素都是靠键(key)来区分彼此，因此Map集合中的键(key)是不可重复的，而值(value)是可以的，并且每个元素中的值只能由相应的键来取得。
+</code></pre><h3 id="2-List集合"><a href="#2-List集合" class="headerlink" title="2.List集合"></a>2.List集合</h3><p>List集合最常见的两个类就是ArrayList和LinkedList，其中对于元素的操作大致都是一样的，提供的方法也都差不多，不过这两个类很大的区别就在于：<strong>ArrayList底层是根据数组实现的，而LinkedList底层是根据链表实现的，数组的特点就是查找快，增删漫，而链表的特点就是查找慢，增删快</strong></p>
+<p>因为两个类提供的方法都差不多，下面的一些示例就直接使用ArrayList实现了</p>
+<h4 id="2-1-增加元素"><a href="#2-1-增加元素" class="headerlink" title="2.1 增加元素"></a>2.1 增加元素</h4><p>添加元素使用的就是add(String e)方法</p>
+<pre><code>ArrayList&lt;String&gt; arr = new ArrayList&lt;String&gt;();
+arr.add(&quot;卡卡西&quot;);
+arr.add(&quot;鸣人&quot;);
+arr.add(&quot;佐助&quot;);
+arr.add(&quot;小樱&quot;);
+arr.add(&quot;大和&quot;);
+arr.add(&quot;佐井&quot;);
+System.out.println(arr);
+</code></pre><p>得到的结果如下：</p>
+<pre><code>[卡卡西, 鸣人, 佐助, 小樱, 大和, 佐井]
+</code></pre><h4 id="2-2-删除元素"><a href="#2-2-删除元素" class="headerlink" title="2.2 删除元素"></a>2.2 删除元素</h4><p>删除元素一般用的就是remove(int index)方法</p>
+<pre><code>arr.remove(0);
+System.out.println(arr);
+</code></pre><p>得到的结果如下：</p>
+<pre><code>[鸣人, 佐助, 小樱, 大和, 佐井]
+</code></pre><h4 id="2-3-修改元素"><a href="#2-3-修改元素" class="headerlink" title="2.3 修改元素"></a>2.3 修改元素</h4><p>修改元素使用的一般是set(int index, String element)方法</p>
+<pre><code>arr.set(0, &quot;自来也&quot;);
+System.out.println(arr);
+</code></pre><p>得到的结果如下：</p>
+<pre><code>[自来也, 鸣人, 佐助, 小樱, 大和, 佐井]
+</code></pre><h4 id="2-4-查看方法"><a href="#2-4-查看方法" class="headerlink" title="2.4 查看方法"></a>2.4 查看方法</h4><p>一般对应集合元素的查看，也就是对于集合的遍历，而对于集合的遍历，是有很多方法的</p>
+<h5 id="2-4-1-增强for循环"><a href="#2-4-1-增强for循环" class="headerlink" title="2.4.1 增强for循环"></a>2.4.1 增强for循环</h5><pre><code>for (String s : arr) {
+    System.out.println(s);
+}
+</code></pre><p>得到的结果如下：</p>
+<pre><code>卡卡西
+鸣人
+佐助
+小樱
+大和
+佐井
+</code></pre><h5 id="2-4-2-迭代器循环"><a href="#2-4-2-迭代器循环" class="headerlink" title="2.4.2 迭代器循环"></a>2.4.2 迭代器循环</h5><pre><code>Iterator&lt;String&gt; it = arr.iterator();
+while (it.hasNext()) {
+    System.out.println(it.next());
+}
+</code></pre><p>结果都是一样的，也就不复制了</p>
+<h5 id="2-4-3-转数组循环"><a href="#2-4-3-转数组循环" class="headerlink" title="2.4.3 转数组循环"></a>2.4.3 转数组循环</h5><pre><code>String[] strArr = new String[arr.size()];
+strArr = arr.toArray(strArr);
+for (int i = 0; i &lt; strArr.length; i++) {
+    System.out.println(strArr[i]);
+}
+</code></pre><h5 id="2-4-4-直接for循环"><a href="#2-4-4-直接for循环" class="headerlink" title="2.4.4 直接for循环"></a>2.4.4 直接for循环</h5><pre><code>for (int i = 0; i &lt; arr.size(); i++) {
+    System.out.println(arr.get(i));
+}
+</code></pre><h4 id="2-5-说明"><a href="#2-5-说明" class="headerlink" title="2.5 说明"></a>2.5 说明</h4><p>在使用增强for循环和迭代器循环遍历数组时，不要在循环中使用集合去操作集合元素，因为此时集合已经将控制权交给了迭代器(增强for循环底层其实也是使用的迭代器),而集合再去操作集合中数组的时候，就会引发一个异常 <code>java.util.ConcurrentModificationException</code>,也就是并发修改异常，因此，在使用迭代器遍历集合时，不要使用集合去操作数组元素。</p>
+<h3 id="3-Set集合"><a href="#3-Set集合" class="headerlink" title="3.Set集合"></a>3.Set集合</h3><p>Set集合使用的比较多的就是HashSet类，因此下面的一些代码示例也就使用这个类了</p>
+<h4 id="3-1-增加元素"><a href="#3-1-增加元素" class="headerlink" title="3.1 增加元素"></a>3.1 增加元素</h4><p>增加元素使用add(String e)方法</p>
+<pre><code>HashSet&lt;String&gt; hs = new HashSet&lt;String&gt;();
+hs.add(&quot;卡卡西&quot;);
+hs.add(&quot;带土&quot;);
+hs.add(&quot;琳&quot;);
+System.out.println(hs);
+</code></pre><p>得到的结果如下:</p>
+<pre><code>[带土, 卡卡西, 琳]
+</code></pre><p>很明显可以看到的就是，元素在集合中的位置与集合添加元素的顺序并不一致</p>
+<p>再看一下下面的代码</p>
+<pre><code>HashSet&lt;String&gt; hs = new HashSet&lt;String&gt;();
+hs.add(&quot;卡卡西&quot;);
+hs.add(&quot;带土&quot;);
+hs.add(&quot;琳&quot;);
+System.out.println(hs.add(&quot;卡卡西&quot;));
+System.out.println(hs);
+</code></pre><p>得到的结果是：</p>
+<pre><code>false
+[带土, 卡卡西, 琳]
+</code></pre><p>很明显，最后一个元素并没有添加成功，而且在添加时还打印了false，这就是因为Set集合认为最后一个元素在集合中已经有相同的元素存在了，那Set集合是通过什么判断两个元素是一样的呢？答案是hashCode()和equals()方法，如果这两个方法返回的值都是一样的，那就认为这两个元素是一样的，因此在我们开发的过程中，比如要使用一个Set集合添加Student这个类的实例对象，那就一定要重写这两个方法，让Student属性值一样的对象被认为是一样的，属性值不一样的对象就是不一样的，其实实际开发过程中也不用我们自己写，Eclipse会根据我们类的属性值相应地生成这两个方法。</p>
+<h4 id="3-2-删除元素"><a href="#3-2-删除元素" class="headerlink" title="3.2 删除元素"></a>3.2 删除元素</h4><p>删除元素使用remove(Object o)方法</p>
+<pre><code>hs.remove(&quot;卡卡西&quot;);
+System.out.println(hs);
+</code></pre><p>得到的结果如下:</p>
+<pre><code>[带土, 琳]
+</code></pre><h4 id="3-3-查看元素"><a href="#3-3-查看元素" class="headerlink" title="3.3 查看元素"></a>3.3 查看元素</h4><p>Set集合查看元素也提供了很多方法</p>
+<h5 id="3-3-1-增强for循环"><a href="#3-3-1-增强for循环" class="headerlink" title="3.3.1 增强for循环"></a>3.3.1 增强for循环</h5><pre><code>for (String s : hs) {
+    System.out.println(s);
+}
+</code></pre><p>得到的结果如下:</p>
+<pre><code>带土
+卡卡西
+琳
+</code></pre><h5 id="3-3-2-迭代器循环"><a href="#3-3-2-迭代器循环" class="headerlink" title="3.3.2 迭代器循环"></a>3.3.2 迭代器循环</h5><pre><code>Iterator&lt;String&gt; it = hs.iterator();
+while (it.hasNext()) {
+    System.out.println(it.next());
+}
+</code></pre><p>结果都是一样的，就不复制了</p>
+<h5 id="3-3-3-转数组遍历"><a href="#3-3-3-转数组遍历" class="headerlink" title="3.3.3 转数组遍历"></a>3.3.3 转数组遍历</h5><pre><code>String[] strArr = new String[hs.size()];
+strArr = hs.toArray(strArr);
+for (int i = 0; i &lt; strArr.length; i++) {
+    System.out.println(strArr[i]);
+}
+</code></pre><h3 id="4-Map集合"><a href="#4-Map集合" class="headerlink" title="4.Map集合"></a>4.Map集合</h3><p>Map集合使用比较多的就是HashMap了，下面的示例也就用这个类:</p>
+<h4 id="4-1-添加元素"><a href="#4-1-添加元素" class="headerlink" title="4.1 添加元素"></a>4.1 添加元素</h4><p>添加元素是使用的put(String key, String value)方法</p>
+<pre><code>HashMap&lt;String, String&gt; hm = new HashMap&lt;String, String&gt;();
+hm.put(&quot;卡卡西&quot;, &quot;木叶&quot;);
+hm.put(&quot;带土&quot;, &quot;木叶&quot;);
+hm.put(&quot;水门&quot;, &quot;木叶&quot;);
+System.out.println(hm);
+</code></pre><p>得到的结果如下:</p>
+<pre><code>{水门=木叶, 带土=木叶, 卡卡西=木叶}
+</code></pre><p>接下来再看一下下面的代码</p>
+<pre><code>hm.put(&quot;带土&quot;, &quot;晓&quot;);
+System.out.println(hm);
+</code></pre><p>结果是这样的:</p>
+<pre><code>{水门=木叶, 带土=晓, 卡卡西=木叶}
+</code></pre><p>这样就实现了修改。</p>
+<h4 id="4-2-删除元素"><a href="#4-2-删除元素" class="headerlink" title="4.2 删除元素"></a>4.2 删除元素</h4><p>删除是使用的remove(Object key)方法</p>
+<pre><code>hm.remove(&quot;水门&quot;);
+System.out.println(hm);
+</code></pre><p>得到的结果如下:</p>
+<pre><code>{带土=木叶, 卡卡西=木叶}
+</code></pre><h4 id="4-3-查看元素"><a href="#4-3-查看元素" class="headerlink" title="4.3 查看元素"></a>4.3 查看元素</h4><p>Map集合遍历集合有两种方式:</p>
+<p>1.先得到集合中所有键(key)的集合,然后依次遍历键的集合，并同时获得每个键对应的值(value)</p>
+<pre><code>HashMap&lt;String, String&gt; hm = new HashMap&lt;String, String&gt;();
+hm.put(&quot;卡卡西&quot;, &quot;木叶&quot;);
+hm.put(&quot;带土&quot;, &quot;木叶&quot;);
+hm.put(&quot;水门&quot;, &quot;木叶&quot;);
+Set&lt;String&gt; keySet = hm.keySet();
+for (String key : keySet) {
+    String value = hm.get(key);
+    System.out.println(key + &quot;---&quot; + value);
+}
+</code></pre><p>得到的结果如下:</p>
+<pre><code>水门---木叶
+带土---木叶
+卡卡西---木叶
+</code></pre><p>2.Map集合中的每一个元素都作为一个Entry对象，循环遍历Entry对象，并同时获取其中的键(key)和值(value)</p>
+<pre><code>HashMap&lt;String, String&gt; hm = new HashMap&lt;String, String&gt;();
+hm.put(&quot;卡卡西&quot;, &quot;木叶&quot;);
+hm.put(&quot;带土&quot;, &quot;木叶&quot;);
+hm.put(&quot;水门&quot;, &quot;木叶&quot;);
+Set&lt;Entry&lt;String, String&gt;&gt; entrySet = hm.entrySet();
+for (Entry&lt;String, String&gt; entry : entrySet) {
+    String key = entry.getKey();
+    String value = entry.getValue();
+    System.out.println(key + &quot;---&quot; + value);
+}
+</code></pre><p>得到的结果如下:</p>
+<pre><code>水门---木叶
+带土---木叶
+卡卡西---木叶
+</code></pre><h3 id="5-泛型"><a href="#5-泛型" class="headerlink" title="5.泛型"></a>5.泛型</h3><p>泛型的出现很大程度上就是为了确定集合中元素是什么类型，在没有泛型之前，集合一般是这样的</p>
+<pre><code>HashSet set = new HashSet();
+ArrayList list = new ArrayList();
+HashMap map = new HashMap();
+</code></pre><p>并且在集合添加元素的时候，任何类型的元素都可以添加进去，基本数值类型和引用数据类型都可以，因为集合的增加元素方法传入的参数是 Object类型的，这样用是非常方便的，但是，在取出元素的时候，可就没那么容易判断该元素究竟是什么类型了，也就比较容易出现类型转换异常，当然可以在取出时使用强制类型转换，但是也是比较麻烦的，为了解决这个问题，主角登场了:<strong>泛型</strong></p>
+<p>有了泛型之后，集合的声明就是这样的:</p>
+<pre><code>HashSet&lt;String&gt; set = new HashSet();
+ArrayList&lt;String&gt; list = new ArrayList&lt;String&gt;();
+HashMap&lt;String,String&gt; map = new HashMap&lt;String,String&gt;();
+</code></pre><p>就是在集合名的后面加一对尖括号，里面再放该集合准备接受元素的类型，这里面只能是引用类型，所有基本数据类型的话就应该放对应的包装类。</p>
+<p>这样写的作用是什么呢？就是规定这个集合只能放该类型的元素数据，如果想放别的类型的数据的话，在编译时期就会给出错误提示，这样就会很方便了，而且，在取出元素时，也不用做强制类型转换，取出的元素类型就是尖括号中写的那个引用类型，其实也是因为，在加入元素的时候就被限制只能放入一种类型的数据了。</p>
+<h3 id="6-数据结构-栈和队列"><a href="#6-数据结构-栈和队列" class="headerlink" title="6.数据结构(栈和队列)"></a>6.数据结构(栈和队列)</h3><p>栈和队列是两种常见的数据结构，它们的特点分别是:</p>
+<pre><code>栈:先进后出
+队列:先进先出
+</code></pre><p>其实是可以简单地模拟一下栈和队列的基本操作的，因为集合中提供了很多像这样的功能</p>
+<h4 id="6-1-栈"><a href="#6-1-栈" class="headerlink" title="6.1 栈"></a>6.1 栈</h4><pre><code>import java.util.LinkedList;
+
+public class GenStack&lt;E&gt; {
+    private LinkedList&lt;E&gt; list = new LinkedList&lt;E&gt;();
+
+    public void push(E item) {
+        list.addFirst(item);
+    }
+
+    public E pop() {
+        return list.poll();
+    }
+
+    public E peek() {
+        return list.peek();
+    }
+
+    public boolean hashItems() {
+        return !list.isEmpty();
+    }
+
+    public int size() {
+        return list.size();
+    }
+}
+</code></pre><p>测试类如下:</p>
+<pre><code>public class GenStackTest {
+    public static void main(String[] args) {
+        GenStack&lt;String&gt; gs = new GenStack&lt;String&gt;();
+
+        System.out.println(&quot;Pushing four items onto the stack.&quot;);
+        gs.push(&quot;one&quot;);
+        gs.push(&quot;two&quot;);
+        gs.push(&quot;three&quot;);
+        gs.push(&quot;four&quot;);
+
+        System.out.println(&quot;There are &quot; + gs.size() + &quot; items in the stack.\n&quot;);
+        System.out.println(&quot;The top item is &quot; + gs.peek() + &quot;\n&quot;);
+        System.out.println(&quot;There are still &quot; + gs.size()
+                + &quot; items in the stact.&quot;);
+        System.out.println(&quot;Poppint everything...&quot;);
+        while (gs.hashItems()) {
+            System.out.println(gs.pop());
+        }
+        System.out.println(&quot;There are now &quot; + gs.size() + &quot; in the stack.&quot;);
+        System.out.println(&quot;The top item is &quot; + gs.peek() + &quot;\n&quot;);
+    }
+}
+</code></pre><h4 id="6-2-队列"><a href="#6-2-队列" class="headerlink" title="6.2 队列"></a>6.2 队列</h4><pre><code>import java.util.LinkedList;
+
+public class GenQueue&lt;E&gt; {
+    private LinkedList&lt;E&gt; list = new LinkedList&lt;E&gt;();
+
+    public void enqueue(E item) {
+        list.addLast(item);
+    }
+
+    public E dequeue() {
+        return list.poll();
+    }
+
+    public boolean hasItems() {
+        return !list.isEmpty();
+    }
+
+    public int size() {
+        return list.size();
+    }
+
+    public void addItems(GenQueue&lt;? extends E&gt; q) {
+        while (q.hasItems()) {
+            list.addLast(q.dequeue());
+        }
+    }
+}
+</code></pre><p>测试类如下:</p>
+<pre><code>public class GenQueueTest {
+    public static void main(String[] args) {
+        GenQueue&lt;Employee&gt; empList = new GenQueue&lt;Employee&gt;();
+        GenQueue&lt;HourlyEmployee&gt; hList = new GenQueue&lt;HourlyEmployee&gt;();
+
+        hList.enqueue(new HourlyEmployee(&quot;Trump&quot;, &quot;Donald&quot;));
+        hList.enqueue(new HourlyEmployee(&quot;Gates&quot;, &quot;Bill&quot;));
+        hList.enqueue(new HourlyEmployee(&quot;Forbes&quot;, &quot;Steve&quot;));
+        empList.addItems(hList);
+        while (empList.hasItems()) {
+            Employee emp = empList.dequeue();
+            System.out.println(emp.firstName + &quot; &quot; + emp.lastName);
+        }
+    }
+}
+
+class Employee {
+    public String lastName;
+    public String firstName;
+
+    public Employee() {
+    }
+
+    public Employee(String last, String first) {
+        this.lastName = last;
+        this.firstName = first;
+    }
+
+    public String toString() {
+        return firstName + &quot; &quot; + lastName;
+    }
+}
+
+class HourlyEmployee extends Employee {
+    public double hourlyRate;
+
+    public HourlyEmployee(String last, String first) {
+        super(last, first);
+    }
+}
+</code></pre><h3 id="7-总结"><a href="#7-总结" class="headerlink" title="7.总结"></a>7.总结</h3><p>集合因为长度可变，而且可以转为数组，因此使用起来非常灵活，实际运用的时候解决方法也就会比较多，因此碰到问题时还是要多想一下，平时多使用集合的话，一些常用的方法也会很熟悉，运用的时候也能很快就联想到。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/12/Java中的时间/" rel="next" title="Java中的时间">
+                <i class="fa fa-chevron-left"></i> Java中的时间
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/15/Collection与Collections/" rel="prev" title="Collection与Collections">
+                Collection与Collections <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-集合的分类"><span class="nav-number">1.</span> <span class="nav-text">1.集合的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-List集合"><span class="nav-number">2.</span> <span class="nav-text">2.List集合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-增加元素"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 增加元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-删除元素"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 删除元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-修改元素"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 修改元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-查看方法"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 查看方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-1-增强for循环"><span class="nav-number">2.4.1.</span> <span class="nav-text">2.4.1 增强for循环</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-2-迭代器循环"><span class="nav-number">2.4.2.</span> <span class="nav-text">2.4.2 迭代器循环</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-3-转数组循环"><span class="nav-number">2.4.3.</span> <span class="nav-text">2.4.3 转数组循环</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-4-直接for循环"><span class="nav-number">2.4.4.</span> <span class="nav-text">2.4.4 直接for循环</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-说明"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Set集合"><span class="nav-number">3.</span> <span class="nav-text">3.Set集合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-增加元素"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 增加元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-删除元素"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 删除元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-查看元素"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 查看元素</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-1-增强for循环"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.3.1 增强for循环</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-2-迭代器循环"><span class="nav-number">3.3.2.</span> <span class="nav-text">3.3.2 迭代器循环</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-3-转数组遍历"><span class="nav-number">3.3.3.</span> <span class="nav-text">3.3.3 转数组遍历</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Map集合"><span class="nav-number">4.</span> <span class="nav-text">4.Map集合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-添加元素"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 添加元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-删除元素"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 删除元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-查看元素"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 查看元素</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-泛型"><span class="nav-number">5.</span> <span class="nav-text">5.泛型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-数据结构-栈和队列"><span class="nav-number">6.</span> <span class="nav-text">6.数据结构(栈和队列)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-栈"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-队列"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 队列</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-总结"><span class="nav-number">7.</span> <span class="nav-text">7.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/06/15/Java中的集合/';
+
+      var disqus_title = "Java中的集合";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

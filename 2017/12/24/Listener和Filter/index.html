@@ -1,0 +1,1597 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Servlet," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章想要介绍的就是 Listener 和 Filter ，也就是监听器和过滤器了，这两个看起来就是比较高级的技术了，但同时也是非常实用的技术，其实只要从最基本的使用开始入门，还是很好掌握的，掌握之后我们的技能库就又多了两件法宝，碰到相关问题也就又多了一种解决的可能，因此学习新技术还是蛮开心的，下面就开始介绍了，先说 Listener。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Listener和Filter">
+<meta property="og:url" content="http://yoursite.com/2017/12/24/Listener和Filter/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="这篇文章想要介绍的就是 Listener 和 Filter ，也就是监听器和过滤器了，这两个看起来就是比较高级的技术了，但同时也是非常实用的技术，其实只要从最基本的使用开始入门，还是很好掌握的，掌握之后我们的技能库就又多了两件法宝，碰到相关问题也就又多了一种解决的可能，因此学习新技术还是蛮开心的，下面就开始介绍了，先说 Listener。">
+<meta property="og:updated_time" content="2018-10-04T09:18:50.273Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Listener和Filter">
+<meta name="twitter:description" content="这篇文章想要介绍的就是 Listener 和 Filter ，也就是监听器和过滤器了，这两个看起来就是比较高级的技术了，但同时也是非常实用的技术，其实只要从最基本的使用开始入门，还是很好掌握的，掌握之后我们的技能库就又多了两件法宝，碰到相关问题也就又多了一种解决的可能，因此学习新技术还是蛮开心的，下面就开始介绍了，先说 Listener。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/24/Listener和Filter/"/>
+
+
+
+
+
+  <title> Listener和Filter | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/24/Listener和Filter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Listener和Filter
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-24T22:08:52+08:00">
+                2017-12-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Java Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/24/Listener和Filter/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/12/24/Listener和Filter/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/12/24/Listener和Filter/" class="leancloud_visitors" data-flag-title="Listener和Filter">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章想要介绍的就是 <code>Listener</code> 和 <code>Filter</code> ，也就是监听器和过滤器了，这两个看起来就是比较高级的技术了，但同时也是非常实用的技术，其实只要从最基本的使用开始入门，还是很好掌握的，掌握之后我们的技能库就又多了两件法宝，碰到相关问题也就又多了一种解决的可能，因此学习新技术还是蛮开心的，下面就开始介绍了，先说 <code>Listener</code>。</p>
+<a id="more"></a>
+<h3 id="1-什么是监听器"><a href="#1-什么是监听器" class="headerlink" title="1.什么是监听器"></a>1.什么是监听器</h3><p>其实听名字就可以猜到监听器的作用是什么？那就是监听一个对象，当这个对象有动作的时候，我们监听器也会执行相关动作。当然如果放到 <code>Java</code> 中来说的话，我们所有的事物都是和类相关的，因此我们监听器监听的对象以及我们监听器本身其实都应该是类了，其实在 <code>Java</code> 中监听器就是实现了特定接口的类，可以用来监听另一个类的方法调用或者属性的改变，当被监听对象执行上述的动作时，监听器对象中也会有相应的监听方法执行。</p>
+<p>其实知道了监听器是做什么的了之后，就能很好的理解它了，而且对于监听器相关的术语也可以很好的理解，监听器相关的术语有如下几个：</p>
+<pre><code>事件源
+监听器
+事件源和监听器绑定
+事件
+</code></pre><p>其实通过一个生活中的小例子，就能很好的理解上面这些术语的意思了，就比如安装在汽车上面的报警器，当有人恶意碰撞我们的车时，报警器就会发出警报声，很显然，报警器是在时刻监视着汽车的，而在这个生活小例子当中，事件源就是汽车，监听器就是我们的报警器了，而事件源和监听器的绑定则是在我们的汽车上面安装报警器了，事件的话就是有人踹了我们的汽车一脚。这样的话，就将生活中的例子和上面的术语一一对应起来了，也能让我们能够更好的理解上面的概念，其实真的理解了这个小例子的话，就会感觉监听器的原理还是蛮简单的。</p>
+<h3 id="2-监听器小例子"><a href="#2-监听器小例子" class="headerlink" title="2.监听器小例子"></a>2.监听器小例子</h3><p>因为在 <code>Java</code> 的 <code>GUI</code> 图形用户界面编程中监听器还是很常见的，比如一个窗口对象，我们就可以对它进行监听，当它关闭的时候，我们就会执行相应的监听方法了，下面先看代码：</p>
+<pre><code>import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+import javax.swing.JFrame;
+
+public class MyFrame extends JFrame {
+    public static void main(String[] args) {
+        // 1.创建窗口对象(被监听对象)
+        MyFrame myFrame = new MyFrame();
+        // 2.设置窗口对象名称
+        myFrame.setName(&quot;小窗口&quot;);
+        // 3.设置窗口坐标以及宽高
+        myFrame.setBounds(50, 50, 200, 100);
+        // 4.设置窗口可见
+        myFrame.setVisible(true);
+        // 5.绑定监听器
+        myFrame.addWindowListener(new MyWindowListener());
+    }
+}
+
+class MyWindowListener implements WindowListener {
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        MyFrame myFrame = (MyFrame) e.getSource();
+        System.out.println(myFrame.getName() + &quot;打开啦&quot;);
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        // TODO Auto-generated method stub
+        System.out.println(&quot;关闭啦&quot;);
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+}
+</code></pre><p>首先因为 <code>MyFrame</code> 类继承了 <code>JFrame</code> ，因此由它创建的对象也就是一个窗口对象了，然后就可以调用相关的方法为窗口对象的属性赋值了，下面再看 <code>MyWindowListener</code> 类，实现了 <code>WindowListener</code> 接口，因此也是一个窗口监听器对象了，其中会有很多方法，都是在被监听对象执行某些动作时而触发执行的，比如 <code>windowOpened()</code> 方法，则是在被监听的窗口对象打开时触发的，而 <code>windowClosing()</code> 方法则是在被监听的窗口对象关闭时触发的，监听器对象的方法中都有一个 <code>WindowEvent</code> 对象，这个就是事件对象了，通过事件对象的 <code>getSource()</code> 方法我们就可以拿到被监听对象了，上面的描述中，监听器，被监听对象和事件都被提到了，最后缺的就是被监听对象与监听器的绑定了，上面代码中就是通过被监听对象的 <code>addWindowListener()</code> 方法将被监听对象和监听器进行绑定的。</p>
+<h3 id="3-Servlet中的监听器"><a href="#3-Servlet中的监听器" class="headerlink" title="3.Servlet中的监听器"></a>3.Servlet中的监听器</h3><p>因为我们做的都是 <code>Java Web</code> 项目，使用 <code>Servlet</code> 的机会会比较多，因此我们就来看看 <code>Servlet</code> 中有哪些监听器呢？其实 <code>Servlet</code> 中的监听器主要是跟 <code>ServletContext</code>、<code>HttpSession</code> 以及 <code>ServletRequest</code> 这三个域对象相关的，也就是说 <code>Servlet</code> 中监听器的事件源主要是上面三个对象。</p>
+<p>如果对 <code>Servlet</code> 中的监听器进行分类的话，主要可以分为以下 <code>3</code> 类：</p>
+<pre><code>1.监听三个域对象创建和销毁的监听器；
+2.监听三个域对象属性变更的监听器，比如属性的增加、删除和替换；
+3.监听HttpSession对象中JavaBean状态的改变，比如钝化、活化、绑定以及解除绑定。
+</code></pre><p>下面我们会分别对上述 <code>3</code> 类监听器进行说明。</p>
+<h4 id="3-1-关于域对象创建和销毁的监听器"><a href="#3-1-关于域对象创建和销毁的监听器" class="headerlink" title="3.1 关于域对象创建和销毁的监听器"></a>3.1 关于域对象创建和销毁的监听器</h4><p>由于是对上面三个域对象进行监听，因此如果想要对这三个域对象创建和销毁进行监听的话，所需要实现的接口也分别是三个，也就是下面这三个了：</p>
+<pre><code>ServletContextListener
+HttpSessionListener
+ServletRequestListener
+</code></pre><p>没错，就是上面这三个接口了，从名字上就可以看出，如果想要监听哪个域对象的创建和销毁的话，应该实现哪个接口了，因此使用起来还是非常简单的，下面直接给出代码分别实现以下对三个域对象创建和销毁的监听。首先是对 <code>ServletContext</code> 域对象的监听。</p>
+<pre><code>public class MyServletContextListener implements ServletContextListener {
+
+    @Override
+    public void contextDestroyed(ServletContextEvent arg0) {
+        System.out.println(&quot;ServletContext被销毁了&quot;);
+    }
+
+    @Override
+    public void contextInitialized(ServletContextEvent arg0) {
+        System.out.println(&quot;ServletContext被初始化了&quot;);
+    }
+}
+</code></pre><p>当我们自己新建的类 <code>MyServletContextListener</code> 实现 <code>ServletContextListener</code> 接口时，那这个类就可以监听到 <code>ServletContext</code> 域对象的创建和销毁了，不过需要使用的话，还需要在 <code>web.xml</code> 文件中进行配置一下，来说明这个类是一个监听器，配置的代码如下：</p>
+<pre><code>&lt;listener&gt;
+    &lt;listener-class&gt;party.laucloud.weblistener.MyServletContextListener&lt;/listener-class&gt;
+&lt;/listener&gt;
+</code></pre><p>这样就完成对监听器的配置了，而我们知道 <code>ServletContext</code> 域对象是一个项目只有一个的，当项目启动时这个对象会被创建，而项目关闭时该对象会被销毁，在我们实现的监听器中，<code>contextInitialized()</code> 和 <code>contextDestroyed()</code> 方法很显然就是监听该对象创建和销毁的方法了，因此当我们启动和关闭项目时，就可以看到对应的日志打印了。</p>
+<p>上面就是 <code>ServletContextListener</code> 接口的使用了，其实还是蛮简单的，只需要实现该接口，然后在 <code>web.xml</code> 进行监听器类的配置就好了，下面我们也将使用 <code>HttpSessionListener</code> 和 <code>ServletRequestListener</code> 来说明它们的作用。</p>
+<p><strong>HttpSessionListener</strong></p>
+<p>先看相关的代码：</p>
+<pre><code>public class MyHttpSessionListener implements HttpSessionListener {
+
+    @Override
+    public void sessionCreated(HttpSessionEvent arg0) {
+        System.out.println(&quot;HttpSession被创建了&quot;);
+    }
+
+    @Override
+    public void sessionDestroyed(HttpSessionEvent arg0) {
+        System.out.println(&quot;HttpSession被销毁了&quot;);
+    }
+}
+</code></pre><p>和使用 <code>ServletContextListener</code> 接口类似的，先实现 <code>HttpSessionListener</code> 接口，然后新建的类中就会有两个接口中需要重写的方法，那就是 <code>sessionCreated()</code> 和 <code>sessionDestroyed()</code> 方法，很显然这就是监听 <code>HttpSession</code> 对象创建和销毁的方法了，当 <code>HttpSession</code> 对象创建和销毁时我们就可以看到对应方法打印的日志了，当然如果想要使用的话，还必须在 <code>web.xml</code> 配置文件中进行配置。</p>
+<pre><code>&lt;listener&gt;
+    &lt;listener-class&gt;party.laucloud.weblistener.MyHttpSessionListener&lt;/listener-class&gt;
+&lt;/listener&gt;
+&lt;session-config&gt;
+    &lt;session-timeout&gt;1&lt;/session-timeout&gt;
+&lt;/session-config&gt;
+</code></pre><p>这样的话我们就可以使用新建的监听器对 <code>HttpSession</code> 对象的创建和销毁进行监听了，下面的配置是设置的 <code>Session</code> 对象被创建之后的过期时间，因为默认是 <code>30</code> 分钟，这里设置为 <code>1</code> 分钟，其实是为了方便后面我们测试，这里需要注意一下的就是 <code>HttpSession</code> 对象什么时候才会创建和销毁呢？</p>
+<pre><code>创建：程序在服务器端第一次调用getSession()方法的时候
+销毁：
+    1.非正常关闭服务器(正常关闭服务器时session对象会被序列化)
+    2.session对象的过期时间到了，默认过期时间为30分钟
+    3.在程序中调用session.invalidate()方法
+</code></pre><p>还有一个问题就是当我们分别访问 <code>html</code>、<code>JSP</code> 和 <code>Servlet</code> 的时候，这些情况会产生 <code>session</code> 对象吗？其实在访问 <code>html</code> 的时候是不会的，因为没有触发到我们上面所说的 <code>session</code> 对象创建的条件，那访问 <code>JSP</code> 页面的时候呢？其实这个是会的，因为 <code>JSP</code> 是有 <code>session</code> 内置对象的，很显然是会的，那最后的话，访问 <code>Servlet</code> 呢？这个就要看在代码中是否有调用  <code>getSession()</code> 方法了，如果有的话当然就会创建 <code>Session</code> 对象了。说这个的话，主要的目的是为了让我们好测试 <code>MyHttpSessionListener</code> 这个监听器，比如我们可以直接访问一个 <code>JSP</code> 页面，也可以访问一个 <code>Servlet</code> 对象，不过在代码中有创建 <code>Session</code> 和使 <code>Session</code> 失效的代码，这样我们就能看到对应监听器方法所打印的日志了。</p>
+<p><strong>ServletRequestListener</strong></p>
+<p>下面就是 <code>ServletRequestListener</code> 接口的使用了，首先还是先看代码：</p>
+<pre><code>public class MyServletRequestListener implements ServletRequestListener {
+
+    @Override
+    public void requestDestroyed(ServletRequestEvent arg0) {
+        System.out.println(&quot;ServletRequest被销毁了&quot;);
+    }
+
+    @Override
+    public void requestInitialized(ServletRequestEvent arg0) {
+        System.out.println(&quot;ServletRequest被初始化了&quot;);
+    }
+}
+</code></pre><p>使用上面的话也是和 <code>ServletContextListener</code> 与 <code>HttpSessionListener</code> 类似的，首先还是实现了 <code>ServletRequestListener</code> 接口，然后就需要实现接口中的 <code>requestInitialized()</code> 和 <code>requestDestroyed()</code> 方法，很显然这就是 <code>ServletRequest</code> 被创建和销毁时所要执行的监听方法了，同样的，如果想要使用的话，还需要在 <code>web.xml</code> 文件中进行配置，配置如下：</p>
+<pre><code>&lt;listener&gt;
+    &lt;listener-class&gt;party.laucloud.weblistener.MyServletRequestListener&lt;/listener-class&gt;
+&lt;/listener&gt;
+</code></pre><p>这样的话我们就可以使用 <code>MyServletRequestListener</code> 这个监听器来对 <code>ServletRequest</code> 对象的创建和销毁进行监听了，那需要注意的就是 <code>ServletRequest</code> 对象在什么情况下会被创建和销毁呢？</p>
+<pre><code>创建：当客户端向服务器发送一次请求时，ServletRequest对象就被创建了
+销毁：当服务器响应了客户端的请求，那ServletRequest对象就被销毁了
+</code></pre><p>还有一个与 <code>HttpSessionListener</code> 接口中类似的问题，当我们分别访问 <code>html</code> 、 <code>JSP</code> 以及 <code>Servlet</code> 时，<code>ServletRequest</code> 对象会被创建吗？答案是会的，因为访问它们三个时都是一次请求，因此 <code>ServletRequest</code> 对象都会被创建。</p>
+<h4 id="3-2-案例：统计当前在线人数"><a href="#3-2-案例：统计当前在线人数" class="headerlink" title="3.2 案例：统计当前在线人数"></a>3.2 案例：统计当前在线人数</h4><p>当我们学了上面三个监听域对象创建和销毁的监听器接口时，我们可以用刚学到的知识实现一些功能吗？当然是可以的，比如说统计一个网站的当前在线人数，那这里如何判断一个用户是在线的呢？那就是根据用户的 <code>Session</code> 了，如果一个用户的 <code>Session</code> 是有效的，那我们就认为该用户是在线的，那我们怎么知道有多少个 <code>Session</code> 是有效的呢？那就是前面我们已经使用过的 <code>HttpSessionListener</code> 接口了，实现该接口会有两个监听方法，一个是监听 <code>Session</code> 创建的，而另外一个是监听 <code>Session</code> 销毁的，那我们只需要在 <code>Session</code> 创建时将当前网站在线人数加 <code>1</code> ，而在 <code>Session</code> 销毁时将当前网站在线人数减 <code>1</code>，这样就可以知道当前网站的在线人数了，其实我们是需要使用一个变量来记录当前网站在线人数的，而且该变量初始化值应该是 <code>0</code>，那我们就可以使用 <code>ServletContextListener</code> 接口了，实现该接口之后重写其中的 <code>contextInitialized()</code> 方法，当应用启动时，在该监听方法中为 <code>ServletContext</code> 域对象添加一个属性，并初始化值为 <code>0</code>,当我们后面使用 <code>HttpSessionListener</code> 接口的实现类时，就可以在它的相关监听方法中对该值进行增减操作了，这也就是实现该案例的原理了。</p>
+<p>还是先看代码，首先使用一个 <code>ServletContext</code> 监听器在项目启动时用一个变量来保存当前在线人数，而且默认赋值为 <code>0</code>。</p>
+<pre><code>public class OnLineServletContextListener implements ServletContextListener {
+
+    @Override
+    public void contextDestroyed(ServletContextEvent event) {
+
+    }
+
+    @Override
+    public void contextInitialized(ServletContextEvent event) {
+        event.getServletContext().setAttribute(&quot;count&quot;, 0);
+    }
+}
+</code></pre><p>当然配置信息还是必不可少的，一样的还是需要在 <code>web.xml</code> 文件中进行配置。</p>
+<pre><code>&lt;listener&gt;
+    &lt;listener-class&gt;party.laucloud.onlinelistener.OnLineServletContextListener&lt;/listener-class&gt;
+&lt;/listener&gt;
+</code></pre><p>然后的话就是看有多少个用户来访问我们的网站了，因为每一个用户来访问我们网站 <code>JSP</code> 页面时，都会创建一个 <code>Session</code> 对象，因此我们就可以监听 <code>Session</code> 对象的创建和销毁来判断有多少人在线了，具体的监听器代码如下：</p>
+<pre><code>public class OnLineHttpSessionListener implements HttpSessionListener {
+
+    @Override
+    public void sessionCreated(HttpSessionEvent event) {
+        HttpSession session = event.getSession();
+        System.out.println(session.getId() + &quot;被创建了&quot;);
+        int count = (int) session.getServletContext().getAttribute(&quot;count&quot;);
+        count++;
+        session.getServletContext().setAttribute(&quot;count&quot;, count);
+    }
+
+    @Override
+    public void sessionDestroyed(HttpSessionEvent event) {
+        HttpSession session = event.getSession();
+        System.out.println(session.getId() + &quot;被销毁了&quot;);
+        int count = (int) session.getServletContext().getAttribute(&quot;count&quot;);
+        count--;
+        session.getServletContext().setAttribute(&quot;count&quot;, count);
+    }
+}
+</code></pre><p>同样的，要想使用这个监听器，就还需要在 <code>web.xml</code> 文件中进行配置，而且这里为了测试方便的话，我们可以将 <code>Session</code> 默认的 <code>30</code> 分钟过期时间改小一点，比如只有 <code>1</code> 分钟，这样在测试的时候就能更快的看到效果，配置可以如下：</p>
+<pre><code>&lt;listener&gt;
+    &lt;listener-class&gt;party.laucloud.onlinelistener.OnLineHttpSessionListener&lt;/listener-class&gt;
+&lt;/listener&gt;
+&lt;session-config&gt;
+    &lt;session-timeout&gt;1&lt;/session-timeout&gt;
+&lt;/session-config&gt;
+</code></pre><p>而我们需要知道有多少人在线的话，肯定是需要显示出来的，那我们就可以使用一个 <code>JSP</code> 页面来进行显示，其实这里使用 <code>JSP</code> 页面的话还有一个原因，那就是我们在访问 <code>JSP</code> 页面的时候是会创建 <code>Session</code> 对象的，因此这样也能模拟用户登录的效果了，具体的 <code>JSP</code> 页面如下：</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;Insert title here&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;当前在线人数：${ count }&lt;/h2&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>记录当前网站在线人数的例子也就写完了，其实最关键的点就是使用 <code>HttpSession</code> 的监听器来监听 <code>Session</code> 对象的创建和销毁。</p>
+<h4 id="3-3-关于域对象属性变更的监听器"><a href="#3-3-关于域对象属性变更的监听器" class="headerlink" title="3.3 关于域对象属性变更的监听器"></a>3.3 关于域对象属性变更的监听器</h4><p>下面就开始介绍第二类的监听器了，那就是对 <code>ServletContext</code>、<code>HttpSession</code> 以及 <code>ServletRequest</code> 这三个域对象的属性变更进行监听的监听器，所谓的属性变更，其实就是向这三个域对象中添加属性、删除属性以及替换属性，相关的监听器接口就是：</p>
+<pre><code>ServletContextAttributeListener
+HttpSessionAttributeListener
+ServletRequestAttributeListener
+</code></pre><p>看名字的话就可以很明显的看出这三个监听器接口所要监听的域对象是哪个了，下面根据具体的代码演示来分别介绍。</p>
+<p><strong>ServletContextAttributeListener</strong></p>
+<pre><code>public class MyServletContextAttributeListener implements ServletContextAttributeListener {
+
+    @Override
+    public void attributeAdded(ServletContextAttributeEvent arg0) {
+        System.out.println(&quot;ServletContext对象增加属性了&quot;);
+    }
+
+    @Override
+    public void attributeRemoved(ServletContextAttributeEvent arg0) {
+        System.out.println(&quot;ServletContext对象移除属性了&quot;);
+    }
+
+    @Override
+    public void attributeReplaced(ServletContextAttributeEvent arg0) {
+        System.out.println(&quot;ServletContext对象替换属性了&quot;);
+    }
+}
+</code></pre><p>首先是新建一个类实现 <code>ServletContextAttributeListener</code> 接口，然后我们就需要在新建的类中重写接口中的方法，也就是 <code>attributeAdded()</code>、<code>attributeRemoved()</code> 以及 <code>attributeReplaced()</code> 这三个方法，从名字就可以看出是属性增加、属性移除和属性替换的监听方法了，也就是说只要我们在 <code>ServletContext</code> 域对象中增加、移除或者替换属性的话，那我们相应的监听方法也就会执行，我们就可以看到相关的日志打印了。当然，和之前的使用一样，我们还需要在 <code>web.xml</code> 配置文件中进行配置。</p>
+<pre><code>&lt;listener&gt;
+    &lt;listener-class&gt;party.laucloud.attributelistener.MyServletContextAttributeListener&lt;/listener-class&gt;
+&lt;/listener&gt;
+</code></pre><p>这样的话我们就可以对 <code>ServletContext</code> 属性变更的监听器进行测试了，试着向 <code>ServletContext</code> 中增加、删除或者替换属性，这样我们就能看到监听器中相关方法的日志打印了。</p>
+<p><strong>HttpSessionAttributeListener</strong></p>
+<p>下面再看 <code>HttpSessionAttributeListener</code> 接口，其实使用的话都是类似的。</p>
+<pre><code>public class MyHttpSessionAttributeListener implements HttpSessionAttributeListener {
+
+    @Override
+    public void attributeAdded(HttpSessionBindingEvent arg0) {
+        System.out.println(&quot;HttpSession增加属性&quot;);
+    }
+
+    @Override
+    public void attributeRemoved(HttpSessionBindingEvent arg0) {
+        System.out.println(&quot;HttpSession移除属性&quot;);
+    }
+
+    @Override
+    public void attributeReplaced(HttpSessionBindingEvent arg0) {
+        System.out.println(&quot;HttpSession替换属性&quot;);
+    }
+}
+</code></pre><p>同样的，首先先实现 <code>HttpSessionAttributeListener</code> 接口，然后在新建的类中重写接口的方法，同样的 <code>attributeAdded()</code>、<code>attributeRemoved()</code> 和 <code>attributeReplaced()</code> 这三个方法，代表着对 <code>Session</code> 对象中属性的增加、移除以及替换的监听，当 <code>Session</code> 对象对属性有所操作时，我们也就看到相关的日志打印了。同样的，我们还需要在 <code>web.xml</code> 配置文件中进行配置。</p>
+<pre><code>&lt;listener&gt;
+    &lt;listener-class&gt;party.laucloud.attributelistener.MyHttpSessionAttributeListener&lt;/listener-class&gt;
+&lt;/listener&gt;
+</code></pre><p>这样的话，我们就完成对 <code>HttpSession</code> 对象属性的监听了，因此当我们测试地往 <code>HttpSession</code> 对象中增加、移除或者替换属性时，就可以看到相关日志的打印了。</p>
+<p><strong>ServletRequestAttributeListener</strong></p>
+<p>下面再看最后一个对 <code>ServletRequest</code> 域对象属性变更进行监听的监听器接口，那就是 <code>ServletRequestAttributeListener</code>，首先还是先看代码。</p>
+<pre><code>public class MyServletRequestAttributeListener implements ServletRequestAttributeListener {
+
+    @Override
+    public void attributeAdded(ServletRequestAttributeEvent arg0) {
+        System.out.println(&quot;ServletRequest对象增加属性了&quot;);
+    }
+
+    @Override
+    public void attributeRemoved(ServletRequestAttributeEvent arg0) {
+        System.out.println(&quot;ServletRequest对象移除属性了&quot;);
+    }
+
+    @Override
+    public void attributeReplaced(ServletRequestAttributeEvent arg0) {
+        System.out.println(&quot;ServletRequest对象替换属性了&quot;);
+    }
+}
+</code></pre><p>同样的，使用时还是先实现 <code>ServletRequestAttributeListener</code> 接口，然后再重写所实现接口中的方法，也就是 <code>attributeAdded()</code>、<code>attributeRemoved()</code> 以及 <code>attributeReplaced()</code>，这三个方法也就是用来监听 <code>ServletRequest</code> 域对象进行属性增加、属性移除以及属性替换的了，最后也还是需要在 <code>web.xml</code> 配置文件中进行配置。</p>
+<pre><code>&lt;listener&gt;
+    &lt;listener-class&gt;party.laucloud.attributelistener.MyServletRequestAttributeListener&lt;/listener-class&gt;
+&lt;/listener&gt;
+</code></pre><p>这样的话我们就能够对实现了 <code>ServletRequestAttributeListener</code> 接口的类进行测试了，通过向 <code>ServletRequest</code> 对象增加、移除或者替换属性，我们就可以看到相关监听方法中的日志打印了。</p>
+<p>这样的话，对三个域对象的属性变更进行监听的监听器接口也介绍完了，其实操作起来还是比较简单的，而且三个接口的使用方法非常类似，掌握了一个之后再使用其它的也就十分方便了。</p>
+<h4 id="3-4-关于HttpSession对象中JavaBean状态改变的监听器"><a href="#3-4-关于HttpSession对象中JavaBean状态改变的监听器" class="headerlink" title="3.4 关于HttpSession对象中JavaBean状态改变的监听器"></a>3.4 关于HttpSession对象中JavaBean状态改变的监听器</h4><p>下面就是第三类的监听器了，这一类的监听器主要关注的就是 <code>JavaBean</code> 在 <code>Session</code> 中的状态了，要想使用这一类监听器，我们首先需要看一下 <code>JavaBean</code> 在 <code>Session</code> 中有哪几种状态？</p>
+<pre><code>1.JavaBean对象绑定到Session当中；
+2.从Session中解除JavaBean的绑定；
+3.JavaBean对象随着Session对象持久化到存储设备当中，比如磁盘，这种状态就叫做钝化；
+4.JavaBean对象随着Session对象从存储设备中恢复，这种状态叫活化。
+</code></pre><p>对于上面 <code>JavaBean</code> 的 <code>4</code> 种状态，<code>Servlet</code> 中提供了两个接口让 <code>JavaBean</code> 了解自己在 <code>Session</code> 中的状态，那就是：</p>
+<pre><code>HttpSessionBindingListener
+HttpSessionActivationListener
+</code></pre><p>从名字就可以看出，第一个接口是与绑定相关的，而第二个接口是与钝化和活化相关的，而且这两个接口与前面我们所介绍的其它监听器接口不同的地方在于，这两个接口在使用的时候是不需要在 <code>web.xml</code> 文件中进行配置的。</p>
+<p>我们直接通过代码来查看两个接口的使用，因为这两个接口都是监听 <code>JavaBean</code> 对象的状态的，因此直接使用 <code>JavaBean</code> 实现接口就好了。</p>
+<p><strong>HttpSessionBindingListener</strong></p>
+<pre><code>public class Student implements HttpSessionBindingListener {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void valueBound(HttpSessionBindingEvent arg0) {
+        System.out.println(&quot;Student对象被绑定到HttpSession中了&quot;);
+    }
+
+    @Override
+    public void valueUnbound(HttpSessionBindingEvent arg0) {
+        System.out.println(&quot;Student对象被HttpSession移除绑定了&quot;);
+    }
+}
+</code></pre><p>首先我们看 <code>Student</code> 类的话，因为实现了 <code>HttpSessionBindingListener</code>，因此需要重写其实现接口中的方法，<code>valueBound()</code> 方法则是监听 <code>JavaBean</code> 对象绑定到 <code>Session</code> 对象中了，而 <code>valueUnbound()</code> 则是监听 <code>JavaBean</code> 对象与 <code>Session</code> 对象解除绑定了，其实我们在测试的时候可以通过查看打印日志，以便了解接口具体的功能是怎样的。</p>
+<pre><code>&lt;%
+    Student student = new Student();
+    session.setAttribute(&quot;student&quot;, student);
+    session.removeAttribute(&quot;student&quot;);
+%&gt;
+</code></pre><p>上面的代码就是实现了 <code>Student</code> 对象与 <code>Session</code> 对象的绑定，并且之后从 <code>Session</code> 中解除了与 <code>Student</code> 对象的绑定，其实上面 <code>JavaBean</code> 与 <code>Session</code> 对象绑定的代码也是为 <code>Session</code> 对象增加属性的代码，但是增加属性的时候可以是任意类型的数据，但是 <code>JavaBean</code> 与 <code>Session</code> 对象绑定则必须是 <code>JavaBean</code> 对象，而不能是像基本数据类型这样的数据了。访问上面的 <code>JSP</code> 页面，从而运行上面的代码，我们就可以在监听器中查看到相应的日志打印了，这样我们就能了解 <code>HttpSessionBindingListener</code> 接口具体实现的功能了。</p>
+<p><strong>HttpSessionActivationListener</strong></p>
+<p>下面再看 <code>HttpSessionActivationListener</code> 接口的使用，这个接口是关于序列化的，因此我们在新建的 <code>JavaBean</code> 中不仅要实现 <code>HttpSessionActivationListener</code> ，而且还应该实现 <code>Serializable</code> 这个序列化接口。</p>
+<pre><code>public class Teacher implements HttpSessionActivationListener, Serializable {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void sessionDidActivate(HttpSessionEvent arg0) {
+        System.out.println(&quot;Teacher对象被活化了&quot;);
+    }
+
+    @Override
+    public void sessionWillPassivate(HttpSessionEvent arg0) {
+        System.out.println(&quot;Teacher对象被钝化了&quot;);
+    }
+}
+</code></pre><p>其实上面已经说到了钝化和活化是怎么一回事了，钝化的话就是我们的 <code>JavaBean</code> 对象随着 <code>Session</code> 对象持久化到存储设备中，而活化的话则相反，就是 <code>JavaBean</code> 对象随着 <code>Session</code> 对象从存储设备中恢复过来，那这里就有一个问题了，什么时候 <code>Session</code> 对象会持久化到存储设备中呢？其实当我们正常关闭服务器的时候就会，但是我们为了测试方便，也可以使用配置的方式，就是配置 <code>Session</code> 对象多长时间不被访问的话就会持久化到存储设备当中，其实就是钝化了，而我们再次访问 <code>Session</code> 对象时，持久化的 <code>Session</code> 对象就会从存储设备中恢复过来，这时就是活化了，具体的配置就是在我们工程的 <code>WebContent</code> 目录下的 <code>META-INF</code> 新建一个 <code>context.xml</code> 配置文件，文件中的内容如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;Context&gt;
+    &lt;Manager className=&quot;org.apache.catalina.session.PersistentManager&quot;
+        maxIdleSwap=&quot;1&quot;&gt;
+        &lt;Store className=&quot;org.apache.catalina.session.FileStore&quot;
+            directory=&quot;laucloud&quot; /&gt;
+    &lt;/Manager&gt;
+&lt;/Context&gt;
+</code></pre><p>其实上面的配置就是关于 <code>Session</code> 对象持久化的配置，<code>maxIdleSwap</code> 这个参数就是设置的 <code>Session</code> 对象在多长时间不被访问时就会被持久化到存储设备中，这里是设置的 <code>1</code> 分钟，还有 <code>directory</code> 就是我们持久化 <code>Session</code> 保存的目录，因为我们的工程名是 <code>ListenerFilter</code>，因此我们就可以在 <code>Tomcat</code> 服务器安装目录的 <code>apache-tomcat-7.0.57\work\Catalina\localhost\ListenerFilter</code> 这个地址中，看到有一个 <code>laucloud</code> 目录，这里就是存放的持久化 <code>Session</code>。因此我们现在的设置就是 <code>Session</code> 对象在创建之后 <code>1</code> 分钟不被访问的话，就会持久化到存储设备中。</p>
+<p>因此就可以在 <code>JSP</code> 页面中先运行如下的代码：</p>
+<pre><code>&lt;%
+    Teacher teacher = new Teacher();
+    teacher.setName(&quot;Kobe&quot;);
+    session.setAttribute(&quot;teacher&quot;, teacher);
+%&gt;
+</code></pre><p>这里就是将一个 <code>Teacher</code> 对象绑定到 <code>Session</code> 对象上面了，如果就这样等 <code>1</code> 分钟的话，<code>Session</code> 对象就会持久化，而我们的 <code>Teacher</code> 对象也会随着一起持久化，那这时候我们就可以看到监听 <code>JavaBean</code> 对象随着 <code>Session</code> 对象一起持久化的日志打印了，如果我们这时候再到另一个 <code>JSP</code> 中进行如下访问的话：</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;Insert title here&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    ${ teacher.name }
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>这时候 <code>JavaBean</code> 对象就会随着 <code>Session</code> 对象从持久化设备中恢复过来，也就是活化了，那我们也可以看到监听 <code>JavaBean</code> 对象活化的日志打印了。</p>
+<p>这里还需要说明的一点就是关于上面 <code>Session</code> 序列化配置的，其实不仅可以在工程的 <code>META-INF</code> 目录进行配置，其实还有两个地方也能进行配置：</p>
+<pre><code>1.tomcat/conf/context.xml
+2.tomcat/conf/Catalina/localhost/context.xml
+</code></pre><p>第 <code>1</code> 个地方就是直接在 <code>Tomcat</code> 目录下面的 <code>conf</code> 目录进行配置了，在这里进行配置的话，就是 <code>Tomcat</code> 下面所有的虚拟主机和虚拟目录下面的工程都会序列化 <code>Session</code>；而第 <code>2</code> 种配置是在 <code>localhost</code> 主机下面进行的配置，因此 <code>localhost</code> 虚拟主机下面的所有工程都会序列化 <code>Session</code>；我们在上面使用的，在工程里面配置的方式则是只针对当前项目的。这里有一点需要注意的就是为什么要配置 <code>Session</code> 对象自动序列化到存储设备当中呢？其实这是因为怕我们网站中的 <code>Session</code> 对象过多，占用大量的内存资源，而又不是每个 <code>Session</code> 对象都会立即使用，因此可以在过一段时间之后将 <code>Session</code> 对象序列化到存储设备当中，这样的话就不会占用大量的内存资源，而且当我们再想使用已经序列号的 <code>Session</code> 对象时，也是可以直接从存储设备中恢复过来的，因此还是可以解决大量 <code>Session</code> 对象存在但是又不马上使用的问题的。</p>
+<h3 id="4-Filter过滤器"><a href="#4-Filter过滤器" class="headerlink" title="4.Filter过滤器"></a>4.Filter过滤器</h3><p>上面已经介绍完了 <code>Listener</code> 监听器，那我们下面就开始介绍 <code>Servlet</code> 中另一个十分实用的技术，那就是过滤器。那什么是过滤器呢？其实就是用来过滤客户端到服务器端的请求的，那为什么要过滤呢？举个简单的例子就很明了了，比如说用户还没登录时，却在浏览器地址栏输入登录成功的页面地址，这时候如果不对登陆成功页面的请求进行过滤的话，那我们网站的安全性可能就会有威胁，因为可能登录成功页面是可以对数据进行修改的，因此还是应该使用一个过滤器来检查用户是否已经登录了。</p>
+<h4 id="4-1-过滤器入门"><a href="#4-1-过滤器入门" class="headerlink" title="4.1 过滤器入门"></a>4.1 过滤器入门</h4><p>首先通过一个最简单的例子来学习过滤器最基本的使用：</p>
+<pre><code>public class FilterDemo implements Filter {
+
+    @Override
+    public void destroy() {
+
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+        System.out.println(&quot;FilterDemo执行了&quot;);
+        chain.doFilter(request, response);
+        System.out.println(&quot;FilterDemo执行结束了&quot;);
+    }
+
+    @Override
+    public void init(FilterConfig config) throws ServletException {
+
+    }
+}
+</code></pre><p>要想得到一个过滤器类就必须实现 <code>javax.servlet.Filter</code> 接口，这样的话就表明该类是一个过滤器了，实现了接口之后就必须重写接口当中的方法，也就是 <code>init()</code>、<code>doFilter()</code> 以及 <code>destroy()</code> 这三个方法了，根据我们之前学习域对象的知识，很容易看出其实这是关于过滤器生命周期的方法，也就是初始化、进行过滤以及最后进行销毁的方法。当然我们只需要关注进行过滤的 <code>doFilter()</code> 方法就好了，会看到上面的方法中有关于日志打印的，然后就是 <code>chain.doFilter(request, response);</code> 进行请求放行的代码了，其实这句代码的意思就是当前请求是允许通过的。当然和使用监听器类似的，要想使用过滤器的话，也需要在 <code>web.xml</code> 配置文件中进行配置，配置如下：</p>
+<pre><code>&lt;filter&gt;
+    &lt;filter-name&gt;FilterDemo&lt;/filter-name&gt;
+    &lt;filter-class&gt;party.laucloud.filter.demo.FilterDemo&lt;/filter-class&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;FilterDemo&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre><p>上面的 <code>filter-class</code> 是配置的哪个类是过滤器类，而下面的 <code>url-pattern</code> 则是表示我们这个过滤器会对哪些请求进行过滤，<code>/*</code> 当然就是表示所有的请求都会被过滤了，而是否允许通过其实还是在代码中进行判断的，也就是由 <code>FilterChain</code> 来进行放行操作的。</p>
+<h4 id="4-2-FilterChain对象"><a href="#4-2-FilterChain对象" class="headerlink" title="4.2 FilterChain对象"></a>4.2 FilterChain对象</h4><p><code>FilterChain</code> 是过滤器链对象，因为在一个应用中我们可能会有多个过滤器，而这多个过滤器组合起来就是过滤器链了，那当有多个过滤器时，到底是哪个过滤器先被调用而哪一个后被调用呢？其实这是根据 <code>Filter</code> 过滤器在 <code>web.xml</code> 文件中的配置顺序来的，也就是 <code>filter-mapping</code> 的配置顺序，配置在前的会先被调用，而配置在后的会在随后被调用。</p>
+<p>其实这也是可以测试的，我们可以新建 <code>3</code> 个过滤器类，并将它们在 <code>web.xml</code> 文件中配置好。代码如下：</p>
+<p><strong>FilterDemo</strong></p>
+<pre><code>public class FilterDemo implements Filter {
+
+    @Override
+    public void destroy() {
+
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+        System.out.println(&quot;FilterDemo执行了&quot;);
+        chain.doFilter(request, response);
+        System.out.println(&quot;FilterDemo执行结束了&quot;);
+    }
+
+    @Override
+    public void init(FilterConfig config) throws ServletException {
+
+    }
+}
+</code></pre><p><strong>FilterDemo2</strong></p>
+<pre><code>public class FilterDemo2 implements Filter {
+
+    @Override
+    public void destroy() {
+
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+        System.out.println(&quot;FilterDemo2执行了&quot;);
+        chain.doFilter(request, response);
+        System.out.println(&quot;FilterDemo2执行结束了&quot;);
+    }
+
+    @Override
+    public void init(FilterConfig arg0) throws ServletException {
+
+    }
+}
+</code></pre><p><strong>FilterDemo3</strong></p>
+<pre><code>public class FilterDemo3 implements Filter {
+
+    @Override
+    public void destroy() {
+
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+        System.out.println(&quot;FilterDemo3执行了&quot;);
+        chain.doFilter(request, response);
+        System.out.println(&quot;FilterDemo3执行结束了&quot;);
+    }
+
+    @Override
+    public void init(FilterConfig arg0) throws ServletException {
+
+    }
+}
+</code></pre><p>然后在 <code>web.xml</code> 文件中的配置为：</p>
+<pre><code>&lt;filter&gt;
+    &lt;filter-name&gt;FilterDemo&lt;/filter-name&gt;
+    &lt;filter-class&gt;party.laucloud.filter.demo.FilterDemo&lt;/filter-class&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;FilterDemo&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+
+&lt;filter&gt;
+    &lt;filter-name&gt;FilterDemo2&lt;/filter-name&gt;
+    &lt;filter-class&gt;party.laucloud.filter.demo.FilterDemo2&lt;/filter-class&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;FilterDemo2&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+
+&lt;filter&gt;
+    &lt;filter-name&gt;FilterDemo3&lt;/filter-name&gt;
+    &lt;filter-class&gt;party.laucloud.filter.demo.FilterDemo3&lt;/filter-class&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;FilterDemo3&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre><p>这里为了测试方便，我们也可以新建一个 <code>JSP</code> 进行测试，<code>JSP</code> 文件中可以是如下：</p>
+<pre><code>&lt;%
+    System.out.println(&quot;demo.jsp被访问到了呢&quot;);
+%&gt;
+</code></pre><p>因为前面配置的 <code>3</code> 个过滤器都是过滤所有请求的，所以我们如果访问上面这个 <code>JSP</code> 文件的话，就一定会经过上面的 <code>3</code> 个过滤器了。当我们访问上面的 <code>JSP</code> 时，就可以看到控制台打印的相关日志了。</p>
+<pre><code>FilterDemo执行了
+FilterDemo2执行了
+FilterDemo3执行了
+demo.jsp被访问到了呢
+FilterDemo3执行结束了
+FilterDemo2执行结束了
+FilterDemo执行结束了
+</code></pre><p>这样的话，我们就能很轻松地看出过滤器的执行流程是怎样的了。</p>
+<h4 id="4-3-Filter的生命周期"><a href="#4-3-Filter的生命周期" class="headerlink" title="4.3 Filter的生命周期"></a>4.3 Filter的生命周期</h4><p>关于 <code>Filter</code> 的生命周期的话，可以看我们上面实现 <code>Filter</code> 接口之后重写的方法，<code>init()</code> 则是表示初始化的，<code>doFilter()</code> 则是表示过滤操作，是否允许请求通行则是在该方法里执行，而 <code>destroy()</code> 方法则是表示销毁的。其实 <code>Filter</code> 对象的创建和销毁是由 <code>Web</code> 服务器来负责的，服务器启动时，就会创建 <code>Filter</code> 实例对象，并且调用 <code>init()</code> 方法进行初始化操作，每次进行请求过滤时，则是调用的 <code>doFilter()</code> 方法，在这个方法中判断是否允许请求通过，最后服务器关闭时，<code>Filter</code> 对象就会被销毁，而 <code>destroy()</code> 方法就会被执行。</p>
+<h4 id="4-4-FilterConfig对象"><a href="#4-4-FilterConfig对象" class="headerlink" title="4.4 FilterConfig对象"></a>4.4 FilterConfig对象</h4><p>和 <code>ServletConfig</code> 对象类似的，<code>FilterConfig</code> 对象也是用来获取配置信息的，当然是用来获取 <code>Filter</code> 的配置信息了，当我们在 <code>web.xml</code> 文件中配置好 <code>Filter</code> 之后，就可以使用 <code>Filter</code> 过滤器对象了，这时候我们可以看到在 <code>init()</code> 初始化方法中是有 <code>FilterConfig</code> 类型的参数的，我们也是在这里来获取 <code>Filter</code> 的相关配置的，先给出在 <code>web.xml</code> 中的配置：</p>
+<pre><code>&lt;filter&gt;
+    &lt;filter-name&gt;FilterConfigDemo&lt;/filter-name&gt;
+    &lt;filter-class&gt;party.laucloud.filter.demo.FilterConfigDemo&lt;/filter-class&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;username&lt;/param-name&gt;
+        &lt;param-value&gt;root&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;password&lt;/param-name&gt;
+        &lt;param-value&gt;123456&lt;/param-value&gt;
+    &lt;/init-param&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;FilterConfigDemo&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre><p>然后再到 <code>init()</code> 方法中进行参数的获取，具体的代码如下：</p>
+<pre><code>public class FilterConfigDemo implements Filter {
+
+    @Override
+    public void destroy() {
+
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+
+    }
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        String filterName = filterConfig.getFilterName();
+        System.out.println(&quot;name:&quot; + filterName);
+        String username = filterConfig.getInitParameter(&quot;username&quot;);
+        String password = filterConfig.getInitParameter(&quot;password&quot;);
+        System.out.println(username + &quot;--&quot; + password);
+
+        Enumeration&lt;String&gt; names = filterConfig.getInitParameterNames();
+        while (names.hasMoreElements()) {
+            String name = (String) names.nextElement();
+            String value = filterConfig.getInitParameter(name);
+            System.out.println(name + &quot;--&quot; + value);
+        }
+    }
+}
+</code></pre><p>这样的话我们就可以获取得到在 <code>web.xml</code> 配置文件中配置的参数信息了。其实如果还想了解更多关于 <code>FilterConfig</code> 对象的信息的话，可以查询一下对应的 <code>api</code> 文档，其实除了我们上面使用的 <code>3</code> 个方法之外，就还有一个 <code>getServletContext()</code> 方法，这个的话我们就非常熟悉了，其实就是用来获取 <code>ServletContext</code> 对象的。</p>
+<h4 id="4-5-Filter的相关配置信息"><a href="#4-5-Filter的相关配置信息" class="headerlink" title="4.5 Filter的相关配置信息"></a>4.5 Filter的相关配置信息</h4><p>下面我们就来看看关于 <code>Filter</code> 对象相关的配置信息，了解这些配置信息的规则，可以让我们使用 <code>Filter</code> 时更加得心应手。</p>
+<p><strong>url-pattern的配置</strong></p>
+<p><code>url-pattern</code> 的配置分为 <code>3</code> 类，如下所示：</p>
+<pre><code>完全路径匹配：以/开始，例如/aaa,/aaa/bbb
+目录匹配：以/开始，而以*结尾，例如/*,/aaa/*
+扩展名匹配：不是以/开始，而是以*开始，例如*.jsp，*.do，*.action
+</code></pre><p>完全路径匹配表示的是过滤请求路径完全相同的请求，而目录匹配则是表示匹配在某个目录下的所有请求，最后的扩展名匹配则是过滤以某些后缀结尾的请求。</p>
+<p><strong>servlet-name的配置</strong></p>
+<p>在 <code>filter-mapping</code> 的配置当中，其实我们还可以直接使用 <code>servlet-name</code> 的配置，这样配置的话就是表示这个 <code>Filter</code> 过滤的就是对于该 <code>Servlet</code> 的请求。</p>
+<p><strong>dispatcher的配置</strong></p>
+<p>在之前的配置 <code>Filter</code> 的时候，我们在 <code>filter-mapping</code> 里面是没有看到 <code>dispatcher</code> 的配置的，但是这个配置还是起了作用的，就是取的默认值 <code>REQUEST</code>，也就是相当于如下的配置：</p>
+<pre><code>&lt;dispatcher&gt;REQUEST&lt;/dispatcher&gt;
+</code></pre><p>那这个配置是什么意思呢？其实就是说我们当前这个 <code>Filter</code> 过滤器会对匹配 <code>url-pattern</code> 中设置的路径的请求进行过滤，但是这里需要注意的是，因为配置的是 <code>REQUEST</code>，因此过滤的也只是请求，而别的就不会过滤了，比如请求转发、页面包含和出现错误时进行的页面跳转。其实上面的说的也就是 <code>dispatcher</code> 这个配置可以取的枚举值了。</p>
+<pre><code>REQUEST：默认值。也就是普通的请求；
+FORWARD：请求转发时进行过滤；
+INCLUDE：页面包含时进行过滤；
+ERROR：页面出现全局错误时页面跳转时进行过滤。
+</code></pre><h3 id="5-Filter案例"><a href="#5-Filter案例" class="headerlink" title="5.Filter案例"></a>5.Filter案例</h3><p>下面通过两个小的案例来巩固我们学过的 <code>Filter</code> 过滤器知识。</p>
+<h4 id="5-1-过滤对成功页面的请求"><a href="#5-1-过滤对成功页面的请求" class="headerlink" title="5.1 过滤对成功页面的请求"></a>5.1 过滤对成功页面的请求</h4><p>这里先说明一下具体的需求，比如说有 <code>2</code> 个 <code>JSP</code> 页面，一个是登录页面 <code>login.jsp</code> ，在 <code>WebContent</code> 目录下，第二个是登录成功页面 <code>success.jsp</code> 页面，在 <code>WebContent</code> 下的 <code>jsp</code> 目录下面，如果不进行设置的话，其实我们是可以直接访问到登录成功页面的，那如果只能在登录页面登录成功之后才能访问呢？其实是可以在 <code>success.jsp</code> 中加一段代码的，来判断 <code>Session</code> 对象中是否含有用户信息，但是如果页面比较多的话，那这个工作量就太大了，而且代码也十分不友好，因此我们可以考虑使用 <code>Filter</code> 来完成这个需求。</p>
+<p>具体的 <code>Filter</code> 代码如下：</p>
+<pre><code>public class LoginFilter implements Filter {
+
+    @Override
+    public void destroy() {
+
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpSession session = req.getSession();
+        if (null != session.getAttribute(&quot;existUser&quot;)) {
+            chain.doFilter(req, response);
+        } else {
+            req.getRequestDispatcher(&quot;/login.jsp&quot;).forward(req, response);
+        }
+    }
+
+    @Override
+    public void init(FilterConfig arg0) throws ServletException {
+
+    }
+}
+</code></pre><p>相关配置如下：</p>
+<pre><code>&lt;filter&gt;
+    &lt;filter-name&gt;LoginFilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;party.laucloud.filter.LoginFilter&lt;/filter-class&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;LoginFilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/jsp/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre><p>这样的话就可以完成我们所说的功能了，<code>Filter</code> 对于 <code>jsp</code> 目录下面的请求都会进行过滤，因此就可以在 <code>Filter</code> 中进行判断，看 <code>Session</code> 中是否已经有用户信息，有的话则直接放行，没有的话的返回到登录页面进行登录操作。</p>
+<h4 id="5-2-通用的中文字符乱码处理器"><a href="#5-2-通用的中文字符乱码处理器" class="headerlink" title="5.2 通用的中文字符乱码处理器"></a>5.2 通用的中文字符乱码处理器</h4><p>我们知道当我们在 <code>Servlet</code> 中接受中文字符时，接受到的往往都是乱码，而且如果要处理的话，对于 <code>GET</code> 请求方式和 <code>POST</code> 请求方式还是不一样的，而我们想做的就是不管是 <code>GET</code> 请求方式，还是 <code>POST</code> 请求方式，都能够接受到正常的中文字符。</p>
+<p>其实对于上面的需求来说，我们之前的客户端向服务器端发送的都是 <code>HttpServletRequest</code>，我们使用这个对象来接受中文字符时是有问题的，因此就需要增强原来的 <code>HttpServletRequest</code> 类，让增强的类具有接受中文字符而不乱码的能力，这里就需要说一下增强一个类的几种方式了。</p>
+<pre><code>继承：需要控制被增强类的构造器
+装饰者模式：
+    被增强的类和增强的类需要实现相同的接口
+    在增强的类中能够获取到被增强类的引用
+    缺点：接口中方法过多，需要重写很多方法
+动态代理：类需要实现接口
+</code></pre><p>这里的话我们就使用装饰者模式来增强原来的 <code>HttpServletRequest</code> 类了，我们可以新建一个类 <code>MyHttpServletRequest</code> ，在这个类里面肯定是可以拿到 <code>HttpServletRequest</code> 类的引用的，比如将 <code>HttpServletRequest</code> 类的引用设置为一个成员变量，然后设计一个构造器是需要传入原来的 <code>HttpServletRequest</code> 类引用的，关于装饰者模式的缺点的话，确实 <code>HttpServletRequest</code> 中的接口方法还是非常多的，如果我们的 <code>MyHttpServletRequest</code> 直接重写所有的方法的话，其实大部分都还是使用的 <code>HttpServletRequest</code> 中原来的功能，而我们其实只会改写 <code>getParameter()</code> 这个方法，不过非常幸运的是，<code>HttpServletRequest</code> 有一个实现类，也是一个包装类，里面的方法都已经重写了，那就是 <code>HttpServletRequestWrapper</code> 类，所以我们就可以直接让 <code>MyHttpServletRequest</code> 类继承于这个包装类，然后修改其中的 <code>getParameter()</code> 方法，这样的话我们就能拿到想要的增强类了，而又不必重写大量的接口方法。</p>
+<p><strong>MyHttpServletRequest</strong></p>
+<pre><code>public class MyHttpServletRequest extends HttpServletRequestWrapper {
+
+    private HttpServletRequest request;
+
+    public MyHttpServletRequest(HttpServletRequest request) {
+        super(request);
+        this.request = request;
+    }
+
+    @Override
+    public String getParameter(String name) {
+        String method = request.getMethod();
+        if (&quot;get&quot;.equalsIgnoreCase(method)) {
+            String origName = super.getParameter(name);
+            String parseName = &quot;&quot;;
+            try {
+                parseName = new String(origName.getBytes(&quot;ISO-8859-1&quot;), &quot;UTF-8&quot;);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            return parseName;
+        } else if (&quot;post&quot;.equalsIgnoreCase(method)) {
+            try {
+                request.setCharacterEncoding(&quot;UTF-8&quot;);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+        return super.getParameter(name);
+    }
+}
+</code></pre><p>再看一下我们的 <code>Filter</code> 中的代码：</p>
+<p><strong>GenericEncodingFilter</strong></p>
+<pre><code>public class GenericEncodingFilter implements Filter {
+
+    @Override
+    public void destroy() {
+
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        MyHttpServletRequest req = new MyHttpServletRequest(httpRequest);
+        chain.doFilter(req, response);
+    }
+
+    @Override
+    public void init(FilterConfig arg0) throws ServletException {
+
+    }
+}
+</code></pre><p>相关 <code>Filter</code> 的配置的话，当然是过滤所有的请求了，因此在 <code>web.xml</code> 文件中的配置应该是：</p>
+<pre><code>&lt;filter&gt;
+    &lt;filter-name&gt;GenericEncodingFilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;party.laucloud.filter.GenericEncodingFilter&lt;/filter-class&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;GenericEncodingFilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre><p>这样的话，就完成了一个通用的接受中文字符乱码的过滤器了，当我们在 <code>Servlet</code> 中接受中文字符时就不会再出现乱码了，因此我们的需求就可以得到解决了。</p>
+<h3 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h3><p>其实像 <code>Listener</code> 和 <code>filter</code> 这样的技术，在开发中还是非常实用的，不管是统计网站当前在线人数，还是接受中文字符乱码统一的过滤器，都可以看出其用处还是蛮大的，而且在很多框架之中，这两个技术也会运用的到，在之后学习框架的过程中，我们能掌握一些这样比较底层的技术，对于我们理解框架的使用也会很有帮助，而且也可以更好地理解别人的设计为什么是好的，这样就相当于在为自己以后的学习打基础了，因此还是非常重要的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Servlet/" rel="tag"># Servlet</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/22/JSP加强/" rel="next" title="JSP加强">
+                <i class="fa fa-chevron-left"></i> JSP加强
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/28/文件上传和下载/" rel="prev" title="文件上传和下载">
+                文件上传和下载 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是监听器"><span class="nav-number">1.</span> <span class="nav-text">1.什么是监听器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-监听器小例子"><span class="nav-number">2.</span> <span class="nav-text">2.监听器小例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Servlet中的监听器"><span class="nav-number">3.</span> <span class="nav-text">3.Servlet中的监听器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-关于域对象创建和销毁的监听器"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 关于域对象创建和销毁的监听器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-案例：统计当前在线人数"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 案例：统计当前在线人数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-关于域对象属性变更的监听器"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 关于域对象属性变更的监听器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-关于HttpSession对象中JavaBean状态改变的监听器"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 关于HttpSession对象中JavaBean状态改变的监听器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Filter过滤器"><span class="nav-number">4.</span> <span class="nav-text">4.Filter过滤器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-过滤器入门"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 过滤器入门</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-FilterChain对象"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 FilterChain对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-Filter的生命周期"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 Filter的生命周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-FilterConfig对象"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 FilterConfig对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-Filter的相关配置信息"><span class="nav-number">4.5.</span> <span class="nav-text">4.5 Filter的相关配置信息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Filter案例"><span class="nav-number">5.</span> <span class="nav-text">5.Filter案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-过滤对成功页面的请求"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 过滤对成功页面的请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-通用的中文字符乱码处理器"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 通用的中文字符乱码处理器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-总结"><span class="nav-number">6.</span> <span class="nav-text">6.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/12/24/Listener和Filter/';
+
+      var disqus_title = "Listener和Filter";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

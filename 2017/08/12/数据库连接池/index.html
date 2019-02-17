@@ -1,0 +1,1330 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="连接池," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="在实际开发项目的过程中，总是会需要连接数据库，而连接数据库的主要目的就是通过获取的连接来执行 SQL 语句，但是在有关数据库的开发中，与数据库的连接是十分重要的资源，如果每次都是在需要连接时创建，使用完之后就立即销毁的话，这样就会耗费大量的资源，比较好的做法就是使用的一个容器来管理与数据库的连接，应用初始化的时候便新建一定数量的连接放到容器中，当有程序需要连接的时候，便直接从这个容器中获取，程序使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库连接池">
+<meta property="og:url" content="http://yoursite.com/2017/08/12/数据库连接池/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="在实际开发项目的过程中，总是会需要连接数据库，而连接数据库的主要目的就是通过获取的连接来执行 SQL 语句，但是在有关数据库的开发中，与数据库的连接是十分重要的资源，如果每次都是在需要连接时创建，使用完之后就立即销毁的话，这样就会耗费大量的资源，比较好的做法就是使用的一个容器来管理与数据库的连接，应用初始化的时候便新建一定数量的连接放到容器中，当有程序需要连接的时候，便直接从这个容器中获取，程序使">
+<meta property="og:updated_time" content="2017-09-03T11:35:20.038Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库连接池">
+<meta name="twitter:description" content="在实际开发项目的过程中，总是会需要连接数据库，而连接数据库的主要目的就是通过获取的连接来执行 SQL 语句，但是在有关数据库的开发中，与数据库的连接是十分重要的资源，如果每次都是在需要连接时创建，使用完之后就立即销毁的话，这样就会耗费大量的资源，比较好的做法就是使用的一个容器来管理与数据库的连接，应用初始化的时候便新建一定数量的连接放到容器中，当有程序需要连接的时候，便直接从这个容器中获取，程序使">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/12/数据库连接池/"/>
+
+
+
+
+
+  <title> 数据库连接池 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/12/数据库连接池/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                数据库连接池
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-12T21:00:26+08:00">
+                2017-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/12/数据库连接池/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/12/数据库连接池/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/08/12/数据库连接池/" class="leancloud_visitors" data-flag-title="数据库连接池">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在实际开发项目的过程中，总是会需要连接数据库，而连接数据库的主要目的就是通过获取的连接来执行 <code>SQL</code> 语句，但是在有关数据库的开发中，与数据库的连接是十分重要的资源，如果每次都是在需要连接时创建，使用完之后就立即销毁的话，这样就会耗费大量的资源，比较好的做法就是使用的一个容器来管理与数据库的连接，应用初始化的时候便新建一定数量的连接放到容器中，当有程序需要连接的时候，便直接从这个容器中获取，程序使用完之后也不是立即销毁该连接，而是将连接放回到容器当中，以供其它程序获取使用，当然，如果在某一时刻需要获取连接的数量增加，甚至大于容器中初始化时创建的连接数量，这时候管理数据库连接的容器也会一次性增加一定量的数据库连接，不够的时候就会以此方法递增，上面所说的管理数据库连接的容器就是数据库连接池了。</p>
+<a id="more"></a>
+<h3 id="1-JDBC的事务管理"><a href="#1-JDBC的事务管理" class="headerlink" title="1.JDBC的事务管理"></a>1.JDBC的事务管理</h3><p><code>JDBC</code> 中事务的管理是交给 <code>Connection</code> (连接)对象来完成的，其中和事务管理相关的主要是以下几个方法：</p>
+<pre><code>void setAutoCommit(boolean autoCommit)
+</code></pre><p>如果传入的参数是false，则代表关闭自动提交功能，也就是开启事务，手动提交事务</p>
+<pre><code>void commit()
+</code></pre><p>这个便是提交事务的方法</p>
+<pre><code>void rollback()
+</code></pre><p>这个方法用来执行回滚事务，当一个完整的事务在执行过程中出现异常时，我们就需要使用这个方法进行事务的回滚了。</p>
+<h3 id="2-JDBC事务管理案例"><a href="#2-JDBC事务管理案例" class="headerlink" title="2.JDBC事务管理案例"></a>2.JDBC事务管理案例</h3><p>下面写一个转账案例来说明一个事务完整的重要性，在数据库中可以看到相关账户的数据是否变化。</p>
+<p>首先定义一个账户类(Account)：</p>
+<pre><code>public class Account {
+    private int id;
+    private String name;
+    private double money;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+    public Account() {
+        super();
+    }
+
+    public Account(int id, String name, double money) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.money = money;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Account [id=&quot; + id + &quot;, name=&quot; + name + &quot;, money=&quot; + money
+                + &quot;]&quot;;
+    }
+}
+</code></pre><p>接下来的程序将会演示完成一个转账操作，主要分两步，一步便是将一个账户中的数量减少，另一步便是将另一个账户中的数量增加，如果在这两步操作的过程中发生错误，就很可能导致钱数不一致，但使用事务管理的话，就可以使两步操作要么一起成功，要么一起失败。</p>
+<pre><code>public class TransactionException {
+    public static void main(String[] args) {
+        Connection conn = null;
+        PreparedStatement pstm = null;
+
+        try {
+            conn = JDBCUtils.getConnection();
+            conn.setAutoCommit(false);
+            String sql = &quot;update account set money = money+? where name =?&quot;;
+            pstm = conn.prepareStatement(sql);
+            pstm.setDouble(1, -1000);
+            pstm.setString(2, &quot;aaa&quot;);
+            pstm.executeUpdate();
+
+            int i = 1 / 0;
+
+            pstm.setDouble(1, 1000);
+            pstm.setString(2, &quot;bbb&quot;);
+            pstm.executeUpdate();
+            conn.commit();
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.release(pstm, conn);
+        }
+    }
+}
+</code></pre><p>正常的逻辑应该是两者都顺利提交，不过依照上面的逻辑，即使发生错误，也会执行回滚操作，以便让它们两者都不提交，这样就能保证不发生错误，程序最后也会释放掉所有的数据库资源。<code>JDBCUtils</code> 这个类是抽象出来操作数据库的工具类。</p>
+<pre><code>public class JDBCUtils {
+    private static final String driverClassName;
+    private static final String url;
+    private static final String user;
+    private static final String password;
+
+    static {
+        Properties prop = new Properties();
+        try {
+            prop.load(new FileInputStream(new File( &quot;src/db.properties&quot;)));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        driverClassName = prop.getProperty(&quot;driverClassName&quot;);
+        url = prop.getProperty(&quot;url&quot;);
+        user = prop.getProperty(&quot;user&quot;);
+        password = prop.getProperty(&quot;password&quot;);
+    }
+
+    /**
+     * 加载数据库驱动
+     */
+    public static void loadDriver() {
+        try {
+            Class.forName(driverClassName);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取数据库连接
+     * @return
+     */
+    public static Connection getConnection() {
+        Connection conn = null;
+        try {
+            loadDriver();
+            conn = DriverManager.getConnection(url, user, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return conn;
+    }
+
+    /**
+     * 释放资源
+     * @param statement  语句执行对象
+     * @param conn 数据库连接对象
+     */
+    public static void release(Statement statement, Connection conn) {
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            statement = null;
+        }
+
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            conn = null;
+        }
+    }
+
+    /**
+     * 释放连接
+     * @param rs 结果集对象
+     * @param statement 语句执行对象
+     * @param conn 数据库连接对象
+     */
+    public static void release(ResultSet rs, Statement statement,
+            Connection conn) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            rs = null;
+        }
+
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            statement = null;
+        }
+
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            conn = null;
+        }
+    }
+}
+</code></pre><p>使用上面这个工具类的时候，会首先加载数据库配置文件中的信息。</p>
+<pre><code>driverClassName = com.mysql.jdbc.Driver
+url = jdbc:mysql://localhost:3306/test4
+user = root
+password = 123456
+</code></pre><h3 id="3-数据库连接池"><a href="#3-数据库连接池" class="headerlink" title="3.数据库连接池"></a>3.数据库连接池</h3><p>这里主要是介绍两种数据库连接池的使用，就是 <code>Druid</code> 和 <code>C3P0</code> 连接池的使用，重点的话就是各个数据库连接池的配置文件应该怎么写，以及应该放到什么地方，其实关于配置文件的书写，它们各自的 <code>API</code> 文档都给予了详细的说明。</p>
+<h4 id="3-1-Druid连接池的使用"><a href="#3-1-Druid连接池的使用" class="headerlink" title="3.1 Druid连接池的使用"></a>3.1 Druid连接池的使用</h4><p>要想使用 <code>Druid</code> 数据库连接池，第一步必须做的就是导入相应的 <code>jar</code> 包了，只有导入了相应的 <code>jar</code> 包才能使用其中相应的功能，关于 <code>jar</code> 包的获取当然还是去官网下载是最好的，其次的话就是关于数据库的操作都应该导入相应数据库的驱动包，<code>MySQL</code> 数据库就应该导入 <code>MySQL</code> 的驱动包，<code>Oracle</code> 数据库就应该导入 <code>Oracle</code> 的驱动包，因此使用连接池时要注意需要导入的驱动包是两个，一个是连接池的 <code>jar</code> 包，另一个则是数据库的驱动包。</p>
+<p>首先看下面的代码，就是使用 <code>Druid</code> 连接池获取驱动并执行相关数据库操作了。</p>
+<pre><code>public class DruidDemo {
+    public static void main(String[] args) {
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setDriverClassName(&quot;com.mysql.jdbc.Driver&quot;);
+        dataSource.setUrl(&quot;jdbc:mysql://localhost:3306/test&quot;);
+        dataSource.setUsername(&quot;root&quot;);
+        dataSource.setPassword(&quot;123456&quot;);
+        try {
+            conn = dataSource.getConnection();
+            String sql = &quot;select * from account&quot;;
+            pstm = conn.prepareStatement(sql);
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+                System.out.println(rs.getInt(&quot;id&quot;) + &quot;\t&quot;
+                        + rs.getString(&quot;name&quot;) + &quot;\t&quot; + rs.getDouble(&quot;money&quot;));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.release(rs, pstm, conn);
+        }
+    }
+}
+</code></pre><p>从上面的程序中很明显的可以看出，现在是直接将与数据库进行连接的几个属性写入了代码之中，包括驱动类名称、数据库连接地址、用户名以及密码，这样在平时自己编程时是没有问题的，不过在实际开发中一般不使用这种方式，因为如果有需要要修改这些属性的时候，那我们就必须修改源代码了，更好的做法是将这些属性信息放到一个配置文件当中，然后在程序启动时再去加载这些配置信息。</p>
+<p>druid.property</p>
+<pre><code>driverClassName=com.mysql.jdbc.Driver
+url=jdbc:mysql://localhost:3306/test4
+username=root
+password=123456
+#&lt;!-- 初始化连接 --&gt;
+initialSize=10
+
+#最大连接数量
+maxActive=50
+
+#&lt;!-- 最大空闲连接 --&gt;
+maxIdle=20
+
+#&lt;!-- 最小空闲连接 --&gt;
+minIdle=5
+
+#&lt;!-- 超时等待时间以毫秒为单位 6000毫秒/1000等于60秒 --&gt;
+maxWait=60000
+</code></pre><p>其中具体的属性设置当然还是要根据自己的实际要求来设置。</p>
+<p>下面是加载配置文件信息再进行相关数据库操作的案例。</p>
+<pre><code>public class DruidDemo2 {
+    public static void main(String[] args) {
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        Properties properties = new Properties();
+        try {
+            properties.load(new FileInputStream(new File(&quot;src/druid.properties&quot;)));
+            DataSource dataSource = DruidDataSourceFactory.createDataSource(properties);
+            conn = dataSource.getConnection();
+            String sql = &quot;select * from account&quot;;
+            pstm = conn.prepareStatement(sql);
+            rs = pstm.executeQuery();
+            while(rs.next()) {
+                System.out.println(rs.getInt(&quot;id&quot;)+&quot;\t&quot;+rs.getString(&quot;name&quot;)+&quot;\t&quot;+rs.getDouble(&quot;money&quot;));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.release(rs, pstm, conn);
+        }
+    }
+}
+</code></pre><h3 id="3-2-C3P0连接池的使用"><a href="#3-2-C3P0连接池的使用" class="headerlink" title="3.2 C3P0连接池的使用"></a>3.2 C3P0连接池的使用</h3><p>想要使用 <code>c3p0</code> 数据库连接池，首先也是要导入相应的 <code>jar</code> 包，同时和上面一样的就是凡是要使用数据库的操作，也都必须要导入数据库相关 <code>jar</code> 包。下面就是一个使用 <code>c3p0</code> 数据库连接池的案例程序：</p>
+<pre><code>public class C3p0Demo {
+    public static void main(String[] args) {
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        ComboPooledDataSource cpds = new ComboPooledDataSource();
+        try {
+            cpds.setDriverClass(&quot;com.mysql.jdbc.Driver&quot;);
+            cpds.setJdbcUrl(&quot;jdbc:mysql://localhost:3306/test&quot;);
+            cpds.setUser(&quot;root&quot;);
+            cpds.setPassword(&quot;123456&quot;);
+            conn = cpds.getConnection();
+            String sql = &quot;select * from account&quot;;
+            pstm = conn.prepareStatement(sql);
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+                System.out.println(rs.getInt(&quot;id&quot;) + &quot;\t&quot;
+                        + rs.getString(&quot;name&quot;) + &quot;\t&quot; + rs.getDouble(&quot;money&quot;));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.release(rs, pstm, conn);
+        }
+    }
+}
+</code></pre><p>上面的代码直接将与数据库的连接属性都写到了程序之中，平时开发中肯定是不会这样做的，因为这样不利于程序的维护，通常都是将连接池相关的属性放到一个配置文件当中，然后在程序运行时自动去加载，需要注意的是 <code>c3p0</code> 数据库连接池配置文件放置的位置，这里是创建的 <code>Java</code> 工程，所以应该将相关的配置文件放到 <code>src</code> 目录下，具体的配置文件应该如何书写以及应该存放的位置，<code>API</code> 中都会详细地介绍。</p>
+<p>c3p0-config.xml</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;c3p0-config&gt;
+    &lt;default-config&gt;
+        &lt;property name=&quot;driverClass&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;
+        &lt;property name=&quot;jdbcUrl&quot;&gt;jdbc:mysql://localhost:3306/test&lt;/property&gt;
+        &lt;property name=&quot;user&quot;&gt;root&lt;/property&gt;
+        &lt;property name=&quot;password&quot;&gt;123456&lt;/property&gt;
+        &lt;property name=&quot;automaticTestTable&quot;&gt;con_test&lt;/property&gt;
+        &lt;property name=&quot;checkoutTimeout&quot;&gt;30000&lt;/property&gt;
+        &lt;property name=&quot;idleConnectionTestPeriod&quot;&gt;30&lt;/property&gt;
+        &lt;property name=&quot;initialPoolSize&quot;&gt;10&lt;/property&gt;
+        &lt;property name=&quot;maxIdleTime&quot;&gt;30&lt;/property&gt;
+        &lt;property name=&quot;maxPoolSize&quot;&gt;100&lt;/property&gt;
+        &lt;property name=&quot;minPoolSize&quot;&gt;10&lt;/property&gt;
+        &lt;property name=&quot;maxStatements&quot;&gt;200&lt;/property&gt;
+    &lt;/default-config&gt;
+&lt;/c3p0-config&gt;
+</code></pre><p>只要像上面这样正确地配置了相关属性，以及将配置文件放到了恰当地位置，程序在启动时便会自动加载该配置文件。</p>
+<pre><code>public class C3p0Demo2 {
+    public static void main(String[] args) {
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        ComboPooledDataSource cpds = new ComboPooledDataSource();
+        try {
+            conn = cpds.getConnection();
+            String sql = &quot;select * from account&quot;;
+            pstm = conn.prepareStatement(sql);
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+                System.out.println(rs.getInt(&quot;id&quot;) + &quot;\t&quot;
+                        + rs.getString(&quot;name&quot;) + &quot;\t&quot; + rs.getDouble(&quot;money&quot;));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.release(rs, pstm, conn);
+        }
+    }
+}
+</code></pre><h3 id="4-JDBC工具类改进"><a href="#4-JDBC工具类改进" class="headerlink" title="4.JDBC工具类改进"></a>4.JDBC工具类改进</h3><p>下面想说一下 <code>JDBC</code> 的工具类，其实上面的 <code>JDBCUtils</code> 就是一个工具类，不过在我们使用连接池之后，比如 <code>c3p0</code> 连接池，连接池是为了减少频繁地创建连接以及销毁连接，但我们之前在使用连接池的时候，每次运行程序都会创建一个连接池，这样就是适得其反了，因为很显然频繁地创建连接池比创建连接是更耗费资源的，因此这里应该做优化，最主要的就是连接池只用创建一个就好了。</p>
+<pre><code>public class JDBCUtils2 {
+    private static final ComboPooledDataSource dataSource = new ComboPooledDataSource();
+
+    /**
+     * 返回连接池对象
+     * @return
+     */
+    public static ComboPooledDataSource getDataSource() {
+        return dataSource;
+    }
+
+    /**
+     * 获取数据库连接
+     * @return
+     * @throws SQLException 
+     */
+    public static Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
+    }
+
+    /**
+     * 释放资源
+     * @param statement 语句执行对象
+     * @param conn  数据库连接对象
+     */
+    public static void release(Statement statement, Connection conn) {
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            statement = null;
+        }
+
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            conn = null;
+        }
+    }
+
+    /**
+     * 释放连接
+     * @param rs 结果集对象
+     * @param statement 语句执行对象
+     * @param conn 数据库连接对象
+     */
+    public static void release(ResultSet rs, Statement statement,
+            Connection conn) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            rs = null;
+        }
+
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            statement = null;
+        }
+
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            conn = null;
+        }
+    }
+}
+</code></pre><h3 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h3><p>关于数据库连接池，重点就在于理解它解决了什么问题，以及如何去使用它，其实在各个连接池的 <code>API</code> 中都会给出如何书写配置信息的详细介绍，当然配置文件的放置位置也是应该要注意的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/连接池/" rel="tag"># 连接池</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/08/JDBC基础/" rel="next" title="JDBC基础">
+                <i class="fa fa-chevron-left"></i> JDBC基础
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/09/DbUtils的使用/" rel="prev" title="DbUtils的使用">
+                DbUtils的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-JDBC的事务管理"><span class="nav-number">1.</span> <span class="nav-text">1.JDBC的事务管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-JDBC事务管理案例"><span class="nav-number">2.</span> <span class="nav-text">2.JDBC事务管理案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-数据库连接池"><span class="nav-number">3.</span> <span class="nav-text">3.数据库连接池</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-Druid连接池的使用"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 Druid连接池的使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-C3P0连接池的使用"><span class="nav-number">4.</span> <span class="nav-text">3.2 C3P0连接池的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-JDBC工具类改进"><span class="nav-number">5.</span> <span class="nav-text">4.JDBC工具类改进</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-总结"><span class="nav-number">6.</span> <span class="nav-text">5.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/08/12/数据库连接池/';
+
+      var disqus_title = "数据库连接池";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

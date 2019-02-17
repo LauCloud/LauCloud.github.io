@@ -1,0 +1,1210 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="反射," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="我们在编程的过程中，为了更好地描述现实世界的事物，会将现实中的事物看做一个一个的对象，那在程序设计中是用什么来描述对象会有哪些属性或者方法呢？那就是用类了，其实在现实社会中也一样，一个一个的人是属于人类这一个类别的，那在程序设计中，有没有什么东西是用来描述类的呢？有的，Java中就将每个类看做是Class这个类的一个对象，也就是字节码对象，通过字节码对象，我们就能够知道这个类拥有哪些成员了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="反射">
+<meta property="og:url" content="http://yoursite.com/2017/07/05/反射/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="我们在编程的过程中，为了更好地描述现实世界的事物，会将现实中的事物看做一个一个的对象，那在程序设计中是用什么来描述对象会有哪些属性或者方法呢？那就是用类了，其实在现实社会中也一样，一个一个的人是属于人类这一个类别的，那在程序设计中，有没有什么东西是用来描述类的呢？有的，Java中就将每个类看做是Class这个类的一个对象，也就是字节码对象，通过字节码对象，我们就能够知道这个类拥有哪些成员了。">
+<meta property="og:updated_time" content="2017-07-05T09:34:20.575Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="反射">
+<meta name="twitter:description" content="我们在编程的过程中，为了更好地描述现实世界的事物，会将现实中的事物看做一个一个的对象，那在程序设计中是用什么来描述对象会有哪些属性或者方法呢？那就是用类了，其实在现实社会中也一样，一个一个的人是属于人类这一个类别的，那在程序设计中，有没有什么东西是用来描述类的呢？有的，Java中就将每个类看做是Class这个类的一个对象，也就是字节码对象，通过字节码对象，我们就能够知道这个类拥有哪些成员了。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/05/反射/"/>
+
+
+
+
+
+  <title> 反射 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/05/反射/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                反射
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-05T17:32:58+08:00">
+                2017-07-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/05/反射/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/07/05/反射/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/07/05/反射/" class="leancloud_visitors" data-flag-title="反射">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我们在编程的过程中，为了更好地描述现实世界的事物，会将现实中的事物看做一个一个的对象，那在程序设计中是用什么来描述对象会有哪些属性或者方法呢？那就是用类了，其实在现实社会中也一样，一个一个的人是属于人类这一个类别的，那在程序设计中，有没有什么东西是用来描述类的呢？有的，Java中就将每个类看做是Class这个类的一个对象，也就是字节码对象，通过字节码对象，我们就能够知道这个类拥有哪些成员了。</p>
+<a id="more"></a>
+<h3 id="1-字节码对象的获取"><a href="#1-字节码对象的获取" class="headerlink" title="1.字节码对象的获取"></a>1.字节码对象的获取</h3><p>字节码对象的获取方式一共有三种，第一种是直接通过类名，每个类都会有一个静态成员属性 <code>class</code> ，直接通过这个属性就可以得到这个类的字节码对象；第二种就是要通过一个类的对象，每个对象都会有一个 <code>getClass()</code> 方法，这个方法是继承 <code>Object</code> 这个类得到的，通过对象调用这个方法就可以得到该对象所属类的字节码对象；第三种方法是通过 <code>Class</code> 这个类的静态方法 <code>forName(String className)</code> 来得到字节码对象，传入的字符串参数是这个类的全类名，就是包含完整包名的类名。这三种方式第三种只需要字符串参数就可以了，因此使用的最多。</p>
+<p>现在假设有一个 <code>Student</code> 类，那获取这个类的字节码文件就有以下三种方式：</p>
+<pre><code>a：Class clazz = Student.class;
+b：Student s = new Student();    Class clazz = s.getClass();
+c：Class clazz = Class.forName(&quot;party.laucloud.Student&quot;);
+</code></pre><p>使用一个类的字节码对象主要是为了获取这个类的各个组成部分，并使用它们，而一个类的组成部分主要就是构造器，成员变量和成员方法，下面就依次演示如何得到这各个部分。</p>
+<h3 id="2-获取构造器"><a href="#2-获取构造器" class="headerlink" title="2.获取构造器"></a>2.获取构造器</h3><p>为了演示获取构造器和下面所有的代码，先在这里把要操作的类放上来</p>
+<pre><code>package day13;
+
+public class Student {
+    private String name;
+    int age;
+
+    public Student(String name, int age) {
+        super();
+        this.name = name;
+        this.age = age;
+    }
+
+    public Student() {
+        super();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    private void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Student [name=&quot; + name + &quot;, age=&quot; + age + &quot;]&quot;;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + age;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Student other = (Student) obj;
+        if (age != other.age)
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return true;
+    }
+}
+</code></pre><p>那下面就直接演示获取构造器了</p>
+<pre><code>public class ClassDemo2 {
+    public static void main(String[] args) throws ClassNotFoundException,
+            NoSuchMethodException, SecurityException, InstantiationException,
+            IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException {
+        Class clazz = Class.forName(&quot;day13.Student&quot;);
+
+        Constructor[] cs = clazz.getConstructors();
+        for (int i = 0; i &lt; cs.length; i++) {
+            System.out.println(cs[i]);
+        }
+
+        Constructor c = clazz.getConstructor();
+        Object s = c.newInstance();
+        System.out.println(s);
+
+        Constructor c2 = clazz.getConstructor(String.class, int.class);
+        Object s2 = c2.newInstance(&quot;小樱&quot;, 17);
+        System.out.println(s2);
+    }
+}
+</code></pre><p>上面的程序演示了获取 <code>Student</code> 的空参构造和有参构造，并对它们进行了调用</p>
+<p>结果如下：</p>
+<pre><code>public day13.Student(java.lang.String,int)
+public day13.Student()
+Student [name=null, age=0]
+Student [name=小樱, age=17]
+</code></pre><h3 id="3-获取成员变量"><a href="#3-获取成员变量" class="headerlink" title="3.获取成员变量"></a>3.获取成员变量</h3><p>先放代码：</p>
+<pre><code>public class FieldDemo {
+    public static void main(String[] args) throws ClassNotFoundException,
+            NoSuchFieldException, SecurityException, IllegalArgumentException,
+            IllegalAccessException, InstantiationException {
+        Class&lt;?&gt; clazz = Class.forName(&quot;day13.Student&quot;);
+        Object stu = clazz.newInstance();
+        Field[] fs = clazz.getDeclaredFields();
+        for (int i = 0; i &lt; fs.length; i++) {
+            System.out.println(fs[i]);
+        }
+        Field fAge = clazz.getDeclaredField(&quot;age&quot;);
+        Object age = fAge.get(stu);
+        System.out.println(age);
+
+        fAge.set(stu, 18);
+        System.out.println(stu);
+    }
+}
+</code></pre><p>这次字节码对象获取成员属性的时候是使用的 <code>getDeclaredFields()</code> 方法，而上面获取构造器是直接使用的 <code>getConstructors()</code> 方法，其实获取成员变量也可以使用 <code>getFields()</code> 方法，也是用来获取类的成员变量的，其实还不止获取成员变量如此，获取类的其它组成部分都会有这样的差别，就是一个方法中间带有 <code>Declared</code> ,一个没有，那这两者的区别是什么呢？就以获取成员变量为例来说明， <code>getFields()</code> 是获取本类以及父类还有超类中所有以 <code>public</code> 修饰的成员变量，而 <code>getDeclaredFields()</code> 而是获取本类中声明的所有成员变量，这就是两者的差别。</p>
+<p>其实获取成员变量还有一个方法，那就是获取指定的成员变量，通过 <code>getDeclaredField(String name)</code> 来实现，当然这和上面也是一样，<code>public</code> 修饰的成员变量可以通过 <code>getField(String name)</code> 获得，而其它的就只能通过  <code>getDeclaredField(String name)</code> 来访问了。</p>
+<h3 id="4-获取成员方法"><a href="#4-获取成员方法" class="headerlink" title="4.获取成员方法"></a>4.获取成员方法</h3><p>先把代码放上来：</p>
+<pre><code>public class MethodDemo {
+    public static void main(String[] args) throws Exception {
+        Class clazz = Class.forName(&quot;day13.Student&quot;);
+
+        Object stu = clazz.newInstance();
+
+        Method method = clazz.getMethod(&quot;getName&quot;);
+        System.out.println(method.invoke(stu));
+
+
+        Method m2 = clazz.getDeclaredMethod(&quot;setName&quot;, String.class);
+        m2.setAccessible(true);
+        m2.invoke(stu, &quot;李四&quot;);
+
+        System.out.println(stu);
+    }
+}
+</code></pre><p>这里通过反射调用 <code>setName()</code> 方法的时候，其中有一句代码是 <code>m2.setAccessible(true);</code>,如果不加这一句的话程序会报错，报错提示是说不能访问一个以 <code>private</code> 修饰的成员方法，这就是Java中的访问检查机制，因为我们这个程序是在 <code>Student</code> 类的外面，因此是不能访问 <code>Student</code>类中的私有成员方法的，这和我们之前编程的逻辑也是一样的，那如果想在 <code>Student</code> 类的外面访问这个私有方法怎么办呢？这里就要看API文档了，成员方法所属的类是 <code>java.lang.reflect.Method</code>,而它的直接父类就是 <code>java.lang.reflect.AccessibleObject</code>，没错，这里面就有取消Java中访问检查的方法，那就是 <code>setAccessible(boolean flag)</code>,这是一个普通的成员方法，由于 <code>Method</code> 是这个类的子类，所以也就继承了这一个方法，因此要想访问 <code>Student</code> 类中的私有成员方法，就应该使用对应的 <code>Method</code> 对象调用上面这个方法，那也就是 <code>m2.setAccessible(true);</code> 了，其实像这样暴力访问的方式并不好，因为破坏了 <code>Studnet</code> 类的封装性。</p>
+<p>其实这里主要是为了演示这种现象才把 <code>setName()</code> 方法设置为私有的，像上面的 <code>getter()</code> 和 <code>setter()</code> 方法主要就是为了让外部程序访问类中的成员变量的，因此是不应该设置为私有的。</p>
+<h3 id="5-BeanUtils的使用"><a href="#5-BeanUtils的使用" class="headerlink" title="5.BeanUtils的使用"></a>5.BeanUtils的使用</h3><p><code>BeanUtils</code> 是 <code>Apache</code> 这个组织发布的操作 <code>JavaBean</code> 的工具组件，里面封装了很多实用方法，可以提高我们的开发效率，说起来 <code>Apache</code> 这个组织真的挺强大的，发布了好多关于 <code>Java</code> 的组件和应用，比如 <code>Tomcat</code> 服务器，<code>DBUtils</code> 操作数据库的组件。</p>
+<p>我使用的 <code>BeanUtils</code> 版本号是 <code>commons-beanutils-1.8.3.jar</code>,而使用它的话还需要另一个组件 <code>commons-logging-1.1.1.jar</code>,这两个都可以在网上搜索然后在官网进行下载的，下载工具的话我还是比较喜欢到官网，就算下载     <code>JDK</code> 或者 <code>MySQL</code> 需要先注册一下，还是感觉东西把握在自己手中的感觉，其实如果第一次下载某种东西感觉很陌生的话，多尝试一下就好了，然后多下载两遍就熟悉了，就会发觉获取工具其实蛮简单的。</p>
+<h4 id="5-1-导入jar包"><a href="#5-1-导入jar包" class="headerlink" title="5.1 导入jar包"></a>5.1 导入jar包</h4><p>使用上面所说的工具，必须导入相应的jar包，直接在项目中新建一个文件夹，比如 <code>lib</code>，然后将上面两个 <code>jar</code> 包拷贝到里面，打开 <code>lib</code> 文件夹，选中刚拷贝进来的两个 <code>jar</code> 包，点击右键，选择 <code>Build Path</code> ,再选择 <code>Add to Build Path</code>，这样 <code>jar</code> 就导入成功了。</p>
+<h4 id="5-2-使用BeanUtils"><a href="#5-2-使用BeanUtils" class="headerlink" title="5.2 使用BeanUtils"></a>5.2 使用BeanUtils</h4><p>这里主要介绍 <code>BeanUtils</code> 类中的三个方法：</p>
+<pre><code>1.public static String getProperty(Object bean, String name)
+2.public static void setProperty(Object bean, String name, Object value)
+3.public static void populate(Object bean, Map properties)
+</code></pre><p>很明显可以看出，第一个方法是获取 <code>bean</code> 对象中某个属性的值，第二个就是为 <code>bean</code> 对象中的某个属性赋值，第三个方法就是使用 <code>Map</code> 集合中的对应的键值对为 <code>bean</code> 对象赋值。</p>
+<p>首先自己先定义一个人物类：</p>
+<pre><code>public class Person {
+    private String name;
+    private Integer age;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Person() {
+        super();
+    }
+
+    public Person(String name, Integer age) {
+        super();
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Person [name=&quot; + name + &quot;, age=&quot; + age + &quot;]&quot;;
+    }
+}
+</code></pre><p>下面再演示 <code>BeanUtils</code> 类的相关方法：</p>
+<pre><code>import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.beanutils.BeanUtils;
+
+public class BeanUtilsDemo {
+    public static void main(String[] args) throws ReflectiveOperationException {
+        // mathod();
+
+        Person p2 = new Person();
+
+        Map&lt;String, Object&gt; map = new HashMap&lt;String, Object&gt;();
+        map.put(&quot;name&quot;, &quot;小雪&quot;);
+        map.put(&quot;age&quot;, 17);
+        map.put(&quot;number&quot;, 14526);
+
+        BeanUtils.populate(p2, map);
+        System.out.println(p2);
+    }
+
+    public static void mathod() throws IllegalAccessException,
+            InvocationTargetException, NoSuchMethodException {
+        Person p = new Person();
+
+        System.out.println(p);
+
+        BeanUtils.setProperty(p, &quot;name&quot;, &quot;青&quot;);
+        BeanUtils.setProperty(p, &quot;age&quot;, 18);
+
+        System.out.println(p);
+
+        String name = BeanUtils.getProperty(p, &quot;name&quot;);
+        String age = BeanUtils.getProperty(p, &quot;age&quot;);
+        System.out.println(&quot;name:&quot; + name);
+        System.out.println(&quot;age:&quot; + age);
+    }
+}
+</code></pre><p>使用 <code>BeanUtils</code> 确实可以提高开发效率，使用起来也比较简单。</p>
+<h3 id="6-自己创建BeanUtils相似工具类"><a href="#6-自己创建BeanUtils相似工具类" class="headerlink" title="6.自己创建BeanUtils相似工具类"></a>6.自己创建BeanUtils相似工具类</h3><p>其实 <code>BeanUtils</code> 中获取对象属性值和为属性赋值也还是走的 <code>getter</code> 和 <code>setter</code> 方法，可以做个试验，就是将 <code>Person</code> 类中的某些 <code>getter</code> 和 <code>setter</code> 方法设置为 <code>private</code>,程序就会出现异常，并且获取到的值就会是 <code>null</code> 或者 <code>0</code>,这就说明 <code>BeanUtils</code> 绝对走的不是上面我们说过的暴力访问的方法，那样也确实不好，破坏了类的封装性，那就完全背离了 <code>JavaBean</code> 的设计初衷了，知道这些。我们也就可以自己尝试着写一下类似 <code>BeanUtils</code> 的程序了。</p>
+<p>直接放上代码，工具类：</p>
+<pre><code>import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.Set;
+
+public class MyBeanUtils {
+    public static void setProperty(Object bean, String name, Object value)
+            throws ReflectiveOperationException {
+        Class clazz = bean.getClass();
+        String methodName = &quot;set&quot; + name.substring(0, 1).toUpperCase()
+                + name.substring(1);
+        try {
+            Method method = clazz.getDeclaredMethod(methodName,
+                    value.getClass());
+            method.invoke(bean, value);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getProperty(Object bean, String name)
+            throws ReflectiveOperationException {
+        Class clazz = bean.getClass();
+        String methodName = &quot;get&quot; + name.substring(0, 1).toUpperCase()
+                + name.substring(1);
+        Object value = null;
+        try {
+            Method method = clazz.getDeclaredMethod(methodName);
+            value = method.invoke(bean);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return &quot;&quot; + value;
+    }
+
+    public static void populate(Object bean, Map map) throws ReflectiveOperationException {
+        Set&lt;String&gt; keySet = map.keySet();
+        Class clazz = bean.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+        for (int i = 0; i &lt; fields.length; i++) {
+            String name =  fields[i].getName();
+            if(keySet.contains(name)){
+                Object value = map.get(name);
+                setProperty(bean,name,value);
+            }
+        }
+    }
+}
+</code></pre><p>测试类：</p>
+<pre><code>import java.util.HashMap;
+import java.util.Map;
+
+public class MyBeanUtilsDemo {
+    public static void main(String[] args) throws ReflectiveOperationException {
+        Person p2 = new Person();
+
+        System.out.println(p2);
+        Map&lt;String, Object&gt; map = new HashMap&lt;String, Object&gt;();
+        map.put(&quot;name&quot;, &quot;小雪&quot;);
+        map.put(&quot;age&quot;, 17);
+        map.put(&quot;number&quot;, 14526);
+
+        MyBeanUtils.populate(p2,map);
+        System.out.println(p2);
+    }
+
+    public static Person method() throws ReflectiveOperationException {
+        Person p = new Person();
+        System.out.println(p);
+
+        MyBeanUtils.setProperty(p, &quot;name&quot;, &quot;Lau Cloud&quot;);
+        MyBeanUtils.setProperty(p, &quot;age&quot;, 17);
+
+        System.out.println(p);
+
+        String name = MyBeanUtils.getProperty(p, &quot;name&quot;);
+        String age = MyBeanUtils.getProperty(p, &quot;age&quot;);
+        System.out.println(&quot;name:&quot; + name);
+        System.out.println(&quot;age:&quot; + age);
+        return p;
+    }
+}
+</code></pre><p>把这个小工具类写出来还是有点小激动的，毕竟自己用所学的知识实现了自己所想的东西，而且还不是那么简单粗暴的方法，这说明自己还是费了心思的。</p>
+<h3 id="7-总结"><a href="#7-总结" class="headerlink" title="7.总结"></a>7.总结</h3><p>反射在一般的应用开发中用的比较少，但是编写一些工具还是可以的，就我现在的理解而言，字节码对象就是用来描述一个类的，而类的组成大概就是构造器、成员变量和成员方法，因此最重要的就是使用反射获取这些组成部分，其它的就是要注意一些细节吧，把握大的，留意小的，就差不多了吧。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/反射/" rel="tag"># 反射</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/04/网络编程/" rel="next" title="网络编程">
+                <i class="fa fa-chevron-left"></i> 网络编程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/07/使用Java处理XML文件/" rel="prev" title="使用Java处理XML文件">
+                使用Java处理XML文件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-字节码对象的获取"><span class="nav-number">1.</span> <span class="nav-text">1.字节码对象的获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-获取构造器"><span class="nav-number">2.</span> <span class="nav-text">2.获取构造器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-获取成员变量"><span class="nav-number">3.</span> <span class="nav-text">3.获取成员变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-获取成员方法"><span class="nav-number">4.</span> <span class="nav-text">4.获取成员方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-BeanUtils的使用"><span class="nav-number">5.</span> <span class="nav-text">5.BeanUtils的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-导入jar包"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 导入jar包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-使用BeanUtils"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 使用BeanUtils</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-自己创建BeanUtils相似工具类"><span class="nav-number">6.</span> <span class="nav-text">6.自己创建BeanUtils相似工具类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-总结"><span class="nav-number">7.</span> <span class="nav-text">7.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/07/05/反射/';
+
+      var disqus_title = "反射";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

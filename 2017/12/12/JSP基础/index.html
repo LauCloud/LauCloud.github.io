@@ -1,0 +1,1000 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JSP," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="之前已经介绍了 Servlet，现在就要来介绍 JSP 了，那为什么在已经有了 Servlet 的情况下，还要推出 JSP 呢？在下面给出答案吧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSP基础">
+<meta property="og:url" content="http://yoursite.com/2017/12/12/JSP基础/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="之前已经介绍了 Servlet，现在就要来介绍 JSP 了，那为什么在已经有了 Servlet 的情况下，还要推出 JSP 呢？在下面给出答案吧。">
+<meta property="og:updated_time" content="2018-08-12T14:48:02.130Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSP基础">
+<meta name="twitter:description" content="之前已经介绍了 Servlet，现在就要来介绍 JSP 了，那为什么在已经有了 Servlet 的情况下，还要推出 JSP 呢？在下面给出答案吧。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/12/JSP基础/"/>
+
+
+
+
+
+  <title> JSP基础 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/12/JSP基础/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JSP基础
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-12T22:45:32+08:00">
+                2017-12-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JSP/" itemprop="url" rel="index">
+                    <span itemprop="name">JSP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/12/JSP基础/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/12/12/JSP基础/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/12/12/JSP基础/" class="leancloud_visitors" data-flag-title="JSP基础">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>之前已经介绍了 <code>Servlet</code>，现在就要来介绍 <code>JSP</code> 了，那为什么在已经有了 <code>Servlet</code> 的情况下，还要推出 <code>JSP</code> 呢？在下面给出答案吧。</p>
+<a id="more"></a>
+<h3 id="1-为什么还要推出JSP"><a href="#1-为什么还要推出JSP" class="headerlink" title="1.为什么还要推出JSP"></a>1.为什么还要推出JSP</h3><p>为什么还会有 <code>JSP</code> 这个技术呢？明明已经有了 <code>Servlet</code> 啊，而且 <code>Servlet</code> 在接收到用户的请求之后，也可以对请求做处理，并给出响应，这就是因为 <code>Servlet</code> 在响应用户时如果是响应 <code>HTML</code> 格式的内容，将会使程序变得很难维护，只能使用下面的方式来返回想要响应的内容：</p>
+<pre><code>response.getWriter().print(&quot;响应的内容&quot;);
+</code></pre><p>很明显，如果像这样使用 <code>Servlet</code> 来响应用户请求的话，那我们编写代码将会很麻烦，前端开发人员也很难对页面进行调整。而 <code>JSP</code> 的出现就是为了解决这个问题，使得在返回 <code>HTML</code> 格式的内容时也变得十分简单，下面具体介绍 <code>JSP</code> 的相关内容。</p>
+<h3 id="2-JSP的运行原理"><a href="#2-JSP的运行原理" class="headerlink" title="2.JSP的运行原理"></a>2.JSP的运行原理</h3><p>要想说明 <code>JSP</code> 的运行原理，那就必须先使用一下了，首先创建一个动态 <code>Web</code> 项目(<code>Dynamic Web Project</code>)，版本还是选择2.5的吧，名字就叫 <code>webDemo</code> 吧，新建项目完成之后就可以新建 <code>JSP</code> 页面了，因为 <code>JSP</code> 页面需要放在 <code>WebContent</code> 目录下，所以可以现在 <code>WebContent</code> 目录下新建一个文件夹 <code>demo</code>，然后再在里面新建一个 <code>JSP</code> 页面，就叫 <code>demo1.jsp</code> 吧，内容如下:</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;Insert title here&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;First JSP&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>然后就可以启动服务器了，想要访问我们上面刚新建的 <code>JSP</code> 的胡，就需要在浏览器的地址栏输入：</p>
+<pre><code>http://localhost:8080/webDemo/demo/demo1.jsp
+</code></pre><p>这样我们就可以在页面上看到显示的内容了。</p>
+<p>那刚才的 <code>JSP</code> 页面到底是如何运行的呢？其实也是蛮简单的，首先当一个 <code>JSP</code> 被访问的时候，这个 <code>JSP</code> 页面就会被翻译成一个 <code>java</code> 的文件，然后 <code>java</code> 文件再被编译为 <code>class</code> 文件，最后 <code>class</code> 文件运行来响应浏览器的请求。比如我们上面的 <code>demo1.jsp</code> 文件，当它被请求的时候，就会被先翻译为 <code>demo1_jsp.java</code> 文件，然后再被编译为 <code>demo1_jsp.class</code> 文件，最后就是这个 <code>class</code> 运行了。其实关于由 <code>JSP</code> 转化来的 <code>java</code> 和 <code>class</code> 文件都是可以找到的，就如同我们上面写的 <code>demo1.jsp</code> 页面，因为最后项目都是部署在 <code>Tomcat</code> 服务器里面的，因此在 <code>Tomcat</code> 里面也就可以找到了，首先到 <code>Tomcat</code> 的安装目录，会发现有一个 <code>work</code> 的文件夹，然后再是 <code>Catalina</code> 的文件夹，然后再是 <code>localhost</code> 的文件夹，进去之后就可以发现我们项目的目录了，也就是 <code>webDemo</code> 的文件夹了，因为 <code>demo1.jsp</code> 页面已经被访问过一次了，因此这里会有一个 <code>org</code> 的文件夹，然后再是一个 <code>apache</code> 的文件夹，进去之后就是一个 <code>jsp</code> 的文件夹，因为我们上面的 <code>JSP</code> 页面是放在 <code>demo</code> 文件夹下面的，因此这里的 <code>jsp</code> 的文件夹下面会有一个 <code>demo</code> 的文件夹，里面就存放着我们上面说的 <code>demo1_jsp.java</code> 和 <code>demo1_jsp.class</code> 两个文件了。比较有意思的一点就是当我们打开 <code>demo1_jsp.java</code> 这个文件时，会发现 <code>demo1_jsp</code> 这个类是继承于 <code>org.apache.jasper.runtime.HttpJspBase</code> 这个类的，很明显这个一个 <code>Tomcat</code> 的类了，当我们去 <code>Tomcat</code> 的源码包里面找上面这个类时，会发现它的类声明是这样的：</p>
+<pre><code>public abstract class HttpJspBase extends HttpServlet implements HttpJspPage
+</code></pre><p>发现了没，这个类是继承于 <code>HttpServlet</code> 这个类的，这样的话，就可以说其实 <code>JSP</code> 其实也是一个 <code>Servlet</code>。</p>
+<h3 id="3-JSP的脚本元素"><a href="#3-JSP的脚本元素" class="headerlink" title="3.JSP的脚本元素"></a>3.JSP的脚本元素</h3><p>首先看看是什么组成了 <code>JSP</code> 呢？其实就是在 <code>HTML</code> 的代码中加入 <code>Java</code> 代码，然后再加入一些 <code>JSP</code> 自身的一些东西。那如何在 <code>HTML</code> 的代码中加入 <code>Java</code> 代码呢？这个就可以使用 <code>JSP</code> 的脚本元素了。</p>
+<p><code>JSP</code> 的脚本元素可以分为 <code>3</code> 类:</p>
+<pre><code>1.声明标签
+2.表达式标签
+3.程序代码标签
+</code></pre><p>下面分别进行介绍：</p>
+<h4 id="3-1-声明标签"><a href="#3-1-声明标签" class="headerlink" title="3.1 声明标签"></a>3.1 声明标签</h4><p><code>JSP</code> 的声明标签的格式是这样的：</p>
+<pre><code>&lt;%! 变量或方法声明 %&gt;
+</code></pre><p>需要注意的一点就是要观察我们在 <code>JSP</code> 中写的 <code>Java</code> 代码片段，在 <code>JSP</code> 文件转换为 <code>java</code> 文件的过程中，那些 <code>java</code> 片段转化成了 <code>Java</code> 类中的哪些组成部分。那怎么才能看到转换的过程呢？这里就要用到上面已经说过的 <code>JSP</code> 运行原理了，我们在 <code>Tomcat</code> 服务器的安装目录中是可以找到转化后的 <code>java</code> 文件的，因此就可以得知我们在 <code>JSP</code> 页面中写的 <code>java</code> 代码片段到底转换为了 <code>Java</code> 中的哪些组成部分了。</p>
+<p>首先可以在 <code>JSP</code> 中写一个这样的片段：</p>
+<pre><code>&lt;%!
+    // 变量声明
+    int i =3;
+%&gt;
+</code></pre><p>当我们启动项目，然后在浏览器中访问 <code>JSP</code> 页面之后，就可以看到由 <code>JSP</code> 文件转换得到的 <code>java</code> 文件了，当然也可以看到我们上面写的 <code>Java</code> 片段对应到的代码了，很明显，声明标签中的 <code>Java</code> 代码片段会转化为 <code>java</code> 文件当中的成员变量或成员方法。</p>
+<h4 id="3-2-表达式标签"><a href="#3-2-表达式标签" class="headerlink" title="3.2 表达式标签"></a>3.2 表达式标签</h4><p><code>JSP</code> 中的表达式标签的格式是这样的：</p>
+<pre><code>&lt;%= 表达式 %&gt;
+</code></pre><p>和上面的声明标签一样，我们也需要知道表达式标签在转换得到的 <code>java</code> 文件中到底是 <code>Java</code> 类的哪个组成部分，当然方法也还是和上面的一样，就会发现表达式标签中的代码最后会转换成 <code>Java</code> 类响应函数中输出部分的代码。比如在 <code>JSP</code> 中表达式标签代码是这样的:<code>&lt;%= i %&gt;</code>，那在转换后的 <code>Java</code> 文件中的响应函数中就是这样的一条语句了。</p>
+<pre><code>out.print( i );
+</code></pre><h4 id="3-3-程序代码标签"><a href="#3-3-程序代码标签" class="headerlink" title="3.3 程序代码标签"></a>3.3 程序代码标签</h4><p><code>JSP</code> 中的程序代码标签的格式是这样的：</p>
+<pre><code>&lt;% 程序代码 %&gt;
+</code></pre><p>相应的代码就会是这样的：</p>
+<pre><code>&lt;%
+    int x = 5;
+%&gt;
+</code></pre><p>同样的，程序代码标签的代码会被翻译成哪一部分呢？这个就是会被转化成 <code>java</code> 文件中响应函数里面的局部变量或代码片段。</p>
+<h4 id="3-4-三种标签的使用情况"><a href="#3-4-三种标签的使用情况" class="headerlink" title="3.4 三种标签的使用情况"></a>3.4 三种标签的使用情况</h4><p>上面一共是介绍了 <code>3</code> 中标签，那它们的使用情况怎么样呢？一般来说表达式标签和程序代码标签会用的多一些，这是为什么呢？就是因为它们转换成 <code>java</code> 文件时被转换到类中的位置不同，因为表达式标签和程序代码标签都是被转换到了方法体中，而声明标签则是直接被转换为类的成员变量，而我们都知道 <code>JSP</code> 其实就是一个 <code>Servlet</code> ,而 <code>Servlet</code> 是线程不安全的，因此成员变量会有线程安全问题。因此声明标签才会不经常使用。</p>
+<h3 id="4-MVC开发模式"><a href="#4-MVC开发模式" class="headerlink" title="4.MVC开发模式"></a>4.MVC开发模式</h3><p>首先看一下 <code>Servlet</code> 和 <code>JSP</code> 的优缺点：</p>
+<p><code>Servlet</code>:</p>
+<pre><code>缺点：显示HTML内容非常麻烦
+</code></pre><p><code>JSP</code>:</p>
+<pre><code>优点：显示数据非常方便
+缺点：封装和处理数据不是很擅长
+</code></pre><p>从上面可以看出，其实 <code>Servlet</code> 和 <code>JSP</code> 都不是很擅长对数据进行封装和处理，那什么对这个比较擅长呢？那就是 <code>Java</code> 类了，也就是 <code>JavaBean</code> 了，因此我们在开发时就可以使用 <code>Servlet</code> 来控制程序的处理逻辑，<code>JavaBean</code> 来对数据进行封装和处理，而 <code>JSP</code> 则是用来进行显示数据。这也就是我们想要说的 <code>MVC</code> 开发模式了，具体的对应关系则是如下:</p>
+<pre><code>M:Model    模型层
+V:View    视图层
+C:Controller    控制层
+</code></pre><p>采用 <code>MVC</code> 开发模式的话，则对于一个请求的处理应该是这样的，首先是 <code>Servlet</code> 接收到用户的请求，然后再使用 <code>JavaBean</code> 对数据进行封装和处理，最后使用 <code>JSP</code> 将需要响应的数据显示到页面中。</p>
+<h3 id="5-路径问题"><a href="#5-路径问题" class="headerlink" title="5.路径问题"></a>5.路径问题</h3><p>关于路径，我们在开发的时候会经常使用，不管是前端页面的一个链接，还是后台的一次跳转，都和路径有关，因此解决了路径问题，在开发的时候就会游刃有余了。首先还是看一个例子吧。</p>
+<p>首先在 <code>WebContent</code> 目录下有一个 <code>demo2.jsp</code> 的页面，如果我们想要访问它的话，那就需要在浏览器中输入下面的地址了：</p>
+<pre><code>http://localhost:8080/webDemo/demo2.jsp
+</code></pre><p>而同时还存在一个 <code>Servlet</code>，它的访问路径就是：</p>
+<pre><code>http://localhost:8080/webDemo/ServletDemo
+</code></pre><p>那如果想要在这个 <code>JSP</code> 中访问 <code>Servlet</code> ，应该怎么办呢？比如就使用一个 <code>a</code> 标签，那我们应该怎么写路径呢？看了上面的两个路径之后就会发现，其实 <code>demo2.jsp</code> 和 <code>ServletDemo</code> 是在同一个目录下面的啊，因此我们的 <code>a</code> 标签也就可以写成下面这样的了。</p>
+<pre><code>&lt;a href=&quot;ServletDemo&quot;&gt;访问ServletDemo&lt;/a&gt;
+</code></pre><p>因为表示路径的时候，<code>./</code> 是表示当前路径的，因此上面的 <code>a</code> 标签其实也可以写成这样的：</p>
+<pre><code>&lt;a href=&quot;./ServletDemo&quot;&gt;访问ServletDemo&lt;/a&gt;
+</code></pre><p>如果改变一下，<code>demo2.jsp</code> 不是在 <code>WebContent</code> 目录下，而是在 <code>WebContent</code> 下的 <code>demo2</code> 文件夹下，那在 <code>JSP</code> 中写访问 <code>Servlet</code> 的路径应该怎么写呢？首先那 <code>demo2.jsp</code> 的访问路径就会变成这样的了：</p>
+<pre><code>http://localhost:8080/webDemo/demo2/demo2.jsp
+</code></pre><p>而 <code>Servlet</code> 的访问路径是没有变的，因此如果对比 <code>JSP</code> 和 <code>Servlet</code> 的访问路径的话，就可以发现 <code>Servlet</code> 应该是在 <code>JSP</code> 文件的上一级目录里面，而表示路径时，<code>../</code> 是表示上一级目录的，因此在 <code>JSP</code> 中访问 <code>Servlet</code> 的 <code>a</code> 标签就可以写成这样的了。</p>
+<pre><code>&lt;a href=&quot;../ServletDemo&quot;&gt;访问ServletDemo&lt;/a&gt;
+</code></pre><p>从上面的这两个例子就可以看出，其实我们使用的是相对路径，根据两个文件的访问路径，然后对比出它们的目录层级，就可以写出相对路径了。但同时也可以发现，这样是稍微有点麻烦的，因为需要先对比两个文件的访问路径，才能确定互相访问时应该使用什么路径。下面再看看绝对路径的使用。</p>
+<p>还是刚才的例子，如果在 <code>WebContent</code> 目录下的 <code>demo2.jsp</code> 文件想要使用 <code>a</code> 标签访问 <code>ServletDemo</code> 这个 <code>Servlet</code>,那应该怎么写呢？其实就可以直接在访问路径中写上 <code>Servlet</code> 的访问路径，如下：</p>
+<pre><code>&lt;a href=&quot;http://localhost:8080/webDemo/ServletDemo&quot;&gt;访问ServletDemo&lt;/a&gt;
+</code></pre><p>而其实 <code>http://localhost:8080</code> 这一段是可以省略的，因此下面这样也是可以的：</p>
+<pre><code>&lt;a href=&quot;/webDemo/ServletDemo&quot;&gt;访问ServletDemo&lt;/a&gt;
+</code></pre><p>那要是在 <code>WebContent</code> 下面的 <code>demo2</code> 文件夹中的 <code>demo2.jsp</code> 想访问上面这个 <code>Servlet</code> ，那应该怎么写呢？很显然，和上面的写一样的就可以了，因为都是从根目录开始访问的，这样来看的话，写绝对路径就比写相对路径来的更通用一些，因此写绝对路径会更好一些。</p>
+<p>简单总结一下的话，就是路径的话，是分为相对路径和绝对路径的，相对路径是根据比较访问两个文件的绝对路径，然后得到两者的层级关系，这样就得到了相对路径，则绝对路径就是直接从根目录开始访问的路径，因此会更加通用一些。需要注意的一点就是绝对路径还可以分为服务器端路径和客户端路径，客户端路径都是需要带工程名的，而服务器端路径是不需要带工程名的。</p>
+<h3 id="6-请求转发和重定向"><a href="#6-请求转发和重定向" class="headerlink" title="6.请求转发和重定向"></a>6.请求转发和重定向</h3><p>当我们想实现页面之间的跳转时，请求转发和重定向都可以达到目的，但是两者还是有区别的，下面分别进行说明。</p>
+<h4 id="6-1-请求转发"><a href="#6-1-请求转发" class="headerlink" title="6.1 请求转发"></a>6.1 请求转发</h4><p>首先看一下请求转发的原理，有一个 <code>Servlet</code> 和一个 <code>JSP</code> ，当用户请求 <code>Servlet</code> 时，如果在 <code>Servlet</code> 中使用请求转发给 <code>JSP</code>,那么请求就会直接发送给 <code>JSP</code> 页面，<code>JSP</code> 页面中的内容也会相应给用户，而这整个过程都是一次请求。</p>
+<p>请求转化的实现主要是依靠 <code>HttpServletRequest</code> 对象和 <code>RequestDispatcher</code> 对象，先看代码：</p>
+<pre><code>RequestDispatcher dispatcher = request.getRequestDispatcher(&quot;/demo3/demo1.jsp&quot;);
+dispatcher.forward(request, response);
+</code></pre><p>首先 <code>HttpServletRequest</code> 对象可以依靠父类 <code>ServletRequest</code> 中的</p>
+<pre><code>public RequestDispatcher getRequestDispatcher(String path)
+</code></pre><p>方法得到 <code>RequestDispatcher</code> 对象，其中传入的 <code>path</code> 参数就是我们想要转发到的文件，第二步就是使用 <code>RequestDispatcher</code> 对象中的</p>
+<pre><code>public void forward(ServletRequest request, ServletResponse response)
+</code></pre><p>就可以实现跳转了。</p>
+<h4 id="6-2-重定向"><a href="#6-2-重定向" class="headerlink" title="6.2 重定向"></a>6.2 重定向</h4><p>下面再说重定向，同样是一个 <code>Servlet</code> 和一个 <code>JSP</code> ，当用户请求 <code>Servlet</code> 时，<code>Servlet</code> 会重定向到 <code>JSP</code> 中，这个过程是怎样的呢？首先用户发送一个请求到 <code>Servlet</code> ,这时候重定向就相当于 <code>Servlet</code> 告诉用户浏览器要重定向到的 <code>JSP</code> 页面的访问地址，然后用户浏览器再一次对 <code>JSP</code> 的访问地址发送请求，最后 <code>JSP</code> 就会响应用户的请求，整个过程其实是两次请求。</p>
+<p>重定向的实现主要是依靠 <code>HttpServletResponse</code> 对象的</p>
+<pre><code>public void sendRedirect(String location)
+</code></pre><p>方法，其中的 <code>location</code> 则是需要重定向到的 <code>JSP</code> 的路径，需要注意的是这里的路径是需要带工程名，而上面请求转化的路径是不需要带工程名的。因此重定向的代码就如下所示：</p>
+<pre><code>response.sendRedirect(&quot;/webDemo/demo3/demo1.jsp&quot;);
+</code></pre><h4 id="6-3-请求转发和重定向的区别"><a href="#6-3-请求转发和重定向的区别" class="headerlink" title="6.3 请求转发和重定向的区别"></a>6.3 请求转发和重定向的区别</h4><p>请求转发和重定向的区别主要有以下几条：</p>
+<pre><code>1.请求转发是一次请求一次响应，而重定向是两次请求两次响应；
+2.请求转发时浏览器的地址栏是不会变化的，而重定向时会发生变化；
+3.请求转发的路径不带工程名，而重定向的路径是需要带工程名的；
+4.请求转发只能在本网站内部，而重定向可以到外部网站。
+</code></pre><p>第一点已经在上面进行说明了，需要注意的一点就是当我们想使用 <code>request</code> 作为域对象保存值时，因为 <code>request</code> 作为域对象的作用范围是一次请求范围，因此对于请求转发是有效的，而对于重定向是无效的；第二点的话就是因为请求转发是一次请求而重定向是两次请求，第三点是需要注意的，当进行请求转发时，整个过程都是一次请求，因此是先请求到 <code>Servlet</code> ，再从 <code>Servlet</code> 请求到 <code>JSP</code>，而 <code>Servlet</code> 已经是在服务端了，因此这个从 <code>Servlet</code> 到 <code>JSP</code> 的路径应该是服务器端路径了，我们上面路径的部分已经写过，服务器端路径是不需要带工程名的；而当是重定向的时候，其实第二次请求也相当于是用户浏览器对 <code>JSP</code> 的一次请求，很显然就是客户端路径了，因此是需要带工程名的。</p>
+<h3 id="7-总结"><a href="#7-总结" class="headerlink" title="7.总结"></a>7.总结</h3><p>其实上面都只是 <code>JSP</code> 的一些基本内容，需要关注的是 <code>JSP</code> 的运行原理，以及 <code>JSP</code> 的脚本元素，经典的 <code>MVC</code> 开发模式，经常会遇到的路径问题，然后就是请求转发和重定向了，其实很多东西最重要的是搞清楚它们基本的原理，然后自己心中要有相应的模型，能够很简单地将一些概念解释清楚，这样就会掌握的比较好。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JSP/" rel="tag"># JSP</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/02/Servlet相关对象/" rel="next" title="Servlet相关对象">
+                <i class="fa fa-chevron-left"></i> Servlet相关对象
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/20/Cookie和Session/" rel="prev" title="Cookie和Session">
+                Cookie和Session <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-为什么还要推出JSP"><span class="nav-number">1.</span> <span class="nav-text">1.为什么还要推出JSP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-JSP的运行原理"><span class="nav-number">2.</span> <span class="nav-text">2.JSP的运行原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-JSP的脚本元素"><span class="nav-number">3.</span> <span class="nav-text">3.JSP的脚本元素</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-声明标签"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 声明标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-表达式标签"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 表达式标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-程序代码标签"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 程序代码标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-三种标签的使用情况"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 三种标签的使用情况</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-MVC开发模式"><span class="nav-number">4.</span> <span class="nav-text">4.MVC开发模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-路径问题"><span class="nav-number">5.</span> <span class="nav-text">5.路径问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-请求转发和重定向"><span class="nav-number">6.</span> <span class="nav-text">6.请求转发和重定向</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-请求转发"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 请求转发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-重定向"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 重定向</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-请求转发和重定向的区别"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 请求转发和重定向的区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-总结"><span class="nav-number">7.</span> <span class="nav-text">7.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/12/12/JSP基础/';
+
+      var disqus_title = "JSP基础";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

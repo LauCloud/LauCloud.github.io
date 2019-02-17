@@ -1,0 +1,979 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="HTML," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="之前写的东西都是关于 Java 的，最主要都是一些 Java 的核心语法或知识点，但是做 Java Web 开发的话，因为是要做出一个网站，所以那就必须要有展示信息的页面，那应该用什么展示呢?那就是超文本标记语言 HTML 了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML基础">
+<meta property="og:url" content="http://yoursite.com/2017/07/08/HTML基础/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="之前写的东西都是关于 Java 的，最主要都是一些 Java 的核心语法或知识点，但是做 Java Web 开发的话，因为是要做出一个网站，所以那就必须要有展示信息的页面，那应该用什么展示呢?那就是超文本标记语言 HTML 了。">
+<meta property="og:updated_time" content="2017-07-09T14:14:27.787Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTML基础">
+<meta name="twitter:description" content="之前写的东西都是关于 Java 的，最主要都是一些 Java 的核心语法或知识点，但是做 Java Web 开发的话，因为是要做出一个网站，所以那就必须要有展示信息的页面，那应该用什么展示呢?那就是超文本标记语言 HTML 了。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/08/HTML基础/"/>
+
+
+
+
+
+  <title> HTML基础 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/08/HTML基础/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                HTML基础
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-08T22:06:27+08:00">
+                2017-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Java Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/08/HTML基础/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/07/08/HTML基础/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/07/08/HTML基础/" class="leancloud_visitors" data-flag-title="HTML基础">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>之前写的东西都是关于 <code>Java</code> 的，最主要都是一些 <code>Java</code> 的核心语法或知识点，但是做 <code>Java Web</code> 开发的话，因为是要做出一个网站，所以那就必须要有展示信息的页面，那应该用什么展示呢?那就是超文本标记语言 <code>HTML</code> 了。</p>
+<a id="more"></a>
+<h3 id="1-HTML介绍"><a href="#1-HTML介绍" class="headerlink" title="1.HTML介绍"></a>1.HTML介绍</h3><p> <code>HTML</code> 是超文本标记语言，简单点说就是它其中的每个元素都代表着某些特殊含义，比如标签a，就代表一个超链接，当我们点击这个超链接的时候，页面就会跳转到指定的页面上， <code>HTML</code> 语言就是由一个一个这样的标签组成的。</p>
+<h3 id="2-常见标签"><a href="#2-常见标签" class="headerlink" title="2.常见标签"></a>2.常见标签</h3><p>下面对于一些常见的标签进行简单地说明一下吧</p>
+<h4 id="2-1-字体标签"><a href="#2-1-字体标签" class="headerlink" title="2.1 字体标签"></a>2.1 字体标签</h4><pre><code>&lt;font 属性名=&quot;属性值&quot;&gt;内容&lt;/font&gt;
+</code></pre><p><code>font</code> 标签就是用来设置关于字体的一些属性的，通过属性名和属性值这样类似于键值对的形式来进行设置，关于字体的属性，那当然就是字体颜色、字体大小和字体类型了，其实一般写网页的时候都是在集成开发工具中开发，因此就像我们在 <code>Eclipse</code> 中写 <code>Java</code> 程序一样，都会有很完善的提示，因此不必去死记哪个标签有哪些属性以及属性值，只要在不清楚的时候及时使用提示工具就好了。</p>
+<h4 id="2-2-格式化标签"><a href="#2-2-格式化标签" class="headerlink" title="2.2 格式化标签"></a>2.2 格式化标签</h4><pre><code>换行：&lt;br/&gt;
+段落：&lt;p&gt;&lt;/p&gt;
+标题：&lt;h1&gt;&lt;/h1&gt;
+空格：&amp;nbsp; 
+注释：&lt;!—注释内容--&gt;
+</code></pre><p>其实标签的话重点还是在于要多使用，用的多了也就熟悉了。</p>
+<h4 id="2-3-图片标签"><a href="#2-3-图片标签" class="headerlink" title="2.3 图片标签"></a>2.3 图片标签</h4><pre><code>&lt;img src=&quot;&quot; /&gt;
+</code></pre><p>这个标签便是在引用图片时使用，<code>src</code>指向的是图片的路径，可以是绝对路径，也可以是相对路径，个人感觉使用相对路径好一点，因为如果将项目上传到服务器的话，使用绝对路径中的盘符在服务器中肯定是找不到的，到时候就还是需要修改，这样还不如直接最开始就使用相对路径。图片标签中还有比如 <code>alt</code> 这样的属性，是用来设置当页面中的图片没有加载出来的时候，在图片的位置显示的文本。</p>
+<h4 id="2-4-列表标签"><a href="#2-4-列表标签" class="headerlink" title="2.4 列表标签"></a>2.4 列表标签</h4><p>列表分为有序列表和无序列表，有序列表的话它其中的每一个列表项可以带有1、2、3这样的序号，而无序列表是没有这样的有序序号的。</p>
+<pre><code>有序列表：
+    &lt;ol&gt;
+        &lt;li&gt;家用电器&lt;/li&gt;
+        &lt;li&gt;医疗保健&lt;/li&gt;
+    &lt;/ol&gt;
+
+无序列表：
+    &lt;ul&gt;
+        &lt;li&gt;家用电器&lt;/li&gt;
+        &lt;li&gt;医疗保健&lt;/li&gt;
+    &lt;/ul&gt;
+</code></pre><h4 id="2-5-超链接标签"><a href="#2-5-超链接标签" class="headerlink" title="2.5 超链接标签"></a>2.5 超链接标签</h4><pre><code>&lt;a href=”http://www.baidu.com”&gt;百度一下&lt;/a&gt;
+</code></pre><p>超链接标签中用 <code>href</code> 来指定该链接应该跳转的路径，其实这个属性值也可以是一个图片的路径，这样点击这个链接就会跳转到图片，其实实际生活中就可以看到这种应用，比如点击小图看大图，当然a标签之中的文本也可以使用一个图片标签，这样就是在点击图片的时候跳转到指定链接，实际生活中的一些按钮就是的，其实是一张很像按钮的图片。</p>
+<h4 id="2-6-表格标签"><a href="#2-6-表格标签" class="headerlink" title="2.6 表格标签"></a>2.6 表格标签</h4><pre><code>&lt;table border=&quot;1&quot; width=&quot;50%&quot; align=”center”&gt;
+    &lt;tr&gt;
+        &lt;td&gt;姓名&lt;/td&gt;
+        &lt;td&gt;年龄&lt;/td&gt;
+        &lt;td&gt;性别&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Tom&lt;/td&gt;
+        &lt;td&gt;18&lt;/td&gt;
+        &lt;td&gt;male&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+</code></pre><p>其中 <code>table</code> 就是表示这是一个表格，<code>tr</code>就是表示一行，<code>td</code>就是表示一个单元格，其实表格中还有一个元素，那就是 <code>th</code>,它表示的意思也是一个单元格，不过是放在表头那一行的，其实它的作用就是比一般的单元格的字显示加粗并且字体变大，所以一般会将它用在表格的第一行里面。</p>
+<p>表格的使用中还有比较重要的一点就是合并单元格：</p>
+<pre><code>合并列单元格：colspan
+合并行单元格：rowspan
+</code></pre><p>合并单元格的过程，就使用合并列单元格来说明吧，比如我要合并两列，其实就是让第一个单元格占据两个单元格的位置，因为每个单元格都有一个 <code>colspan</code> 属性，所以就在第一个单元格中将这个属性设置为 <code>2</code>，然后将这个单元格后面的单元格删除掉就好了，因为有一个单元格要占据两个位置嘛，如果不删除那就会和前一行和后一行不对齐了。整个过程就是这样了；那如果要合并的两个单元格是在两行，也就是说我们要的效果就是一个单元格跨两行，那和上面的逻辑一样，因为每个单元格元素也都有一个 <code>rowspan</code> 属性，因此就应该将第一个单元格的该属性设置为 <code>2</code>，而将第二个单元格删除就好了。</p>
+<h4 id="2-7-块标签"><a href="#2-7-块标签" class="headerlink" title="2.7 块标签"></a>2.7 块标签</h4><pre><code>&lt;span&gt;&lt;/span&gt;
+&lt;div&gt;&lt;/div&gt;
+</code></pre><p>这个就主要是 <code>span</code> 和 <code>div</code> 这两个标签元素了， <code>span</code> 标签是在一行中定义一块，其中有多少内容，就会占据多大空间，而且此标签是不会自动换行的，而 <code>div</code> 标签则是定义一块，而且默认占满一行，同时也会自动换行。其实这两个元素的这些特点是可以进行转化的，就是每个元素都会有一个 <code>display</code> 属性，可以设置这个属性来设置某个标签是行级元素还是块级元素，属性值为 <code>inline</code> 那就是行级元素了，而属性值为 <code>block</code> 那就是块级元素了。</p>
+<h3 id="3-表单"><a href="#3-表单" class="headerlink" title="3.表单"></a>3.表单</h3><p>其实我觉得对于 <code>Java</code>程序员来说，与 <code>HTML</code> 相关的重点那就是表单了，因为在进行 <code>Java Web</code> 开发的时候， <code>Java</code> 代码负责后台逻辑，而前台就是用于与用户进行交互了，其中最基本的功能增加和修改也就需要借助于表单了，录入信息的时候是提交表单中的数据进行保存，修改的时候是先将数据在表单中展示出来，然后在表单中修改数据再进行一次保存，因此表单以及表单中的元素还是需要掌握的。</p>
+<h4 id="3-1-输入项标签"><a href="#3-1-输入项标签" class="headerlink" title="3.1 输入项标签"></a>3.1 输入项标签</h4><p>用户名输入框、密码输入框、单选框和多选框等都是输入框，输入框的标签样式是 <code>&lt;input /&gt;</code>,而要表示这么多种类型的输入框就是由输入框其中的一个属性决定的，那就是 <code>type</code> 属性，它的取值就是设置该标签的种类，列在下面：</p>
+<pre><code>text:文本框。 默认
+password:密码框。  内容为非明文
+radio:单选框。   在同一组内有单选效果
+checkbox:复选框。  在同一组内有复选效果
+submit:提交按钮。用于控制表单提交数据
+reset:重置按钮。 用于将表单输入项恢复到默认状态
+file:附件框。用于文件上传。
+hidden:隐藏域。一般用作提交服务器需要拿到，但用户不需要看到的数据。
+button:普通按钮。需要和JS事件一起用
+</code></pre><p>还想说一下单选框和复选框，单选框应该是互斥的，所以应该将每个选项都包含在一个组中，怎么做呢？那就是使用 <code>name</code> 属性了，然后将每一个  <code>name</code> 属性的属性值都取一样的，就说明这些选项是在同一个组里面了。</p>
+<pre><code>&lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;boy&quot; /&gt;男
+&lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;girl&quot; /&gt;女
+</code></pre><p>复选框的选项不用说明它们是互斥的，但在提交的时候也要说明它们是在同一个组里面，那做法就和上面的一样了。</p>
+<pre><code>&lt;input type=&quot;checkbox&quot; name=&quot;like&quot; value=&quot;code&quot; /&gt;编程
+&lt;input type=&quot;checkbox&quot; name=&quot;like&quot; value=&quot;swim&quot; /&gt;游泳
+&lt;input type=&quot;checkbox&quot; name=&quot;like&quot; value=&quot;read&quot; /&gt;阅读
+</code></pre><h4 id="3-2-下拉选择框标签"><a href="#3-2-下拉选择框标签" class="headerlink" title="3.2 下拉选择框标签"></a>3.2 下拉选择框标签</h4><pre><code>&lt;select name=&quot;city&quot;&gt;
+    &lt;option value=&quot;1&quot;&gt;北京&lt;/option&gt;
+    &lt;option value=&quot;2&quot;&gt;深圳&lt;/option&gt;
+    &lt;option value=&quot;3&quot;&gt;武汉&lt;/option&gt;
+&lt;/select&gt;
+</code></pre><p>这个主要就是记住格式了，里面的每一个选项都是一个 <code>option</code> 标签，因为下拉选择框一般都是选择一个的，如果有需求要选择多个的话那就需要在 <code>select</code> 标签中加一个 <code>multiple</code> 属性了，<code>multiple=&quot;multiple&quot;</code> 就可以达到效果了。</p>
+<h4 id="3-3-文本域标签"><a href="#3-3-文本域标签" class="headerlink" title="3.3 文本域标签"></a>3.3 文本域标签</h4><p>当我们需要输入的文字较多的时候，<code>input</code> 输入框那就不够用了，因为需要输入的文字有可能是一大段文字，那么在这种时候就需要使用文本域标签 <code>&lt;textarea&gt;&lt;/textarea&gt;</code> 了。</p>
+<pre><code>&lt;textarea name=&quot;description&quot; rows=&quot;10&quot; cols=&quot;60&quot;&gt;我想描述一下我自己&lt;/textarea&gt;
+</code></pre><h4 id="3-4-表单标签"><a href="#3-4-表单标签" class="headerlink" title="3.4 表单标签"></a>3.4 表单标签</h4><p>上面介绍的都是可以放在表单标签中的元素标签，那表单标签又是什么呢？就是 <code>&lt;form&gt;&lt;/form&gt;</code> ,这里需要说明一下的就是它的两个属性 <code>action</code> 和 <code>method</code>, <code>action</code> 属性中的属性值就是我们这个表单应该要提交到哪里的路径， <code>method</code> 属性的属性值就是我们提交这个表单采用的方式，这个属性的取值只有两个：<code>get</code> 和 <code>post</code>， <code>get</code> 方式提交的特点是会将提交的数据都连接到 <code>url</code> 上，并且提交的数据也是有限制的，由于提交的时候全部的数据都直接连接在 <code>url</code> 之中，因此相对来说是不那么安全的，而 <code>post</code> 方式的提交则是将要提交的数据放在请求的数据体中，因此提交的数据大小是没有限制的，并且因为提交的数据没有直接连接到 <code>url</code> 中，因此相对来说是安全的。</p>
+<pre><code>&lt;form action=&quot;提交的路径&quot; method=&quot;提交的方式&quot;&gt;
+&lt;/form&gt;
+</code></pre><p>还需要注意的一点就是当我们点击提交的时候，如果采用的是 <code>get</code> 方式进行提交，那么提交的数据会像 <code>?password=123&amp;username=zhangsan</code> 这样连接到 <code>url</code> 之中，即使是使用的 <code>post</code> 方式进行提交，在提交的数据体之中，数据也会像这样连接，只是我们在 <code>url</code> 中看不到罢了，那这里的 <code>password</code> 和 <code>username</code> 是从哪里来的呢？放心吧，浏览器是不会看到你的 <code>input</code> 中的 <code>type</code> 属性是 <code>password</code> 就在上传数据的时候知道该属性应该是     <code>password</code> 的，现在的技术还没有那么智能，那这里的这些相当于键值对的键和值是从哪里来的呢？答案就是每一个输入框都有一个 <code>name</code> 属性，那键值对的键就是这 <code>name</code> 属性的属性值，而用户在该输入框输入的数据就是这键值对里面的值了，因此提交的数据就是这么来的了，其实像下拉选择框和文本域也都是这样的，那要是忘记写 <code>name</code> 属性了呢？那在提交的时候就会忽略这个输入框了，因为浏览器也确实不知道它的存在啊。需要牢记的是标签中的 <code>name</code> 属性是与后台服务器交互的，而标签中的 <code>id</code> 属性则是与前台的 <code>JavaScript</code> 代码进行交互的。</p>
+<h3 id="4-URL编码"><a href="#4-URL编码" class="headerlink" title="4.URL编码"></a>4.URL编码</h3><p>不知道大家想过一个问题没有，那就是提交的数据是以键值对的形式提交的，而键值对之间是以 <code>&amp;</code> 分割的，那如果我在表单获取数据的输入框中也输入了 <code>&amp;</code> 呢？那不就是会出错了啊，但是我们在实际的生活中，为了QQ的密码更安全，有时候说不定也会使用 <code>&amp;</code> 这样的字符啊，但还是没出错啊，那这是为什么呢？</p>
+<p>原因就是在提交的过程中浏览器会对特殊的字符进行编码，这就是 <code>URL</code> 编码了,它是怎么做的呢？比如说 <code>&amp;</code> 这个字符，因为我的页面编码是 <code>utf-8</code>,因此它就会将 <code>&amp;</code> 字符转换为 <code>%26</code> 这样的字符了，当然也就避免了我们上面的那个问题了，其实这个说的特殊字符也会包括中文，那中文是如何编码的呢？</p>
+<p>比如说中文中的 <code>你好</code> 这两个字，它的编码过程是怎样的呢？首先我们页面已经设定为 <code>utf-8</code> 编码了，因此它会先解析为字节数组 <code>[-28, -67, -96, -27, -91, -67]</code>,这数组中的每一个数字都是十进制的，然后就还需要将它们依次转换为16进制的，也就是 <code>[E4,BD,A0,E5,A5,BD]</code>,得到这个数组之后再使用 <code>%</code> 将数组中的每一个数连起来，就是 <code>%E4%BD%A0%E5%A5%BD</code>,这也就是我们最后的编码所得了。</p>
+<h3 id="5。总结"><a href="#5。总结" class="headerlink" title="5。总结"></a>5。总结</h3><p>其实关于 <code>HTML</code> 中最重要的内容，感觉还是表单，其实上面很多东西都是围绕表单来写的，因此掌握表单才是关键，其它的内容可以再去了解和需要使用的时候再去查询。这是第一篇关于 <code>Java Web</code> 的文章，其实写的真的蛮认真的，就像这样一直努力下去吧，只有不断地努力学习，才会有积累的过程，积累的越来越多，开发起来也就会越来越简单，学起新东西来也会更快。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HTML/" rel="tag"># HTML</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/07/使用Java处理XML文件/" rel="next" title="使用Java处理XML文件">
+                <i class="fa fa-chevron-left"></i> 使用Java处理XML文件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/09/CSS基础/" rel="prev" title="CSS基础">
+                CSS基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-HTML介绍"><span class="nav-number">1.</span> <span class="nav-text">1.HTML介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-常见标签"><span class="nav-number">2.</span> <span class="nav-text">2.常见标签</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-字体标签"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 字体标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-格式化标签"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 格式化标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-图片标签"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 图片标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-列表标签"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 列表标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-超链接标签"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 超链接标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-表格标签"><span class="nav-number">2.6.</span> <span class="nav-text">2.6 表格标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-块标签"><span class="nav-number">2.7.</span> <span class="nav-text">2.7 块标签</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-表单"><span class="nav-number">3.</span> <span class="nav-text">3.表单</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-输入项标签"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 输入项标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-下拉选择框标签"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 下拉选择框标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-文本域标签"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 文本域标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-表单标签"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 表单标签</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-URL编码"><span class="nav-number">4.</span> <span class="nav-text">4.URL编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5。总结"><span class="nav-number">5.</span> <span class="nav-text">5。总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/07/08/HTML基础/';
+
+      var disqus_title = "HTML基础";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

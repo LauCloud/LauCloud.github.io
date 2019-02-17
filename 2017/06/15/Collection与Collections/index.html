@@ -1,0 +1,1121 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Collection和Collections虽然都和集合有关，但差别还是蛮大的，Collection是Java集合中所有单列集合的顶层接口，而Collections是关于集合的一个工具类，提供了很多对集合进行操作的方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Collection与Collections">
+<meta property="og:url" content="http://yoursite.com/2017/06/15/Collection与Collections/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="Collection和Collections虽然都和集合有关，但差别还是蛮大的，Collection是Java集合中所有单列集合的顶层接口，而Collections是关于集合的一个工具类，提供了很多对集合进行操作的方法。">
+<meta property="og:updated_time" content="2017-06-15T13:27:04.564Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Collection与Collections">
+<meta name="twitter:description" content="Collection和Collections虽然都和集合有关，但差别还是蛮大的，Collection是Java集合中所有单列集合的顶层接口，而Collections是关于集合的一个工具类，提供了很多对集合进行操作的方法。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/15/Collection与Collections/"/>
+
+
+
+
+
+  <title> Collection与Collections | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/15/Collection与Collections/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Collection与Collections
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-15T21:25:55+08:00">
+                2017-06-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/集合/" itemprop="url" rel="index">
+                    <span itemprop="name">集合</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/15/Collection与Collections/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/15/Collection与Collections/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/06/15/Collection与Collections/" class="leancloud_visitors" data-flag-title="Collection与Collections">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Collection和Collections虽然都和集合有关，但差别还是蛮大的，Collection是Java集合中所有单列集合的顶层接口，而Collections是关于集合的一个工具类，提供了很多对集合进行操作的方法。</p>
+<a id="more"></a>
+<h3 id="1-Collection"><a href="#1-Collection" class="headerlink" title="1.Collection"></a>1.Collection</h3><p>Java中的单列集合都实现了Collection接口，因此它们作为实现类都重写了该接口的方法，而Collection作为Java集合的顶层接口，也就说明这个接口提供了集合最基本的方法，也是所有单列集合共有的方法。</p>
+<p>下面列出一些常见的方法进行说明:</p>
+<pre><code>boolean add(E e)            添加元素
+</code></pre><p>这是添加元素的方法，Collection是一个接口，本身不能实例化，但是可以引用实现了该接口的类变量，这样就可以进行添加元素的测试了。</p>
+<pre><code>Collection c = new ArrayList();
+System.out.println(c.add(&quot;hello&quot;));
+System.out.println(c.add(&quot;world&quot;));
+</code></pre><p>因为是引用的ArrayList集合，很明显是可以添加成功的。</p>
+<p>下面是一个清空集合的方法</p>
+<pre><code>void clear()                清空集合
+</code></pre><p>调用该方法后，集合之中的所有元素都会被清空</p>
+<p>下面这是一个判断是否存在某元素的方法</p>
+<pre><code>boolean contains(Object o)  包含元素 
+</code></pre><p>这个方法是用来判断该集合是否包含某个元素，是则返回true,否就返回false。</p>
+<p>下面这个方法则是判断集合是否为空</p>
+<pre><code>boolean isEmpty()           判断集合是否为空
+</code></pre><p>如果集合中没有元素，那么就是空的，该方法也就会返回true</p>
+<p>下面的这个方法用来删除元素</p>
+<pre><code>boolean remove(Object o)    移除元素
+</code></pre><p>删除集合中不需要的元素就可以使用这一个方法</p>
+<p>下面这个方法则是用来说明集合中元素的个数</p>
+<pre><code>int size()                  求集合的大小
+</code></pre><p>集合的大小当然就是指的这个集合之中有多少个元素</p>
+<p>下面这个方法用来将集合转化为数组</p>
+<pre><code>Object[] toArray()          转换为数组
+</code></pre><p>将集合转化为数组也是遍历元素的一种方式，因为有时候像Set集合，没有索引，就很不好去进行修改，转化为数组之后因为有索引操作起来就会方便不少。</p>
+<p>下面的就是迭代器方法</p>
+<pre><code>Iterator&lt;E&gt; iterator()
+</code></pre><p>这也便是List和Set集合都有迭代器的原因，因为它们都实现了 Collection接口，所以就一定会实现这个迭代器方法。</p>
+<h3 id="2-Collections"><a href="#2-Collections" class="headerlink" title="2.Collections"></a>2.Collections</h3><p>Collections则是一个工具类，它提供了丰富的功能用来对集合进行操作</p>
+<p>下面介绍一下它的几个方法</p>
+<pre><code>二分查找 binarySearch
+列表复制 copy
+列表填充 fill
+列表反转 reverse 
+随机置换 shuffle
+自然排序 sort
+互换位置 swap
+</code></pre><p>binarySearch(List list,T key)方法：使用二分查找来查找目标元素，不过集合中的元素必须是已经排过序的，如sort()方法，不然的话得到的结果是不准确的。</p>
+<p>copy(List dest,List src):用来复制集合，将源集合(src)之中的元素复制到目标集合(dest)之中</p>
+<p>fill(List list,T obj):使用obj元素填充list集合，原来集合中有多少个元素，填充之后集合中便会存在多少个obj元素</p>
+<p>reverse(List list):反转集合中元素的顺序</p>
+<p>shuffle(List list):会将集合中元素的位置进行随机置换，有点像获得随机数一样</p>
+<p>sort(List<t> list):对集合中的元素进行升序排列</t></p>
+<p>swap(List list,int i,int j):对集合中位置i和位置j的元素进行互换</p>
+<h3 id="3-集合的一些小应用"><a href="#3-集合的一些小应用" class="headerlink" title="3.集合的一些小应用"></a>3.集合的一些小应用</h3><h4 id="3-1-模拟斗地主中洗牌和发牌"><a href="#3-1-模拟斗地主中洗牌和发牌" class="headerlink" title="3.1 模拟斗地主中洗牌和发牌"></a>3.1 模拟斗地主中洗牌和发牌</h4><pre><code>ArrayList&lt;String&gt; arr = new ArrayList&lt;String&gt;();
+
+String[] color = {&quot;黑桃&quot;,&quot;红桃&quot;,&quot;梅花&quot;,&quot;方片&quot;};
+String[] number = {&quot;A&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;9&quot;,&quot;10&quot;,&quot;J&quot;,&quot;Q&quot;,&quot;K&quot;};
+
+for (int i = 0; i &lt; color.length; i++) {
+    for (int j = 0; j &lt; number.length; j++) {
+        arr.add(color[i]+number[j]);
+    }
+}
+arr.add(&quot;大王&quot;);
+arr.add(&quot;小王&quot;);
+System.out.println(arr);
+
+Collections.shuffle(arr);
+
+ArrayList&lt;String&gt; player = new ArrayList&lt;String&gt;();
+ArrayList&lt;String&gt; player2 = new ArrayList&lt;String&gt;();
+ArrayList&lt;String&gt; player3 = new ArrayList&lt;String&gt;();
+
+for (int i = 0; i &lt; arr.size()-3; i++) {
+    if(i%3==0){
+        player.add(arr.get(i));
+    }else if(i%3==1){
+        player2.add(arr.get(i));
+    }else if(i%3==2){
+        player3.add(arr.get(i));
+    }
+}
+
+System.out.println(&quot;选手1:&quot;+player);
+System.out.println(&quot;选手2:&quot;+player2);
+System.out.println(&quot;选手3:&quot;+player3);
+
+System.out.println(&quot;底牌:&quot;);
+for (int i = arr.size()-3; i &lt; arr.size(); i++) {
+    System.out.println(arr.get(i));
+}
+</code></pre><h4 id="3-2-对集合中数据进行去重"><a href="#3-2-对集合中数据进行去重" class="headerlink" title="3.2 对集合中数据进行去重"></a>3.2 对集合中数据进行去重</h4><pre><code>List&lt;String&gt; list = new ArrayList&lt;String&gt;();
+list.add(&quot;a&quot;);
+list.add(&quot;a&quot;);
+list.add(&quot;c&quot;);
+list.add(&quot;c&quot;);
+list.add(&quot;a&quot;);
+list.add(&quot;d&quot;);
+
+/*
+ * 先将List集合转为Set集合，由于Set集合是无序而且不能重复的，所以它会自动去重，然后
+ * 再将它转为List集合，但是没办法保证集合中元素的顺序
+ */
+public static void noRepeat(List&lt;String&gt; al) {
+    Set s = new HashSet&lt;String&gt;();
+    s.addAll(al);
+
+    al.clear();
+    al.addAll(s);
+}
+
+/*
+ * 如果一个对象在集合中第一次出现的位置和最后一次出现的位置不一致，则代表有多个，应该删除
+ */
+public static void noRepeat2(List&lt;String&gt; al) {
+    for (int i = 0; i &lt; al.size(); i++) {
+        if(al.indexOf(al.get(i)) != al.lastIndexOf(al.get(i))){
+            al.remove(i);
+            i--;
+        }
+    }
+}
+
+public static void noRepeat3(List&lt;String&gt; al) {
+    for (int i = 0; i &lt; al.size() - 1; i++) {
+        for (int j = i + 1; j &lt; al.size(); j++) {
+            if (al.get(i).equals(al.get(j))) {
+                al.remove(j);
+                j--;
+            }
+        }
+    }
+}
+</code></pre><h4 id="3-3-生成一个元素范围在min和max之间，长度为length的数组，并且要求数组中的元素不能够重复"><a href="#3-3-生成一个元素范围在min和max之间，长度为length的数组，并且要求数组中的元素不能够重复" class="headerlink" title="3.3 生成一个元素范围在min和max之间，长度为length的数组，并且要求数组中的元素不能够重复"></a>3.3 生成一个元素范围在min和max之间，长度为length的数组，并且要求数组中的元素不能够重复</h4><pre><code>/**
+ * @param min 设置生成随机数范围的最小值
+ * @param max 设置生成随机数范围的最小值
+ * @param length 设置生成数组的大小
+ * @return int[] 生成一个length长度的整形数组，数组中元素的取值范围在min和max之间
+ * @author Lau Cloud
+ */
+public static int[] getRandomArray(int min, int max, int length) {
+    int[] arr = new int[length];
+    ArrayList&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();
+    Random r = new Random();
+    for (int i = 0; i &lt; arr.length; i++) {
+        int num = min + r.nextInt(max - min + 1);
+        while (list.contains(num)) {
+            num = min + r.nextInt(max - min + 1);
+        }
+        arr[i] = num;
+        list.add(num);
+    }
+    return arr;
+}
+</code></pre><h4 id="3-4-生成10个1到20之间不重复的整数"><a href="#3-4-生成10个1到20之间不重复的整数" class="headerlink" title="3.4 生成10个1到20之间不重复的整数"></a>3.4 生成10个1到20之间不重复的整数</h4><pre><code>public static void method() {
+    ArrayList&lt;Integer&gt; arr = new ArrayList&lt;Integer&gt;();
+    Random r = new Random();
+    for (int i = 0; i &lt; 10; i++) {
+        int number;
+        do{
+            number = (int) r.nextInt(20) + 1;;
+        }while (arr.contains(number));
+        arr.add(number);
+        System.out.println(&quot;第&quot; + (i + 1) + &quot;个数:&quot; + number);
+    }
+}
+</code></pre><h4 id="3-5-生成10个长度为10的不重复字符串，字符串的组成只能是小写字母、大写字母和数字"><a href="#3-5-生成10个长度为10的不重复字符串，字符串的组成只能是小写字母、大写字母和数字" class="headerlink" title="3.5 生成10个长度为10的不重复字符串，字符串的组成只能是小写字母、大写字母和数字"></a>3.5 生成10个长度为10的不重复字符串，字符串的组成只能是小写字母、大写字母和数字</h4><pre><code>public static void method2() {
+    ArrayList&lt;String&gt; arr = new ArrayList&lt;String&gt;();
+    Random r = new Random();
+    String str = &quot;abcdefghijklmnopqrstuvwsyzABCDEFGHIJKLMNOPQRSTUVWSYZ123456789&quot;;
+    char[] charArray = str.toCharArray();
+    for (int i = 0; i &lt; 10; i++) {
+        StringBuilder sb = new StringBuilder();
+        do {
+            for (int j = 0; j &lt; 10; j++) {
+                int k = r.nextInt(str.length());
+                sb.append(charArray[k]);
+            }
+        } while (arr.contains(sb));
+        arr.add(sb.toString());
+        System.out.println(&quot;第&quot; + (i + 1) + &quot;个字符串:&quot; + sb.toString());
+    }
+}
+</code></pre><h4 id="3-6-接受用户输入的一行字符串，保留字符串中不重复的字符"><a href="#3-6-接受用户输入的一行字符串，保留字符串中不重复的字符" class="headerlink" title="3.6 接受用户输入的一行字符串，保留字符串中不重复的字符"></a>3.6 接受用户输入的一行字符串，保留字符串中不重复的字符</h4><pre><code>Scanner sc = new Scanner(System.in);
+System.out.println(&quot;请输入一行字符:&quot;);
+String str = sc.nextLine();
+char[] charArray = str.toCharArray();
+HashSet&lt;Character&gt; set = new HashSet&lt;Character&gt;();
+for (int i = 0; i &lt; charArray.length; i++) {
+    set.add(charArray[i]);
+}
+System.out.println(set);
+</code></pre><h4 id="3-7-计算一句话中每个单词出现的次数"><a href="#3-7-计算一句话中每个单词出现的次数" class="headerlink" title="3.7 计算一句话中每个单词出现的次数"></a>3.7 计算一句话中每个单词出现的次数</h4><pre><code>ArrayList&lt;String&gt; arr = new ArrayList&lt;String&gt;();
+HashMap&lt;String, Integer&gt; map = new HashMap&lt;String, Integer&gt;();
+String str = &quot;If you want to change your fate I think you must come to the dark horse to learn java&quot;;
+String[] strArr = str.split(&quot; &quot;);
+for (int i = 0; i &lt; strArr.length; i++) {
+    arr.add(strArr[i]);
+}
+for (int i = 0; i &lt; arr.size() - 1; i++) {
+    for (int j = i + 1; j &lt; arr.size(); j++) {
+        if (arr.get(i).equals(arr.get(j))) {
+            arr.remove(j);
+            j--;
+        }
+    }
+}
+System.out.println(arr);
+for (int i = 0; i &lt; arr.size(); i++) {
+    map.put(arr.get(i), 0);
+}
+Set&lt;Entry&lt;String, Integer&gt;&gt; entrySet = map.entrySet();
+for (Entry&lt;String, Integer&gt; entry : entrySet) {
+    String key = entry.getKey();
+    int count = 0;
+    for (int i = 0; i &lt; strArr.length; i++) {
+        if (key.equals(strArr[i])) {
+            count++;
+        }
+    }
+    entry.setValue(count);
+}
+
+entrySet = map.entrySet();
+for (Entry&lt;String, Integer&gt; entry : entrySet) {
+    String key = entry.getKey();
+    int value = entry.getValue();
+    System.out.println(key + &quot;---&quot; + value);
+}
+</code></pre><h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h3><p>对于集合，想掌握的话，感觉还是要多敲代码，使用的多了就会好很多，并且还会慢慢地去想如何将几个集合联合起来使用，发挥各自的优点，在解决问题时也要多想几种解决思路，也许对自己知识的掌握也会有豁然开朗的感觉。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/15/Java中的集合/" rel="next" title="Java中的集合">
+                <i class="fa fa-chevron-left"></i> Java中的集合
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/16/餐馆点餐和菜单管理系统(控制台版本)/" rel="prev" title="餐馆点餐和菜单管理系统(控制台版本)">
+                餐馆点餐和菜单管理系统(控制台版本) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Collection"><span class="nav-number">1.</span> <span class="nav-text">1.Collection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Collections"><span class="nav-number">2.</span> <span class="nav-text">2.Collections</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-集合的一些小应用"><span class="nav-number">3.</span> <span class="nav-text">3.集合的一些小应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-模拟斗地主中洗牌和发牌"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 模拟斗地主中洗牌和发牌</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-对集合中数据进行去重"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 对集合中数据进行去重</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-生成一个元素范围在min和max之间，长度为length的数组，并且要求数组中的元素不能够重复"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 生成一个元素范围在min和max之间，长度为length的数组，并且要求数组中的元素不能够重复</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-生成10个1到20之间不重复的整数"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 生成10个1到20之间不重复的整数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-生成10个长度为10的不重复字符串，字符串的组成只能是小写字母、大写字母和数字"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 生成10个长度为10的不重复字符串，字符串的组成只能是小写字母、大写字母和数字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-接受用户输入的一行字符串，保留字符串中不重复的字符"><span class="nav-number">3.6.</span> <span class="nav-text">3.6 接受用户输入的一行字符串，保留字符串中不重复的字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-计算一句话中每个单词出现的次数"><span class="nav-number">3.7.</span> <span class="nav-text">3.7 计算一句话中每个单词出现的次数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-总结"><span class="nav-number">4.</span> <span class="nav-text">4.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/06/15/Collection与Collections/';
+
+      var disqus_title = "Collection与Collections";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

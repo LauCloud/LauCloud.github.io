@@ -1,0 +1,1321 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Servlet," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="当我们使用 Servlet 进行开发的时候，能掌握一些 Servlet 的相关对象的话，就可以帮助我们更好的进行开发，其实最主要的也没有几个，就是 ServletConfig、ServletContext、HttpServletRequest 以及 HttpServletResponse 这几个了，如果能熟练掌握使用这几个对象的话，开发的时候解决问题的手段也会多很多。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Servlet相关对象">
+<meta property="og:url" content="http://yoursite.com/2017/11/02/Servlet相关对象/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="当我们使用 Servlet 进行开发的时候，能掌握一些 Servlet 的相关对象的话，就可以帮助我们更好的进行开发，其实最主要的也没有几个，就是 ServletConfig、ServletContext、HttpServletRequest 以及 HttpServletResponse 这几个了，如果能熟练掌握使用这几个对象的话，开发的时候解决问题的手段也会多很多。">
+<meta property="og:updated_time" content="2017-12-10T13:48:17.430Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Servlet相关对象">
+<meta name="twitter:description" content="当我们使用 Servlet 进行开发的时候，能掌握一些 Servlet 的相关对象的话，就可以帮助我们更好的进行开发，其实最主要的也没有几个，就是 ServletConfig、ServletContext、HttpServletRequest 以及 HttpServletResponse 这几个了，如果能熟练掌握使用这几个对象的话，开发的时候解决问题的手段也会多很多。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/02/Servlet相关对象/"/>
+
+
+
+
+
+  <title> Servlet相关对象 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/02/Servlet相关对象/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Servlet相关对象
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-02T22:12:05+08:00">
+                2017-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Servlet/" itemprop="url" rel="index">
+                    <span itemprop="name">Servlet</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/11/02/Servlet相关对象/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/11/02/Servlet相关对象/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/11/02/Servlet相关对象/" class="leancloud_visitors" data-flag-title="Servlet相关对象">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>当我们使用 <code>Servlet</code> 进行开发的时候，能掌握一些 <code>Servlet</code> 的相关对象的话，就可以帮助我们更好的进行开发，其实最主要的也没有几个，就是 <code>ServletConfig</code>、<code>ServletContext</code>、<code>HttpServletRequest</code> 以及 <code>HttpServletResponse</code> 这几个了，如果能熟练掌握使用这几个对象的话，开发的时候解决问题的手段也会多很多。</p>
+<a id="more"></a>
+<h3 id="1-ServletConfig"><a href="#1-ServletConfig" class="headerlink" title="1.ServletConfig"></a>1.ServletConfig</h3><p><code>ServletConfig</code> 对象可以用来获取在 <code>web.xml</code> 文件中配置的 <code>Servlet</code> 的一些信息，首先看如何在 <code>Servlet</code> 对象中获取到 <code>ServletConfig</code> 对象，其实在 <code>HttpServlet</code> 的父类 <code>javax.servlet.GenericServlet</code> 中是定义了一个方法来获得 <code>ServletConfig</code> 对象的，那就是</p>
+<pre><code>public ServletConfig getServletConfig()
+</code></pre><p>通过这个方法我们就可以获取得到 <code>ServletConfig</code> 对象了，所以要想在 <code>Servlet</code> 对象当中获取到 <code>ServletConfig</code> 对象，就可以直接使用 <code>this.getServletConfig();</code> 这样的方式了，在 <code>ServletConfig</code> 对象中还有几个常用的 <code>API</code> 方法：</p>
+<pre><code>public String getInitParameter(String name)        // 通过初始化参数的名称获取到对应的值
+public java.util.Enumeration&lt;E&gt; getInitParameterNames()        // 获取到初始化参数中所有的名称
+public String getServletName()        // 获取到当前Servlet的名称
+</code></pre><p>要想测试上面的几个方法，首先可以这样来配置一个 <code>Servlet</code> :</p>
+<pre><code>&lt;servlet&gt;
+    &lt;servlet-name&gt;ServletConfigTest&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;servletconfig.ServletConfigTest&lt;/servlet-class&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;username&lt;/param-name&gt;
+        &lt;param-value&gt;root&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;password&lt;/param-name&gt;
+        &lt;param-value&gt;123456&lt;/param-value&gt;
+    &lt;/init-param&gt;
+&lt;/servlet&gt;
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;ServletConfigTest&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/ServletConfigTest&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+</code></pre><p>然后在对应的 <code>Servlet</code> 类中使用 <code>ServletConfig</code> 对象获取到 <code>Servlet</code> 中的配置信息：</p>
+<pre><code>public class ServletConfigTest extends HttpServlet {
+
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+        // 1.获得ServletConfig对象
+        ServletConfig config = this.getServletConfig();
+        String username = config.getInitParameter(&quot;username&quot;);
+        String password = config.getInitParameter(&quot;password&quot;);
+        System.out.println(username + &quot;  &quot; + password);
+
+        // 2.获取所有初始化参数的名称和值
+        Enumeration&lt;String&gt; names = config.getInitParameterNames();
+        while (names.hasMoreElements()) {
+            String name = names.nextElement();
+            String value = config.getInitParameter(name);
+            System.out.println(name + &quot;  &quot; + value);
+        }
+
+        // 3.获得Servlet的名称
+        String servletName = config.getServletName();
+        System.out.println(&quot;该Servlet的名称是:&quot; + servletName);
+    }
+
+    protected void doPost(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+    }
+}
+</code></pre><h3 id="2-ServletContext"><a href="#2-ServletContext" class="headerlink" title="2.ServletContext"></a>2.ServletContext</h3><p>上面的 <code>ServletConfig</code> 是用来读取对应的 <code>Servlet</code> 配置信息的，而这里介绍的 <code>ServletContext</code> 则保存的是整个 <code>web</code> 项目的信息，一个 <code>web</code> 项目只有一个 <code>ServletContext</code> 对象，服务器会为每一个 <code>web</code> 项目创建一个 <code>ServletContext</code> 对象，下面根据 <code>ServletContext</code> 不同的作用分别来进行说明：</p>
+<h4 id="2-1-获取web项目信息"><a href="#2-1-获取web项目信息" class="headerlink" title="2.1 获取web项目信息"></a>2.1 获取web项目信息</h4><p>先看一下如何获取得到 <code>ServletContext</code> 对象，和上面的 <code>ServletConfig</code> 对象的获取相同，在 <code>Servlet</code> 的父类 <code>javax.servlet.GenericServlet</code> 中也有一个 <code>API</code> 方法可以获取到 <code>ServletContext</code> 对象，那就是：</p>
+<pre><code>public ServletContext getServletContext()
+</code></pre><p>因此，如果想在当前的 <code>Servlet</code> 当中获取得到 <code>ServletContext</code> 对象的话，就可以直接使用 <code>this.getServletContext();</code> 这样的方式了。</p>
+<h5 id="2-1-1-获取文件的MIME类型"><a href="#2-1-1-获取文件的MIME类型" class="headerlink" title="2.1.1 获取文件的MIME类型"></a>2.1.1 获取文件的MIME类型</h5><p>要想获取到文件的 <code>MIME</code> 类型，可以使用下面的这个方法：</p>
+<pre><code>public String getMimeType(String file)
+</code></pre><p>这个方法就可以用来获取到指定文件的 <code>MIME</code> 类型，文件的 <code>MIME</code> 类型是由 <code>Servlet</code> 容器的配置来确定的，当前我们使用的 <code>Servlet</code> 容器就是 <code>Tomcat</code> 服务器了，所以文件的 <code>MIME</code> 类型也就是由 <code>Tomcat</code> 服务器的配置文件来指定的，想要查看的话就到 <code>Tomcat</code> 安装目录里面的 <code>conf/web.xml</code> 文件里面查看。</p>
+<p>使用编码方式获得文件的 <code>MIME</code> 类型就可以使用下面的代码：</p>
+<pre><code>// 1.获取到ServletContext对象
+ServletContext servletContext = this.getServletContext();
+String mimeType = servletContext.getMimeType(&quot;aa.txt&quot;);
+System.out.println(mimeType);
+</code></pre><h5 id="2-1-2-获取请求路径中的工程名"><a href="#2-1-2-获取请求路径中的工程名" class="headerlink" title="2.1.2 获取请求路径中的工程名"></a>2.1.2 获取请求路径中的工程名</h5><p>要想获得请求路径中的项目名，就可以使用 <code>ServletContext</code> 对象的 <code>getContextPath()</code> 方法，方法的详细如下：</p>
+<pre><code>public String getContextPath()
+</code></pre><p>通过这个方法就可以在 <code>Servlet</code> 中得到当前的项目名称了，示例代码如下：</p>
+<pre><code>// 2.获取请求路径的工程名
+String path = servletContext.getContextPath();
+System.out.println(path);
+</code></pre><h5 id="2-1-3-获取全局初始化参数的配置"><a href="#2-1-3-获取全局初始化参数的配置" class="headerlink" title="2.1.3 获取全局初始化参数的配置"></a>2.1.3 获取全局初始化参数的配置</h5><p>上面介绍的 <code>ServletConfig</code> 对象是用来获取与它相对应 <code>Servlet</code> 对象的初始化参数的，但是每一个 <code>ServletConfig</code> 对象获取得到的都是单个 <code>Servlet</code> 对象自己的初始化参数配置，那要是共有的一些初始化配置呢？显然就不能通过 <code>ServletConfig</code> 对象来进行获取了，那要如何获取呢？就是通过这里的 <code>ServletContext</code> 对象了。</p>
+<p>首先在 <code>web.xml</code> 文件当中需要加入一些全局的初始化参数配置。</p>
+<pre><code>&lt;context-param&gt;
+    &lt;param-name&gt;username&lt;/param-name&gt;
+    &lt;param-value&gt;Tom&lt;/param-value&gt;
+&lt;/context-param&gt;
+&lt;context-param&gt;
+    &lt;param-name&gt;password&lt;/param-name&gt;
+    &lt;param-value&gt;123&lt;/param-value&gt;
+&lt;/context-param&gt;
+</code></pre><p>下面就可以使用 <code>ServletContext</code> 对象来进行获取全局的初始化参数配置了。主要可以使用的方法是以下两个，其实和 <code>ServletConfig</code> 对象的十分类似。</p>
+<pre><code>public String getInitParameter(String name)        // 根据初始化参数的名称来获取对应的值
+public java.util.Enumeration&lt;E&gt; getInitParameterNames()        // 获取所有初始化参数的名称，返回类型是一个枚举类型
+</code></pre><p>代码示例如下：</p>
+<pre><code>// 3.获取全局初始化参数
+String username = servletContext.getInitParameter(&quot;username&quot;);
+String password = servletContext.getInitParameter(&quot;password&quot;);
+System.out.println(username + &quot;  &quot; + password);
+
+Enumeration&lt;String&gt; names = servletContext.getInitParameterNames();
+while (names.hasMoreElements()) {
+    String name = names.nextElement();
+    String value = servletContext.getInitParameter(name);
+    System.out.println(name + &quot;  &quot; + value);
+}
+</code></pre><h4 id="2-2-获取web项目下的文件"><a href="#2-2-获取web项目下的文件" class="headerlink" title="2.2 获取web项目下的文件"></a>2.2 获取web项目下的文件</h4><p>开发 <code>web</code> 项目的时候都会有很多的配置文件，比如关于连接数据库的配置文件 <code>(db.properties)</code>，假定这个文件是放在 <code>src</code> 目录下的，那我们应该如何读取到这个文件之中的连接数据库信息呢？首先看一下 <code>db.properties</code> 文件中的信息：</p>
+<pre><code>driverClassName=com.mysql.jdbc.Driver
+url=jdbc:mysql://localhost:3306/web_test
+username=root
+password=123456
+</code></pre><p>读取上面这个文件当中的配置信息，第一想到的就应该是 <code>IO</code> 流了，那就和 <code>Java</code> 项目中加载配置信息一样直接使用 <code>java.util.Properties</code> 这个类来做吧，代码就如下：</p>
+<pre><code>Properties properties = new Properties();
+InputStream is = new FileInputStream(&quot;src/db.properties&quot;);
+properties.load(is);
+String driverClassName = properties.getProperty(&quot;driverClassName&quot;);
+String url = properties.getProperty(&quot;url&quot;);
+String username = properties.getProperty(&quot;username&quot;);
+String password = properties.getProperty(&quot;password&quot;);
+System.out.println(driverClassName);
+System.out.println(url);
+System.out.println(username);
+System.out.println(password);
+</code></pre><p>上面的程序是写在 <code>doGet()</code> 方法之中的，当有请求访问这个 <code>Servlet</code> 时，上面的代码就会执行，当我们在浏览器中输入地址发送请求之后却发现报错了！错误信息是:java.io.FileNotFoundException: src\db.properties (系统找不到指定的路径。)</p>
+<p>很显然就是路径错误导致找不到 <code>db.properties</code> 这个文件了。为什么会出现这个错误呢？这是因为 <code>web</code> 项目是需要发布到 <code>Tomcat</code> 容器中才能被访问到的，而我们开发的 <code>web</code> 项目在被发布到 <code>Tomcat</code> 中之后和我们在使用 <code>Eclipse</code> 中进行开发时是不一样的，大家可以打开 <code>Tomcat</code> 的 <code>webapps</code> 目录，在里面找到对应的项目就会发现发布的 <code>web</code> 项目目录结构是怎样的，当前我们这个项目在发布之后的项目结构是这样的：</p>
+<pre><code>web_test
+    |--META-INF
+    |--WEB-INF
+</code></pre><p>从这里就可以看出根本就没有 <code>src</code> 这个目录，所以我们上面的代码才会出错，当我们在查看文件的时候发现 <code>db.properties</code> 这个文件是在 <code>web_test/WEB-INF/classes</code> 目录下的，那我们加载这个文件的时候这样写是不是就好了呢？</p>
+<pre><code>InputStream is = new FileInputStream(&quot;/WEB-INF/classes/db.properties&quot;);
+</code></pre><p>最后却发现还是报同样的找不到文件错误，这是什么原因呢？这就是因为我们所写的路径其实是相对路径，相对的是 <code>JRE</code> 环境，这时候 <code>JRE</code> 是交给 <code>Tomcat</code> 管理的，也就是此时相对的路径是 <code>Tomcat</code> 安装目录的 <code>/bin</code> 目录，这里是没有 <code>db.properties</code> 这个文件的，因此会报找不到文件错误，此时可以在这个 <code>/bin</code> 目录下新建 <code>/WEB-INF/classes/db.properties</code> 这个文件，然后再启动 <code>/bin</code> 目录下的 <code>startup.bat</code> 命令，然后在浏览器地址栏输入刚才的请求的路径，就会发现可以正常加载到配置文件了，不过如果是使用 <code>Eclipse</code> 启动项目的话却发现还是会报错，这里我也还没有完全搞明白为什么。</p>
+<p>前面给的解决方法就是在 <code>Tomcat</code> 的安装路径 <code>bin</code> 目录下放置相应的配置文件，但是这样做肯定是不合理的，配置文件写在所属的项目中才是最好的，那这里就可以使用 <code>ServletContext</code> 来加载配置文件了。其中的方法为：</p>
+<pre><code>public java.io.InputStream getResourceAsStream(String path)
+</code></pre><p>这个方法就是将路径上的配置文件转换为流的形式返回，这样就能加载到相关的文件了。</p>
+<pre><code>InputStream is = this.getServletContext().getResourceAsStream(&quot;/WEB-INF/classes/db.properties&quot;);
+</code></pre><p>其实 <code>ServletContext</code> 的 <code>API</code> 中还提供了一个方法，就是将相对路径转换为绝对路径。</p>
+<pre><code>public String getRealPath(String path)
+</code></pre><p>获取到配置文件的绝对路径之后，再用 <code>FileInputStream</code> 去加载该配置文件同样也可以获取的到。</p>
+<p>其实要想加载到配置文件还有一种办法，那就是使用 <code>Class</code> 这个类，它其中有一个方法是：</p>
+<pre><code>public InputStream getResourceAsStream(String name)
+</code></pre><p>这样也是可以加载到我们上面的配置文件的。</p>
+<pre><code>InputStream is = this.getClass().getResourceAsStream(&quot;/db.properties&quot;);
+</code></pre><p>加载配置文件时指定的资源位置是 <code>/db.properties</code> ，这里所指的位置也就是 <code>classpath</code> 的位置，也就是我们 <code>web</code> 项目在被编译之后的 <code>classes</code> 目录里面。</p>
+<h4 id="2-3-作为域对象存取数据"><a href="#2-3-作为域对象存取数据" class="headerlink" title="2.3 作为域对象存取数据"></a>2.3 作为域对象存取数据</h4><p><code>web</code> 服务器会为每一个 <code>web</code> 项目创建一个 <code>ServletContext</code> 对象，也就是说 <code>ServletContext</code> 的作用范围是整个 <code>web</code> 项目，当我们把数据存到这个对象上面的时候，那我们就可以在这个项目的很多地方取到数据了。关于使用 <code>ServletContext</code> 对象作为域对象来存取数据有关的 <code>API</code> 方法主要是以下几个：</p>
+<pre><code>public void setAttribute(String name, Object object)    // 为ServletContext对象设置属性名以及相应的属性值对象
+public Object getAttribute(String name)        // 从ServletContext对象中根据属性名取出相应的属性值对象
+public void removeAttribute(String name)    // 从ServletContext对象中移除相应的属性
+</code></pre><p>通过上面的方法我们就可以在同一个 <code>web</code> 项目的多个地方访问到同一个 <code>ServletContext</code> 对象以及其中的各个属性了。</p>
+<p>要想测试的话，就可以使用两个 <code>Servlet</code> 对象，在其中的一个中写：</p>
+<pre><code>this.getServletContext().setAttribute(&quot;name&quot;, &quot;Kobe&quot;);
+</code></pre><p>另一个当中写：</p>
+<pre><code>String name = (String) this.getServletContext().getAttribute(&quot;name&quot;);
+</code></pre><p>然后分别访问两个 <code>Servlet</code> ，就可以测试出 <code>ServletContext</code> 是否具有共享数据的功能了。</p>
+<h3 id="3-HttpServletResponse"><a href="#3-HttpServletResponse" class="headerlink" title="3.HttpServletResponse"></a>3.HttpServletResponse</h3><p>下面就要介绍非常重要的两个对象了，分别就是我们 <code>B/S</code> 架构中的请求对象和响应对象，这肯定是非常重要的，因为浏览器和服务器进行通信时是使用的 <code>HTTP</code> 协议，而 <code>HTTP</code> 协议就是基于请求与响应模式的，下面就先介绍响应了 <code>(HttpServletResponse)</code>。</p>
+<h4 id="3-1-HttpServletResponse的常用API方法"><a href="#3-1-HttpServletResponse的常用API方法" class="headerlink" title="3.1 HttpServletResponse的常用API方法"></a>3.1 HttpServletResponse的常用API方法</h4><p>对于一个响应来说，是可以分为响应行、响应头和响应体这三部分的，<code>Response</code> 对象中也有分别对应这三个方面的方法，下面就进行列举并说明。</p>
+<h5 id="3-1-1-关于响应行的方法"><a href="#3-1-1-关于响应行的方法" class="headerlink" title="3.1.1 关于响应行的方法"></a>3.1.1 关于响应行的方法</h5><p>一个响应的响应行中一般包括协议以及协议版本、状态码和状态码描述，我们使用 <code>Response</code> 对象的方法对响应行进行设置的话一般是设置的状态码，因此就可以使用下面这个方法：</p>
+<pre><code>public void setStatus(int sc)
+</code></pre><p>比较常见的状态码就是下面这些：</p>
+<pre><code>200：响应成功
+302：重定向
+304：查找本地缓存
+404：请求资源不存在
+500：服务器内部错误
+</code></pre><h5 id="3-1-2-关于响应头的方法"><a href="#3-1-2-关于响应头的方法" class="headerlink" title="3.1.2 关于响应头的方法"></a>3.1.2 关于响应头的方法</h5><p>关于响应头的方法的话可以简单的分为两类，一类是以 <code>set</code> 开头的方法，另一类则是以 <code>add</code> 开头的方法，以 <code>set</code> 开头的方法是用于一个 <code>key</code> 对应一个 <code>value</code> 的情况的，而以 <code>add</code> 开头的方法是用于一个 <code>key</code> 对应多个 <code>value</code> 的情况的，先看以 <code>set</code> 开头的方法：</p>
+<pre><code>public void setDateHeader(String name, long date)
+public void setHeader(String name, String value)
+public void setIntHeader(String name, int value)
+</code></pre><p>再看以 <code>add</code> 开头的方法：</p>
+<pre><code>public void addDateHeader(String name, long date)
+public void addHeader(String name, String value)
+public void addIntHeader(String name, int value)
+</code></pre><p>要说明这两类方法之间的差别的话，可以先从一个例子入手，假定现在已经有一个响应头为 <code>Content-Type:text/html</code> ，如果执行以 <code>set</code> 开头的方法的话 <code>setHeader(&quot;Content-Type&quot;,&quot;text/plain&quot;);</code>，那么所得的结果应该是 <code>Content-Type:text/plain</code>；而如果执行以 <code>add</code> 开头的方法的话 <code>addHeader(&quot;Content-Type&quot;,&quot;text/plain&quot;);</code>，那么所得的结果就应该是 <code>Content-Type:text/html,text/plain</code> 了。</p>
+<p>一句话总结的话，对于原来已经有值的响应头来说，使用以 <code>set</code> 开头的方法就相当于是替换，而使用以 <code>add</code> 开头的方法则相当于是追加。</p>
+<h5 id="3-1-3-关于响应体的方法"><a href="#3-1-3-关于响应体的方法" class="headerlink" title="3.1.3 关于响应体的方法"></a>3.1.3 关于响应体的方法</h5><p><code>HttpServletResponse</code> 对象还有两个用来响应浏览器请求的方法，不过都不在 <code>HttpServletResponse</code> 这个接口当中，而都是在它的父接口 <code>ServletResponse</code> 当中。</p>
+<pre><code>public ServletOutputStream getOutputStream()
+public java.io.PrintWriter getWriter()
+</code></pre><p>可以很容易看出，第一个方法是以字节形式返回数据，而第二个方法则是以字符形式来返回数据。</p>
+<h5 id="3-1-4-其它的一些方法"><a href="#3-1-4-其它的一些方法" class="headerlink" title="3.1.4 其它的一些方法"></a>3.1.4 其它的一些方法</h5><p>还有一些其它的方法值得介绍，比如重定向、设定字符集的以及操作 <code>Cookie</code> 的方法。</p>
+<p>重定向：</p>
+<pre><code>public void sendRedirect(String location)
+</code></pre><p>设置浏览器打开页面时采用的字符集：</p>
+<pre><code>public void setContentType(String type)
+</code></pre><p>设定响应字符流的缓冲区编码：</p>
+<pre><code>public void setCharacterEncoding(String charset)
+</code></pre><p>服务器向浏览器回写 <code>Cookie</code> 的方法：</p>
+<pre><code>public void addCookie(Cookie cookie)
+</code></pre><p>需要注意一下的就是 <code>setContentType()</code> 和 <code>setCharacterEncoding()</code> 都是在 <code>HttpServletResponse</code> 的父接口 <code>ServletResponse</code> 中的方法。</p>
+<h4 id="3-2-使用HttpServletResponse实现一些小案例"><a href="#3-2-使用HttpServletResponse实现一些小案例" class="headerlink" title="3.2 使用HttpServletResponse实现一些小案例"></a>3.2 使用HttpServletResponse实现一些小案例</h4><p>这里其实还是为了测试一下上面所说的一些方法，比如设置响应的状态码。</p>
+<pre><code>response.setStatus(404);
+</code></pre><p>这样就将状态码设置为了 <code>404</code> ，但是如果要想实现一些功能的话，简单地像这样设置状态码还是不行的，还是需要配合使用一些其它的响应头。</p>
+<h5 id="3-2-1-重定向"><a href="#3-2-1-重定向" class="headerlink" title="3.2.1 重定向"></a>3.2.1 重定向</h5><p>要想完成重定向功能，就可以使用我们前面了解到的 <code>302</code> 状态码，然后结合使用 <code>Location</code> 这个响应头就能完成了。示例代码如下：</p>
+<pre><code>response.setStatus(302);
+response.setHeader(&quot;Location&quot;, &quot;/web_test/ResponseDemo2&quot;);
+</code></pre><p>这里完成的是从一个 <code>Servlet</code> 里面重定向到了另一个 <code>Servlet</code> 。不过由于在实现重定向时 <code>302</code> 状态码和 <code>Location</code> 响应头都是固定的，所以在实际开发中也可以使用 <code>sendRedirect()</code> 方法来实现重定向功能，示例代码如下：</p>
+<pre><code>response.sendRedirect(&quot;/web_test/ResponseDemo2&quot;);
+</code></pre><h5 id="3-2-2-定时刷新"><a href="#3-2-2-定时刷新" class="headerlink" title="3.2.2 定时刷新"></a>3.2.2 定时刷新</h5><p>如果想要在某个时间之后跳转到其它的 <code>Servlet</code> 的话，那就可以使用 <code>Refresh</code> 这个响应头了。具体示例如下：</p>
+<pre><code>response.setHeader(&quot;Refresh&quot;, &quot;5;url=/web_test/ResponseDemo2&quot;);
+</code></pre><p>上面的代码就是要在 <code>5</code> 秒之后跳转到 <code>ResponseDemo2</code> 这个 <code>Servlet</code> 里面，其实还可以在这句代码之前写上 <code>5秒之后跳转...</code> 这样的提示信息，同时因为提示信息中含有中文，就需要设置浏览器打开页面所使用的的字符编码，那完整的代码差不多应该是这样了。</p>
+<pre><code>response.setContentType(&quot;text/html;charset=UTF-8&quot;);
+response.getWriter().print(&quot;5秒之后跳转...&quot;);
+response.setHeader(&quot;Refresh&quot;, &quot;5;url=/web_test/ResponseDemo2&quot;);
+</code></pre><p>这样在页面上显示提示信息 <code>5</code> 秒之后就会像上面一样跳转到另一个 <code>Servlet</code> 里面了。</p>
+<p>上面就是实现了在后台从一个 <code>Servlet</code> 中跳转到另一个 <code>Servlet</code> 上，并且还可以在页面上给出像 <code>5秒之后跳转</code> 这样的提示信息，其实在前台页面之中也可以实现页面的跳转，并且还可以呈现出数秒的效果，具体的实现可以用两个 <code>html</code> 页面来测试。直接将代码粘贴到下面了。</p>
+<p>demo1.html：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta http-equiv=&quot;Refresh&quot; content=&quot;5;url=/web_test/demo2.html&quot;&gt;
+&lt;title&gt;Insert title here&lt;/title&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    var second = 5;
+    function load(){
+        timer = window.setInterval(&quot;changeSecond()&quot;,1000);
+    }
+
+    function changeSecond(){
+        second--;
+        if (second &gt; 0) {
+            document.getElementById(&quot;span1&quot;).innerHTML = second;
+        } else {
+            window.clearInterval(timer);
+        }
+    }
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body onload=&quot;load()&quot;&gt;
+&lt;h1&gt;Demo1.html&lt;/h1&gt;
+&lt;h1&gt;&lt;span id=&quot;span1&quot;&gt;5&lt;/span&gt;秒钟后跳转到demo2.html页面&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>demo2.html：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;跳转到的页面&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Demo2.html&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>当然实现的重点就在于 <code>&lt;meta http-equiv=&quot;Refresh&quot; content=&quot;5;url=/web_test/demo2.html&quot;&gt;</code> 以及之后的 <code>JavaScript</code> 代码了，这样就能在页面上看到数秒的效果并且实现页面的跳转。</p>
+<h4 id="3-3-HttpServletResponse对象响应中文乱码处理"><a href="#3-3-HttpServletResponse对象响应中文乱码处理" class="headerlink" title="3.3 HttpServletResponse对象响应中文乱码处理"></a>3.3 HttpServletResponse对象响应中文乱码处理</h4><p>之前在介绍 <code>Response</code> 对象的响应体方法时说道有两种方法可以向浏览器回写数据，就是下面两种：</p>
+<pre><code>public ServletOutputStream getOutputStream()
+public java.io.PrintWriter getWriter()
+</code></pre><p>第一个方法 <code>getOutputStream()</code> 很显然就是以字节流的方式回写数据了，而第二个方法 <code>getWriter()</code> 很显然则是以字符流的方式回写数据了，那它们这两种方式在向浏览器回写中文的时候是否会出现乱码呢？下面分开来进行说明。</p>
+<h5 id="3-3-1-字节流方式"><a href="#3-3-1-字节流方式" class="headerlink" title="3.3.1 字节流方式"></a>3.3.1 字节流方式</h5><p>使用字节流方式向浏览器回写中文字符应该是像下面这样：</p>
+<pre><code>ServletOutputStream outputStream = response.getOutputStream();
+outputStream.write(&quot;中文&quot;.getBytes());
+</code></pre><p>那这样的情况是否会产生乱码呢？其实是不一定的，要看中文转为字节数组时采用的字符集编码和浏览器打开页面时所使用的字符集编码是否一致，像上面 <code>&quot;中文&quot;.getBytes()</code> 这样将中文字符转换为字节数组时因为没有指定采用哪一种字符集，则会使用默认的，也就是当前项目采用的字符集编码，而当前并没有指定浏览器以何种字符集打开页面，因此也会使用浏览器中设置的默认值，如果这两者刚好一致的话，那就不会产生乱码了，而如果两者不一致的话，就会产生乱码，因此这里解决乱码的方式也就是设置中文字符转换为字节数组采用的字符集编码以及浏览器打开页面时使用的编码，并且要保证二者设置是一致的。</p>
+<p>首先设置中文字符转换为字节数组时采用哪种字符集编码：</p>
+<pre><code>&quot;中文&quot;.getBytes(&quot;UTF-8&quot;)
+</code></pre><p>再设置浏览器采用哪种字符集编码打开页面：</p>
+<pre><code>response.setHeader(&quot;Content-Type&quot;, &quot;text/html;charset=UTF-8&quot;);
+</code></pre><p>这样设置完之后就能保证使用字节流回写中文字符时不产生乱码了，比较完整的代码如下：</p>
+<pre><code>ServletOutputStream outputStream = response.getOutputStream();
+response.setHeader(&quot;Content-Type&quot;, &quot;text/html;charset=UTF-8&quot;);
+outputStream.write(&quot;中文&quot;.getBytes(&quot;UTF-8&quot;));
+</code></pre><h5 id="3-3-2-字符流方式"><a href="#3-3-2-字符流方式" class="headerlink" title="3.3.2 字符流方式"></a>3.3.2 字符流方式</h5><p>使用字符流向浏览器回写中文字符应该是像下面这样：</p>
+<pre><code>response.getWriter().print(&quot;中文&quot;);
+</code></pre><p>那以这种字符流的方法向浏览器回写中文字符是否会产生乱码呢？答案是一定会产生。这是因为以字符流方式回写数据的时候，<code>Response</code> 对象是有字符串缓冲区的，而这个缓冲区默认采用的字符集编码是 <code>ISO8859-1</code> ，这个字符集编码是根本就不支持中文字符的，因此就一定会产生中文字符乱码的现象，那如何才能解决这个问题呢？很明显就是将 <code>Response</code> 对象字符串缓冲区的字符集编码修改成支持中文字符的，而且还要将浏览器打开页面时使用的字符集编码也修改为这一个，以保证两者是一致的，比如都修改为 <code>UTF-8</code> 这个字符集编码。</p>
+<p>首先设置 <code>Response</code> 对象的字符串缓冲区编码：</p>
+<pre><code>response.setCharacterEncoding(&quot;UTF-8&quot;);
+</code></pre><p>再设置浏览器打开页面时使用的字符集编码：</p>
+<pre><code>response.setHeader(&quot;Content-Type&quot;, &quot;text/html;charset=UTF-8&quot;);
+</code></pre><p>使用上面两步就能保证使用字符流方式向浏览器回写中文字符时不产生中文乱码了，比较完整的代码如下：</p>
+<pre><code>response.setHeader(&quot;Content-Type&quot;, &quot;text/html;charset=UTF-8&quot;);
+response.setCharacterEncoding(&quot;UTF-8&quot;);
+response.getWriter().print(&quot;中文&quot;);
+</code></pre><p>这里还需要注意的一点就是在使用字符流方式向浏览器回写数据的时候，上面代码的前两句其实可以使用一句代码来替换的，所起的效果是一样的。</p>
+<pre><code>response.setContentType(&quot;text/html;charset=UTF-8&quot;);
+</code></pre><h3 id="4-HttpServletRequest"><a href="#4-HttpServletRequest" class="headerlink" title="4.HttpServletRequest"></a>4.HttpServletRequest</h3><p>上面是说完了服务器响应浏览器的响应对象 <code>(Response)</code> ，那这里就开始说一下浏览器向服务器发送请求的请求对象 <code>(Request)</code> ，主要是介绍其中的 <code>API</code> 方法以及对相关方法进行测试，最后也是说明一下如何解决中文字符乱码的问题。</p>
+<h4 id="4-1-HttpServletRequest的常用API方法"><a href="#4-1-HttpServletRequest的常用API方法" class="headerlink" title="4.1 HttpServletRequest的常用API方法"></a>4.1 HttpServletRequest的常用API方法</h4><p>主要是介绍 <code>Request</code> 对象两个方面的 <code>API</code> 方法，一个是获取请求参数的，当浏览器向服务器发送请求的时候，一般都会带有请求参数以及对应的值，比如提交一个表单数据，这时候我们要想保存表单中提交的数据，则必定需要获取到表单中参数所对应的值；第二个则是 <code>Request</code> 作为域对象存值、取值以及移除值的一些方法。当然还有其它一些比如获得客户机信息以及获得请求头的方法。</p>
+<h5 id="4-1-1-获取客户机信息的方法"><a href="#4-1-1-获取客户机信息的方法" class="headerlink" title="4.1.1 获取客户机信息的方法"></a>4.1.1 获取客户机信息的方法</h5><p>有时候我们需要知道一些客户机浏览器的信息，那该如何获取呢？其实在 <code>HttpServletRequest</code> 对象中就提供了许多这样的方法，比如如何知晓浏览器请求的方式是什么？到底是 <code>GET</code> 方式请求，还是 <code>POST</code> 方式请求，这时候我们就可以通过下面的方法来获得请求方式:</p>
+<pre><code>public String getMethod()
+</code></pre><p>获得请求路径后提交参数的字符串</p>
+<pre><code>public String getQueryString()
+</code></pre><p>获取请求路径的 <code>URL</code> 和 <code>URI</code></p>
+<pre><code>public StringBuffer getRequestURL()
+public String getRequestURI()
+</code></pre><p>获得客户机的 <code>IP</code> 地址，这个方法是在父接口 <code>ServletRequest</code> 中</p>
+<pre><code>public String getRemoteAddr()
+</code></pre><h5 id="4-1-2-获取请求头信息的方法"><a href="#4-1-2-获取请求头信息的方法" class="headerlink" title="4.1.2 获取请求头信息的方法"></a>4.1.2 获取请求头信息的方法</h5><p>浏览器发送请求中的请求头一般是以键值对的形式出现的，而这里一般是分为两种情况，一种是一个 <code>key</code> 对应一个 <code>value</code> ，而另一种则是一个 <code>key</code> 对应多个 <code>value</code> ，所以主要是通过下面两个方法：</p>
+<pre><code>public String getHeader(String name)
+public java.util.Enumeration&lt;E&gt; getHeaders(String name)
+</code></pre><p>通过上面两个方法就可以得到相关的请求头了。</p>
+<h5 id="4-1-3-获取请求参数的方法"><a href="#4-1-3-获取请求参数的方法" class="headerlink" title="4.1.3 获取请求参数的方法"></a>4.1.3 获取请求参数的方法</h5><p>浏览器向服务器发送请求时可能是带有请求参数以及对应的值的，所以我们就必须在服务器端的 <code>Servlet</code> 中接收到相应的请求参数以及值，具体的方法有如下这些：</p>
+<p>接收一个参数对应一个值的方法：</p>
+<pre><code>public String getParameter(String name)
+</code></pre><p>接收一个参数对应多个值的方法：</p>
+<pre><code>public String[] getParameterValues(String name)
+</code></pre><p>接收参数和值组成的 <code>Map</code> 集合方法：</p>
+<pre><code>public java.util.Map&lt;K, V&gt; getParameterMap()
+</code></pre><h5 id="4-1-4-作为域对象存取数据的方法"><a href="#4-1-4-作为域对象存取数据的方法" class="headerlink" title="4.1.4 作为域对象存取数据的方法"></a>4.1.4 作为域对象存取数据的方法</h5><p>最开始介绍的 <code>ServletContext</code> 也是可以作为域对象的，不过它所表示的范围是比较大的，是整个 <code>web</code> 项目，而这里的 <code>Request</code> 同样也可以作为域对象，不过它的范围就要小得多，表示的是一次请求，但却是非常实用的，应用也非常多，下面来看一下 <code>Request</code> 作为域对象的 <code>API</code> 方法：</p>
+<p>首先是向 <code>Request</code> 中保存数据：</p>
+<pre><code>public void setAttribute(String name, Object o)
+</code></pre><p>然后则是从 <code>Request</code> 中取出数据：</p>
+<pre><code>public Object getAttribute(String name)
+</code></pre><p>最后则是从 <code>Request</code> 中移除数据：</p>
+<pre><code>public void removeAttribute(String name)
+</code></pre><h4 id="4-2-HttpServletRequest中常用API方法测试"><a href="#4-2-HttpServletRequest中常用API方法测试" class="headerlink" title="4.2 HttpServletRequest中常用API方法测试"></a>4.2 HttpServletRequest中常用API方法测试</h4><p>首先是请求方式的测试，这里可以直接在浏览器的地址栏输入要访问的 <code>Servlet</code> 地址，这里就是 <code>GET</code> 方式的请求了，如果想用 <code>POST</code> 方式发送请求，则可以借助于 <code>postman</code> 等谷歌浏览器插件。</p>
+<pre><code>// 获取请求方式
+System.out.println(&quot;请求方式:&quot; + request.getMethod());
+</code></pre><p>其它的方法其实只要使用一下就知道效果了，直接把测试代码放在下面吧。</p>
+<pre><code>// 获得客户端的IP地址
+System.out.println(&quot;客户端的IP地址:&quot; + request.getRemoteAddr());
+// 获得请求路径中的请求参数字符串
+System.out.println(&quot;请求参数字符串:&quot; + request.getQueryString());
+// 获取请求路径的URL和URI
+System.out.println(&quot;请求路径的URL:&quot; + request.getRequestURL());
+System.out.println(&quot;请求路径的URI:&quot; + request.getRequestURI());
+// 获取请求头的信息
+System.out.println(&quot;客户机浏览器类型:&quot; + request.getHeader(&quot;User-Agent&quot;));
+</code></pre><h4 id="4-3-HttpServletRequest接收表单数据"><a href="#4-3-HttpServletRequest接收表单数据" class="headerlink" title="4.3 HttpServletRequest接收表单数据"></a>4.3 HttpServletRequest接收表单数据</h4><p>使用 <code>HttpServletRequest</code> 对象的时候，还有一个比较重要的应用就是接收前台表单数据，在实际开发中很多情况都需要进行表单数据提交操作，比如用户登录时，也是将用户名和密码等信息放在一个 <code>form</code> 表单之中，然后再进行提交，下面就完成一个表单数据提交的例子。</p>
+<p>前台页面：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;request对象接收表单数据&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;request对象接收表单数据&lt;/h1&gt;
+&lt;form action=&quot;/web_test/RequestDemo2&quot; method=&quot;post&quot;&gt;
+    用户名:&lt;input type=&quot;text&quot; name=&quot;username&quot; /&gt;&lt;br/&gt;
+    密码:&lt;input type=&quot;password&quot; name=&quot;password&quot;/&gt;&lt;br/&gt;
+    性别：&lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;man&quot; /&gt;男
+        &lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;woman&quot; /&gt;女&lt;br/&gt;
+    籍贯:&lt;select name=&quot;city&quot;&gt;
+            &lt;option value=&quot;beijing&quot;&gt;北京市&lt;/option&gt;
+            &lt;option value=&quot;shenzhen&quot;&gt;深圳市&lt;/option&gt;
+            &lt;option value=&quot;shanghai&quot;&gt;上海市&lt;/option&gt;
+        &lt;/select&gt;&lt;br/&gt;
+    爱好:&lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;basketball&quot;/&gt;篮球
+        &lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;football&quot;/&gt;足球
+        &lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;volleyball&quot;/&gt;排球&lt;br/&gt;
+    自我介绍:&lt;textarea name=&quot;info&quot; rows=&quot;5&quot; cols=&quot;10&quot;&gt;&lt;/textarea&gt;&lt;br/&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;提交&quot;/&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>后台 <code>Servlet(RequestDemo2)</code>:</p>
+<pre><code>public class RequestDemo2 extends HttpServlet {
+
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+        // 接收用户名和密码
+        String username = request.getParameter(&quot;username&quot;);
+        String password = request.getParameter(&quot;password&quot;);
+        String sex = request.getParameter(&quot;sex&quot;);
+        String city = request.getParameter(&quot;city&quot;);
+        // 接收爱好
+        String[] hobby = request.getParameterValues(&quot;hobby&quot;);
+        // 接收自我介绍
+        String info = request.getParameter(&quot;info&quot;);
+
+        System.out.println(&quot;用户名:&quot; + username);
+        System.out.println(&quot;密码:&quot; + password);
+        System.out.println(&quot;性别:&quot; + sex);
+        System.out.println(&quot;籍贯:&quot; + city);
+        System.out.println(&quot;爱好:&quot; + Arrays.toString(hobby));
+        System.out.println(&quot;自我介绍:&quot; + info);
+
+        // 用getParameterMap()接收数据
+        Map&lt;String, String[]&gt; map = request.getParameterMap();
+        for (String key : map.keySet()) {
+            String[] value = map.get(key);
+            System.out.println(Arrays.toString(value));
+        }
+    }
+
+    protected void doPost(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+    }
+}
+</code></pre><h4 id="4-4-HttpServletRequest对象解决中文字符乱码"><a href="#4-4-HttpServletRequest对象解决中文字符乱码" class="headerlink" title="4.4 HttpServletRequest对象解决中文字符乱码"></a>4.4 HttpServletRequest对象解决中文字符乱码</h4><p>在使用表单提交数据时，如果输入框中有中文，那么不管是使用 <code>GET</code> 方式还是 <code>POST</code> 方式发送请求，都会产生乱码，但是两者产生乱码的原因却是不一样的，下面分开来说。</p>
+<h5 id="4-4-1-POST方式提交中文字符"><a href="#4-4-1-POST方式提交中文字符" class="headerlink" title="4.4.1 POST方式提交中文字符"></a>4.4.1 POST方式提交中文字符</h5><p>在使用 <code>POST</code> 方式提交数据时，会将数据放在请求体中传到后台，同时请求的数据也是放在 <code>request</code> 对象的字符串缓冲区之中的，而这个缓冲区默认的字符集编码是 <code>ISO8859-1</code> ，这个字符集是不支持中文字符的，因此在传输中文数据时才会产生中文乱码，而要解决这个问题也就好办了，直接将 <code>request</code> 字符串缓冲区采用的字符集编码改为 <code>UTF-8</code> 就好了，因为这个是支持中文的，而且我项目也是设置的使用该字符集编码。</p>
+<pre><code>request.setCharacterEncoding(&quot;UTF-8&quot;);
+String name = request.getParameter(&quot;name&quot;);
+</code></pre><h5 id="4-4-2-GET方式提交中文字符"><a href="#4-4-2-GET方式提交中文字符" class="headerlink" title="4.4.2 GET方式提交中文字符"></a>4.4.2 GET方式提交中文字符</h5><p>在使用 <code>GET</code> 方式提交数据时，是将传输的参数名称和值都拼接在请求路径的后面，而在传输中文字符时，浏览器还会使用 <code>UTF-8</code> 这个字符集对中文字符进行一次编码，比如如果需要传输的参数是 <code>name</code> ，而且其对应的值是 <code>学生</code> ，那么在浏览器的地址栏中请求的完整路径应该是：</p>
+<pre><code>http://localhost:8080/web_day10/RequestDemo3?name=%E5%AD%A6%E7%94%9F
+</code></pre><p>虽然在诸如谷歌的 <code>Chrome</code> 浏览器之中看到的完整请求路径可能还是：</p>
+<pre><code>http://localhost:8080/web_day10/RequestDemo3?name=学生
+</code></pre><p>这是因为 <code>Chrome</code> 浏览器又将中文字符解码为原始值的样式展示了，其实如果对那个完整请求路径进行复制的话，粘贴的时候就会发现，原来确实是使用 <code>UTF-8</code> 这个字符集进行编码过了的，有一些浏览器，比如 <code>IE</code> 就直接将编码之后的内容展示在地址栏，这样就会直观的看到是有对中文字符进行编码的过程的。</p>
+<p>下面开始说产生乱码的原因，在浏览器地址栏对中文字符进行一次编码之后，还会将它们放到 <code>request</code> 对象的字符串缓冲区中，上面已经说过这个缓冲区的字符集编码默认是 <code>ISO8859-1</code> ，因此为了得到原来正确的中文字符，我们要对 <code>request</code> 缓冲区中的中文字符使用 <code>ISO8859-1</code> 进行编码，然后再使用 <code>UTF-8</code> 对它进行一次解码就可以得到原来的中文字符了。</p>
+<pre><code>String name = request.getParameter(&quot;name&quot;);
+String encode = URLEncoder.encode(name, &quot;ISO8859-1&quot;);
+name = URLDecoder.decode(encode, &quot;UTF-8&quot;);
+</code></pre><p>上面的后两句代码如果不太熟的话，其实还可以利用 <code>String</code> 类的构造方法进行简单操作。</p>
+<pre><code>String result = new String(name.getBytes(&quot;ISO8859-1&quot;),&quot;UTF-8&quot;);
+</code></pre><p>实际开发中也是这种方式较多，其实只要记住后一种简便方法就好了。</p>
+<p>下面就将 <code>GET</code> 方式和 <code>POST</code> 方式提交中文字符的代码放在这里。</p>
+<p>demo2.html</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;request处理中文乱码&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;request处理中文乱码&lt;/h1&gt;
+    &lt;h3&gt;以POST方式提交数据&lt;/h3&gt;
+    &lt;form action=&quot;/web_test/RequestDemo3&quot; method=&quot;post&quot;&gt;
+        姓名:&lt;input type=&quot;text&quot; name=&quot;name&quot;/&gt;&lt;br/&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;提交&quot; /&gt;
+    &lt;/form&gt;
+    &lt;h3&gt;以GET方式提交数据&lt;/h3&gt;
+    &lt;form action=&quot;/web_day10/RequestDemo3&quot; method=&quot;get&quot;&gt;
+        姓名:&lt;input type=&quot;text&quot; name=&quot;name&quot;/&gt;&lt;br/&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;提交&quot; /&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>RequestDemo3:</p>
+<pre><code>public class RequestDemo3 extends HttpServlet {
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter(&quot;name&quot;);
+//        String encode = URLEncoder.encode(name, &quot;ISO8859-1&quot;);
+//        name = URLDecoder.decode(encode, &quot;UTF-8&quot;);
+        String result = new String(name.getBytes(&quot;ISO8859-1&quot;),&quot;UTF-8&quot;);
+        System.out.println(&quot;姓名:&quot;+result);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding(&quot;UTF-8&quot;);
+        String name = request.getParameter(&quot;name&quot;);
+        System.out.println(&quot;姓名:&quot;+name);
+    }
+}
+</code></pre><h3 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h3><p>这篇文章主要介绍了 <code>Servlet</code> 的相关对象，主要有四个对象：<code>ServletConfig</code>、<code>ServletContext</code>、<code>HttpServletResponse</code> 以及 <code>HttpServletRequest</code> 。其实记住它们可以做什么就比较好理解了，<code>ServletConfig</code> 可以用来获取当前 <code>Servlet</code> 的配置信息，<code>ServletContext</code> 则是用来获取当前项目的全局配置信息，同时它作为域对象也可以用来存取整个项目范围类的数据，<code>HttpServletResponse</code> 则是表示服务器对客户机浏览器的响应，主要是用来对浏览器发送响应信息，<code>HttpServletRequest</code> 就是表示浏览器对服务器的一次请求，并且其中还包含了同时提交的数据，作为域对象则可以在一次请求范围内存取数据，最后的重点则是 <code>response</code> 对象和 <code>request</code> 对象的乱码处理，这点一定要弄清楚乱码产生的原因以及如何解决乱码。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Servlet/" rel="tag"># Servlet</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/01/Servlet的基本使用/" rel="next" title="Servlet的基本使用">
+                <i class="fa fa-chevron-left"></i> Servlet的基本使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/12/JSP基础/" rel="prev" title="JSP基础">
+                JSP基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-ServletConfig"><span class="nav-number">1.</span> <span class="nav-text">1.ServletConfig</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-ServletContext"><span class="nav-number">2.</span> <span class="nav-text">2.ServletContext</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-获取web项目信息"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 获取web项目信息</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-1-获取文件的MIME类型"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1.1 获取文件的MIME类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-2-获取请求路径中的工程名"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.1.2 获取请求路径中的工程名</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-3-获取全局初始化参数的配置"><span class="nav-number">2.1.3.</span> <span class="nav-text">2.1.3 获取全局初始化参数的配置</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-获取web项目下的文件"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 获取web项目下的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-作为域对象存取数据"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 作为域对象存取数据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-HttpServletResponse"><span class="nav-number">3.</span> <span class="nav-text">3.HttpServletResponse</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-HttpServletResponse的常用API方法"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 HttpServletResponse的常用API方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-1-关于响应行的方法"><span class="nav-number">3.1.1.</span> <span class="nav-text">3.1.1 关于响应行的方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-2-关于响应头的方法"><span class="nav-number">3.1.2.</span> <span class="nav-text">3.1.2 关于响应头的方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-3-关于响应体的方法"><span class="nav-number">3.1.3.</span> <span class="nav-text">3.1.3 关于响应体的方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-4-其它的一些方法"><span class="nav-number">3.1.4.</span> <span class="nav-text">3.1.4 其它的一些方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-使用HttpServletResponse实现一些小案例"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 使用HttpServletResponse实现一些小案例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-1-重定向"><span class="nav-number">3.2.1.</span> <span class="nav-text">3.2.1 重定向</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-2-定时刷新"><span class="nav-number">3.2.2.</span> <span class="nav-text">3.2.2 定时刷新</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-HttpServletResponse对象响应中文乱码处理"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 HttpServletResponse对象响应中文乱码处理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-1-字节流方式"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.3.1 字节流方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-2-字符流方式"><span class="nav-number">3.3.2.</span> <span class="nav-text">3.3.2 字符流方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-HttpServletRequest"><span class="nav-number">4.</span> <span class="nav-text">4.HttpServletRequest</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-HttpServletRequest的常用API方法"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 HttpServletRequest的常用API方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-1-获取客户机信息的方法"><span class="nav-number">4.1.1.</span> <span class="nav-text">4.1.1 获取客户机信息的方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-2-获取请求头信息的方法"><span class="nav-number">4.1.2.</span> <span class="nav-text">4.1.2 获取请求头信息的方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-3-获取请求参数的方法"><span class="nav-number">4.1.3.</span> <span class="nav-text">4.1.3 获取请求参数的方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-4-作为域对象存取数据的方法"><span class="nav-number">4.1.4.</span> <span class="nav-text">4.1.4 作为域对象存取数据的方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-HttpServletRequest中常用API方法测试"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 HttpServletRequest中常用API方法测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-HttpServletRequest接收表单数据"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 HttpServletRequest接收表单数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-HttpServletRequest对象解决中文字符乱码"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 HttpServletRequest对象解决中文字符乱码</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-4-1-POST方式提交中文字符"><span class="nav-number">4.4.1.</span> <span class="nav-text">4.4.1 POST方式提交中文字符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-4-2-GET方式提交中文字符"><span class="nav-number">4.4.2.</span> <span class="nav-text">4.4.2 GET方式提交中文字符</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-总结"><span class="nav-number">5.</span> <span class="nav-text">5.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/11/02/Servlet相关对象/';
+
+      var disqus_title = "Servlet相关对象";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

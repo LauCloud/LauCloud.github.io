@@ -1,0 +1,1096 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这是我读完的第一本英文书，居然还是本专业书，不过确实专业类的英文书要比一些经典小说好读一点，这也和这本书是一本入门级的书有关系吧，之前也想过读完一本专业类的英文书，找的是一本关于JavaScript的，也是一本基础类书籍，后来不知为什么就暂停了，以后也还是要抽时间把那本书读完，现在感觉每读完一本专业类的书，之后的几天心里也会很踏实，也想去读更多的专业书，这感觉和以前读小说时有点像，希望自己能坚持下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第一本英文书《Think Java》">
+<meta property="og:url" content="http://yoursite.com/2017/05/17/第一本英文书《Think Java》/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="这是我读完的第一本英文书，居然还是本专业书，不过确实专业类的英文书要比一些经典小说好读一点，这也和这本书是一本入门级的书有关系吧，之前也想过读完一本专业类的英文书，找的是一本关于JavaScript的，也是一本基础类书籍，后来不知为什么就暂停了，以后也还是要抽时间把那本书读完，现在感觉每读完一本专业类的书，之后的几天心里也会很踏实，也想去读更多的专业书，这感觉和以前读小说时有点像，希望自己能坚持下">
+<meta property="og:updated_time" content="2017-05-17T15:16:32.746Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第一本英文书《Think Java》">
+<meta name="twitter:description" content="这是我读完的第一本英文书，居然还是本专业书，不过确实专业类的英文书要比一些经典小说好读一点，这也和这本书是一本入门级的书有关系吧，之前也想过读完一本专业类的英文书，找的是一本关于JavaScript的，也是一本基础类书籍，后来不知为什么就暂停了，以后也还是要抽时间把那本书读完，现在感觉每读完一本专业类的书，之后的几天心里也会很踏实，也想去读更多的专业书，这感觉和以前读小说时有点像，希望自己能坚持下">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/17/第一本英文书《Think Java》/"/>
+
+
+
+
+
+  <title> 第一本英文书《Think Java》 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/17/第一本英文书《Think Java》/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                第一本英文书《Think Java》
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-17T16:08:57+08:00">
+                2017-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/阅读/" itemprop="url" rel="index">
+                    <span itemprop="name">阅读</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/17/第一本英文书《Think Java》/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/17/第一本英文书《Think Java》/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/05/17/第一本英文书《Think Java》/" class="leancloud_visitors" data-flag-title="第一本英文书《Think Java》">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这是我读完的第一本英文书，居然还是本专业书，不过确实专业类的英文书要比一些经典小说好读一点，这也和这本书是一本入门级的书有关系吧，之前也想过读完一本专业类的英文书，找的是一本关于JavaScript的，也是一本基础类书籍，后来不知为什么就暂停了，以后也还是要抽时间把那本书读完，现在感觉每读完一本专业类的书，之后的几天心里也会很踏实，也想去读更多的专业书，这感觉和以前读小说时有点像，希望自己能坚持下去吧，读得多了也希望和以前读小说时一样有点自己的想法和理解。</p>
+<a id="more"></a>
+<p>这本书不是《Java编程思想》，因为《Java编程思想》的英文名是《Think in Java》，只是很像罢了，其实这本书也有中文版本，是叫《像计算机科学家一样思考Java》</p>
+<p>《Think Java》这本书主要介绍了Java的一些基础语法，不过它最让我印象深刻的部分确是它的附录，讲关于调试(Debugging)的,下面是个人感觉比较好的一些部分。</p>
+<h2 id="1-Type-of-error"><a href="#1-Type-of-error" class="headerlink" title="1.Type of error"></a>1.Type of error</h2><p>The best debugging strategy depends on what kind of error you have:</p>
+<ol>
+<li><p>Compile-time errors<br>Compile-time errors indicate that there is something wrong with the<br>syntax of the program. Example: omitting the semicolon at the end of<br>a statement.</p>
+</li>
+<li><p>Run-time errors<br>Run-time errors are produced if something goes wrong while the pro-<br>gram is running. Example: an infinite recursion eventually causes a<br>StackOverflowError.</p>
+</li>
+<li><p>Logic errors<br>Logic errors cause the program to do the wrong thing. Example: an<br>expression may not be evaluated in the order you expect.</p>
+</li>
+</ol>
+<h2 id="2-Compile-time-errors"><a href="#2-Compile-time-errors" class="headerlink" title="2.Compile-time errors"></a>2.Compile-time errors</h2><h3 id="2-1-The-compiler-is-spewing-error-messages"><a href="#2-1-The-compiler-is-spewing-error-messages" class="headerlink" title="2.1 The compiler is spewing error messages."></a>2.1 The compiler is spewing error messages.</h3><p>If the compiler reports 100 error messages, that doesn’t mean there are 100<br>errors in your program. When the compiler encounters an error, it often gets<br>thrown off track for a while. It tries to recover and pick up again after the first error, but sometimes it reports spurious errors.</p>
+<p>Only the first error message is truly reliable. We suggest that you only fix<br>one error at a time, and then recompile the program. You may find that one<br>semicolon or brace “fixes” 100 errors.</p>
+<h3 id="2-2-I’m-getting-a-weird-compiler-message-and-it-won’t-go-away"><a href="#2-2-I’m-getting-a-weird-compiler-message-and-it-won’t-go-away" class="headerlink" title="2.2 I’m getting a weird compiler message, and it won’t go away."></a>2.2 I’m getting a weird compiler message, and it won’t go away.</h3><p>First of all, read the error message carefully. It may be written in terse jargon,but often there is a carefully hidden kernel of information.</p>
+<p>If nothing else, the message will tell you where in the program the problem<br>occurred. Actually, it tells you where the compiler was when it noticed a<br>problem, which is not necessarily where the error is. Use the information the<br>compiler gives you as a guideline, but if you don’t see an error where the<br>compiler is pointing, broaden the search.</p>
+<p>Generally the error will be prior to the location of the error message, but there are cases where it will be somewhere else entirely. For example, if you get an error message at a method invocation, the actual error may be in the method definition itself.</p>
+<p>If you don’t find the error quickly, take a breath and look more broadly at the entire program. Make sure the program is indented properly; that makes it easier to spot syntax errors.</p>
+<p>Now, start looking for common syntax errors:</p>
+<ol>
+<li><p>Check that all parentheses and brackets are balanced and properly nested. All method definitions should be nested within a class definition. All program statements should be within a method definition.</p>
+</li>
+<li><p>Remember that uppercase letters are not the same as lowercase letters.</p>
+</li>
+<li><p>Check for semicolons at the end of statements (and no semicolons after squiggly braces).</p>
+</li>
+<li><p>Make sure that any strings in the code have matching quotation marks. Make sure that you use double quotes for strings and single quotes for characters.</p>
+</li>
+<li><p>For each assignment statement, make sure that the type on the left is the same as the type on the right. Make sure that the expression on the left is a variable name or something else that you can assign a value to (like an element of an array).</p>
+</li>
+<li><p>For each method invocation, make sure that the arguments you provide are in the right order and have the right type, and that the object you are invoking the method on is the right type.</p>
+</li>
+<li><p>If you are invoking a value method, make sure you are doing something with the result. If you are invoking a void method, make sure you are not trying to do something with the result.</p>
+</li>
+<li><p>If you are invoking an instance method, make sure you are invoking it on an object with the right type. If you are invoking a static method from outside the class where it is defined, make sure you specify the class name (using dot notation).</p>
+</li>
+<li><p>Inside an instance method you can refer to the instance variables without specifying an object. If you try that in a static method { with or without this { you get a message like \non-static variable x cannot be referenced from a static context.”</p>
+</li>
+</ol>
+<h3 id="2-3-I-can’t-get-my-program-to-compile-no-matter-what-I-do"><a href="#2-3-I-can’t-get-my-program-to-compile-no-matter-what-I-do" class="headerlink" title="2.3 I can’t get my program to compile no matter what I do."></a>2.3 I can’t get my program to compile no matter what I do.</h3><p>If the compiler says there is an error and you don’t see it, that might be because you and the compiler are not looking at the same code. Check your development environment to make sure the program you are editing is the program the compiler is compiling.</p>
+<p>This situation is often the result of having multiple copies of the same program.You might be editing one version of the file, but compiling a different version.</p>
+<p>If you are not sure, try putting an obvious and deliberate syntax error right at the beginning of the program. Now compile again. If the compiler doesn’t find the new error, there is probably something wrong with the way you set up the development environment.</p>
+<p>If you have examined the code thoroughly, and you are sure the compiler is compiling the right source file, it is time for desperate measures: <strong>debugging by bisection.</strong></p>
+<ul>
+<li>Make a backup of the file you are working on. If you are working on Bob.java, make a copy called Bob.java.old.</li>
+<li>Delete about half the code from Bob.java. Try compiling again.<ul>
+<li>If the program compiles now, you know the error is in the code you   deleted. Bring back about half of what you deleted and repeat.</li>
+<li>If the program still doesn’t compile, the error must be in the code that remains. Delete about half of the remaining code and repeat.</li>
+</ul>
+</li>
+<li>Once you have found and fixed the error, start bringing back the code you deleted, a little bit at a time.</li>
+</ul>
+<p>This process is ugly, but it goes faster than you might think, and it is very reliable. It works for other programming languages too!</p>
+<h3 id="2-4-I-did-what-the-compiler-told-me-to-do-but-it-still-doesn’t-work"><a href="#2-4-I-did-what-the-compiler-told-me-to-do-but-it-still-doesn’t-work" class="headerlink" title="2.4 I did what the compiler told me to do, but it still doesn’t work."></a>2.4 I did what the compiler told me to do, but it still doesn’t work.</h3><p>Some error messages come with tidbits of advice, like \class Golfer must be declared abstract. It does not define int compareTo(java.lang.Object) from interface java.lang.Comparable.” It sounds like the compiler is telling you to declare Golfer as an abstract class, and if you are reading this book, you probably don’t know what that is or how to do it.</p>
+<p>Fortunately, the compiler is wrong. The solution in this case is to make sure Golfer has a method called compareTo that takes an Object as a parameter.</p>
+<p>Don’t let the compiler lead you by the nose. Error messages give you evidence that something is wrong, but the remedies they suggest are unreliable.</p>
+<h2 id="3-Run-time-errors"><a href="#3-Run-time-errors" class="headerlink" title="3.Run-time errors"></a>3.Run-time errors</h2><p>It’s not always clear what causes a run-time error, but you can often figure<br>things out by adding print statements to your program.</p>
+<h3 id="3-1-My-program-hangs"><a href="#3-1-My-program-hangs" class="headerlink" title="3.1 My program hangs."></a>3.1 My program hangs.</h3><p>If a program stops and seems to be doing nothing, we say it is \hanging”. Often that means it is caught in an infinite loop or an infinite recursion.</p>
+<ul>
+<li>If there is a particular loop that you suspect is the problem, add a print statement immediately before the loop that says \entering the loop” and another immediately after that says “exiting the loop”.</li>
+</ul>
+<p>Run the program. If you get the first message and not the second,you know where the program is getting stuck. Go to the section titled “Infinite loop”.</p>
+<ul>
+<li>Most of the time an infinite recursion will cause the program to run for a while and then produce a StackOverflowError. If that happens, go to the section titled “Infinite recursion”.</li>
+</ul>
+<p>If you are not getting a StackOverflowError, but you suspect there is a problem with a recursive method, you can still use the techniques in the infinite recursion section.</p>
+<ul>
+<li>If neither of the previous suggestions helps, you might not understand the  flow of execution in your program. Go to the section titled \Flow of execution”.</li>
+</ul>
+<h4 id="3-1-1-Infinite-loop"><a href="#3-1-1-Infinite-loop" class="headerlink" title="3.1.1 Infinite loop"></a>3.1.1 Infinite loop</h4><p>If you think you have an infinite loop and you know which loop it is, add a print statement at the end of the loop that displays the values of the variables in the condition, and the value of the condition.</p>
+<p>For example:</p>
+<pre><code>while (x &gt; 0 &amp;&amp; y &lt; 0) {
+// do something to x
+// do something to y
+System.out.println(&quot;x: &quot; + x);
+System.out.println(&quot;y: &quot; + y);
+System.out.println(&quot;condition: &quot; + (x &gt; 0 &amp;&amp; y &lt; 0));
+}
+</code></pre><p>Now when you run the program you see three lines of output for each time through the loop. The last time through the loop, the condition should be false. If the loop keeps going, you will see the values of x and y, and you might figure out why they are not getting updated correctly.</p>
+<h4 id="3-1-2-Infinite-recursion"><a href="#3-1-2-Infinite-recursion" class="headerlink" title="3.1.2 Infinite recursion"></a>3.1.2 Infinite recursion</h4><p>Most of the time, an infinite recursion will cause the program to throw a StackOverflowError. But if the program is slow, it may take a long time to fill the stack.</p>
+<p>If you know which method is causing an infinite recursion, check that there is a base case. There should be some condition that makes the method return without  making a recursive invocation. If not, you need to rethink the algorithm and identify a base case.</p>
+<p>If there is a base case, but the program doesn’t seem to be reaching it, add a print statement at the beginning of the method that displays the parameters.Now when you run the program you see a few lines of output every time the method is invoked, and you can see the values of the parameters. If the parameters are not moving toward the base case, you might see why not.</p>
+<h4 id="3-1-3-Flow-of-execution"><a href="#3-1-3-Flow-of-execution" class="headerlink" title="3.1.3 Flow of execution"></a>3.1.3 Flow of execution</h4><p>If you are not sure how the  flow of execution is moving through your program, add print statements to the beginning of each method with a message like “entering method foo”, where foo is the name of the method. Now when you run the program, it displays a trace of each method as it is invoked.</p>
+<p>You can also display the arguments each method receives. When you run the program, check whether the values are reasonable, and check for one of the most common errors { providing arguments in the wrong order.</p>
+<h3 id="3-2-When-I-run-the-program-I-get-an-exception"><a href="#3-2-When-I-run-the-program-I-get-an-exception" class="headerlink" title="3.2 When I run the program I get an exception."></a>3.2 When I run the program I get an exception.</h3><p>When an exception occurs, Java displays a message that includes the name of the exception, the line of the program where the exception occurred, and a “stack trace”. The stack trace includes the method that was running, the method that invoked it, the method that invoked that one, and so on.</p>
+<p>The first step is to examine the place in the program where the error occurred and see if you can figure out what happened.</p>
+<p><strong>NullPointerException</strong>: You tried to access an instance variable or invoke a method on an object that is currently null. You should figure out which variable is null and then fiure out how it got to be that way.</p>
+<p>Remember that when you declare a variable with an array type, its elements are initially null until you assign a value to them. For example,this code causes a NullPointerException:</p>
+<pre><code>int[] array = new Point[5];
+System.out.println(array[0].x);
+</code></pre><p><strong>ArrayIndexOutOfBoundsException</strong>: The index you are using to access an array is either negative or greater than array.length - 1. If you can find the site where the problem is, add a print statement immediately before it to display the value of the index and the length of the array. Is the array the right size? Is the index the right value?</p>
+<p>Now work your way backwards through the program and see where the array and the index come from. Find the nearest assignment statement and see if it is doing the right thing. If either one is a parameter, go to the place where the method is  invoked and see where the values are coming from.</p>
+<p><strong>StackOverflowError</strong>: See “Infinite recursion”.</p>
+<p><strong>FileNotFoundException</strong>: This means Java didn’t find the file it was looking for. If you are using a project-based development environment like Eclipse, you might have to import the file into the project. Otherwise make sure the file exists and that the path is correct. This problem depends on your file system, so it can be hard to track down.</p>
+<p><strong>ArithmeticException</strong>: Something went wrong during an arithmetic operation; for example, division by zero.</p>
+<h3 id="3-3-I-added-so-many-print-statements-I-get-inundated-with-output"><a href="#3-3-I-added-so-many-print-statements-I-get-inundated-with-output" class="headerlink" title="3.3 I added so many print statements I get inundated with output."></a>3.3 I added so many print statements I get inundated with output.</h3><p>One of the problems with using print statements for debugging is that you can end  up buried in output. There are two ways to proceed: either simplify the output,  or simplify the program.</p>
+<p>To simplify the output, you can remove or comment out print statements that  aren’t helping, or combine them, or format the output so it is easier to  understand. As you develop a program, you should write code to generate concise,  informative traces of what the program is doing.</p>
+<p>To simplify the program, scale down the problem the program is working on.For example, if you are sorting an array, sort a small array. If the program takes input from the user, give it the simplest input that causes the error.</p>
+<p>Also, clean up the code. Remove unnecessary or experimental parts, and reorganize the program to make it easier to read. For example, if you suspect that the error is in a deeply-nested part of the program, rewrite that part with a simpler structure. If you suspect a large method, split it into smaller methods and test them separately.</p>
+<p>The process of finding the minimal test case often leads you to the bug. For example, if you find that a program works when the array has an even number of elements, but not when it has an odd number, that gives you a clue about what is going on.</p>
+<p>Reorganizing the program can help you find subtle bugs. If you make a change that you think doesn’t affect the program, and it does, that can tip you off.</p>
+<h2 id="4-Logic-errors"><a href="#4-Logic-errors" class="headerlink" title="4.Logic errors"></a>4.Logic errors</h2><h3 id="4-1-My-program-doesn’t-work"><a href="#4-1-My-program-doesn’t-work" class="headerlink" title="4.1 My program doesn’t work."></a>4.1 My program doesn’t work.</h3><p>Logic errors are hard to find because the compiler and interpreter provide no information about what is wrong. Only you know what the program is supposed to do, and only you know that it isn’t doing it.</p>
+<p>The first step is to make a connection between the code and the behavior you get. You need a hypothesis about what the program is actually doing. Here are some  questions to ask yourself:</p>
+<ul>
+<li>Is there something the program was supposed to do, but doesn’t seem to be happening? Find the section of the code that performs that function,and make sure it is executing when you think it should. See “Flow of execution” on page 259.</li>
+<li>Is something happening that shouldn’t? Find code in your program that performs that function, and see if it is executing when it shouldn’t.</li>
+<li>Is a section of code producing an unexpected effect? Make sure you understand the code, especially if it invokes methods in the Java library.Read the  documentation for those methods, and try them out with simple test cases. They might not do what you think they do.</li>
+</ul>
+<p>To program, you need a mental model of what your code does. If it doesn’t do what you expect, the problem might not actually be the program; it might be in your head.</p>
+<p>The best way to correct your mental model is to break the program into components (usually the classes and methods) and test them independently. Once you find the discrepancy between your model and reality, you can solve the problem.</p>
+<p>Here are some common logic errors to check for:</p>
+<ul>
+<li><p>Remember that integer division always rounds toward zero. If you want fractions, use double. More generally, use integers for countable things and  floating-point numbers for measurable things.</p>
+</li>
+<li><p>Floating-point numbers are only approximate, so don’t rely on them to be perfectly accurate. You should probably never use the == operator with doubles. Instead of writing if (d == 1.23), do something like if (Math.abs(d - 1.23) &lt; .000001).</p>
+</li>
+<li><p>When you apply the equality operator (==) to objects, it checks whether they are identical. If you meant to check equivalence, you should use the equals method instead.</p>
+</li>
+<li><p>By default for user-defined types, equals checks identity. If you want a different notion of equivalence, you have to override it.</p>
+</li>
+<li><p>Inheritance can lead to subtle logic errors, because you can run inherited code without realizing it. See \Flow of execution” on page 259.</p>
+</li>
+</ul>
+<h3 id="4-2-I’ve-got-a-big-hairy-expression-and-it-doesn’t-do-what-I-expect"><a href="#4-2-I’ve-got-a-big-hairy-expression-and-it-doesn’t-do-what-I-expect" class="headerlink" title="4.2 I’ve got a big hairy expression and it doesn’t do what I expect."></a>4.2 I’ve got a big hairy expression and it doesn’t do what I expect.</h3><p>Writing complex expressions is fine as long as they are readable, but they can be hard to debug. It is often a good idea to break a complex expression into a series of assignments to temporary variables.</p>
+<pre><code>rect.setLocation(rect.getLocation().translate(
+                -rect.getWidth(), -rect.getHeight()));
+</code></pre><p>This example can be rewritten as:</p>
+<pre><code>int dx = -rect.getWidth();
+int dy = -rect.getHeight();
+Point location = rect.getLocation();
+Point newLocation = location.translate(dx, dy);
+rect.setLocation(newLocation);
+</code></pre><p>The second version is easier to read, partly because the variable names provide additional documentation. It’s also easier to debug, because you can check the types of the temporary variables and display their values.</p>
+<p>Another problem that can occur with big expressions is that the order of operations may not be what you expect. For example, to evaluate x/(2*3.14) , you might write:</p>
+<pre><code>double y = x / 2 * Math.PI;
+</code></pre><p>That is not correct, because multiplication and division have the same precedence, and they are evaluated from left to right. This code computes  x/2*3.14.</p>
+<p>If you are not sure of the order of operations, check the documentation, or use<br>parentheses to make it explicit.</p>
+<pre><code>double y = x / (2 * Math.PI);
+</code></pre><p>This version is correct, and more readable for other people who haven’t memorized the order of operations.</p>
+<h3 id="4-3-My-method-doesn’t-return-what-I-expect"><a href="#4-3-My-method-doesn’t-return-what-I-expect" class="headerlink" title="4.3 My method doesn’t return what I expect."></a>4.3 My method doesn’t return what I expect.</h3><p>If you have a return statement with a complex expression, you don’t have a chance to display the value before returning.</p>
+<pre><code>public Rectangle intersection(Rectangle a, Rectangle b) {
+    return new Rectangle(
+        Math.min(a.x, b.x), Math.min(a.y, b.y),
+        Math.max(a.x + a.width, b.x + b.width)
+            - Math.min(a.x, b.x)
+        Math.max(a.y + a.height, b.y + b.height)
+            - Math.min(a.y, b.y));
+}
+</code></pre><p>Instead of writing everything in one statement, use temporary variables:</p>
+<pre><code>public Rectangle intersection(Rectangle a, Rectangle b) {
+    int x1 = Math.min(a.x, b.x);
+    int y2 = Math.min(a.y, b.y);
+    int x2 = Math.max(a.x + a.width, b.x + b.width);
+    int y2 = Math.max(a.y + a.height, b.y + b.height);
+    Rectangle rect = new Rectangle(x1, y1, x2 - x1, y2 - y1);
+    return rect;
+}
+</code></pre><p>Now you have the opportunity to display any of the intermediate variables before returning. And by reusing x1 and y1, you made the code smaller, too.</p>
+<h3 id="4-4-My-print-statement-isn’t-doing-anything"><a href="#4-4-My-print-statement-isn’t-doing-anything" class="headerlink" title="4.4 My print statement isn’t doing anything."></a>4.4 My print statement isn’t doing anything.</h3><p>If you use the println method, the output is displayed immediately, but if you use print (at least in some environments), the output gets stored without being displayed until the next newline. If the program terminates without displaying a newline, you may never see the stored output. If you suspect that this is happening, change some or all of the print statements to println.</p>
+<h3 id="4-5-I’m-really-really-stuck-and-I-need-help"><a href="#4-5-I’m-really-really-stuck-and-I-need-help" class="headerlink" title="4.5 I’m really, really stuck and I need help."></a>4.5 I’m really, really stuck and I need help.</h3><p>First, get away from the computer for a few minutes. Computers emit waves that affect the brain, causing the following symptoms:</p>
+<ul>
+<li>Frustration and rage.</li>
+<li>Superstitious beliefs (\the computer hates me”) and magical thinking (“the program only works when I wear my hat backwards”).</li>
+<li>Sour grapes (“this program is lame anyway”).</li>
+</ul>
+<p>If you suffer from any of these symptoms, get up and go for a walk. When you are calm, think about the program. What is it doing? What are possible causes of that behavior? When was the last time you had a working program,<br>and what did you do next?</p>
+<p>Sometimes it just takes time to find a bug. People often find bugs when they let their mind wander. Good places to find bugs are buses, showers, and bed.</p>
+<h3 id="4-6-No-I-really-need-help"><a href="#4-6-No-I-really-need-help" class="headerlink" title="4.6 No, I really need help."></a>4.6 No, I really need help.</h3><p>It happens. Even the best programmers get stuck. Sometimes you need a another pair of eyes.</p>
+<p>Before you bring someone else in, make sure you have tried the techniques described in this appendix.</p>
+<p>Your program should be as simple as possible, and you should be working on the smallest input that causes the error. You should have print statements in the appropriate places (and the output they produce should be comprehensible). You  should understand the problem well enough to describe it concisely.</p>
+<p>When you bring someone in to help, give them the information they need:</p>
+<ul>
+<li><p>What kind of bug is it? Compile-time, run-time, or logic?</p>
+</li>
+<li><p>What was the last thing you did before this error occurred? What were the last lines of code that you wrote, or what is the test case that fails?</p>
+</li>
+<li><p>If the bug occurs at compile time or run time, what is the error message, and what part of the program does it indicate?</p>
+</li>
+<li><p>What have you tried, and what have you learned?</p>
+</li>
+</ul>
+<p>By the time you explain the problem to someone, you might see the answer. This phenomenon is so common that some people recommend a debugging technique called \rubber ducking”. Here’s how it works:</p>
+<ol>
+<li><p>Buy a standard-issue rubber duck.</p>
+</li>
+<li><p>When you are really stuck on a problem, put the rubber duck on the desk in front of you and say, \Rubber duck, I am stuck on a problem. Here’s what’s happening…”</p>
+</li>
+<li><p>Explain the problem to the rubber duck.</p>
+</li>
+<li><p>Discover the solution.</p>
+</li>
+<li><p>Thank the rubber duck.</p>
+</li>
+</ol>
+<p>We’re not kidding, it works! See <a href="https://en.wikipedia.org/wiki/Rubber_duck_debugging" target="_blank" rel="external">https://en.wikipedia.org/wiki/Rubber_duck_debugging.</a>.</p>
+<h2 id="5-I-found-the-bug"><a href="#5-I-found-the-bug" class="headerlink" title="5 I found the bug!"></a>5 I found the bug!</h2><p>When you find the bug, it is usually obvious how to fix it. But not always. Sometimes what seems to be a bug is really an indication that you don’t understand the program, or there is an error in your algorithm. In these cases, you might have to rethink the algorithm, or adjust your mental model. Take some time away from the computer to think, work through test cases by hand, or draw diagrams to represent the computation.</p>
+<p>After you fix the bug, don’t just start in making new errors. Take a minute to think about what kind of bug it was, why you made the error, how the error manifested itself, and what you could have done to find it faster. Next time you see something similar, you will be able to find the bug more quickly. Or even better, you will learn to avoid that type of bug for good.</p>
+<h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6 总结"></a>6 总结</h2><p>没事的时候就可以把这篇文章拿出来看一下，也是对知识点的掌握吧，看完这本书才发现，专业类的书籍没有一般小说那么难，因为小说毕竟是文学作品，会有各种修饰，然后表达的方式也不一样，有可能作者就是比较喜欢用隐喻之类的，那对我这样的小白就很难受了，但是专业类书籍的话，作者的目的就是把一个知识点讲通，因此也会用让别人最容易理解的方式去表述，所以我们看的时候除了一些专有词汇之外，其它的单词也是最简单的，并且作者想让读者明白的话，有时候也会用生活中的简单例子做类比，这样就更好理解了，当然，多读的同时可能以前感觉很难的书也会慢慢简单起来，于是，多读吧！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/08/《Java夜未眠》心得体会/" rel="next" title="《Java夜未眠》心得体会">
+                <i class="fa fa-chevron-left"></i> 《Java夜未眠》心得体会
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/24/Eclipse常用操作/" rel="prev" title="Eclipse常用操作">
+                Eclipse常用操作 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Type-of-error"><span class="nav-number">1.</span> <span class="nav-text">1.Type of error</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Compile-time-errors"><span class="nav-number">2.</span> <span class="nav-text">2.Compile-time errors</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-The-compiler-is-spewing-error-messages"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 The compiler is spewing error messages.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-I’m-getting-a-weird-compiler-message-and-it-won’t-go-away"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 I’m getting a weird compiler message, and it won’t go away.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-I-can’t-get-my-program-to-compile-no-matter-what-I-do"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 I can’t get my program to compile no matter what I do.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-I-did-what-the-compiler-told-me-to-do-but-it-still-doesn’t-work"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 I did what the compiler told me to do, but it still doesn’t work.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Run-time-errors"><span class="nav-number">3.</span> <span class="nav-text">3.Run-time errors</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-My-program-hangs"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 My program hangs.</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-1-Infinite-loop"><span class="nav-number">3.1.1.</span> <span class="nav-text">3.1.1 Infinite loop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-2-Infinite-recursion"><span class="nav-number">3.1.2.</span> <span class="nav-text">3.1.2 Infinite recursion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-3-Flow-of-execution"><span class="nav-number">3.1.3.</span> <span class="nav-text">3.1.3 Flow of execution</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-When-I-run-the-program-I-get-an-exception"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 When I run the program I get an exception.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-I-added-so-many-print-statements-I-get-inundated-with-output"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 I added so many print statements I get inundated with output.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Logic-errors"><span class="nav-number">4.</span> <span class="nav-text">4.Logic errors</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-My-program-doesn’t-work"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 My program doesn’t work.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-I’ve-got-a-big-hairy-expression-and-it-doesn’t-do-what-I-expect"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 I’ve got a big hairy expression and it doesn’t do what I expect.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-My-method-doesn’t-return-what-I-expect"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 My method doesn’t return what I expect.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-My-print-statement-isn’t-doing-anything"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 My print statement isn’t doing anything.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-I’m-really-really-stuck-and-I-need-help"><span class="nav-number">4.5.</span> <span class="nav-text">4.5 I’m really, really stuck and I need help.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-No-I-really-need-help"><span class="nav-number">4.6.</span> <span class="nav-text">4.6 No, I really need help.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-I-found-the-bug"><span class="nav-number">5.</span> <span class="nav-text">5 I found the bug!</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-总结"><span class="nav-number">6.</span> <span class="nav-text">6 总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/05/17/第一本英文书《Think Java》/';
+
+      var disqus_title = "第一本英文书《Think Java》";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

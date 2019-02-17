@@ -1,0 +1,1039 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JSP," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章的话主要是想介绍一下 JSP 中的会话技术，那怎样才是一次会话呢？简单的理解的话，其实可以看做是打开一个浏览器，然后访问自己想要访问的项目，在项目页面中点击多个链接，向后台发送请求，获得响应，最后关闭浏览器。那现在就有一个问题，如何保存每个用户在一次会话中的数据呢？根据我们前面学到的知识，HttpServletRequest 和 ServletContext 对象都可以作为域对象来保存数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cookie和Session">
+<meta property="og:url" content="http://yoursite.com/2017/12/20/Cookie和Session/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="这篇文章的话主要是想介绍一下 JSP 中的会话技术，那怎样才是一次会话呢？简单的理解的话，其实可以看做是打开一个浏览器，然后访问自己想要访问的项目，在项目页面中点击多个链接，向后台发送请求，获得响应，最后关闭浏览器。那现在就有一个问题，如何保存每个用户在一次会话中的数据呢？根据我们前面学到的知识，HttpServletRequest 和 ServletContext 对象都可以作为域对象来保存数据">
+<meta property="og:updated_time" content="2018-08-20T15:43:31.857Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cookie和Session">
+<meta name="twitter:description" content="这篇文章的话主要是想介绍一下 JSP 中的会话技术，那怎样才是一次会话呢？简单的理解的话，其实可以看做是打开一个浏览器，然后访问自己想要访问的项目，在项目页面中点击多个链接，向后台发送请求，获得响应，最后关闭浏览器。那现在就有一个问题，如何保存每个用户在一次会话中的数据呢？根据我们前面学到的知识，HttpServletRequest 和 ServletContext 对象都可以作为域对象来保存数据">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/20/Cookie和Session/"/>
+
+
+
+
+
+  <title> Cookie和Session | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/20/Cookie和Session/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Cookie和Session
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-20T23:38:31+08:00">
+                2017-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Java Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/20/Cookie和Session/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/12/20/Cookie和Session/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/12/20/Cookie和Session/" class="leancloud_visitors" data-flag-title="Cookie和Session">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章的话主要是想介绍一下 <code>JSP</code> 中的会话技术，那怎样才是一次会话呢？简单的理解的话，其实可以看做是打开一个浏览器，然后访问自己想要访问的项目，在项目页面中点击多个链接，向后台发送请求，获得响应，最后关闭浏览器。那现在就有一个问题，如何保存每个用户在一次会话中的数据呢？根据我们前面学到的知识，<code>HttpServletRequest</code> 和 <code>ServletContext</code> 对象都可以作为域对象来保存数据，那它们可以用来保存会话中的数据吗？先看 <code>HttpServletRequest</code> 的话，是一个请求对象，很显然保存在这个对象里面的数据在一次请求和响应完成之后就会消失了，而一次会话可能是包含多个请求的，因此不适合，再看 <code>ServletContext</code> 对象的话，是一个应用对应一个对象，其中的数据会被所有用户共享，但是对于每个用户来说的话，会话产生的数据应该是针对个人的，而不应该是全局共享的，因此 <code>ServletContext</code> 对象也不适合。那怎样才能保存每个用户所产生的会话数据呢？这就是我们今天想要介绍的 <code>Cookie</code> 和 <code>Session</code> 了，下面具体进行介绍。</p>
+<a id="more"></a>
+<h3 id="1-Cookie"><a href="#1-Cookie" class="headerlink" title="1.Cookie"></a>1.Cookie</h3><p>首先什么是 <code>Cookie</code> 呢？<code>Cookie</code> 其实是在会话过程中，在服务器端创建，保存一定的数据，并响应给浏览器端，第一次浏览器访问服务器是没有 <code>Cookie</code> 的，但是在响应的时候服务器端可能会响应给浏览器 <code>Cookie</code> ，然后浏览器就将 <code>Cookie</code> 保存下来，下一次请求服务器端的时候浏览器就会将 <code>Cookie</code> 自动携带过去，服务器就可以收到 <code>Cookie</code> 中所携带的信息了，当用户关闭浏览器的时候，浏览器中保存的 <code>Cookie</code> 就会全部被销毁了，当然这是在没有给 <code>Cookie</code> 指定生存时长情况下的，指定了生存时长的情况，我们在下面进行说明。</p>
+<h4 id="1-1-Cookie的使用"><a href="#1-1-Cookie的使用" class="headerlink" title="1.1 Cookie的使用"></a>1.1 Cookie的使用</h4><p>要说 <code>Cookie</code> 的使用的话，肯定就是如何创建、保存和获取了，这里先说保存吧，这里说的保存其实就是在服务器端将 <code>Cookie</code> 响应给浏览器，比如说想保存一个 <code>visitCookie</code> 的 <code>Cookie</code> 到浏览器中，那应该怎么办呢？其实底层的话还是利用的请求和响应模型里面的头信息，因为这里是服务器响应给浏览器，因此肯定是要使用响应对象 <code>HttpServletResponse</code> 的头信息了。</p>
+<pre><code>String value = &quot;visitCookie=900000&quot;;
+response.setHeader(&quot;Set-Cookie&quot;, value);
+</code></pre><p>这里便是使用的 <code>Set-Cookie</code> 这个响应头，得到的效果就是服务器向浏览器响应了一个名称为 <code>visitCookie</code> 的 <code>Cookie</code> ，并且 <code>Cookie</code> 里面保存的值是 <code>900000</code>。当然现在 <code>HttpServletResponse</code> 对象提供了更加简单的方法来响应 <code>Cookie</code> 了，那就是</p>
+<pre><code>response.addCookie(cookie);
+</code></pre><p>只需要创建一个 <code>Cookie</code> 对象 <code>cookie</code> ，然后使用 <code>HttpServletResponse</code> 对象的 <code>addCookie</code> 方法就可以了，上面这就是保存（响应）<code>Cookie</code> 的方法了。</p>
+<p>下面再看如何创建一个 <code>Cookie</code>,那就需要看 <code>Cookie</code> 这个类的 <code>api</code> 文档了，很明显，<code>Cookie</code> 是有它的构造函数的</p>
+<pre><code>public Cookie(String name, String value)
+</code></pre><p>通过上面这个构造函数就可以生成一个 <code>Cookie</code> 对象了，结合上面<code>HttpServletResponse</code> 对象的    <code>addCookie()</code> 方法就可以在服务器端创建一个 <code>Cookie</code> ，然后将它响应到浏览器端了。</p>
+<p>最后就是如何获取 <code>Cookie</code> 中的数据了，这里就可以使用 <code>HttpServletRequest</code> 对象了，使用这个对象中的 <code>getCookies()</code> 方法就可以获得这次请求中所携带的全部 <code>Cookie</code> 对象了，当然这时得到的是一个 <code>Cookie</code> 数组，然后就可以根据我们想要找的 <code>Cookie</code> 名称来获取相应的 <code>Cookie</code> 了，从而就能获取到其中的数据了。</p>
+<pre><code>Cookie[] cookies = request.getCookies();
+</code></pre><p>上面就是使用 <code>Cookie</code> 时所需要使用的对象以及方法了，掌握上面这些方法就可以很方便的使用 <code>Cookie</code> 了。</p>
+<h4 id="1-2-Cookie的分类"><a href="#1-2-Cookie的分类" class="headerlink" title="1.2 Cookie的分类"></a>1.2 Cookie的分类</h4><p>这里的分类是从 <code>Cookie</code> 的生存时长来说的，一种就是没有指定生存时长的，即默认级别的；而另一种则是指定了生存时长的，就属于持久级别的了。</p>
+<pre><code>1.默认级别
+2.持久级别
+</code></pre><p>默认级别的 <code>Cookie</code> 就是没有指定生存时长的 <code>Cookie</code> ，在我们关闭浏览器之后，那么相应的 <code>Cookie</code> 也就被销毁了，很显然，默认级别的 <code>Cookie</code> 是保存在浏览器内存当中的，一旦关闭了浏览器，<code>Cookie</code> 也就销毁了。</p>
+<p>持久级别的 <code>Cookie</code> 则是有生存时长的 <code>Cookie</code> ,因为指定了生存时长，所以就算我们关闭了浏览器，相应的 <code>Cookie</code> 也是不会被销毁的，而是要等到其对应的生存时长为 <code>0</code> 之后才会自动销毁，很显然，持久级别的 <code>Cookie</code> 不是保存在浏览器的内存中，而是保存在浏览器所在的硬盘之中。</p>
+<h4 id="1-3-Cookie的API文档"><a href="#1-3-Cookie的API文档" class="headerlink" title="1.3 Cookie的API文档"></a>1.3 Cookie的API文档</h4><p>其实在上面介绍 <code>Cookie</code> 的使用的时候就已经讲了很多关于 <code>Cookie</code> 的 <code>api</code> 方法，但是这里还是要再说明一下，因为还是有很多细节可以学习的。</p>
+<pre><code>public Cookie(String name, String value)
+</code></pre><p>首先便是 <code>Cookie</code> 的构造函数了，我们在创建一个 <code>Cookie</code> 的时候便会使用到这个构造函数了。</p>
+<pre><code>public String getName()
+public String getValue()
+</code></pre><p>上面的这两个函数便分别是获取 <code>Cookie</code> 的名称和值了。</p>
+<pre><code>public void setDomain(String pattern)
+</code></pre><p>上面这个方法则是在我们创建一个 <code>Cookie</code> 之后，指定它所会被使用到的域名，即当浏览器访问哪些域名时会自动带上该 <code>Cookie</code> ，指定域名时可以指定某个单一域名，也可以指定某个域名以及下面的二级域名。</p>
+<pre><code>public void setPath(String uri)
+</code></pre><p>这个则是指定 <code>Cookie</code> 会被使用到的项目路径，如果上面方法中的 <code>uri</code> 被赋值为 <code>/</code> 时，则是表示访问 <code>Tomcat</code> 中所有项目时都会自动带上该 <code>Cookie</code> ，而如果 <code>uri</code> 被赋值为 <code>/webCookie</code> 时，则是表示只有在访问 <code>webCookie</code> 这个项目时浏览器才会自动带上该 <code>Cookie</code>。</p>
+<pre><code>public void setMaxAge(int expiry)
+</code></pre><p>这个方法便是设置 <code>Cookie</code> 的最大生存时间了，当我们设置了生存时间之后，那就不是默认级别的 <code>Cookie</code> 了，而应该是持久级别的 <code>Cookie</code> 了，需要注意的是里面 <code>expiry</code> 的单位为秒。其实这个方法也可以用于删除某个 <code>Cookie</code> ，当我们设置某个 <code>Cookie</code> 的最大生存时长为 <code>0</code> 的时候就会使其失效，也就相当于删除了 <code>Cookie</code> 。</p>
+<h4 id="1-4-Cookie的细节"><a href="#1-4-Cookie的细节" class="headerlink" title="1.4 Cookie的细节"></a>1.4 Cookie的细节</h4><p>下面需要说一些关于 <code>Cookie</code> 的细节信息：</p>
+<pre><code>1.一个Cookie只用于标识一种信息，并且带有标识这种信息的名称和值；
+2.一个web站点可以给浏览器发送多个Cookie，而一个浏览器也可以保存多个web站点的Cookie；
+3.一般来说，一个浏览器可以保存300个Cookie，每个站点的Cookie可以保存20个，而每个Cookie的大小则限制为4kb，不过现在大部分浏览器都有升级，保存Cookie的数量以及一个Cookie能够保存数据的大小都有很大提升;
+4.如果创建了一个Cookie，并将它返回给浏览器，则它默认是一个会话级别的Cookie，一旦浏览器关闭了，这个Cookie也会被销毁，如果希望这个Cookie是持久级别的，则需要使用setMaxAge()方法来为Cookie设置最大生存时长；
+5.如果需要删除一个Cookie的话，可以直接将它的生存时长设置为0，这样就能删除了，同时需要注意的是，删除时的path必须和创建Cookie时的保持一致。
+</code></pre><h4 id="1-5-Cookie案例"><a href="#1-5-Cookie案例" class="headerlink" title="1.5 Cookie案例"></a>1.5 Cookie案例</h4><p>这里想要写一个 <code>Cookie</code> 的案例来加深对 <code>Cookie</code> 的理解，在使用的过程中，也会有慢慢掌握的感觉以及可以发现很多新东西，具体的要求就是：</p>
+<pre><code>在第一次访问项目时，在页面中显示欢迎第一次访问，后面访问时则是显示上一次访问时的时间。
+</code></pre><p>这里要用 <code>Cookie</code> 实现的话，很明显，就是要在浏览器向后台发送请求的时候，在服务器端创建一个 <code>Cookie</code> 对象，用来保存这次请求的时间，然后再向浏览器响应该 <code>Cookie</code> ，这个 <code>Cookie</code> 就会保存在浏览器中，然后下次请求时就会自动携带该 <code>Cookie</code> 了，而服务器端也可以根据该 <code>Cookie</code> 的名称来查找，如果没有的话，那就是等一次访问该项目了，应该在页面输出 <code>欢迎第一次访问</code>，而如果能找到响应名称的 <code>Cookie</code> 的话，那就说明之前已经访问过该项目了，就可以直接从这个 <code>Cookie</code> 中拿到上次访问时的时间了，然后输出到页面中。这里就直接用一个 <code>Servlet</code> 来做了。</p>
+<p>具体的代码 <code>CookieServlet</code> 可以如下：</p>
+<pre><code>Cookie[] cookies = request.getCookies();
+Cookie cookie = CookieUtils.findCookie(cookies, &quot;visitCookie&quot;);
+response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+response.setContentType(&quot;text/html;charset=UTF-8&quot;);
+if (cookie == null) {
+    response.getWriter().print(&quot;欢迎第一次访问小窝。。。&quot;);
+} else {
+    String dateStr = cookie.getValue();
+    response.getWriter().print(&quot;上一次访问时间为：&quot; + dateStr);
+}
+Cookie newCookie = new Cookie(&quot;visitCookie&quot;, new SimpleDateFormat(
+        &quot;yyyy-MM-dd hh:mm:ss&quot;).format(new Date()));
+response.addCookie(newCookie);
+</code></pre><p>其中 <code>CookieUtils</code> 的话是一个 <code>Cookie</code> 的工具类，里面有一个 <code>findCookie()</code> 用来在一个 <code>Cookie</code> 数组中寻找指定名称的 <code>Cookie</code> ,代码如下：</p>
+<pre><code>public class CookieUtils {
+
+    public static Cookie findCookie(Cookie[] cookies, String name) {
+        if (cookies == null || name == null) {
+            return null;
+        }
+        for (Cookie cookie : cookies) {
+            if (name.equals(cookie.getName())) {
+                return cookie;
+            }
+        }
+        return null;
+    }
+}
+</code></pre><p>这样就能实现我们上面所说的需求了，在我们访问项目时，如果是第一次访问，就会在页面中显示 <code>欢迎第一次访问</code>，而如果不是第一次访问的话，则在页面中显示上一次访问的时间，不过这里稍微有点不如预期的就是，当我们访问了多次之后，在页面中显示的都是上次访问的时间了，但是如果我们关闭浏览器之后再次访问的话，就会发现页面中显示的是 <code>欢迎第一次访问</code> 了，而不是上次访问时的时间了。根据上面已经学到的关于 <code>Cookie</code> 的知识，很快就会发现这是因为 <code>Cookie</code> 的生存时长的原因了，因为我们在服务器端创建 <code>Cookie</code> 时没有指定最长生存时间，因此这是一个会话级别的 <code>Cookie</code> ，当我们关闭浏览器时，这个 <code>Cookie</code> 也就被销毁了，因此再次打开浏览器进行访问的时候就会显示 <code>欢迎第一次访问</code> 了。那么解决这个问题的方法也就是设置最长生存时间了。</p>
+<pre><code>Cookie newCookie = new Cookie(&quot;visitCookie&quot;, new SimpleDateFormat(
+        &quot;yyyy-MM-dd hh:mm:ss&quot;).format(new Date()));
+newCookie.setPath(&quot;/webCookie&quot;);
+newCookie.setMaxAge(60);
+response.addCookie(newCookie);
+</code></pre><p>上面的代码就是为新创建的 <code>Cookie</code> 设置最大生存时长了，一般在设置生存时长的时候我们也会同时设置路径，这里的 <code>/webCookie</code> 就是我们当前的项目路径了。加上上面的代码之后，就算关闭浏览器之后再次进行访问，也能够拿到上次访问时的时间了，也就可以在页面上进行显示了。完整项目地址为：<a href="https://github.com/LauCloud/webCookie" target="_blank" rel="external">webCookie</a></p>
+<h3 id="2-Session"><a href="#2-Session" class="headerlink" title="2.Session"></a>2.Session</h3><p>首先 <code>Session</code> 是什么呢？学过了上面的 <code>Cookie</code> 之后我们知道，<code>Cookie</code> 是将用户的个人数据保存在浏览器中的对象，而 <code>Session</code> 则是在服务器端创建，并将用户的个人数据保存在服务器端的对象。而且每一个浏览器是独占一个 <code>Session</code> 对象的，当我们想保存数据时，就可以将数据保存到 <code>Session</code> 当中，而需要取数据时，则可以直接从 <code>Session</code> 中获取。</p>
+<p>在已经有了 <code>Cookie</code> 之后，为什么还要有 <code>Session</code> 呢？这里就要说一下 <code>Cookie</code> 和 <code>Session</code> 的特点了。</p>
+<p>先看 <code>Cookie</code> 的：</p>
+<pre><code>1.Cookie保存的数据是有个数和大小的限制的；
+2.Cookie的数据是保存在浏览器中的，相对来说不是很安全。
+</code></pre><p>再看 <code>Session</code> 的：</p>
+<pre><code>1.Session没有个数和大小的限制；
+2.Session中的数据是保存在服务器端的，相对来说更加安全。
+</code></pre><h4 id="2-1-Session的原理"><a href="#2-1-Session的原理" class="headerlink" title="2.1 Session的原理"></a>2.1 Session的原理</h4><p><code>Session</code> 的运行原理是怎样的呢？那就要根据使用 <code>Session</code> 的过程来看了，首先如果我们想在服务器端保存数据，那就需要先使用 <code>HttpServletRequest</code> 对象的 <code>getSession()</code> 方法来获取得到 <code>HttpSession</code> 对象，然后再使用 <code>Session</code> 对象的</p>
+<pre><code>public void setAttribute(String name, Object value)
+</code></pre><p>方法将数据保存起来，这样就将数据保存到 <code>Session</code> 当中了。其实在浏览器访问服务器的请求过程中，如果在服务器端使用了 <code>Session</code> 保存该浏览器用户唯一的数据，那么服务器端将会为浏览器用户开辟一个独占的空间来保存相关的数据，这个空间就是 <code>Session</code> 了，并且会有对应唯一的编号，也就是 <code>SessionId</code>，当服务器响应浏览器的时候就会使用 <code>Cookie</code> 将该 <code>SessionId</code> 同时响应给浏览器，这时候浏览器也就获得了在服务器端保存自己数据的 <code>Session</code> 对象的唯一标识了，在下次再发送请求时，浏览器就会直接携带包含该 <code>SessionId</code> 的 <code>Cookie</code> 了，因此也就可以访问到在服务器端保存的数据了，所以说，<code>Session</code> 运行其实也是依赖于 <code>Cookie</code> 的。</p>
+<h4 id="2-2-Session的API文档"><a href="#2-2-Session的API文档" class="headerlink" title="2.2 Session的API文档"></a>2.2 Session的API文档</h4><p>在使用 <code>Session</code> 的过程中，其实对 <code>Session</code> 最主要的操作就是获得 <code>Session</code> 对象以及向 <code>Session</code> 对象保存数据和从 <code>Session</code> 中获取数据了，首先看如何获取得到 <code>Session</code> 对象，那就需要使用到 <code>HttpServletRequest</code> 对象了。</p>
+<pre><code>public HttpSession getSession()
+</code></pre><p>通过上面这个方法就可以获取得到 <code>Session</code> 对象了，下面再看 <code>Session</code> 对象存取数据的方法。</p>
+<pre><code>public void setAttribute(String name, Object value)
+</code></pre><p>使用上面这个方法就可以将数据保存到 <code>Session</code> 当中了。</p>
+<pre><code>public Object getAttribute(String name)
+</code></pre><p>上面这个方法则是从 <code>Session</code> 中获取数据了，还有一个方法需要注意的方法就是，从 <code>Session</code> 中移除数据了。</p>
+<pre><code>public void removeAttribute(String name)
+</code></pre><p>使用上面这个方法就可以从 <code>Session</code> 中移除指定名称对应的数据了。</p>
+<h4 id="2-3-作为域对象的存取数据范围"><a href="#2-3-作为域对象的存取数据范围" class="headerlink" title="2.3 作为域对象的存取数据范围"></a>2.3 作为域对象的存取数据范围</h4><p>从上面介绍的 <code>api</code> 方法中就可以看出，<code>Session</code> 对象是可以作为域对象来存取数据的，具体的方法肯定就是 <code>setAttribute()</code> 和 <code>getAttribute()</code> 了，那 <code>Session</code> 作为域对象存取数据的范围是多大呢？因为 <code>Cookie</code> 和 <code>Session</code> 都是会话相关的对象，因此 <code>Session</code> 作为域对象存取数据的范围也就是一次会话范围了，其实也可以从 <code>Session</code> 的原理看出，因为 <code>Session</code> 对象创建完成之后会将 <code>SessionId</code> 使用 <code>Cookie</code> 响应给浏览器，而我们想要访问到服务器端 <code>Session</code> 的数据是需要使用 <code>HttpServletRequest</code> 对象将包含 <code>SessionId</code> 的 <code>Cookie</code> 携带过去的，而一旦关闭浏览器，包含 <code>SessionId</code> 的 <code>Cookie</code> 肯定就会被销毁了，也就访问不到之前在服务器端保存数据的 <code>Session</code> 了，因此可以看出 <code>Session</code> 对象作为域对象保存数据是一次会话范围的。</p>
+<p>既然说到了域对象保存数据的作用范围，那就不得不提已经学过的另外两个对象了，那就是 <code>HttpServletRequest</code> 和 <code>ServletContext</code> 对象了。</p>
+<p><code>HttpServletRequest</code> 对象是请求对象，因此它作为域对象保存数据的作用范围也就是一次请求范围了，而 <code>ServletContext</code> 是一个全局对象，因此它的作用范围就是整个应用了。</p>
+<p><code>Session</code> 的作用范围是一次会话，那会话范围的 <code>Session</code> 会在何时被创建以及何时被销毁呢？其实 <code>Session</code> 创建是在服务器端第一次调用 <code>getSession()</code> 方法的时候，那何时会被销毁呢？其实有三种情况：</p>
+<pre><code>1.Session过期了，一个Session的过期时间默认为30分钟，当时间到了就会被销毁了，其实这个时间是可以在Tomcat的web.xml配置文件中配置的；
+2.非正常关闭服务器，当我们正常关闭服务器时，Session是会被序列化保存下来的；
+3.手动调用invalidate()方法也会使Session失效。
+</code></pre><h4 id="2-4-Session案例"><a href="#2-4-Session案例" class="headerlink" title="2.4 Session案例"></a>2.4 Session案例</h4><p>这里的案例其实就是一个简单的登录以及退出的功能，当我们验证用户输入验证码是正确的时候，我们就可以使用用户输入的用户名、密码去数据库里面查询是否存在该用户，如果存在就可以将用户对象保存到 <code>Session</code> 当中，这样就表示是登录状态了，登录成功之后就跳转到成功页面，在成功页面中可以检验 <code>Session</code> 中是否包含了用户对象，如果有，则表示是登录状态，如果没有，则表示是未登录状态，就应该提示去登录页登录。当然当用户是登录状态时，也可以进行退出操作，也就是在 <code>Session</code> 中删除相关用户对象了。</p>
+<p>下面只列出关键部分的代码了，完整的工程代码以及数据库建表语句都放在 <code>GitHub</code> 上面了。首先看登陆成功时：</p>
+<pre><code>HttpSession session = request.getSession();
+session.setAttribute(&quot;existUser&quot;, existUser);
+response.sendRedirect(&quot;/webLogin/success.jsp&quot;);
+</code></pre><p>上面的 <code>existUser</code> 就是使用用户输入的用户名和密码查找到的用户对象。下面再看在登录成功页面 <code>success.jsp</code> 的代码。</p>
+<pre><code>&lt;%@page import=&quot;domain.User&quot;%&gt;
+&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;登录成功页面&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;%
+        if (null == request.getSession().getAttribute(&quot;existUser&quot;)) {
+    %&gt;
+    您还未登录！请先去登录：
+    &lt;a href=&quot;/webLogin/login.jsp&quot;&gt;登录&lt;/a&gt;
+    &lt;%
+        } else {
+            User existUser = (User) request.getSession().getAttribute(
+                    &quot;existUser&quot;);
+    %&gt;
+    欢迎您！&lt;%=existUser.getNickname()%&gt;&lt;a href=&quot;/webLogin/LogoutServlet&quot;&gt;退出登录&lt;/a&gt;
+    &lt;%
+        }
+    %&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>很显然，在登录页面是可以退出登录的，那就是 <code>/LogoutServlet</code> 要做的事了，也就是删除 <code>Session</code> 中相应的用户对象。</p>
+<pre><code>HttpSession session = request.getSession();
+session.removeAttribute(&quot;existUser&quot;);
+response.sendRedirect(&quot;/webLogin/login.jsp&quot;);
+</code></pre><p>核心的代码就是上面这些了，其实最关键的还是要搞清楚整个逻辑的流程。完整项目的地址就是这个了：<a href="https://github.com/LauCloud/webLogin" target="_blank" rel="external">webLogin</a></p>
+<h3 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h3><p>其实 <code>Cookie</code> 和 <code>Session</code> 都是为了保存用户独有的数据而存在的，<code>Cookie</code> 是将数据保存在浏览器端，而 <code>Session</code> 则是将数据保存在服务器端，从上面的案例就可以看出，只要掌握了两者的概念以及它们各自的 <code>api</code> 方法，其实还是可以实现很多有意思的小功能的，重点还是要多用吧。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JSP/" rel="tag"># JSP</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/12/JSP基础/" rel="next" title="JSP基础">
+                <i class="fa fa-chevron-left"></i> JSP基础
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/22/JSP加强/" rel="prev" title="JSP加强">
+                JSP加强 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Cookie"><span class="nav-number">1.</span> <span class="nav-text">1.Cookie</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-Cookie的使用"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 Cookie的使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-Cookie的分类"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 Cookie的分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-Cookie的API文档"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 Cookie的API文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-Cookie的细节"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 Cookie的细节</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-Cookie案例"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 Cookie案例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Session"><span class="nav-number">2.</span> <span class="nav-text">2.Session</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-Session的原理"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Session的原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-Session的API文档"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Session的API文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-作为域对象的存取数据范围"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 作为域对象的存取数据范围</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-Session案例"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 Session案例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-总结"><span class="nav-number">3.</span> <span class="nav-text">3.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/12/20/Cookie和Session/';
+
+      var disqus_title = "Cookie和Session";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

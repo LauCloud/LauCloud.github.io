@@ -1,0 +1,1452 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JDBC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="之前介绍了 MySQL 数据库的基本使用，其实讲的更多的是在命令行或者图形化工具里面使用，而我们以后主要是写 Java 代码，因此也要学会使用 Java 来操作数据库，不过在实际开发中我们需要处理最多的还是数据表之中的记录，因此使用 Java 来对数据表之中的记录来进行增删改查也就十分重要了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JDBC基础">
+<meta property="og:url" content="http://yoursite.com/2017/08/08/JDBC基础/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="之前介绍了 MySQL 数据库的基本使用，其实讲的更多的是在命令行或者图形化工具里面使用，而我们以后主要是写 Java 代码，因此也要学会使用 Java 来操作数据库，不过在实际开发中我们需要处理最多的还是数据表之中的记录，因此使用 Java 来对数据表之中的记录来进行增删改查也就十分重要了。">
+<meta property="og:updated_time" content="2017-08-12T12:53:04.025Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JDBC基础">
+<meta name="twitter:description" content="之前介绍了 MySQL 数据库的基本使用，其实讲的更多的是在命令行或者图形化工具里面使用，而我们以后主要是写 Java 代码，因此也要学会使用 Java 来操作数据库，不过在实际开发中我们需要处理最多的还是数据表之中的记录，因此使用 Java 来对数据表之中的记录来进行增删改查也就十分重要了。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/08/JDBC基础/"/>
+
+
+
+
+
+  <title> JDBC基础 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/08/JDBC基础/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JDBC基础
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-08T20:23:37+08:00">
+                2017-08-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/08/JDBC基础/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/08/JDBC基础/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/08/08/JDBC基础/" class="leancloud_visitors" data-flag-title="JDBC基础">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>之前介绍了 <code>MySQL</code> 数据库的基本使用，其实讲的更多的是在命令行或者图形化工具里面使用，而我们以后主要是写 <code>Java</code> 代码，因此也要学会使用 <code>Java</code> 来操作数据库，不过在实际开发中我们需要处理最多的还是数据表之中的记录，因此使用 <code>Java</code> 来对数据表之中的记录来进行增删改查也就十分重要了。</p>
+<a id="more"></a>
+<h3 id="1-简介"><a href="#1-简介" class="headerlink" title="1.简介"></a>1.简介</h3><p>这里先说一下 <code>JDBC</code> 是什么，它的英文全称是 <code>Java DataBase Connectivity</code>，翻译成中文就是 <code>Java数据库连接</code>，是一种用来提供执行数据库 <code>SQL</code> 语句的 <code>Java API</code>，它里面包含的就是由 <code>Java</code> 语言编写的类和接口，<code>Java</code> 语言主要提供接口，而具体的实现类则是由各个数据库厂商去实现的，这样做的目的就是为了保持 <code>JDBC</code> 只提供一种标准，而不会为各个数据库编写实际的类，这样做的优点在哪里呢？第一，各个数据库的具体实现肯定是他们各个厂商最为清楚的，而他们也知道怎样将性能控制地最好，第二，由于 <code>JDBC</code> 只是提供了一个借口，具体的实现交由各个数据库来完成，这样一个接口定义的方法在各个具体数据库上面得到的执行结果是一样的，而且在实际开发时，实际提供的是 <code>MySQL</code> 的驱动就调用 <code>MySQL</code> 数据库来完成功能，提供的是 <code>Oracle</code> 的驱动则调用 <code>Oracle</code> 数据库去完成功能，这样就能保证程序的可移植性。</p>
+<h3 id="2-JDBC开发的基本步骤"><a href="#2-JDBC开发的基本步骤" class="headerlink" title="2.JDBC开发的基本步骤"></a>2.JDBC开发的基本步骤</h3><p><code>JDBC</code> 的开发一般分为如下几个步骤：</p>
+<pre><code>1.加载驱动.
+2.获得连接(Connection).
+  获得语句(Statement)对象
+3.执行SQL
+4.释放资源.
+</code></pre><h4 id="2-1-加载驱动"><a href="#2-1-加载驱动" class="headerlink" title="2.1 加载驱动"></a>2.1 加载驱动</h4><p>开发中我们一般使用如下语句来加载驱动</p>
+<pre><code>Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
+</code></pre><p>上面的语句就是用于加载 <code>MySQL</code> 数据库驱动的，只有加载了驱动之后才能使用 <code>Java</code> 操作 <code>MySQL</code> 数据库，当然要想使用 <code>Oracle</code> 数据库的话，那就要加入 <code>Oracle</code> 数据库的驱动了。</p>
+<h4 id="2-2-获得连接对象"><a href="#2-2-获得连接对象" class="headerlink" title="2.2 获得连接对象"></a>2.2 获得连接对象</h4><p>加载驱动之后就能够使用驱动管理器获得连接对象了</p>
+<pre><code>conn = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/test&quot;, &quot;root&quot;, &quot;123456&quot;);
+</code></pre><p>上面的语句其实是 <code>DriverManager</code> 在调用 <code>getConnection(String url,String user,String password)</code> 方法，只要指定连接的路径、用户名以及密码就能够连接到数据库了。</p>
+<p>获得到连接之后就可以利用连接对象获得语句对象了，语句对象便是用来执行 <code>SQL</code> 语句的。</p>
+<pre><code>Statement statement = conn.createStatement();
+</code></pre><h4 id="2-3-执行SQL语句"><a href="#2-3-执行SQL语句" class="headerlink" title="2.3 执行SQL语句"></a>2.3 执行SQL语句</h4><p>上面的语句便是利用连接对象获得语句对象了，下面就能使用语句对象执行我们编写的 <code>SQL</code> 语句了。</p>
+<pre><code>String sql = &quot;select * from student;&quot;;
+ResultSet rs = statement.executeQuery(sql);
+</code></pre><p>上面执行 <code>SQL</code> 的时候因为是执行的查询语句所以才会产生结果集，如果是执行增加、修改以及删除操作就不会产生结果集。</p>
+<h4 id="2-4-释放资源"><a href="#2-4-释放资源" class="headerlink" title="2.4 释放资源"></a>2.4 释放资源</h4><p>在使用 <code>JDBC</code> 完成预定的操作数据库任务之后，我们需要释放掉相应的资源，以便其它需要访问数据库的程序能够更好的运行，其中需要释放的资源主要就是 <code>ResultSet</code> 对象、<code>Statement</code> 对象以及 <code>Connection</code> 对象，一般资源的释放都是放在 <code>finally</code> 子句之中的，就是不管程序执行顺利还是发生异常都会释放资源，直接写代码吧。</p>
+<pre><code>finally {
+    if (rs != null) {
+        try {
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        rs = null;
+    }
+
+    if (statement != null) {
+        try {
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        statement = null;
+    }
+
+    if (conn != null) {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        conn = null;
+    }
+}
+</code></pre><p>在调用了相关对象的 <code>close()</code> 方法之后，仍然将该对象置为 <code>null</code> ，这样是为了 <code>Java</code> 中的垃圾回收器能尽快回收该对象。</p>
+<h4 id="2-5-相关对象介绍"><a href="#2-5-相关对象介绍" class="headerlink" title="2.5 相关对象介绍"></a>2.5 相关对象介绍</h4><p><strong>DriverManager：</strong>驱动管理对象，它的作用主要有两个，一个是注册驱动，另一个则是获取连接，如果使用 <code>DriverManager</code> 来加载驱动的话，那相应的语句应该是这样的：</p>
+<pre><code>DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+</code></pre><p>不过为什么我们一般没有使用这种方式注册驱动呢？这是为什么呢？其实看一下 <code>Driver</code> 这个类的源码就知道了。</p>
+<pre><code>package com.mysql.jdbc;
+
+import java.sql.SQLException;
+
+public class Driver extends NonRegisteringDriver implements java.sql.Driver {
+
+    static {
+        try {
+            java.sql.DriverManager.registerDriver(new Driver());
+        } catch (SQLException E) {
+            throw new RuntimeException(&quot;Can&apos;t register driver!&quot;);
+        }
+    }
+
+    public Driver() throws SQLException {
+        // Required for Class.forName().newInstance()
+    }
+}
+</code></pre><p>如果使用上面那样的语句注册驱动的话，同样会使用到 <code>com.mysql.jdbc.Driver</code> 这个类，不过因为这个类中的静态代码块同样会执行那个方法，因此就会相当于将方法调用两次，也就是注册两次驱动，而如果使用加载 <code>Driver</code> 这个类的字节码文件这种方式的话，同样也可以调用注册驱动那个方法，而且只会一次，因此完全可以达到效果。</p>
+<p><strong>Connection：</strong>数据库连接对象，它的作用也主要是两个，第一个就是创建执行 <code>SQL</code> 语句的 <code>Statement</code> 对象，第二个就是事务管理了。关于使用 <code>Connection</code> 对象创建执行 <code>SQL</code> 语句的 <code>Statement</code> 对象，主要是和下面的几个方法相关：</p>
+<pre><code>createStatement()：创建执行SQL的Statement对象
+prepareStatement()：创建防止SQL注入攻击的prepareStatement对象，这个对象所实现的接口PreparedStatement是上面Statement接口的子接口
+</code></pre><p>关于 <code>Connection</code> 对象的第二个作用事务管理，使用 <code>Connection</code> 对象来控制事务管理最关键的部分就是关闭自动提交功能，然后手动来控制事务的提交和回滚，相关的方法如下：</p>
+<pre><code>void setAutoCommit(boolean autoCommit)：设置自动提交，要想管理事务，则应该传入参数false
+void commit()：提交事务功能
+void rollback()：回滚事务的功能
+</code></pre><p>通过调用 <code>Connection</code> 对象上面的这三个方法就可以控制事务了。</p>
+<p><strong>Statement：</strong>执行 <code>SQL</code> 的语句对象，它的作用同样也是两个，第一个便是执行 <code>SQL</code> 语句了，第二个便是进行批处理了，使用 <code>Statement</code> 对象执行 <code>SQL</code> 语句是最常见的操作了，和这种操作相关的方法如下：</p>
+<pre><code>ResultSet executeQuery(String sql)：这个方法用来执行查询语句，并根据查询的结果返回结果集
+int executeUpdate(String sql)：这个方法用来执行增加、修改和删除功能的语句，返回的结果是这条语句影响的记录数(也是数据表中的行数)
+</code></pre><p><code>boolean execute(String sql)</code>：这个方法可以用来执行上面两个方法执行的所有类型 <code>SQl</code> 语句，也就是说增删改查语句都可以执行，这个方法的返回值是一个布尔类型的值，也就是根据这个值来判断我们执行的是什么类型的语句，如果返回的是 <code>true</code>，则表示执行语句之后有 <code>ResultSet</code> 对象，可以使用 <code>getResultSet()</code> 方法来获取，这就说明我们执行的是一个查询语句；如果返回的是 <code>false</code> ，则可以使用 <code>getUpdateCount()</code> 方法获取一个数值，这个便是执行的语句影响的记录数，也就说明执行的SQL语句是增加、修改或删除类型的，其实当执行查询语句得到的是结果集时，使用 <code>getUpdateCount()</code> 方法会返回 <code>-1</code>.</p>
+<p>使用 <code>Statement</code> 对象进行批处理的话，就是将多条 <code>SQl</code> 语句添加到 <code>Statement</code> 对象命令列表中，然后再一次性全部执行，涉及的具体的方法如下：</p>
+<pre><code>void addBatch(String sql)：将指定的SQL语句添加到命令列表之中
+void clearBatch()：清空当前对象的命令列表
+int[] executeBatch()：一次性执行命令列表中所有的SQL语句
+</code></pre><p><strong>ResultSet：</strong>结果集对象，是执行查询语句时获得的结果，用于存放查询得到的记录，我们在获得到结果集之后一般都会对结果集进行遍历，可以将结果集中的记录信息打印输出或者使用每一行记录的信息来封装相应的对象，所以，最重要的还是如何遍历结果集中的数据信息。相关的方法如下：</p>
+<pre><code>boolean next()：该方法是用来遍历一行一行记录的，第一次调用该方法使第一行成为当前行，第二次则使第二行成为当前行，如果新的当前行有效，则返回true，否则就返回false
+</code></pre><p>上面的这个方法是用来获取各个记录行的，下面将介绍的方法则用于如何获取一个记录中的各个字段值。</p>
+<pre><code>int getInt(int columnIndex)
+int getInt(String columnLabel)
+</code></pre><p>上面这两个方法都可以用于获得一条记录中某个 <code>int</code> 类型数据的字段值，第一个方法传入的参数是该字段在这行记录中的索引值，以 <code>1</code> 开始，第二个方法传入的参数是该字段的字段名称，两个方法都可以取得相应的字段值，不过最好还是采用传入字段名称的方法，则是因为如果 <code>SQL</code> 语句稍有差异，那么很可能各字段的索引就会发生变化，因此采用字段名称是比较好的方法。</p>
+<p>当然在一行记录中会有各种不同类型的数据，因此 <code>ResultSet</code> 对象也提供了相应的多种方法用来获取相应的字段值，其中非常常见的还有：</p>
+<pre><code>String getString(int columnIndex)
+String getString(String columnLabel)
+
+Object getObject(int columnIndex)
+Object getObject(String columnLabel)
+</code></pre><p>当然 <code>float</code> 和 <code>double</code> 类型的数据也都有对应的方法来获取字段值。</p>
+<p>使用上面介绍的方法，就可以写一个简单的遍历数据集的程序了。</p>
+<pre><code>String sql = &quot;select * from student;&quot;;
+rs = statement.executeQuery(sql);
+while (rs.next()) {
+    System.out.print(rs.getInt(&quot;id&quot;) + &quot; &quot;);
+    System.out.print(rs.getString(&quot;name&quot;) + &quot; &quot;);
+    System.out.print(rs.getInt(&quot;chinese&quot;) + &quot; &quot;);
+    System.out.print(rs.getInt(&quot;english&quot;) + &quot; &quot;);
+    System.out.print(rs.getInt(&quot;math&quot;) + &quot; &quot;);
+    System.out.println();
+}
+</code></pre><p>这样就能够遍历结果集并能打印出相应的记录信息了，如果查询出的结果只有一条的话那就没必要用 <code>while</code> 了，而直接使用 <code>if</code> 就好了。</p>
+<h3 id="3-使用JDBC进行增删改查操作"><a href="#3-使用JDBC进行增删改查操作" class="headerlink" title="3.使用JDBC进行增删改查操作"></a>3.使用JDBC进行增删改查操作</h3><p>在使用 <code>Java</code> 对数据库进行操作的过程中，使用的最多的还是对记录的增删改查，因此下面将介绍一下使用 <code>JDBC</code> 来进行记录的增删改查操作。</p>
+<h4 id="3-1-增加记录"><a href="#3-1-增加记录" class="headerlink" title="3.1 增加记录"></a>3.1 增加记录</h4><p>其实不管使用 <code>JDBC</code> 开发什么功能，都会有一个基本的步骤，加载驱动、获得连接对象以及获得语句对象，执行 <code>SQl</code> 语句，处理结果集，以及最后释放掉资源。</p>
+<pre><code>public static void main(String[] args) {
+    Connection conn = null;
+    Statement statement = null;
+    try {
+        Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
+        conn = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/test&quot;, &quot;root&quot;, &quot;123456&quot;);
+        statement = conn.createStatement();
+        String sql = &quot;insert into student values(null,&apos;kobe&apos;,80,90,70);&quot;;
+        int num = statement.executeUpdate(sql);
+        if(num&gt;0) {
+            System.out.println(&quot;用户添加成功！&quot;);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }finally {
+        if(conn!=null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            conn=null;
+        }
+
+        if(statement!=null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            statement=null;
+        }
+    }
+}
+</code></pre><h4 id="3-2-删除记录"><a href="#3-2-删除记录" class="headerlink" title="3.2 删除记录"></a>3.2 删除记录</h4><p>删除记录只需要根据给定的条件确定记录，然后删除删除掉这些记录就好了。</p>
+<pre><code>public static void main(String[] args) {
+    Connection conn = null;
+    Statement statement = null;
+    try {
+        Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
+        conn = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/test&quot;, &quot;root&quot;, &quot;123456&quot;);
+        statement = conn.createStatement();
+        String sql = &quot;delete from student where id = 8;&quot;;
+        int num = statement.executeUpdate(sql);
+        if (num &gt; 0) {
+            System.out.println(&quot;用户删除成功！&quot;);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            conn = null;
+        }
+
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            statement = null;
+        }
+    }
+}
+</code></pre><h4 id="3-3-修改记录"><a href="#3-3-修改记录" class="headerlink" title="3.3 修改记录"></a>3.3 修改记录</h4><p>修改记录中各个需要修改的字段的值，首先给定条件确定要修改的记录，然后修改选定记录中各字段的值。</p>
+<pre><code>public static void main(String[] args) {
+    Connection conn = null;
+    Statement statement = null;
+    try {
+        Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
+        conn = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/test&quot;, &quot;root&quot;, &quot;123456&quot;);
+        statement = conn.createStatement();
+        String sql = &quot;update student set chinese = 90 where name = &apos;kobe&apos;;&quot;;
+        int num = statement.executeUpdate(sql);
+        if (num &gt; 0) {
+            System.out.println(&quot;用户修改成功！&quot;);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            conn = null;
+        }
+
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            statement = null;
+        }
+    }
+}
+</code></pre><h4 id="3-4-查询记录"><a href="#3-4-查询记录" class="headerlink" title="3.4 查询记录"></a>3.4 查询记录</h4><p>这个是实际开发中使用的最多的，大部分的应用都会涉及到查询，根据给定的查询条件，查询出相关记录的结果集，然后进行遍历结果集的操作。</p>
+<pre><code>public static void main(String[] args) {
+    Connection conn = null;
+    Statement statement = null;
+    ResultSet rs = null;
+    try {
+        Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
+        conn = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/test&quot;, &quot;root&quot;, &quot;123456&quot;);
+        statement = conn.createStatement();
+        String sql = &quot;select * from student;&quot;;
+        rs = statement.executeQuery(sql);
+        while (rs.next()) {
+            System.out.print(rs.getInt(&quot;id&quot;) + &quot; &quot;);
+            System.out.print(rs.getString(&quot;name&quot;) + &quot; &quot;);
+            System.out.print(rs.getInt(&quot;chinese&quot;) + &quot; &quot;);
+            System.out.print(rs.getInt(&quot;english&quot;) + &quot; &quot;);
+            System.out.print(rs.getInt(&quot;math&quot;) + &quot; &quot;);
+            System.out.println();
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            rs = null;
+        }
+
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            statement = null;
+        }
+
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            conn = null;
+        }
+    }
+}
+</code></pre><h3 id="4-工具类的抽取"><a href="#4-工具类的抽取" class="headerlink" title="4.工具类的抽取"></a>4.工具类的抽取</h3><p>从上面增删改查的例子程序中就可以看出，每段程序之中都会有加载驱动、获得连接以及释放资源这样的相同操作，甚至每次加载的配置信息都完全是一样的，如果完全这样写的话，肯定是不好的，因为以后维护不方便，一个配置信息的修改则要修改所有包含该配置信息的代码块，因此我们需要抽取相关的工具类，以便让开发维护更加简单。</p>
+<p>首先是配置信息，我们可以将数据库的连接地址 <code>url</code> 、用户名以及密码写到一个文本文件当中，然后当程序运行时直接加载该文本文件中的内容，这样就只需要加载一次配置信息了，而且当相关配置信息需要修改时，只需要修改该文本文件就好了，而不需要改动程序，这样维护起来也十分方便。</p>
+<p>同时，驱动的加载、连接对象的获取，还有相关资源的释放这些在每个程序段中都一样的操作也可以提取出方法，这样在需要使用相关功能的时候就只需要调用相关方法就好了，而不需要每次都写那么一段，维护起来也不方便。</p>
+<p>相关的配置文件(db.properties)：</p>
+<pre><code>driverClassName = com.mysql.jdbc.Driver
+url = jdbc:mysql://localhost:3306/test3
+user = root
+password = 123456
+</code></pre><p>抽取的工具类(JDBCUtils)：</p>
+<pre><code>public class JDBCUtils {
+    private static final String driverClassName;
+    private static final String url;
+    private static final String user;
+    private static final String password;
+
+    static {
+        Properties prop = new Properties();
+        try {
+            prop.load(new FileInputStream(new File(
+                    &quot;src/day08/jdbc/db.properties&quot;)));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        driverClassName = prop.getProperty(&quot;driverClassName&quot;);
+        url = prop.getProperty(&quot;url&quot;);
+        user = prop.getProperty(&quot;user&quot;);
+        password = prop.getProperty(&quot;password&quot;);
+    }
+
+    /**
+     * 加载数据库驱动
+     */
+    public static void loadDriver() {
+        try {
+            Class.forName(driverClassName);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取数据库连接
+     */
+    public static Connection getConnection() {
+        Connection conn = null;
+        try {
+            loadDriver();
+            conn = DriverManager.getConnection(url, user, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return conn;
+    }
+
+    public static void release(Statement statement, Connection conn) {
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            statement = null;
+        }
+
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            conn = null;
+        }
+    }
+
+    public static void release(ResultSet rs, Statement statement,
+            Connection conn) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            rs = null;
+        }
+
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            statement = null;
+        }
+
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            conn = null;
+        }
+    }
+}
+</code></pre><h3 id="5-SQL注入漏洞"><a href="#5-SQL注入漏洞" class="headerlink" title="5.SQL注入漏洞"></a>5.SQL注入漏洞</h3><p>使用 <code>Statement</code> 语句对象执行 <code>SQL</code>语句的时候，在验证用户登录的时候会碰到一种情况，那就是用户不按照正常的逻辑输入用户名和密码，而是会包含一些对于 <code>SQL</code> 来说特殊的字符，比如，后台验证登录的 <code>SQL</code> 语句是这样的：</p>
+<pre><code>String sql = &quot;select * from user where username = &apos;&quot;+username+&quot;&apos; and password = &apos;&quot;+password+&quot;&apos;&quot;;
+</code></pre><p>其中的第二个 <code>username</code> 以及 <code>password</code> 是用户在前台输入的用户名以及密码，拼接到 <code>SQL</code> 之中后就可以验证具体的用户名和密码了。</p>
+<p>如果用户在登录的时候输入一般的用户名和密码，那是完全没有问题的，但是如果用户在输入时不按照一般的逻辑输入，那就可能会出问题了，比如下面两种情况：</p>
+<pre><code>1.用户名为 aaa&apos; or &apos;1=1 密码随意
+2.用户名为 aaa&apos; --      密码随意
+</code></pre><p>如果用户的输入是像上面这两种情况，那么在只知道用户名的情况下也是可以登录成功的，这样就完全得不到校验的效果了，用户输入第一种情况时，后台根据前台传入的数据拼接而成的 <code>SQl</code> 语句应该是：</p>
+<pre><code>select * from user where username = &apos;aaa&apos; or &apos;1=1&apos; and password = &apos;xxx&apos;
+</code></pre><p>很明显可以看出的是，上面的 <code>SQL</code> 语句中只要保证用户名是正确的，就能通过登录验证，但是在实际生活中，用户名一般都是以明文显示在网页之上的，因此获取十分简单，所以这样就会泄露账户信息。</p>
+<p>根据用户输入的第二种情况，后台的 <code>SQL</code> 语句会像下面这个样子：</p>
+<pre><code>String sql = &quot;select * from user where username = &apos;aaa&apos; -- &apos; and password = &apos;xxx&apos;
+</code></pre><p>上面语句的关键在于 <code>SQl</code> 中包含 <code>--</code> 这样的特殊字符串，而这个字符串在 <code>SQL</code> 语句中的作用是注释，因此程序在运行时会忽略掉 <code>--</code> 后面的所有代码，这样 <code>SQL</code> 语句就会变成下面这样了：</p>
+<pre><code>String sql = &quot;select * from user where username = &apos;aaa&apos;
+</code></pre><p>这个语句验证的效果就和上面的那一句是一样的了，都只会验证用户名是否正确，而用户名都是明文显示在网页上的，因此用户在使用时是十分不安全的。</p>
+<p>下面的一节将介绍如何解决这个问题。</p>
+<h3 id="6-PreparedStatement语句对象"><a href="#6-PreparedStatement语句对象" class="headerlink" title="6.PreparedStatement语句对象"></a>6.PreparedStatement语句对象</h3><p>要想解决上面的 <code>SQL</code> 注入问题，可以使用本节将会介绍的 <code>PreparedStatement</code> 语句对象，上面之所以会出现 <code>SQl</code> 注入问题，就是因为在后台处理传入参数的时候，会将传入的参数直接拼接到 <code>SQL</code> 语句当中，因此如果传入的参数中存在 <code>SQL</code> 关键字的话，就很可能会改变我们原来使用 <code>SQL</code> 的意图，而 <code>PreparedStatement</code> 语句对象采用的是预编译的方式，在要传值的地方先使用 <code>?</code> 占位，预先固定下来 <code>SQL</code> 语句的格式，这样即使传入的参数中存在 <code>SQL</code> 的关键字，也只会将它们看做一般的字符串。</p>
+<h4 id="6-1-使用PreparedStatement增加记录"><a href="#6-1-使用PreparedStatement增加记录" class="headerlink" title="6.1 使用PreparedStatement增加记录"></a>6.1 使用PreparedStatement增加记录</h4><p>其实使用 <code>PreparedStatement</code> 和原来使用 <code>Statement</code> 操作数据表中的记录是差不多的，只是会先使用 <code>?</code> 去占位，然后再将各个值赋到相应的地方，，改变的地方直接从代码中就可以看出来。</p>
+<pre><code>public class PreparedStatementAdd {
+    public static void main(String[] args) {
+        Connection conn = null;
+        PreparedStatement pstm = null;
+
+        try {
+            conn = JDBCUtils.getConnection();
+            String sql = &quot;insert into student values(null,?,?,?,?);&quot;;
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, &quot;kobe&quot;);
+            pstm.setInt(2, 87);
+            pstm.setInt(3, 94);
+            pstm.setInt(4, 87);
+            int num = pstm.executeUpdate();
+            if(num&gt;0) {
+                System.out.println(&quot;用户增加成功！&quot;);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.release(pstm, conn);
+        }
+    }
+}
+</code></pre><h4 id="6-2-使用PreparedStatement删除记录"><a href="#6-2-使用PreparedStatement删除记录" class="headerlink" title="6.2 使用PreparedStatement删除记录"></a>6.2 使用PreparedStatement删除记录</h4><p>删除记录也是一样，因为删除记录主要是根据 <code>id</code> 主键来进行的，因此先使用一个 <code>?</code> 占住需要传入 <code>id</code> 值的位置，然后再对相应的地方赋值，最后使用语句对象执行 <code>SQL</code> 语句就可以达到目的。</p>
+<pre><code>public class PreparedStatementDelete {
+    public static void main(String[] args) {
+        Connection conn = null;
+        PreparedStatement pstm = null;
+
+        try {
+            conn = JDBCUtils.getConnection();
+            String sql = &quot;delete from student where id = ?;&quot;;
+            pstm = conn.prepareStatement(sql);
+            pstm.setInt(1, 9);
+            int num = pstm.executeUpdate();
+            if (num &gt; 0) {
+                System.out.println(&quot;用户删除成功！&quot;);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.release(pstm, conn);
+        }
+    }
+}
+</code></pre><h4 id="6-3-使用PreparedStatement修改记录"><a href="#6-3-使用PreparedStatement修改记录" class="headerlink" title="6.3 使用PreparedStatement修改记录"></a>6.3 使用PreparedStatement修改记录</h4><p>修改记录也是一样，关键在于确定哪些值需要修改，然后使用 <code>?</code> 去占住相应的位置，接着使用具体的值去赋值，最后执行 <code>SQL</code> 语句以达到效果。</p>
+<pre><code>public class PreparedStatementUpdate {
+    public static void main(String[] args) {
+        Connection conn = null;
+        PreparedStatement pstm = null;
+
+        try {
+            conn = JDBCUtils.getConnection();
+            String sql = &quot;update student set chinese = ? where name = &apos;kobe&apos;&quot; ;
+            pstm = conn.prepareStatement(sql);
+            pstm.setInt(1, 60);
+            int num = pstm.executeUpdate();
+            if(num&gt;0) {
+                System.out.println(&quot;修改用户成功！&quot;);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.release(pstm, conn);
+        }
+    }
+}
+</code></pre><h4 id="6-4-使用PreparedStatement查询记录"><a href="#6-4-使用PreparedStatement查询记录" class="headerlink" title="6.4 使用PreparedStatement查询记录"></a>6.4 使用PreparedStatement查询记录</h4><p>查询记录主要就是将查询条件在 <code>SQL</code> 中所处的位置首先使用 <code>?</code> 确定下来，然后赋予相应的位置具体的查询条件，执行 <code>SQL</code> 语句以得到结果。当然如果是查询所有数据，没有筛选条件也是可以的。</p>
+<pre><code>public class PreparedStatementSelect {
+    public static void main(String[] args) {
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = JDBCUtils.getConnection();
+            String sql = &quot;select * from student;&quot;;
+            pstm = conn.prepareStatement(sql);
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+                System.out.print(rs.getInt(&quot;id&quot;) + &quot; &quot;);
+                System.out.print(rs.getString(&quot;name&quot;) + &quot; &quot;);
+                System.out.print(rs.getString(&quot;chinese&quot;) + &quot; &quot;);
+                System.out.print(rs.getString(&quot;english&quot;) + &quot; &quot;);
+                System.out.print(rs.getString(&quot;math&quot;) + &quot; &quot;);
+                System.out.println();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.release(rs, pstm, conn);
+        }
+    }
+}
+</code></pre><p>其实，使用 <code>PreparedStatement</code> 语句对象和 <code>Statement</code> 对象相比只是稍有变化，注意一下就好了，而且 <code>PreparedStatement</code> 比 <code>Statement</code> 更加安全，因此使用的也更多。</p>
+<h3 id="7-批处理"><a href="#7-批处理" class="headerlink" title="7.批处理"></a>7.批处理</h3><p>说的简单点，批处理就是一次执行多条 <code>SQL</code> 语句，可以包含各种类型的 <code>SQL</code> 语句，比如创建数据表，插入数据到数据表中，当然也包含插入很多条数据到某张表中。</p>
+<p>下面看一下具体的例子：</p>
+<pre><code>public class BatchDeal {
+    public static void main(String[] args) {
+        Connection conn = null;
+        Statement statement = null;
+
+        try {
+            conn = JDBCUtils.getConnection();
+            statement = conn.createStatement();
+            String sql = &quot;create database test3&quot;;
+            String sql2 = &quot;use test3&quot;;
+            String sql3 = &quot;create table student(id int primary key auto_increment,&quot;
+                    + &quot;name varchar(10) ,&quot;
+                    + &quot;sex varchar(3),&quot;
+                    + &quot;age int)&quot;;
+            String sql4 = &quot;insert into student values(null,&apos;kobe&apos;,&apos;男&apos;,17)&quot;;
+            String sql5 = &quot;insert into student values(null,&apos;james&apos;,&apos;男&apos;,18)&quot;;
+            String sql6 = &quot;insert into student values(null,&apos;koko&apos;,&apos;女&apos;,17)&quot;;
+            String sql7 = &quot;insert into student values(null,&apos;gogo&apos;,&apos;女&apos;,19)&quot;;
+            statement.addBatch(sql);
+            statement.addBatch(sql2);
+            statement.addBatch(sql3);
+            statement.addBatch(sql4);
+            statement.addBatch(sql5);
+            statement.addBatch(sql6);
+            statement.addBatch(sql7);
+            statement.executeBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.release(statement, conn);
+        }
+    }
+}
+</code></pre><p>上面的这个例子就是创建数据库以及创建数据表，并往其中添加数据的例子，使用批处理就可以像这样将多条 <code>SQL</code> 添加到一个命令列表之中，然后再一次性执行全部的 <code>SQL</code> 语句。</p>
+<pre><code>public class BatchDeal2 {
+    public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+        Connection conn = null;
+        PreparedStatement statement = null;
+        try {
+            conn = JDBCUtils.getConnection();
+            String sql = &quot;insert into student values(null,&apos;Kobe&apos;,&apos;男&apos;,?)&quot;;
+            statement = conn.prepareStatement(sql);
+            for (int i = 0; i &lt;= 10000; i++) {
+                statement.setInt(1, i);
+                statement.addBatch();
+                if (i % 1000 == 0) {
+                    statement.executeBatch();
+                    statement.clearBatch();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.release(statement, conn);
+        }
+        long end = System.currentTimeMillis();
+        System.out.println(end - start);
+    }
+}
+</code></pre><p>上面的这个例子就是增加一万行数据记录，不过在每次积累到一千行的时候都会先执行一次，并且清空掉命令列表，例子中还计算了运行所需要的时间。</p>
+<h3 id="8-总结"><a href="#8-总结" class="headerlink" title="8.总结"></a>8.总结</h3><p>其实使用 <code>JDBC</code> 对数据库进行操作，最重要的还是掌握基本的开发流程，比如加载驱动、获得连接、获得语句对象、执行语句以及获得执行结果，然后最后释放掉各种数据库资源，只要把握住了这个开发流程其它的到底使用哪个语句对象都好说了，语句对象主要是 <code>PreparedStatement</code> 和 <code>Statement</code> 这两个，使用 <code>PreparedStatement</code> 预编译的方式进行开发相对来说更加安全，最后批处理的话，就是先将多条 <code>SQL</code> 语句添加到一个命令列表之中，然后一次性执行掉所有的 <code>SQL</code> 语句，这就是批处理最基本的概念。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JDBC/" rel="tag"># JDBC</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/01/MySQL数据库加强/" rel="next" title="MySQL数据库加强">
+                <i class="fa fa-chevron-left"></i> MySQL数据库加强
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/12/数据库连接池/" rel="prev" title="数据库连接池">
+                数据库连接池 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-简介"><span class="nav-number">1.</span> <span class="nav-text">1.简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-JDBC开发的基本步骤"><span class="nav-number">2.</span> <span class="nav-text">2.JDBC开发的基本步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-加载驱动"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 加载驱动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-获得连接对象"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 获得连接对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-执行SQL语句"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 执行SQL语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-释放资源"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 释放资源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-相关对象介绍"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 相关对象介绍</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-使用JDBC进行增删改查操作"><span class="nav-number">3.</span> <span class="nav-text">3.使用JDBC进行增删改查操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-增加记录"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 增加记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-删除记录"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 删除记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-修改记录"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 修改记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-查询记录"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 查询记录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-工具类的抽取"><span class="nav-number">4.</span> <span class="nav-text">4.工具类的抽取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-SQL注入漏洞"><span class="nav-number">5.</span> <span class="nav-text">5.SQL注入漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-PreparedStatement语句对象"><span class="nav-number">6.</span> <span class="nav-text">6.PreparedStatement语句对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-使用PreparedStatement增加记录"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 使用PreparedStatement增加记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-使用PreparedStatement删除记录"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 使用PreparedStatement删除记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-使用PreparedStatement修改记录"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 使用PreparedStatement修改记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-4-使用PreparedStatement查询记录"><span class="nav-number">6.4.</span> <span class="nav-text">6.4 使用PreparedStatement查询记录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-批处理"><span class="nav-number">7.</span> <span class="nav-text">7.批处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-总结"><span class="nav-number">8.</span> <span class="nav-text">8.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/08/08/JDBC基础/';
+
+      var disqus_title = "JDBC基础";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

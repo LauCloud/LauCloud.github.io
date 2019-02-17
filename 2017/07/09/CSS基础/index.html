@@ -1,0 +1,964 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CSS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="CSS 名称是叫层叠样式表，主要是用来控制网页中元素的显示样式的，一般都是可以将多个表现样式加在一个元素上，这就是 层叠 的含义了，这篇文章主要想简单地记录一下 CSS 的使用吧，可能一些很细节的东西自己也还不是很懂，还需要学习，先把自己懂了的东西整理一下写出来吧。其实以人来类比的话， HTMl 就相当于人的骨架，而 CSS 则相当于人穿的衣服，只有当人的身材好，而且穿的衣服合适的时候，这个人才会">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS基础">
+<meta property="og:url" content="http://yoursite.com/2017/07/09/CSS基础/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="CSS 名称是叫层叠样式表，主要是用来控制网页中元素的显示样式的，一般都是可以将多个表现样式加在一个元素上，这就是 层叠 的含义了，这篇文章主要想简单地记录一下 CSS 的使用吧，可能一些很细节的东西自己也还不是很懂，还需要学习，先把自己懂了的东西整理一下写出来吧。其实以人来类比的话， HTMl 就相当于人的骨架，而 CSS 则相当于人穿的衣服，只有当人的身材好，而且穿的衣服合适的时候，这个人才会">
+<meta property="og:updated_time" content="2017-07-10T13:43:00.164Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS基础">
+<meta name="twitter:description" content="CSS 名称是叫层叠样式表，主要是用来控制网页中元素的显示样式的，一般都是可以将多个表现样式加在一个元素上，这就是 层叠 的含义了，这篇文章主要想简单地记录一下 CSS 的使用吧，可能一些很细节的东西自己也还不是很懂，还需要学习，先把自己懂了的东西整理一下写出来吧。其实以人来类比的话， HTMl 就相当于人的骨架，而 CSS 则相当于人穿的衣服，只有当人的身材好，而且穿的衣服合适的时候，这个人才会">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/09/CSS基础/"/>
+
+
+
+
+
+  <title> CSS基础 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/09/CSS基础/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CSS基础
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-09T22:20:19+08:00">
+                2017-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Java Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/09/CSS基础/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/07/09/CSS基础/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/07/09/CSS基础/" class="leancloud_visitors" data-flag-title="CSS基础">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>CSS</code> 名称是叫层叠样式表，主要是用来控制网页中元素的显示样式的，一般都是可以将多个表现样式加在一个元素上，这就是 <code>层叠</code> 的含义了，这篇文章主要想简单地记录一下 <code>CSS</code> 的使用吧，可能一些很细节的东西自己也还不是很懂，还需要学习，先把自己懂了的东西整理一下写出来吧。其实以人来类比的话， <code>HTMl</code> 就相当于人的骨架，而 <code>CSS</code> 则相当于人穿的衣服，只有当人的身材好，而且穿的衣服合适的时候，这个人才会好看嘛。</p>
+<a id="more"></a>
+<h3 id="1-CSS中的选择器"><a href="#1-CSS中的选择器" class="headerlink" title="1.CSS中的选择器"></a>1.CSS中的选择器</h3><p><code>CSS</code> 中有多种选择器，主要的就有元素选择器、类选择器、id选择器以及将前面几种选择器组合起来使用的组合方式，最重要的还是要灵活运用，在具体的使用环境中使用最恰当的选择器去选中元素，那样才是最好的。</p>
+<pre><code>选择器：
+    元素选择器
+    类选择器
+    id选择器
+    组合方式选择
+</code></pre><p>选择器其实都是用在 <code>style</code> 标签之中的，用于对页面中的标签元素进行选择。</p>
+<h4 id="1-1-元素选择器"><a href="#1-1-元素选择器" class="headerlink" title="1.1 元素选择器"></a>1.1 元素选择器</h4><p>元素选择器就是直接以网页之中的标签名进行选择，比如 <code>font</code>,这是字体标签，如果直接以这一个标签名进行选择的话，那就说明选择所有的字体标签，以及使用这个选择器大括号之中的属性和属性值来修饰选中的标签元素。</p>
+<pre><code>span {
+    font-size: 80px;
+    color: #77dd44;
+}
+</code></pre><p>上面的示例是一个 <code>span</code> 标签选择器，代表的意思就是所有的 <code>span</code> 都会被选中，而且所有被选中元素的内容都会使用该选择器之中的属性进行修饰。</p>
+<h4 id="1-2-类选择器"><a href="#1-2-类选择器" class="headerlink" title="1.2 类选择器"></a>1.2 类选择器</h4><p>使用类选择器则需要一个属性的配合，那就是 <code>class</code> 属性，这个属性在每一个标签中都有，属性值可以根据自己的需要进行设置，多个标签的 <code>class</code> 属性值可以相同，如果有针对该属性值的类选择器的话，那就代表所有 <code>class</code> 属性为该值的标签都会被选中，类选择器同样也是写在 <code>style</code> 标签之中，只不过在使用的时候，会在 <code>class</code> 的属性值之前加一个点号 <code>.</code>,这就代表是类选择器了，样例如下：</p>
+<pre><code>&lt;style&gt;
+    .redF {
+        color: red;
+    }
+    .greenF {
+        color: green;
+    }
+&lt;/style&gt;
+
+&lt;div class=&quot;redF&quot;&gt;I am div1&lt;/div&gt;
+&lt;div class=&quot;greenF&quot;&gt;I am div2&lt;/div&gt;
+&lt;span class=&quot;redF&quot;&gt;I am span1&lt;/span&gt;
+&lt;span class=&quot;greenF&quot;&gt;I am span2&lt;/span&gt;
+</code></pre><h4 id="1-3-id选择器"><a href="#1-3-id选择器" class="headerlink" title="1.3 id选择器"></a>1.3 id选择器</h4><p>id选择器其实和类选择器相类似，首先也是要在想要选择的标签之中加一个 <code>id</code> 属性，这个属性一般对于一个元素来说都是唯一的，不会让多个元素具有相同的 <code>id</code> 属性值，然后在 <code>style</code> 标签之中进行选择的时候，也是在属性值之前加一个 <code>#</code> 号，这就组成了 <code>id</code> 选择器了。</p>
+<pre><code>#redF {
+    color: red;
+}
+</code></pre><h4 id="1-4-组合选择器"><a href="#1-4-组合选择器" class="headerlink" title="1.4 组合选择器"></a>1.4 组合选择器</h4><p>组合选择就是多种选择器组合起来使用，举一个简单的例子，如果想选择 <code>div</code> 里面的 <code>font</code> 标签，那应该怎么做，当然可以在每一个身处 <code>div</code> 标签之中的 <code>font</code> 标签之中都加上一个 <code>class</code> 属性，然后赋予同样的属性值，就可以使用类选择器进行选择了，不过这样做的话，需要在每一个符合条件的标签之中都加上相同属性值的 <code>class</code> 属性，如果标签个数比较多的话，那肯定是不理想的做法，有没有别的想法呢？要选择在 <code>div</code> 标签之中的所有 <code>font</code> 标签，也就是说这两个标签存在一个层级关系，就是 <code>font</code> 标签在 <code>div</code> 标签里面，刚好组合选择方式中，就有一种做法可以满足需求，在标签之间使用空格也可以表示层级关系，那上面的问题就可以使用 <code>div font</code> 这样的选择器了。</p>
+<p>其实组合方式除了在两个标签之间使用空格表示层级关系以外，还有另外一种常见的，那就是在标签之间使用逗号 <code>,</code> 相隔，这是表示什么呢？这个就是表示的并列关系，通常可以用于多个标签需要修饰的样式是一样的，那就可以用这种方式，而不需要分开写，修改时也容易出错。</p>
+<h3 id="2-CSS的常用样式"><a href="#2-CSS的常用样式" class="headerlink" title="2.CSS的常用样式"></a>2.CSS的常用样式</h3><p>在这里介绍一些 <code>CSS</code> 中的常见属性吧。</p>
+<h4 id="2-1-边框"><a href="#2-1-边框" class="headerlink" title="2.1 边框"></a>2.1 边框</h4><p>任何标签元素都是有边框的，只是一般默认都是不可见的，因此还是要在这里说明一下。</p>
+<p>边框元素是用 <code>border</code> 来表示的，常见的有如下设置：</p>
+<pre><code>border:1px solid red; 
+</code></pre><p>表示的意思就是边框宽 <code>1px</code>,并且是实线，边框颜色为红色。其实在设置边框的时候如果直接使用的 <code>border</code> ,那就表示一次性设置上下左右四边的边框，当然也就可以分开设置了，<code>border-bottom</code> 、<code>border-left</code> 、<code>border-right</code> 、<code>border-top</code>。</p>
+<h4 id="2-2-背景"><a href="#2-2-背景" class="headerlink" title="2.2 背景"></a>2.2 背景</h4><p>背景属性的设置的话最常见的就是背景颜色和背景图片了</p>
+<pre><code>background-color
+background-image
+</code></pre><h4 id="2-3-行级元素和块级元素的转换"><a href="#2-3-行级元素和块级元素的转换" class="headerlink" title="2.3 行级元素和块级元素的转换"></a>2.3 行级元素和块级元素的转换</h4><p>其实之前写 <code>HTML</code> 之前说到过，它们二者是可以相互转化的，先看一下常见的行级元素和块级元素:</p>
+<pre><code>见的块级元素：h标签、p标签、ul标签、div标签、table标签
+常见的行内元素：span标签、a标签、img标签、td标签
+</code></pre><p>行级元素的特点是默认不换行，标签之中有多少内容它就占据多大的地方，而块级元素则是默认便占满一行，而不管里面的内容有多少，不过这二者的表现样式确实可以相互转换的，主要原因就在于它们都有一个 <code>dispaly</code> 属性，而该属性的取值有三个，<code>inline</code>、<code>block</code>和<code>none</code>，<code>inline</code>则是表示该元素是行级元素，所以它会表现出行级元素的表现形式，同理，如果该属性的取值是 <code>block</code> 的话，那就表明该元素是一个块级元素，但是如果该属性值为 <code>none</code> 的话，就代表该元素不显示，而且也不会占用页面上的空间。</p>
+<h4 id="2-4-字体"><a href="#2-4-字体" class="headerlink" title="2.4 字体"></a>2.4 字体</h4><p>字体算是非常常见的元素了，因为我们要表达我们想说的意思，在网页上文字是最直接的，看一下关于字体的属性吧。</p>
+<pre><code>font-family        字体类型：微软雅黑、宋体、楷体
+font-size        字体大小
+font-style        字体风格，可设置斜体之类的
+font-weight        可设置字体的粗细
+</code></pre><p>其实关于常见的属性样式，在使用 <code>IDE</code> 工具进行开发的时候都会有很方便的关联提示，因此不必刻意去记忆，只要当自己使用多了，对经常使用的熟悉就好了。</p>
+<h3 id="3-盒子模型"><a href="#3-盒子模型" class="headerlink" title="3.盒子模型"></a>3.盒子模型</h3><p>盒子模型是以一个元素为单位的，主要由 <code>元素内容</code>、<code>内边距</code>、<code>边框</code> 和 <code>外边距</code> 这几个部分组成，下面进行讲解。</p>
+<p>还是以文字进行说明吧，这是最简单的，<code>元素内容</code> 当然就是指的文字本身了，这个是最好理解的，再一个就是 <code>边框</code>，上面也说过关于它的属性设置，<code>边框</code> 就相当于将其中的 <code>元素内容</code> 包起来一样，并且它们两者之间是有空隙的，那这个空隙就是 <code>内边距</code> 了，因为 <code>元素内容</code> 和 <code>边框</code> 都是四面的，因此  <code>内边距</code> 也是四面的，最后一个那就是 <code>外边距</code> 了， <code>外边距</code> 指的就是元素的 <code>边框</code> 到相邻元素之间的距离，依之前的说法，这个当然也是四面的，因此在设置<code>内边距</code>、<code>边框</code> 和 <code>外边距</code> 的时候，都需要注意的一点就是，它们都是四面的，因此要根据自己的需要，很可能只需要设置某些面就可以了。</p>
+<h3 id="4-CSS与HTML结合方式"><a href="#4-CSS与HTML结合方式" class="headerlink" title="4.CSS与HTML结合方式"></a>4.CSS与HTML结合方式</h3><p>两者的结合方式一种有三种：第一种，每一个元素标签之中都有一个 <code>style</code> 属性，使用这一个属性就可以设置当前元素的表现样式了，当然因为这是一个属性，也就只能设置这一个标签元素了；第二种，就是在 <code>head</code> 标签之中使用 <code>style</code> 标签来设置样式，通过之前我们介绍的几种选择器，将各种元素设置为我们想要的表现形式，当然这种方式只能作用于当前页面了；第三种就是外部样式表方式了，将样式表抽取为一个独立的文件，然后在需要设置样式的页面去引用该外部样式表。</p>
+<pre><code>行内样式表：&lt;a style=”font-size:120px;color:red;”&gt;hello&lt;/a&gt;
+内部样式表：
+    &lt;head&gt;
+        &lt;style&gt;
+            a { 
+                font-size:120px;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+外部样式表：&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;外部样式表的路径&quot; /&gt;
+</code></pre><h3 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h3><p>对于 <code>CSS</code> 样式表来修饰页面元素的表现样式的话，感觉想要灵活运用还需要大量的打磨，现在还只是一个简单的了解吧，以后在实际的开发过程中再去加深理解吧。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSS/" rel="tag"># CSS</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/08/HTML基础/" rel="next" title="HTML基础">
+                <i class="fa fa-chevron-left"></i> HTML基础
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/10/JavaScript基础/" rel="prev" title="JavaScript基础">
+                JavaScript基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-CSS中的选择器"><span class="nav-number">1.</span> <span class="nav-text">1.CSS中的选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-元素选择器"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 元素选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-类选择器"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 类选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-id选择器"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 id选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-组合选择器"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 组合选择器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-CSS的常用样式"><span class="nav-number">2.</span> <span class="nav-text">2.CSS的常用样式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-边框"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 边框</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-背景"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-行级元素和块级元素的转换"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 行级元素和块级元素的转换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-字体"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 字体</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-盒子模型"><span class="nav-number">3.</span> <span class="nav-text">3.盒子模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-CSS与HTML结合方式"><span class="nav-number">4.</span> <span class="nav-text">4.CSS与HTML结合方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-总结"><span class="nav-number">5.</span> <span class="nav-text">5.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/07/09/CSS基础/';
+
+      var disqus_title = "CSS基础";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1497 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="网络编程," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="我们之所以可以上网，就是因为我们请求远程服务器上面的信息，然后服务器将相应的信息发送给了我们，在一个局域网之内，大家可以通过飞秋联系并且发送文件，这些都和今天要写的这篇文章有关，那就是网络编程，当然，中间主要介绍的还是Java中的网络编程是如何实现的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络编程">
+<meta property="og:url" content="http://yoursite.com/2017/07/04/网络编程/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="我们之所以可以上网，就是因为我们请求远程服务器上面的信息，然后服务器将相应的信息发送给了我们，在一个局域网之内，大家可以通过飞秋联系并且发送文件，这些都和今天要写的这篇文章有关，那就是网络编程，当然，中间主要介绍的还是Java中的网络编程是如何实现的。">
+<meta property="og:updated_time" content="2017-07-04T14:31:31.652Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网络编程">
+<meta name="twitter:description" content="我们之所以可以上网，就是因为我们请求远程服务器上面的信息，然后服务器将相应的信息发送给了我们，在一个局域网之内，大家可以通过飞秋联系并且发送文件，这些都和今天要写的这篇文章有关，那就是网络编程，当然，中间主要介绍的还是Java中的网络编程是如何实现的。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/04/网络编程/"/>
+
+
+
+
+
+  <title> 网络编程 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/04/网络编程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                网络编程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-04T21:48:34+08:00">
+                2017-07-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/04/网络编程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/07/04/网络编程/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/07/04/网络编程/" class="leancloud_visitors" data-flag-title="网络编程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我们之所以可以上网，就是因为我们请求远程服务器上面的信息，然后服务器将相应的信息发送给了我们，在一个局域网之内，大家可以通过飞秋联系并且发送文件，这些都和今天要写的这篇文章有关，那就是网络编程，当然，中间主要介绍的还是Java中的网络编程是如何实现的。</p>
+<a id="more"></a>
+<h3 id="1-传输协议"><a href="#1-传输协议" class="headerlink" title="1.传输协议"></a>1.传输协议</h3><p>在介绍网络编程的时候，需要先介绍一下传输协议，传输协议就是通信双方事先约定好彼此以何种方式传输数据，当然，不同的传输协议所传输数据的格式也是不一样的，会根据它们具体的特点而有所不同，这里我们不用了解的那么深入，只要知道一下就好了，这里想说的两种传输协议就是: <code>UDP</code> 和 <code>TCP</code> 。</p>
+<p><code>UDP</code> 协议对于通信双方是无需连接的，发送方直接将数据发送给接收方，而不用管接收方是否接收到，很显然，这样传输速度快，但是却无法保证数据的完整性，我们用QQ进行视频通话时，就是使用的 <code>UDP</code> 协议，通话时视频数据即使有丢失，只要不是丢失的很多，对我们正常通话都不会有很大影响，因为我们视频时部分视频画面没有实时显示也没有多大关系。</p>
+<p><code>TCP</code> 协议对于通信双方则是要求有连接的，双方必须通过”三次握手”来确认连接已连通，之后才会发送数据，在发送数据的过程中，如果有部分数据的丢失，<code>TCP</code> 也会要求将接收方未收到的数据重新发送，直到所有的数据接受完成，很显然，这种协议可以保证数据的完整性，但很显然效率不是很高。</p>
+<pre><code>传输协议：
+    UDP：发送数据速度快，但数据完整性不能保证
+    TCP：能够保证数据的完整性，但发送数据的速度不快
+</code></pre><h3 id="2-网络通信的三要素"><a href="#2-网络通信的三要素" class="headerlink" title="2.网络通信的三要素"></a>2.网络通信的三要素</h3><p>当我们的服务器端和客户端进行数据交互的时候，必须要满足哪些必要条件呢？第一，就是要知道彼此在哪一台主机上面，只有这样才能知道将数据发送到哪里给彼此；第二，知道了应该将数据发送到哪台主机上面之后，但是像我们的电脑，会有QQ、Chrome、迅雷，还有酷狗这么多的软件应用，那怎么知道将数据发送到哪一个应用呢？这里要说明的就是每一个程序应用都会占用一个端口号，想和这个应用进行数据交换，必须要通过这个端口号，所以第二点就是端口号了；第三，那通信双方会采取怎样的方式收发数据呢？如果彼此的对应方式不匹配，那就算接受到了数据也是不会明白其中的含义的啊，所以第三点那就是协议了。</p>
+<pre><code>网络通信的三要素：
+    1.IP地址
+    2.端口号
+    3.通信协议
+</code></pre><p>可以将上面的交换数据过程对比为我们生活中的相互发送快递，发送快递，我们必须要知道接受者的地址，那这就是IP地址了，知道了地址之后，想要送上门那就必须要知道门牌号了，这就相当于是端口号，最后一个，就是发送快递时会选择哪种快递商，只有事先明确了会发送哪种快递，才能接受对应的快件啊，这就是协议了。</p>
+<h4 id="2-1-Java中表示IP地址"><a href="#2-1-Java中表示IP地址" class="headerlink" title="2.1 Java中表示IP地址"></a>2.1 Java中表示IP地址</h4><p>Java中要表示IP地址的话可以使用 <code>InetAddress</code> 这个类，要获得这个类的类对象可以使用 <code>public static InetAddress getByName(String host)</code> 方法，这里既可以传入主机名，也可以传入IP地址。</p>
+<pre><code>InetAddress address = InetAddress.getByName(&quot;WIN-SNN7GVNNB0F&quot;) 通过主机名去得到IP地址
+InetAddress address = InetAddress.getByName(&quot;127.0.0.1&quot;);//ip地址是唯一的
+</code></pre><p>这两种方法都可以获得IP地址,<code>127.0.0.1</code>代表的是本机IP地址。</p>
+<h3 id="3-UPD协议实现"><a href="#3-UPD协议实现" class="headerlink" title="3.UPD协议实现"></a>3.UPD协议实现</h3><p>下面写一段程序来说明使用 <code>UDP</code> 协议是如何进行数据发送和接受的，需要注意的是，如果想自己运行下面的代码，需要自己根据实际情况修改IP地址和端口号。</p>
+<p>发送端：</p>
+<pre><code>public class UdpSendDemo {
+    public static void main(String[] args) throws IOException {
+        DatagramSocket socket = new DatagramSocket();
+
+        String info = &quot;study hard&quot;;
+        byte[] bys = info.getBytes();
+        int length = bys.length;
+        InetAddress toAddress = InetAddress.getByName(&quot;127.0.0.1&quot;);
+        int port = 9022;
+        DatagramPacket dp = new DatagramPacket(bys, length, toAddress, port);
+
+        socket.send(dp);
+        socket.close();
+    }
+}
+</code></pre><p>接收端：</p>
+<pre><code>public class UdpReceiveDemo {
+    public static void main(String[] args) throws IOException {
+        DatagramSocket receiveSocket = new DatagramSocket(9022);
+
+        byte[] bys = new byte[1024];
+        DatagramPacket dp = new DatagramPacket(bys, bys.length);
+
+        receiveSocket.receive(dp);
+
+        InetAddress sendAddress = dp.getAddress();
+        byte[] data = new byte[1024];
+        data = dp.getData();
+        int length = dp.getLength();
+
+        System.out.println(&quot;sender:&quot; + sendAddress);
+        System.out.println(&quot;data:&quot; + (new String(data, 0, length)));
+        receiveSocket.close();
+
+        System.out.println(&quot;--------&quot;);
+        System.out.println(new String(bys, 0, length));
+    }
+}
+</code></pre><p>运行程序的时候需要先运行接收端等待接受数据，再接受发送端发送数据，不然如果先运行发送端的话，由于 <code>UDP</code> 是无连接的协议，发送端会直接发送数据，而不管接收端收到了没有，那样我们就得不到预想的效果了。</p>
+<h3 id="4-TCP协议实现"><a href="#4-TCP协议实现" class="headerlink" title="4.TCP协议实现"></a>4.TCP协议实现</h3><h4 id="4-1-使用TCP进行收发数据"><a href="#4-1-使用TCP进行收发数据" class="headerlink" title="4.1 使用TCP进行收发数据"></a>4.1 使用TCP进行收发数据</h4><p>先像上面UDP的例子一样，实现一个最简单的功能，实现基本的数据收发。</p>
+<p>客户端：</p>
+<pre><code>public class TcpClientDemo {
+    public static void main(String[] args) throws IOException {
+        Socket s = new Socket(InetAddress.getByName(&quot;127.0.0.1&quot;),9046);
+
+        OutputStream os = s.getOutputStream();
+
+        String data = &quot;something is coming!&quot;;
+        byte[] bys = data.getBytes();
+        os.write(bys);
+
+        os.close();
+        s.close();
+    }
+}
+</code></pre><p>服务端：</p>
+<pre><code>public class TcpServerDemo {
+    public static void main(String[] args) throws IOException {
+        ServerSocket ss = new ServerSocket(9046);
+        Socket s = ss.accept();
+
+        InetAddress sendAddress = s.getInetAddress();
+
+        InputStream is = s.getInputStream();
+        byte[] bys = new byte[1024];
+        int len;
+        len = is.read(bys);
+
+        System.out.println(sendAddress.getHostName());
+        System.out.println(sendAddress);
+        System.out.println(new String(bys, 0, len));
+
+        s.close();
+        ss.close();
+    }
+}
+</code></pre><p>还是需要提醒一句，程序中的IP地址和端口号都要根据自己的实际情况进行修改，否则可能运行不成功，其中端口号的选择范围可以是0到65535，但是前面0到1023范围的端口号属于系统可能已经在使用的端口号，因此我们在使用的时候，最好选择其它的，这样就不会因为冲突而发生错误。</p>
+<h4 id="4-2-用TCP协议发送数据并将接受到的数据转换成大写并且返回"><a href="#4-2-用TCP协议发送数据并将接受到的数据转换成大写并且返回" class="headerlink" title="4.2 用TCP协议发送数据并将接受到的数据转换成大写并且返回"></a>4.2 用TCP协议发送数据并将接受到的数据转换成大写并且返回</h4><p>客户端：</p>
+<pre><code>public class TcpClientDemo2 {
+    public static void main(String[] args) throws IOException {
+        Socket s = new Socket(InetAddress.getByName(&quot;127.0.0.1&quot;), 8888);
+        OutputStream os = s.getOutputStream();
+
+        String data = &quot;we are here!&quot;;
+        byte[] bys = data.getBytes();
+        os.write(bys);
+
+        InputStream is = s.getInputStream();
+
+        int len = is.read(bys);
+        String backStr = new String(bys,0,len);
+        System.out.println(&quot;backfeed:&quot;+backStr);
+        s.close();
+    }
+}
+</code></pre><p>服务端：</p>
+<pre><code>public class TcpServerDemo2 {
+    public static void main(String[] args) throws IOException {
+        ServerSocket ss = new ServerSocket(9056);
+
+        Socket s = ss.accept();
+
+        InputStream is = s.getInputStream();
+        byte[] bys = new byte[1024];
+        int len = is.read(bys);
+
+        String str = new String(bys, 0, len);
+        System.out.println(str);
+
+        String newStr = str.toUpperCase();
+        bys = newStr.getBytes();
+        OutputStream os = s.getOutputStream();
+        os.write(bys);
+
+        s.close();
+        ss.close();
+    }
+}
+</code></pre><h4 id="4-3-模拟用户登录"><a href="#4-3-模拟用户登录" class="headerlink" title="4.3 模拟用户登录"></a>4.3 模拟用户登录</h4><p>首先先确定学生类：</p>
+<pre><code>public class Student {
+
+    private String username;
+    private String password;
+
+    public Student() {
+        super();
+    }
+
+    public Student(String username, String password) {
+        super();
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((password == null) ? 0 : password.hashCode());
+        result = prime * result
+                + ((username == null) ? 0 : username.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Student other = (Student) obj;
+        if (password == null) {
+            if (other.password != null)
+                return false;
+        } else if (!password.equals(other.password))
+            return false;
+        if (username == null) {
+            if (other.username != null)
+                return false;
+        } else if (!username.equals(other.username))
+            return false;
+        return true;
+    }
+}
+</code></pre><p>在程序运行的时候先预设几个学生对象，作为以后验证登陆的数据：</p>
+<pre><code>public class StudentDB {
+    private static List&lt;Student&gt; list = new ArrayList&lt;Student&gt;();
+
+    static{
+        list.add(new Student(&quot;卡卡西&quot;,&quot;绝版天堂&quot;));
+        list.add(new Student(&quot;带土&quot;,&quot;轻轻风铃&quot;));
+        list.add(new Student(&quot;琳&quot;,&quot;暗夜烤鱼&quot;));
+        list.add(new Student(&quot;水门&quot;,&quot;黄色闪光&quot;));
+    }
+
+    public static List&lt;Student&gt; getUsers(){
+        return list;
+    }
+}
+</code></pre><p>接下来才是客户端与服务端的程序：</p>
+<p>客户端：</p>
+<pre><code>public class TcpClientDemo3 {
+    public static void main(String[] args) throws IOException {
+        //建立与服务器的连接
+        Socket s = new Socket(InetAddress.getByName(&quot;127.0.0.1&quot;), 9021);
+
+        //由用户输入用户名和密码进行登录
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print(&quot;请输入用户名:&quot;);
+        String username = br.readLine();
+        System.out.print(&quot;请输入密码:&quot;);
+        String password = br.readLine();
+
+        //向服务器写数据
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+                s.getOutputStream()));
+        bw.write(username);
+        bw.newLine();
+        bw.flush();
+        bw.write(password);
+        bw.newLine();
+        bw.flush();
+
+        //接受服务器传来的数据
+        BufferedReader br2 = new BufferedReader(new InputStreamReader(
+                s.getInputStream()));
+        String result = br2.readLine();
+        System.out.println(result);
+
+        s.close();
+    }
+}
+</code></pre><p>服务端：</p>
+<pre><code>public class TcpServerDemo3 {
+    public static void main(String[] args) throws IOException {
+        // 监听端口，建立与客户端的连接
+        ServerSocket ss = new ServerSocket(9021);
+
+        Socket s = ss.accept();
+        // 接受客户端的数据
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                s.getInputStream()));
+        String username = br.readLine();
+        String password = br.readLine();
+        // 验证登录
+        boolean flag = false;
+        // if (&quot;admin&quot;.equals(username) &amp;&amp; &quot;123&quot;.equals(password)) {
+        // flag = true;
+        // }
+        List&lt;Student&gt; users = StudentDB.getUsers();
+        Student stu = new Student(username, password);
+        if (users.contains(stu)) {
+            flag = true;
+        }
+        String result = null;
+        if (flag) {
+            result = &quot;登陆成功&quot;;
+        } else {
+            result = &quot;登录失败&quot;;
+        }
+
+        // 向客户端写数据
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+                s.getOutputStream()));
+        bw.write(result);
+        bw.newLine();
+        bw.flush();
+
+        s.close();
+        ss.close();
+    }
+}
+</code></pre><p>其实之前都是将用户名和密码写死在了程序中，只有用户名是 <code>admin</code>,密码是 <code>123</code> 的才能登陆成功，但是感觉太单调了，像这样加入几个学生对象更有逻辑一点。</p>
+<h3 id="5-几个有趣的小例子"><a href="#5-几个有趣的小例子" class="headerlink" title="5.几个有趣的小例子"></a>5.几个有趣的小例子</h3><h4 id="5-1-猜数字小游戏"><a href="#5-1-猜数字小游戏" class="headerlink" title="5.1 猜数字小游戏"></a>5.1 猜数字小游戏</h4><p>客户端输入用户猜的数字，并将数字发送给服务端，服务端进行验证并将验证结果返回给客户端，在给定的次数中，如果用户能够猜出数字那就代表用户赢了，没有的话那就输了，如果次数到了程序也就停止运行了。</p>
+<p>客户端：</p>
+<pre><code>public class Client3 {
+    public static void main(String[] args) throws IOException {
+        Socket s = new Socket(InetAddress.getByName(&quot;127.0.0.1&quot;), 9074);
+        while (true) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    System.in));
+            System.out.print(&quot;请输入一个0到100之间的数字:&quot;);
+            String guess = br.readLine();
+
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+                    s.getOutputStream()));
+            bw.write(guess);
+            bw.newLine();
+            bw.flush();
+
+            BufferedReader br2 = new BufferedReader(new InputStreamReader(
+                    s.getInputStream()));
+            String result = br2.readLine();
+            System.out.println(result);
+            if(result.equals(&quot;GAME OVER&quot;) || result.equals(&quot;YOU ARE WIN&quot;)){
+                break;
+            }
+        }
+        s.close();
+    }
+}
+</code></pre><p>服务端：</p>
+<pre><code>public class Server3 {
+    public static void main(String[] args) throws IOException {
+        Random r = new Random();
+        int num = r.nextInt(100) + 1;
+
+        ServerSocket ss = new ServerSocket(9074);
+        Socket s = ss.accept();
+
+        int count = 0;
+        while (true) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    s.getInputStream()));
+            String guess = br.readLine();
+            int guessNum = Integer.parseInt(guess);
+
+            String result = null;
+            if (count &gt; 5) {
+                result = &quot;GAME OVER&quot;;
+            } else {
+                if (guessNum &gt; num) {
+                    result = &quot;大了&quot;;
+                } else if (guessNum &lt; num) {
+                    result = &quot;小了&quot;;
+                } else if (guessNum == num) {
+                    result = &quot;YOU ARE WIN&quot;;
+                }
+            }
+
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+                    s.getOutputStream()));
+
+            if (result.equals(&quot;GAME OVER&quot;) || result.equals(&quot;YOU ARE WIN&quot;)) {
+                bw.write(result);
+                bw.newLine();
+                bw.flush();
+                break;
+            } else {
+                bw.write(result);
+                bw.newLine();
+                bw.flush();
+            }
+            count++;
+        }
+        s.close();
+        ss.close();
+    }
+}
+</code></pre><h4 id="5-2-用户登录完善版"><a href="#5-2-用户登录完善版" class="headerlink" title="5.2 用户登录完善版"></a>5.2 用户登录完善版</h4><p>新的要求：<br>1.用户数据应该保存到文本文件当中 <code>user.txt</code><br>2.登录操作的过程应该写入到日志文本当中 <code>log.txt</code><br>    格式为：账号$$密码$$登录成功$$时间</p>
+<p>程序就放在这下面吧！</p>
+<p>user.txt</p>
+<pre><code>卡卡西##绝版天堂
+带土##轻轻风铃
+琳##暗夜烤鱼
+水门##黄色闪光
+</code></pre><p>登录会产生的日志文本文件 log.txt</p>
+<pre><code>鸣人$$雏田$$登录失败$$2017年06月21日21:20
+佐助$$小樱$$登录失败$$2017年06月21日21:20
+带土$$轻轻风铃$$登陆成功$$2017年06月21日21:38
+</code></pre><p>定义的学生类：</p>
+<pre><code>public class Student {
+    private String username;
+    private String password;
+
+    public Student() {
+        super();
+    }
+
+    public Student(String username, String password) {
+        super();
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((password == null) ? 0 : password.hashCode());
+        result = prime * result
+                + ((username == null) ? 0 : username.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Student other = (Student) obj;
+        if (password == null) {
+            if (other.password != null)
+                return false;
+        } else if (!password.equals(other.password))
+            return false;
+        if (username == null) {
+            if (other.username != null)
+                return false;
+        } else if (!username.equals(other.username))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Student [username=&quot; + username + &quot;, password=&quot; + password + &quot;]&quot;;
+    }
+}
+</code></pre><p>获得学生数据的数据类：</p>
+<pre><code>public class StudentDB {
+    static List&lt;Student&gt; users = new ArrayList&lt;Student&gt;();
+
+    static {
+        try {
+            readInfo();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        getUsers();
+    }
+
+    public static void readInfo() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(
+                &quot;src/day12/practice/user.txt&quot;));
+
+        String line = null;
+        while ((line = br.readLine()) != null) {
+            String[] infos = line.split(&quot;##&quot;);
+            Student s = new Student(infos[0], infos[1]);
+            users.add(s);
+        }
+        br.close();
+    }
+
+    public static List&lt;Student&gt; getUsers() {
+        return users;
+    }
+}
+</code></pre><p>读写日志信息的工具类：</p>
+<pre><code>public class Utils {
+    static List&lt;String&gt; arr = new ArrayList&lt;String&gt;();
+
+    public static void main(String[] args) throws IOException {
+        getInfo();
+    }
+
+    public static void writeInfo() throws IOException{
+        BufferedWriter bw = new BufferedWriter( new FileWriter(&quot;src/day12/practice/log.txt&quot;));
+
+        for (int i = 0; i &lt; arr.size(); i++) {
+            String line = arr.get(i);
+            bw.write(line);
+            bw.newLine();
+            bw.flush();
+        }
+
+        bw.close();
+    }
+
+    public static void readInfo() throws IOException{
+        BufferedReader br = new BufferedReader(new FileReader(
+                &quot;src/day12/practice/log.txt&quot;));
+        String line;
+        while((line=br.readLine())!=null){
+            arr.add(line);
+        }
+        br.close();
+    }
+
+    public static List&lt;String&gt; getInfo() throws IOException{
+        readInfo();
+        System.out.println(arr);
+        return arr;
+    }
+}
+</code></pre><p>客户端：</p>
+<pre><code>public class Client4 {
+    public static void main(String[] args) throws IOException {
+        Socket s = new Socket(InetAddress.getByName(&quot;127.0.0.1&quot;), 8078);
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print(&quot;请输入用户名:&quot;);
+        String username = br.readLine();
+        System.out.print(&quot;请输入密码:&quot;);
+        String password = br.readLine();
+
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+                s.getOutputStream()));
+        bw.write(username);
+        bw.newLine();
+        bw.flush();
+        bw.write(password);
+        bw.newLine();
+        bw.flush();
+
+        BufferedReader br2 = new BufferedReader(new InputStreamReader(
+                s.getInputStream()));
+        String result = br2.readLine();
+        System.out.println(result);
+
+        s.close();
+    }
+}
+</code></pre><p>服务端：</p>
+<pre><code>public class Server4 {
+    public static void main(String[] args) throws IOException {
+        ServerSocket ss = new ServerSocket(8078);
+
+        Socket s = ss.accept();
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                s.getInputStream()));
+        String username = br.readLine();
+        String password = br.readLine();
+
+        List&lt;Student&gt; users = StudentDB.getUsers();
+        Student stu = new Student(username, password);
+        boolean flag = false;
+        if (users.contains(stu)) {
+            flag = true;
+        }
+        String result = null;
+        if (flag) {
+            result = &quot;登陆成功&quot;;
+        } else {
+            result = &quot;登录失败&quot;;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy年MM月dd日HH:mm&quot;);
+        Date d = new Date();
+        String str = sdf.format(d);
+
+        List&lt;String&gt; infos = Utils.getInfo();
+        StringBuilder sb = new StringBuilder();
+        sb.append(username);
+        sb.append(&quot;$$&quot;);
+        sb.append(password);
+        sb.append(&quot;$$&quot;);
+        sb.append(result);
+        sb.append(&quot;$$&quot;);
+        sb.append(str);
+        System.out.println(sb.toString());
+        infos.add(sb.toString());
+        Utils.writeInfo();
+
+
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+                s.getOutputStream()));
+        bw.write(result);
+        bw.newLine();
+        bw.flush();
+
+        s.close();
+        ss.close();
+    }
+}
+</code></pre><h3 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h3><p>这篇文章算是对网络编程学习的一个总结吧，将学到的知识写下来心里也更有底一点，重温一遍也算是对知识进行一次加深认识吧，虽然做的都是很基础的东西，但是慢慢地去积累吧，要有一颗打磨自己的心。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/网络编程/" rel="tag"># 网络编程</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/03/多线程/" rel="next" title="多线程">
+                <i class="fa fa-chevron-left"></i> 多线程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/05/反射/" rel="prev" title="反射">
+                反射 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-传输协议"><span class="nav-number">1.</span> <span class="nav-text">1.传输协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-网络通信的三要素"><span class="nav-number">2.</span> <span class="nav-text">2.网络通信的三要素</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-Java中表示IP地址"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Java中表示IP地址</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-UPD协议实现"><span class="nav-number">3.</span> <span class="nav-text">3.UPD协议实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-TCP协议实现"><span class="nav-number">4.</span> <span class="nav-text">4.TCP协议实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-使用TCP进行收发数据"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 使用TCP进行收发数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-用TCP协议发送数据并将接受到的数据转换成大写并且返回"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 用TCP协议发送数据并将接受到的数据转换成大写并且返回</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-模拟用户登录"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 模拟用户登录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-几个有趣的小例子"><span class="nav-number">5.</span> <span class="nav-text">5.几个有趣的小例子</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-猜数字小游戏"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 猜数字小游戏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-用户登录完善版"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 用户登录完善版</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-总结"><span class="nav-number">6.</span> <span class="nav-text">6.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/07/04/网络编程/';
+
+      var disqus_title = "网络编程";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

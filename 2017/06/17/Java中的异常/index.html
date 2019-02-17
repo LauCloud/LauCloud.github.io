@@ -1,0 +1,971 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="异常," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="我们在编程的过程中，经常会遇到异常，比如除0异常、空指针异常、数组下标越界异常、并发修改异常，还有类型转换异常，这些都是我们平时非常容易见到的，使用一个数除以0的时候就会出现除0异常，声明一个String对象为null，然后再使用它去调用String对象的方法，那就会报空指针异常，声明一个长度为5的数组，却去访问这个数组第8个元素，当然就会出现数组下标越界异常，遍历集合的时候，先是委托给迭代器去循">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中的异常">
+<meta property="og:url" content="http://yoursite.com/2017/06/17/Java中的异常/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="我们在编程的过程中，经常会遇到异常，比如除0异常、空指针异常、数组下标越界异常、并发修改异常，还有类型转换异常，这些都是我们平时非常容易见到的，使用一个数除以0的时候就会出现除0异常，声明一个String对象为null，然后再使用它去调用String对象的方法，那就会报空指针异常，声明一个长度为5的数组，却去访问这个数组第8个元素，当然就会出现数组下标越界异常，遍历集合的时候，先是委托给迭代器去循">
+<meta property="og:updated_time" content="2017-06-17T12:26:28.394Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java中的异常">
+<meta name="twitter:description" content="我们在编程的过程中，经常会遇到异常，比如除0异常、空指针异常、数组下标越界异常、并发修改异常，还有类型转换异常，这些都是我们平时非常容易见到的，使用一个数除以0的时候就会出现除0异常，声明一个String对象为null，然后再使用它去调用String对象的方法，那就会报空指针异常，声明一个长度为5的数组，却去访问这个数组第8个元素，当然就会出现数组下标越界异常，遍历集合的时候，先是委托给迭代器去循">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/17/Java中的异常/"/>
+
+
+
+
+
+  <title> Java中的异常 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/17/Java中的异常/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java中的异常
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-17T20:25:20+08:00">
+                2017-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/17/Java中的异常/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/17/Java中的异常/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/06/17/Java中的异常/" class="leancloud_visitors" data-flag-title="Java中的异常">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我们在编程的过程中，经常会遇到异常，比如除0异常、空指针异常、数组下标越界异常、并发修改异常，还有类型转换异常，这些都是我们平时非常容易见到的，使用一个数除以0的时候就会出现除0异常，声明一个String对象为null，然后再使用它去调用String对象的方法，那就会报空指针异常，声明一个长度为5的数组，却去访问这个数组第8个元素，当然就会出现数组下标越界异常，遍历集合的时候，先是委托给迭代器去循环遍历，而我们又在循环体当中使用集合对元素进行操作，这时候就会出现并发修改异常，而最后一种，两个没有什么关系的猴子类和学生类，在编程的过程中却想将猴子对象转为学生类对象，那当然就会出现类型转换异常了，所以，异常在平常开发中是十分常见的。</p>
+<a id="more"></a>
+<pre><code>1.除0异常
+2.空指针异常
+3.数组下标越界异常
+4.并发修改异常
+5.类型转换异常
+</code></pre><h3 id="1-分类"><a href="#1-分类" class="headerlink" title="1.分类"></a>1.分类</h3><p>Java中异常的超类是Throwable，它可以分为两类：错误(Error)和异常(Exception),而错误我们是不用管的，因为我们处理不了，一般我们需要处理的就是Exception(异常)，而异常又可以分为两类：编译时期异常和运行时异常(RuntimeException),编译时期异常是在编译的时候就会给出异常提示信息，这时就需要在抛出异常的方法的方法声明上抛出异常或者将可能会抛出异常的语句使用try…catch语句包围起来。而运行时异常则不用。平时开发过程中，我们也可以根据需要写出自己的异常类，只要继承Exception或者RuntimeException就可以了</p>
+<pre><code>Throwable
+    Error
+    Exception
+        编译时期异常
+        RuntimeException(运行时期异常)
+</code></pre><h3 id="2-对异常的处理"><a href="#2-对异常的处理" class="headerlink" title="2.对异常的处理"></a>2.对异常的处理</h3><p>对异常的处理分为两类，第一类是向上抛出，即向方法的调用者抛出，当然不可能无限向上抛出，实际情况是如果一直都是抛出的话，就会顺着调用方法的路径一直到main方法，而main方法上也是抛出的话，那就会抛出给虚拟机，而虚拟机就会让程序停止运行了；第二类就是对可能抛出异常的代码块使用try…catch代码块包围起来处理。</p>
+<pre><code>1.将异常一直向上抛出，直到虚拟机为止
+2.将可能抛出异常的代码块使用try...catch语句包围起来处理
+</code></pre><h4 id="2-1-方法声明中抛出异常"><a href="#2-1-方法声明中抛出异常" class="headerlink" title="2.1 方法声明中抛出异常"></a>2.1 方法声明中抛出异常</h4><p>第一种直接抛出异常的话只需要在可能出现异常的方法的方法声明上使用<code>throws</code>关键字抛出相应的异常就可以了。</p>
+<pre><code>public static void main(String[] args) throws ArithmeticException {
+    System.out.println(2 / 0);
+}
+</code></pre><h4 id="2-2-使用try…catch语句处理异常"><a href="#2-2-使用try…catch语句处理异常" class="headerlink" title="2.2 使用try…catch语句处理异常"></a>2.2 使用try…catch语句处理异常</h4><p>处理异常的规则是将可能出现异常的代码块放到try语句块中，然后在catch中写出可能出现的异常类，并给出处理措施，当在try语句块中的代码真的发生异常时，它就会根据所发生异常的类型去和catch语句块中的异常进行配对，找到对应的便执行对应异常类的处理措施，这个就和if…else if很像了，都是去进行配对，然后找相对应的去执行，当然catch的后面其实还可以加finally语句块的，它的作用是什么呢？就是不管前面try和catch语句块中发生什么，finally中的语句一定会执行，这在实际开发中也很有用，比如使用IO流的时候最后一定要关闭IO流，数据库的连接最后使用完了之后也一定要关闭。</p>
+<p>catch代码块中各个异常类的放置位置也是有要求的，最好将父类放在后面，因为在匹配异常的时候，是从头往后匹配的，匹配一个之后就不会再匹配了，因此应该将表示范围大的异常放在后面，同级别的异常放置位置则没有要求。</p>
+<pre><code>try {
+    String s = null;
+    System.out.println(s.length());
+    int[] arr = new int[5];
+    System.out.println(arr[7]);
+} catch (NullPointerException e) {
+    System.out.println(&quot;空指针异常&quot;);
+} catch (ArrayIndexOutOfBoundsException e) {
+    System.out.println(&quot;数组下标越界异常&quot;);
+} catch (Exception e) {
+    System.out.println(&quot;出异常了&quot;);
+}finally{
+    System.out.println(&quot;一定会执行&quot;);
+}
+</code></pre><h3 id="3-自定义异常"><a href="#3-自定义异常" class="headerlink" title="3.自定义异常"></a>3.自定义异常</h3><p>Java是允许我们自定义异常的，那为什么要自己定义异常呢？举个例子，当我们的程序在操作数据库时发生异常时，如果直接抛出的是数据库异常，并显示在了用户界面上，用户是不一定能看得懂的，这就会降低界面友好型，而且将数据库异常直接显示，也不能保证系统的安全性。如果我们能自定义异常，在操作数据库发生异常时，抛出的是我们自己定义的异常，那我们就能给出自己的提示信息，保证了用户界面的友好型，也维护了系统的安全。</p>
+<p>那如何才能自定义异常呢？其实很简单，只需要创建一个类，然后继承Exception或者RuntimeException就好了，其实RuntimeException也是继承的Exception，当直接继承Exception这个类时，那说明我们定义的类是编译时期异常类，而如果继承的是RuntimeException的话，那就说明是运行时期异常类，声明好类的继承之后，还需要重写父类的两个构造函数，一个有参，一个无参，其中传入参数的是这个异常发生的原因。</p>
+<pre><code>class MyException extends Exception {
+
+    public MyException() {
+        super();
+    }
+
+    public MyException(String message) {
+        super(message);
+    }
+}
+</code></pre><p>如果声明的是编译时期异常，那就必须在可能出现异常的方法的方法声明上使用throws抛出异常。</p>
+<pre><code>public static void checkScore(int score) throws MyException {
+    if(score&lt;0 || score&gt;100){
+        throw new MyException(&quot;分数不符合要求！&quot;);
+    }
+    System.out.println(&quot;分数符合要求&quot;);
+}
+</code></pre><p>而如果是声明的运行时期异常，那就不用了</p>
+<pre><code>class MyException extends RuntimeException {
+
+    public MyException() {
+        super();
+    }
+
+    public MyException(String message) {
+        super(message);
+    }
+}
+</code></pre><p>那调用的时候像下面这样就好了</p>
+<pre><code>public static void checkScore(int score) {
+    if(score&lt;0 || score&gt;100){
+        throw new MyException(&quot;分数不符合要求！&quot;);
+    }
+    System.out.println(&quot;分数符合要求&quot;);
+}
+</code></pre><h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h3><p>感觉把知识点整理一遍，心里还是有底一点，不整理虽然知道，但总感觉还是模糊的，在自己总结一遍的时候，起码又过了一遍，写文章的时候，也会自己去感觉哪里是重点，会更重要一点，写下来也会有个取舍，写的东西也许不是很深入，那就相当于是给以后打个基础吧，期待以后补强。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/异常/" rel="tag"># 异常</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/16/餐馆点餐和菜单管理系统(控制台版本)/" rel="next" title="餐馆点餐和菜单管理系统(控制台版本)">
+                <i class="fa fa-chevron-left"></i> 餐馆点餐和菜单管理系统(控制台版本)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/28/Java中的文件(File类)/" rel="prev" title="Java中的文件(File类)">
+                Java中的文件(File类) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-分类"><span class="nav-number">1.</span> <span class="nav-text">1.分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-对异常的处理"><span class="nav-number">2.</span> <span class="nav-text">2.对异常的处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-方法声明中抛出异常"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 方法声明中抛出异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-使用try…catch语句处理异常"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 使用try…catch语句处理异常</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-自定义异常"><span class="nav-number">3.</span> <span class="nav-text">3.自定义异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-总结"><span class="nav-number">4.</span> <span class="nav-text">4.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/06/17/Java中的异常/';
+
+      var disqus_title = "Java中的异常";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

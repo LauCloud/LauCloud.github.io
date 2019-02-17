@@ -1,0 +1,998 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="MySQL," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="关于 MySQL 的内容有很多，上一篇文章主要介绍了一些基础语法和最基础的 SQL 语句，这篇文章还是想写一些基础的内容和概念，主要是关于多表之间的，两张表之间的联系如何在数据库里面表示，当然也还会介绍一些比如修改数据库密码这样的基础操作。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL数据库加强">
+<meta property="og:url" content="http://yoursite.com/2017/08/01/MySQL数据库加强/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="关于 MySQL 的内容有很多，上一篇文章主要介绍了一些基础语法和最基础的 SQL 语句，这篇文章还是想写一些基础的内容和概念，主要是关于多表之间的，两张表之间的联系如何在数据库里面表示，当然也还会介绍一些比如修改数据库密码这样的基础操作。">
+<meta property="og:updated_time" content="2017-08-06T02:04:54.225Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL数据库加强">
+<meta name="twitter:description" content="关于 MySQL 的内容有很多，上一篇文章主要介绍了一些基础语法和最基础的 SQL 语句，这篇文章还是想写一些基础的内容和概念，主要是关于多表之间的，两张表之间的联系如何在数据库里面表示，当然也还会介绍一些比如修改数据库密码这样的基础操作。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/01/MySQL数据库加强/"/>
+
+
+
+
+
+  <title> MySQL数据库加强 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/01/MySQL数据库加强/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                MySQL数据库加强
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-01T08:26:43+08:00">
+                2017-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/01/MySQL数据库加强/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/01/MySQL数据库加强/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/08/01/MySQL数据库加强/" class="leancloud_visitors" data-flag-title="MySQL数据库加强">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>关于 <code>MySQL</code> 的内容有很多，上一篇文章主要介绍了一些基础语法和最基础的 <code>SQL</code> 语句，这篇文章还是想写一些基础的内容和概念，主要是关于多表之间的，两张表之间的联系如何在数据库里面表示，当然也还会介绍一些比如修改数据库密码这样的基础操作。</p>
+<a id="more"></a>
+<h3 id="1-修改密码"><a href="#1-修改密码" class="headerlink" title="1.修改密码"></a>1.修改密码</h3><p>平时使用数据库的时候，图形化工具可以帮我们做很多事情，比如检查所有数据的时候，在工具里面就不用写 <code>select *</code> 这样的 <code>SQL</code> 语句了，但是有些操作图形化界面工具好像还是没有那么强大的，比如修改数据库密码，这也说明了掌握一些常用命令行的重要性，下面就是梳理过的如何修改 <code>MySQL</code> 数据库密码的步骤。</p>
+<p>1.首先需要关闭 <code>MySQL</code> 服务</p>
+<p>这里主要说的是在 <code>Windows</code> 系统上进行操作的，在 <code>Windows</code> 中关闭 <code>MySQL</code> 数据库服务有两种方式，第一种是用鼠标右键点击桌面的 <code>&quot;计算机&quot;</code> 图标，会看到一个 <code>&quot;系统服务&quot;</code> 的选项，点击这个选项，就可以看到当前电脑中运行的各种服务，这时候就简单了，在这些服务中选中 <code>MySQL</code> 的服务，双击之后就可以选择停止当前服务了，之后如果想启动 <code>MySQL</code> 服务也是在这里进行操作。</p>
+<p>其实要想进入到 <code>&quot;系统服务&quot;</code> 的界面，还有另一种方式，那就是点击左下角的 <code>&quot;开始&quot;</code> 图标，然后在出现的输入框之中输入 <code>services.msc</code> 这条命令，就可以进入到 <code>&quot;系统服务&quot;</code> 的界面了。</p>
+<p>关闭 <code>MySQL</code> 服务还有另一种方式，也就是命令行方式，只要输入下面这行代码，界面就会提示服务正在关闭，并且关闭成功。</p>
+<pre><code>net stop mysql
+</code></pre><p>2.第二步便是要在命令行窗口中跳过权限开启服务</p>
+<p>具体的做法就是打开一个命令行窗口，然后在窗口中输入如下命令：</p>
+<pre><code>mysqld --skip-grant-tables
+</code></pre><p>需要注意的是，上面一句命令的最后是没有逗号的，<code>skip</code> 的前面有两个小横杠 <code>&quot;-&quot;</code></p>
+<p>3.登录 <code>MySQL</code> 数据库，并修改密码</p>
+<p>这里要做的就是重新设置 <code>MySQL</code> 服务器的密码，首先重新打开一个命令行窗口，然后使用下面的命令进行登录：</p>
+<pre><code>mysql -u root -p
+</code></pre><p>由于第 <code>2</code> 步里面已经设置跳过权限检查，因此这里是不用输入密码的，直接回车就可以登录进去，这样就可以进入到数据库当中了，因为关于服务器端的密码是放在名叫 <code>mysql</code> 数据库的 <code>user</code> 表中，因此我们需要先进入相关的数据库，然后再使用 <code>SQL</code> 语句进行重置密码的操作。</p>
+<pre><code>use mysql;
+</code></pre><p>这句命令便是进入到名叫 <code>mysql</code> 的数据库当中。</p>
+<pre><code>update user set password = password(&apos;123&apos;) where user = &apos;root&apos;;
+</code></pre><p>这句 <code>SQL</code> 便是进行密码重置的操作，将用户名是 <code>root</code> 的用户密码修改为 <code>123</code>。很明显可以看出上面语句中的 <code>123</code> 和 <code>root</code> 是可以根据我们的需要进行修改的，其中还有需要注意的地方就是  <code>password(&#39;123&#39;)</code> ,这里的 <code>password</code> 是一个函数名，因为数据库里面的密码都是加密存储的。</p>
+<p>4.最后一步便是重启服务</p>
+<p>上面的一步修改好密码之后，现在重启 <code>MySQL</code> 服务就可以使用新密码来登录使用数据库了，不过在重启服务器之前有一步需要注意，那就是要先关掉 <code>mysqld.exe</code> 进程，不然 <code>MySQL</code> 服务会启动不成功，关闭的方法最直接就是打开 <code>&quot;任务管理器&quot;</code>，然后找到该进程，并结束该进程。</p>
+<p>最后一步就是重启 <code>MySQL</code> 服务，和在第一步中关闭服务一样，重启服务也有两种方式，第一种就是使用鼠标右键点击 <code>&quot;计算机&quot;</code> 图标，在其中选择 <code>&quot;系统服务&quot;</code> 的选项，然后在服务列表中找到 <code>MySQL</code> 的服务，双击选择启动该服务就好了。</p>
+<p>第二种方式的话就是使用命令行方式了，首先打开命令行窗口，然后输入下面的命令：</p>
+<pre><code>net start mysql
+</code></pre><p>这样也是能够开启 <code>MySQL</code> 服务的。</p>
+<p>掌握如何修改数据库密码蛮重要的，因为这样的操作很难在可视化工具里面完成，掌握了之后还是可以节省不少时间的，不过也不需要刻意去记忆，要修改的时候到网上查就好了。</p>
+<h3 id="2-备份和还原"><a href="#2-备份和还原" class="headerlink" title="2.备份和还原"></a>2.备份和还原</h3><p>数据库的备份和还原相比上面的修改密码就要简单一点了，之所以可以这样说，是因为使用图形化界面工具可以快速地实现数据库的备份和还原，而不像要完成数据库密码的修改，还必须要使用命令行，因为在图形化工具里面的操作很简单，这里就不再说明了，主要介绍一下命令行方式是如何实现的吧。</p>
+<p>备份数据使用的命令行：</p>
+<pre><code>mysqldump -u root -p p2p &gt; d:/p2p.sql
+</code></pre><p>上面的 <code>p2p</code> 就是要备份的数据库的名称了，大于号之后的便是要将数据备份到哪里的路径以及文件名了，其中文件名的后缀 <code>sql</code> 是固定的。</p>
+<p>还原数据库有两种方式，不过操作起来都差不多。</p>
+<p>第一种：</p>
+<pre><code>1.创建一个数据库
+    create database mydb;
+2.退出数据库
+    \q 回车
+3.使用命令还原数据库
+    mysql -u root -p mydb &lt; d:/p2p.sql
+</code></pre><p>第二种：</p>
+<pre><code>1.创建一个数据库
+    create database mydb2;
+2.进入数据库
+    use mydb2;
+3.使用命令还原数据库
+    source d:/p2p.sql
+</code></pre><p>上面这就是使用命令行方式完成数据库备份和还原操作的步骤，其实只要知道了解一下就好了，因为使用数据库的图形化工具可以非常轻松地完成数据备份和还原。</p>
+<h3 id="3-多表之间的外键"><a href="#3-多表之间的外键" class="headerlink" title="3.多表之间的外键"></a>3.多表之间的外键</h3><p>外键是存在于多表之间的一种约束关系，说到约束关系，首先会想到单表之中的约束，单表之中的约束有主键约束(primary key)、唯一约束(unique)以及非空约束(not null)，单表中的约束主要是为了保证数据的完整性。</p>
+<p>同样的，在多表之间也存在约束，那就是外键约束了，通过外键约束同样也可以保证数据的完整性和一致性。其实外键的含义就是，在当前表中的某个字段与另一个表之中的主键字段存在关系，那么就会为这个字段添加外键指向另一个表中的主键。</p>
+<p>使用 <code>SQL</code> 创建外键约束：</p>
+<pre><code>1.创建表时增加外键
+create table 表名(
+    字段名    数据类型        约束条件，
+    ...
+    foreign key (当前表中的某字段) references dept(dept表中的主键字段)
+);
+
+2.后面修改表结构增加外键约束
+alter table employee add foreign key (当前表中的某字段) references dept(dept表中的主键字段);
+</code></pre><h3 id="4-多表之间的关系"><a href="#4-多表之间的关系" class="headerlink" title="4.多表之间的关系"></a>4.多表之间的关系</h3><p>多表之间的关系一共可以分为三种，分别是一对多关系、多对多关系以及一对一关系。那在数据库之中应该如何表示它们之间的关系呢？</p>
+<h4 id="4-1-一对多关系"><a href="#4-1-一对多关系" class="headerlink" title="4.1 一对多关系"></a>4.1 一对多关系</h4><p>如何在数据库之中表示一对多的关系，上面就说到了两表之间的关系可以使用外键来表示，那应该如何体现这种一对多关系呢？解决的方法就是在多的一方创建一个外键，并用这个外键指向一的一方的主键。生活中常见的例子就是学生和班级的关系，一个学生只能属于一个班级，而一个班级可以对应多个学生，那为了表示学生和班级之间这种对应关系，就可以在学生的记录中添加一个班级字段用来存储该学生所属班级的信息，并将该字段作为一个外键指向班级表的主键，这样就可以了。</p>
+<h4 id="4-2-多对多关系"><a href="#4-2-多对多关系" class="headerlink" title="4.2 多对多关系"></a>4.2 多对多关系</h4><p>两表之间还有一种关系就是多对多的关系，那如何在数据库中表示这种关系呢？解决的办法就是创建一张中间表，并在这张中间表中建立对于原来两张表的外键引用，当然这张中间表中仍然可以带有自己的属性字段。生活中常见的例子就是在购物的过程中顾客与商品之间的关系了，一个顾客可以购买多种商品，一种商品同样也可以被多个顾客购买，这个时候就需要建立第三张表中间表了，这张表中同时会有对于顾客和商品的外键引用，这样就能在得到顾客信息的同时，也可以获得所购买商品的的信息了。</p>
+<h4 id="4-3-一对一关系"><a href="#4-3-一对一关系" class="headerlink" title="4.3 一对一关系"></a>4.3 一对一关系</h4><p>如果两张表之间是一对一关系，其实最直接的方式就是完全可以只使用一张表，然后将两张表之中不重复的字段都放在一张表中。</p>
+<p>不过既然说了是两张表，那还是考虑如何建立这两张表之间的联系吧，有一个办法就是将其中一张表看做是多的一方，这样的话关系就变为一对多的关系，那只要在多的一方建立一个字段，并将该字段设置为对于另一张表主键的外键引用就好了，同时还要将这个外键设置为唯一的。生活中的例子就是每一个学生都对应着一个居住地址，其实完全可以在学生的记录中直接创建一个字段记录学生的居住地址，这样就是一张表了，还有就是在学生的这张表中创建一个外键，引用地址那张表的主键，并设置该外键是唯一的。</p>
+<h3 id="5-多表查询"><a href="#5-多表查询" class="headerlink" title="5.多表查询"></a>5.多表查询</h3><p>有时候我们根据实际功能的需要会同时查询多个表，也就是多表查询，多表查询可以分为很多种，多表查询可以分为连接查询和子查询，而连接查询又可以分为交叉连接、内连接和外连接查询。</p>
+<pre><code>多表查询
+    --连接查询
+        --交叉连接
+        --内连接
+        --外连接
+    --子查询
+</code></pre><h4 id="5-1-交叉连接"><a href="#5-1-交叉连接" class="headerlink" title="5.1 交叉连接"></a>5.1 交叉连接</h4><p>交叉连接查询到的是两个表中记录的笛卡尔积，也就是说如果第一张表中有 <code>2</code> 条记录，而第二张表中有 <code>3</code> 条记录，那么交叉查询得到的结果应该是 <code>6</code> 条记录，运算的过程就是使用第一张表的第 <code>1</code> 条记录去与第二张表的每条记录相连接，然后再用第一张表的第 <code>2</code> 条记录去与第二张表的每条记录相连接，如果还有多的记录的话也会以此类推进行连接。</p>
+<p>交叉连接使用的关键字是 <code>cross join</code>,使用的语法如下：</p>
+<pre><code>1.select * from 表1 cross join 表2;
+2.select * from 表1,表2;
+</code></pre><h4 id="5-2-内连接"><a href="#5-2-内连接" class="headerlink" title="5.2 内连接"></a>5.2 内连接</h4><p>内连接查询的作用就相当于是查询两个表共有的部分，通过 <code>SQL</code> 中给定的查询条件，将两个表中符合连接条件的记录连接起来，这样就可以得到返回结果了。内连接使用的关键字是 <code>inner join ... on</code>，其中的 <code>inner</code> 是可以省略的，因此下面的写法两种都是正确的。</p>
+<pre><code>1.显式内连接
+    select * from 表1 inner join 表2 on 关联条件;
+2.隐式内连接
+    select * from 表1,表2 where 关联条件;
+</code></pre><h4 id="5-3-外连接"><a href="#5-3-外连接" class="headerlink" title="5.3 外连接"></a>5.3 外连接</h4><p>外连接查询分为左外连接查询和右外连接查询，说明一个另一个的含义也就清晰了，比如左外连接查询，得到的查询结果就是左边那张表里面所有的记录以及根据连接条件满足条件的右边表中的记录，当右边表中的记录满足条件时，左右的两张表中满足条件的记录就会连接，而右边表中不满足条件的记录则不会显示，左边表中的记录则会全部显示。右外连接和左外连接遵循相同的连接原理。</p>
+<p>外连接查询使用的关键字是 <code>left/right outer join ... on</code>,其中的 <code>outer</code> 是可以省略的，语句如下：</p>
+<pre><code>1.左外连接
+    语法：select * from 表1 left outer join 表2 on 连接条件;
+2.右外连接
+    语法：select * from 表1 right outer join 表2 on 连接条件;
+</code></pre><p>外连接需要注意的一点就是查看关键字是 <code>left</code> 还是 <code>right</code>,如果是 <code>left</code>，那在查询的时候就应该以左边的那张表为主，如果是 <code>right</code> 的话，那就是应该以右边的那张表为主。</p>
+<h4 id="5-4-子查询"><a href="#5-4-子查询" class="headerlink" title="5.4 子查询"></a>5.4 子查询</h4><p>子查询的含义就是一个查询语句的条件必须依赖另一个查询语句的结果，也就是相当于 <code>SQL</code> 语句的嵌套查询，比如要查询班级中有学生是 <code>90</code> 后的班级信息，那我们在查询的时候就应该先查询是 <code>90</code> 后的学生信息，并选择出这些学生所属的班级编号，然后再查询班级表，找出班级表中班级编号在前面那些学生所属班级的班级信息，这样就能得到预想的效果了。</p>
+<pre><code>查询学生生日在91年之后的班级的信息。
+语法：select * from classes where cid in (SELECT cno FROM student WHERE birthday &gt; &apos;1991-01-01&apos;);
+</code></pre><p>上面的语句中使用了关键字 <code>in</code>，表示的作用就是在给定的结果内查询，其实还有和它位置一样但是表示不同含义的关键字，比如 <code>exists</code>，它所表示的作用就是只有当 <code>exists</code> 后面的查询结果存在的时候才会执行前面的 <code>SQL</code> 语句，还有一个 <code>any</code> ，表示的就是只要满足 <code>any</code> 后面查询结果中的一个就行了，不过也可以有下面这样的变化：</p>
+<pre><code>SELECT * FROM classes WHERE cid &gt; ANY (SELECT cno FROM student);
+</code></pre><p>大于 <code>any</code> 表示的就是只要大于后面查询结果中最小的就可以了，当然也会有小于 <code>any</code>，表示的就是只要小于后面查询结果中最大的就行了。</p>
+<pre><code>SELECT * FROM classes WHERE cid &gt; (SELECT min(cno) FROM student );
+SELECT * FROM classes WHERE cid  &lt;  (SELECT max(cno) FROM student );
+</code></pre><p>其实上面的这两句也可以表示一样的意义。</p>
+<p>子查询中还有一个关键字，那就是 <code>all</code> 了，表示的就是要满足后面所有的查询结果才行。</p>
+<pre><code>SELECT * FROM classes WHERE cid &gt; ALL (SELECT cno FROM student);
+</code></pre><h4 id="5-5-内连接和外连接的区别"><a href="#5-5-内连接和外连接的区别" class="headerlink" title="5.5 内连接和外连接的区别"></a>5.5 内连接和外连接的区别</h4><p>其实关于内连接和外连接的区别，使用数学中的集合也许可以很清楚地表示，使用内外连接的时候就可以将连接的两张表看作是两个集合，内连接查询的结果就相当于是两个集合的交集，而外连接查询因为会分以哪张表为主，如果以左边的那张表为主的话，这就是左外连接了，得到的结果就是上面得到的交集还要加上左边那和右边没有交叉的部分，至于右外连接也是和左外连接相类似的了。</p>
+<p>需要注意的一点就是上面提高的交集，其实是左右两张表满足连接条件的记录连接得到的结果。</p>
+<h3 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h3><p>这篇文章的重点就是在于两表之间的三种关系以及如何在数据库之中使用外键表示这三种关系，还有的就是关于多表的查询，实际开发中内连接和外连接还是使用的比较多的，因为很多业务逻辑的实现都会关系到多表，内连接和外连接很相似，不过搞清楚它们的区别仍然是十分重要的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/29/MySQL数据库/" rel="next" title="MySQL数据库">
+                <i class="fa fa-chevron-left"></i> MySQL数据库
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/08/JDBC基础/" rel="prev" title="JDBC基础">
+                JDBC基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-修改密码"><span class="nav-number">1.</span> <span class="nav-text">1.修改密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-备份和还原"><span class="nav-number">2.</span> <span class="nav-text">2.备份和还原</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-多表之间的外键"><span class="nav-number">3.</span> <span class="nav-text">3.多表之间的外键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-多表之间的关系"><span class="nav-number">4.</span> <span class="nav-text">4.多表之间的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-一对多关系"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 一对多关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-多对多关系"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 多对多关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-一对一关系"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 一对一关系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-多表查询"><span class="nav-number">5.</span> <span class="nav-text">5.多表查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-交叉连接"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 交叉连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-内连接"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 内连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-外连接"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 外连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-子查询"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 子查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-内连接和外连接的区别"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 内连接和外连接的区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-总结"><span class="nav-number">6.</span> <span class="nav-text">6.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/08/01/MySQL数据库加强/';
+
+      var disqus_title = "MySQL数据库加强";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

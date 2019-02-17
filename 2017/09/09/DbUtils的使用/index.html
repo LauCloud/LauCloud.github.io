@@ -1,0 +1,1071 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="DbUtils," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="DbUtils 是一种用于对数据库进行操作的工具，底层实现了对     JDBC 的简单封装，使用起来非常简单，是到目前为止我最喜欢的操作数据库的工具了，特别是在查询时可以很简单的就实现数据的封装，这点比起之前使用 JDBC 来封装数据就简单的多了，而且 DbUtils 执行语句时仍然执行的是 SQL 语句，因此性能也能够得到保证，下面具体介绍吧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DbUtils的使用">
+<meta property="og:url" content="http://yoursite.com/2017/09/09/DbUtils的使用/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="DbUtils 是一种用于对数据库进行操作的工具，底层实现了对     JDBC 的简单封装，使用起来非常简单，是到目前为止我最喜欢的操作数据库的工具了，特别是在查询时可以很简单的就实现数据的封装，这点比起之前使用 JDBC 来封装数据就简单的多了，而且 DbUtils 执行语句时仍然执行的是 SQL 语句，因此性能也能够得到保证，下面具体介绍吧。">
+<meta property="og:updated_time" content="2017-09-09T13:18:28.269Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DbUtils的使用">
+<meta name="twitter:description" content="DbUtils 是一种用于对数据库进行操作的工具，底层实现了对     JDBC 的简单封装，使用起来非常简单，是到目前为止我最喜欢的操作数据库的工具了，特别是在查询时可以很简单的就实现数据的封装，这点比起之前使用 JDBC 来封装数据就简单的多了，而且 DbUtils 执行语句时仍然执行的是 SQL 语句，因此性能也能够得到保证，下面具体介绍吧。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/09/DbUtils的使用/"/>
+
+
+
+
+
+  <title> DbUtils的使用 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/09/DbUtils的使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                DbUtils的使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-09T21:16:17+08:00">
+                2017-09-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/09/DbUtils的使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/09/DbUtils的使用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/09/09/DbUtils的使用/" class="leancloud_visitors" data-flag-title="DbUtils的使用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>DbUtils</code> 是一种用于对数据库进行操作的工具，底层实现了对     <code>JDBC</code> 的简单封装，使用起来非常简单，是到目前为止我最喜欢的操作数据库的工具了，特别是在查询时可以很简单的就实现数据的封装，这点比起之前使用 <code>JDBC</code> 来封装数据就简单的多了，而且 <code>DbUtils</code> 执行语句时仍然执行的是 <code>SQL</code> 语句，因此性能也能够得到保证，下面具体介绍吧。</p>
+<a id="more"></a>
+<h3 id="1-核心类"><a href="#1-核心类" class="headerlink" title="1.核心类"></a>1.核心类</h3><p>使用 <code>DbUtils</code> 工具类的时候，最主要的类就是 <code>QueryRunner</code> 这个类了，首先可以看一下它的两个构造方法。</p>
+<pre><code>public QueryRunner()    无参构造
+public QueryRunner(DataSource ds)    需要传入数据源的有参构造
+</code></pre><p>下面介绍几个这个类中几个重要的进行 <code>CRUD</code> 操作的方法。</p>
+<pre><code>public int update(String sql, Object... params)        
+public int update(Connection conn, String sql, Object... params)
+</code></pre><p>上面的 <code>update</code> 方法可以执行增加、修改以及删除相关的 <code>SQL</code> 语句，其中第一个方法中的第一个参数是要执行的 <code>SQL</code> 语句，将参数传入方法时是传入的字符串类型，第二个参数便是要执行的 <code>SQL</code> 语句中可能需要的参数了，因为 <code>SQl</code> 语句所需要的参数个数不一定，因此上面写的参数是可变类型的，第二个方法中的第一个参数很明显就是一个连接对象了，关于这个连接对象的作用等一下再进行说明。</p>
+<pre><code>public &lt;T&gt; T query(String sql, ResultSetHandler&lt;T&gt; rsh, Object... params)
+public &lt;T&gt; T query(Connection conn, String sql, ResultSetHandler&lt;T&gt; rsh, Object... params)
+</code></pre><p>上面的 <code>query</code> 就是用来执行查询语句的了，第一个方法中第一个参数同样是要执行的 <code>SQL</code> 语句，第二个参数是一个结果集处理对象，<code>DbUtils</code> 之所以会具有这么强的数据封装能力，很大程度上就是因为这个对象的关系，等一下会详细的介绍这个对象，第三个参数则是 <code>SQL</code> 语句可能需要的参数了，至于第二个方法中的连接对象则是和 <code>update</code> 方法中的一样了。</p>
+<p>现在这里总的来说一下，为什么构造函数中有的需要传入数据源，而有的不需要，以及在 <code>update</code> 和 <code>query</code> 方法中为什么有的需要传入连接对象，而有的不需要？这里的原因就是有时候需要进行事务管理，在不需要事务管理的时候，我们通常使用需要数据源的构造方法来获取 <code>QueryRunner</code> 这个类的实例，然后在执行诸如 <code>update</code> 和 <code>query</code> 方法的时候就使用不需要传入连接对象的方法就好了，而在需要进行事务管理的时候，我们必须保证所有的操作都是使用同一个连接对象完成的，因此在构建 <code>QueryRunner</code> 对象实例的时候则使用空参构造函数，但是在执行 <code>update</code> 或者 <code>query</code> 这些方法的时候，就需要使用需要传入连接对象的方法了，而且还必须保证同一个事务操作中传入的连接对象是同一个。</p>
+<p>上面说到了事务管理，使用 <code>DbUtils</code> 进行事务管理的话则和另一个类有关系了，那就是 <code>DbUtils</code> 这个类了，这个类中定义了许多与事务操作相关的方法，比如事务的提交以及回滚。</p>
+<pre><code>public static void commitAndCloseQuietly(Connection conn)
+public static void rollbackAndCloseQuietly(Connection conn)
+</code></pre><p>使用上面的这两个提交以及回滚的方法就可以进行基本的事务管理的操作了。</p>
+<h3 id="2-增删改查操作"><a href="#2-增删改查操作" class="headerlink" title="2.增删改查操作"></a>2.增删改查操作</h3><p>下面使用 <code>DbUtils</code> 来对数据库进行基本的增删改查操作，通过代码就可以看出使用这个工具相比之前直接使用 <code>JDBC</code> 来进行相同的操作的话，可以把代码写的多么简洁。</p>
+<h4 id="2-1-增加数据"><a href="#2-1-增加数据" class="headerlink" title="2.1 增加数据"></a>2.1 增加数据</h4><p>代码如下：</p>
+<pre><code>public static void addRecord() throws SQLException {
+    QueryRunner queryRunner = new QueryRunner(JDBCUtils2.getDataSource());
+    queryRunner.update(&quot;insert into account values(null,?,?);&quot;, &quot;ddd&quot;, 10000);
+}
+</code></pre><p>上面方法中的第一句代码便是获得 <code>QueryRunner</code> 类的实例对象，因为使用的有参构造，所以需要传入一个数据源对象，这里的 <code>JDBCUtils2</code> 类是之前使用 <code>c3p0</code> 连接池时抽象出来的一个工具类，<code>getDataSource</code> 方法当然就是获取数据源对象了，第二句代码就是传入需要执行的 <code>SQL</code> 语句以及 <code>SQL</code> 语句需要的参数就可以了。</p>
+<h4 id="2-2-删除数据"><a href="#2-2-删除数据" class="headerlink" title="2.2 删除数据"></a>2.2 删除数据</h4><p>代码如下：</p>
+<pre><code>public static void deleteRecord() throws SQLException {
+    QueryRunner queryRunner = new QueryRunner(JDBCUtils2.getDataSource());
+    queryRunner.update(&quot;delete from account where id = ?&quot;, 1);
+}
+</code></pre><p>这里删除数据的代码和上面增加数据的代码十分相似了，只是传入的 <code>SQL</code> 语句不同，然后需要的实际参数也根据实际情况而不同。</p>
+<h4 id="2-3-修改数据"><a href="#2-3-修改数据" class="headerlink" title="2.3 修改数据"></a>2.3 修改数据</h4><p>代码如下：</p>
+<pre><code>public static void updateRecord() throws SQLException {
+    QueryRunner queryRunner = new QueryRunner(JDBCUtils2.getDataSource());
+    queryRunner.update(&quot;update account set name = ? where id = ?&quot;, &quot;eee&quot;, 1);
+}
+</code></pre><p>修改数据也和上面增加数据以及删除数据差不多，都只是需要传入的 <code>SQL</code> 语句不一样，而且在进行上面的三种操作的时候也都可以使用占位符 <code>?</code> 来预先确定参数的位置，可以说操作起来和之前 <code>JDBC</code> 有相通之处，而且操作的步骤也简单得很。</p>
+<h4 id="2-4-查询数据"><a href="#2-4-查询数据" class="headerlink" title="2.4 查询数据"></a>2.4 查询数据</h4><p>上面已经列举出了使用 <code>DbUtils</code> 对数据库进行增加、删除和修改的操作，下面就来演示一下使用  <code>DbUtils</code> 对数据库进行查询的操作，这里简单地分为查询一条记录以及查询多条记录。</p>
+<p><strong>查询一条记录</strong></p>
+<p>先列举代码：</p>
+<pre><code>public static void selectOneRecord() throws SQLException {
+    QueryRunner queryRunner = new QueryRunner(JDBCUtils2.getDataSource());
+    Account account = queryRunner.query(&quot;select * from account where id = ?&quot;, new ResultSetHandler&lt;Account&gt;() {
+
+        @Override
+        public Account handle(ResultSet rs) throws SQLException {
+            Account account = new Account();
+            if(rs.next()) {
+                account.setId(rs.getInt(&quot;id&quot;));
+                account.setName(rs.getString(&quot;name&quot;));
+                account.setMoney(rs.getDouble(&quot;money&quot;));
+            }
+            return account;
+        }
+    }, 1);
+    System.out.println(account);
+}
+</code></pre><p>似乎代码一下增加了很多，不过基本的结构仍然没有改变，上面执行 <code>SQL</code> 语句时是使用的 <code>update()</code> 方法，而现在这里是使用的 <code>query()</code> 方法，其中 <code>query()</code> 方法的第一个参数是要执行的 <code>SQL</code> 语句，第二个参数则是结果集处理对象，主要的作用则是将查询的结果封装成我们设计的类对象，以便于我们使用这个对象进行其它的编程操作，而该方法中的第三个参数则是 <code>SQL</code> 语句中可能需要的条件了，通过使用占位符 <code>?</code> 动态地来传递参数。</p>
+<p>这里需要重点说明一下的就是 <code>ResultSetHandler</code> 这个接口，上面的代码中我们使用一个实现了该接口的匿名内部类来完成对于查询结果的封装，其中尖括号中的类名就是我们想要封装的结果类型，其实仔细看代码的话，实现也是十分简单的，因为这个类实现了接口，所以就要重写接口中的 <code>handle()</code> 方法，看方法声明中的参数就可以看出这个方法需要传入的就是我们执行 <code>SQL</code> 语句得到的结果集，那方法体中的处理也就简单了，首先声明一个 <code>Account</code> 类的实例，然后判断得到的结果集是否有结果，有结果的话就使用结果集中的数据对我们刚声明的那个类实例进行封装，并在最后返回封装好的类实例对象，当然我们最后使用 <code>QueryRunner</code> 的对象调用 <code>query()</code> 方法返回的结果也就是这个封装好的对象了。</p>
+<p><strong>查询多条记录</strong></p>
+<p>代码如下：</p>
+<pre><code>public static void selectAllRecord() throws SQLException {
+    QueryRunner queryRunner = new QueryRunner(JDBCUtils2.getDataSource());
+    List&lt;Account&gt; list = queryRunner.query(&quot;select * from account&quot;, new ResultSetHandler&lt;List&lt;Account&gt;&gt;() {
+
+        @Override
+        public List&lt;Account&gt; handle(ResultSet rs) throws SQLException {
+            List&lt;Account&gt; list = new ArrayList&lt;Account&gt;();
+            while(rs.next()) {
+                Account account = new Account();
+                account.setId(rs.getInt(&quot;id&quot;));
+                account.setName(rs.getString(&quot;name&quot;));
+                account.setMoney(rs.getDouble(&quot;money&quot;));
+                list.add(account);
+            }
+            return list;
+        }
+    });
+    for (Account account : list) {
+        System.out.println(account);
+    }
+}
+</code></pre><p>查询多条记录和上面查询一条记录一样，同样也是使用的 <code>query()</code> 方法，传入的参数也同样是要执行的 <code>SQL</code> 语句、结果集处理对象以及 <code>SQL</code> 语句中可能需要的参数，所以需要重点说明的还是 <code>ResultSetHandler</code> 这个接口的匿名内部类实现对象，因为是查询的多条记录，因此会将多条记录封装成多个对象，然后再将这封装好的多个对象放入到一个 <code>List</code> 集合当中，所以使用 <code>QueryRunner</code> 类的对象调用 <code>query()</code> 方法返回的也就是这个 <code>List</code> 集合。</p>
+<p>下面说明一下匿名内部类实现 <code>ResultSetHandler</code> 这个接口之后所要重写的 <code>handle()</code> 方法，因为将记录封装成对象的操作就是在这里面完成的，首先定义一个专门存放 <code>Account</code> 类对象的 <code>ArrayList</code> 集合，然后因为是查询的多条记录，所以需要对结果集循环遍历，依次对每一条记录进行封装操作，每次循环中都会在最开始声明一个 <code>Account</code> 的类对象，然后执行对记录的封装，最后就是将封装好的 <code>Account</code> 类对象放到最开始声明的 <code>List</code> 集合当中，方法最后将 <code>List</code> 集合返回，这样我们也就可以使用这个 <code>List</code> 集合去做其它的操作了。</p>
+<p>上面使用 <code>query()</code> 方法查询一条以及多条记录，在将查询结果封装成对象的时候我们都是自己去实现的 <code>ResultSetHandler</code> 接口，然后再在实现的匿名内部类中去重写接口中的 <code>handle()</code> 方法，这样就可以完成对数据的封装，而 <code>DbUtils</code> 之所以具有这么灵活而且强大的功能，很重要的一点就在于在将查询结果封装为对象的时候，<code>DbUtils</code> 本身提供了许多 <code>ResultSetHandler</code> 接口的实现类。</p>
+<h3 id="3-ResultSetHandler的实现类"><a href="#3-ResultSetHandler的实现类" class="headerlink" title="3.ResultSetHandler的实现类"></a>3.ResultSetHandler的实现类</h3><p><code>ResultSetHandler</code> 接口的实现类一共有如下这些：</p>
+<pre><code>AbstractKeyedHandler
+AbstractListHandler
+ArrayHandler
+ArrayListHandler
+BeanHandler
+BeanListHandler
+ColumnListHandler
+KeyedHandler
+MapHandler
+MapListHandler
+ScalarHandler
+</code></pre><p>最开始的两个是抽象类，这里就不再做说明了，主要说明一下其它的九个实现类。这些实现类有一个相似的特点，就是除了 <code>KeyedHandler</code> 这个类之外，类名中带有 <code>List</code> 的类最后封装得到的一定是多个值或者对象，而不带 <code>List</code> 的类则最后封装得到的一般是一个值或者对象。</p>
+<h4 id="3-1-ArrayHandler"><a href="#3-1-ArrayHandler" class="headerlink" title="3.1 ArrayHandler"></a>3.1 ArrayHandler</h4><p>这个实现类是将查询得到的一条记录封装成一个数组对象，即将这条记录中的各个值放到数组当中。</p>
+<p>代码如下：</p>
+<pre><code>public static void ArrayHandlerDemo() throws SQLException {
+    QueryRunner queryRunner = new QueryRunner(JDBCUtils2.getDataSource());
+    Object[] object = queryRunner.query(&quot;select * from account where id = ?&quot;, new ArrayHandler(), 1);
+    System.out.println(Arrays.toString(object));
+}
+</code></pre><h4 id="3-2-ArrayListHandler"><a href="#3-2-ArrayListHandler" class="headerlink" title="3.2 ArrayListHandler"></a>3.2 ArrayListHandler</h4><p>很明显可以看出，<code>ArrayListHandler</code> 这个实现类是和上面的 <code>ArrayHandler</code> 相对应的，之前的 <code>ArrayHandler</code> 是将查询得到的一条记录封装成一个数组对象，则这里的 <code>ArrayListHandler</code> 是将查询得到的多条记录分别封装到多个数组当中，最后再将这些数组放入到一个 <code>List</code> 集合当中。</p>
+<p>代码如下：</p>
+<pre><code>public static void ArrayListHandlerDemo() throws SQLException {
+    QueryRunner queryRunner = new QueryRunner(JDBCUtils2.getDataSource());
+    List&lt;Object[]&gt;  objs = queryRunner.query(&quot;select * from account&quot;, new ArrayListHandler());
+    for (Object[] obj : objs) {
+        System.out.println(Arrays.toString(obj));
+    }
+}
+</code></pre><h4 id="3-3-BeanHandler"><a href="#3-3-BeanHandler" class="headerlink" title="3.3 BeanHandler"></a>3.3 BeanHandler</h4><p>这个就真的是比较常用的了，从名字就可以看出，是将查询得到的一条记录封装成一个 <code>Bean</code> 对象，而这个 <code>Bean</code> 对象的类型则是创建 <code>BeanHandler</code> 类对象时指定的泛型类型。这个在做单表查询时十分常见，通过指定需要得到记录的主键，就可以得到唯一的一条记录。</p>
+<p>代码如下：</p>
+<pre><code>public static void BeanHandlerDemo() throws SQLException {
+    QueryRunner queryRunner = new QueryRunner(JDBCUtils2.getDataSource());
+    Account account = queryRunner.query(&quot;select * from account where id = ?&quot;, new BeanHandler&lt;Account&gt;(Account.class), 1);
+    System.out.println(account);
+}
+</code></pre><h4 id="3-4-BeanListHandler"><a href="#3-4-BeanListHandler" class="headerlink" title="3.4 BeanListHandler"></a>3.4 BeanListHandler</h4><p>这个显然就是和上面的 <code>BeanHandler</code> 相对应的了，上面的 <code>BeanHandler</code> 是将查询得到的一条记录封装成一个 <code>Bean</code> 对象，而 <code>BeanListHandler</code> 则是将查询得到的多条记录分别封装成多个 <code>Bean</code> 对象，然后再将这些 <code>Bean</code> 对象放入到一个 <code>List</code> 集合当中。这个实现类同样在单表查询时使用的非常多，比如需要查询一张数据表中所有记录的时候。</p>
+<p>代码如下：</p>
+<pre><code>public static void BeanListHandlerDemo() throws SQLException {
+    QueryRunner queryRunner = new QueryRunner(JDBCUtils2.getDataSource());
+    List&lt;Account&gt; list = queryRunner.query(&quot;select * from account&quot;, new BeanListHandler&lt;Account&gt;(Account.class));
+    for (Account account : list) {
+        System.out.println(account);
+    }
+}
+</code></pre><h4 id="3-5-ColumnListHandler"><a href="#3-5-ColumnListHandler" class="headerlink" title="3.5 ColumnListHandler"></a>3.5 ColumnListHandler</h4><p>这个实现类则和上面的几个实现类不同，这个实现类主要是针对某一列的数据进行封装的，它的作用就是将查询得到的多条记录中某列的值全部放到一个 <code>List</code> 集合当中，当然要封装的列是由我们来进行指定的。</p>
+<p>代码如下：</p>
+<pre><code>public static void ColumnListHandlerDemo() throws SQLException {
+    QueryRunner queryRunner = new QueryRunner(JDBCUtils2.getDataSource());
+    List&lt;Object&gt; list = queryRunner.query(&quot;select * from account&quot;, new ColumnListHandler(&quot;name&quot;));
+    for (Object object : list) {
+        System.out.println(object);
+    }
+}
+</code></pre><h4 id="3-6-MapHandler"><a href="#3-6-MapHandler" class="headerlink" title="3.6 MapHandler"></a>3.6 MapHandler</h4><p>这个同样也是十分重要的，这个实现类的作用是将查询得到的一条记录封装到一个 <code>Map</code> 集合当中，集合的结构就是查询得到记录的列名作为 <code>Map</code> 集合的 <code>key</code>，而查询得到记录的数据则作为 <code>Map</code> 集合中对应列的值。</p>
+<p>代码如下：</p>
+<pre><code>public static void MapHandlerDemo() throws SQLException {
+    QueryRunner queryRunner = new QueryRunner(JDBCUtils2.getDataSource());
+    Map&lt;String, Object&gt; map = queryRunner.query(&quot;select * from account where id = ?&quot;, new MapHandler(), 1);
+    for (String key : map.keySet()) {
+        System.out.println(key+&quot; &quot;+map.get(key));
+    }
+}
+</code></pre><h4 id="3-7-MapListHandler"><a href="#3-7-MapListHandler" class="headerlink" title="3.7 MapListHandler"></a>3.7 MapListHandler</h4><p>很明显，这个实现类是和上面的 <code>MapHandler</code> 相对应的，上面的 <code>MapHandler</code> 是将查询得到的一条记录封装成一个 <code>Map</code> 集合，则这个则是将查询得到的多条记录分别封装到多个 <code>Map</code> 集合当中，最后再将这多个 <code>Map</code> 集合放到一个 <code>List</code> 集合当中。</p>
+<p>代码如下：</p>
+<pre><code>public static void MapListHandlerDemo() throws SQLException {
+    QueryRunner queryRunner = new QueryRunner(JDBCUtils2.getDataSource());
+    List&lt;Map&lt;String, Object&gt;&gt; list = queryRunner.query(&quot;select * from account&quot;, new MapListHandler());
+    for (Map&lt;String, Object&gt; map : list) {
+        System.out.println(map);
+    }
+}
+</code></pre><p>这里需要重点强调一下的就是，因为我们最后封装每一条记录得到的都是一个 <code>Map</code> 集合，如果我们配合使用另一个工具 <code>BeanUtils</code>，那我们也是可以将得到的 <code>Map</code> 集合转化成我们想要的 <code>Bean</code> 对象的，主要就是其中 <code>BeanUtils</code> 类的 <code>public static void populate(Object bean, Map properties)</code> 方法，可是我们前面不是已经有了像 <code>BeanHandler</code> 和 <code>BeanListHandler</code> 这样的实现类了吗？为什么还需要先得到 <code>Map</code> 集合对象，然后再封装成 <code>Bean</code> 对象，答案就是上面的两个实现类都是针对于单表进行操作的，在对多表进行操作时就没有办法了，而在多表查询时，我们仍然可以得到每一条查询结果的 <code>Map</code> 集合对象，如果查询结果是两张表连接查询得到的结果，那我们就可以使用这个 <code>Map</code> 集合来完成对两个不同类型的类对象的属性赋值，为什么可以呢？这是因为上面说的工具中的 <code>BeanUtils</code> 类方法 <code>populate()</code> 是根据属性名称来完成属性赋值的，如果 <code>Map</code> 集合当中有和我们当前想封装对象不符的属性，那么在属性赋值的时候是直接跳过的，而如果缺少我们想封装对象中相应的属性，那么这个属性就会直接被赋值为 <code>null</code>,因此可以使用那个 <code>Map</code> 集合来对不同的类对象进行属性赋值。不过也是因为这个原因，所以需要注意的一点就是，如果需要使用一个 <code>Map</code> 集合对象来对多个不同的类对象赋值的话，那么在设计类的时候就需要注意最好不要将这些类的属性名称设置为一样，否则在进行属性封装的时候就会有一定的困难，虽然也是可以完成封装的。</p>
+<h4 id="3-8-KeyedHandler"><a href="#3-8-KeyedHandler" class="headerlink" title="3.8 KeyedHandler"></a>3.8 KeyedHandler</h4><p>这个实现类的话最后的封装结果也和 <code>Map</code> 集合有关系，不过得到结果的结果就要比上面的 <code>MapListHandler</code> 要复杂一点了，首先 <code>KeyedHandler</code> 同样也是用于封装多条记录的，而最后多条记录的封装结果都是放在一个 <code>Map</code> 集合当中，这个 <code>Map</code> 集合的 <code>key</code> 是什么呢？它的 <code>key</code> 就是由我们指定的某一列的值，比如如果指定的是 <code>name</code> 的话，那每一条记录的 <code>name</code> 属性值就是这个 <code>Map</code> 集合的 <code>key</code> 了，那这个 <code>Map</code> 集合的 <code>value</code> 呢？这个 <code>Map</code> 集合中的 <code>value</code> 就是每一条查询结果封装得到的 <code>Map</code> 集合，这就是使用 <code>KeyedHandler</code> 实现类封装数据得到结果的结构。</p>
+<p>代码如下：</p>
+<pre><code>public static void KeyedHandlerDemo() throws SQLException {
+    QueryRunner queryRunner = new QueryRunner(JDBCUtils2.getDataSource());
+    Map&lt;Object, Map&lt;String, Object&gt;&gt; list = queryRunner.query(&quot;select * from account&quot;, new KeyedHandler(&quot;name&quot;));
+    for (Object key : list.keySet()) {
+        System.out.println(key+&quot; &quot;+list.get(key));
+    }
+}
+</code></pre><h4 id="3-9-ScalarHandler"><a href="#3-9-ScalarHandler" class="headerlink" title="3.9 ScalarHandler"></a>3.9 ScalarHandler</h4><p>这个封装类的结果和上面所有的实现类都不同，而且也是最简单的，因为它返回的结果就是一个值，具体的应用也应该是十分清楚的，比如要查询一张表中所有的记录条数，那么使用前面的实现类就不好使了，而使用这个实现类就可以很简单的完成功能。</p>
+<p>代码如下：</p>
+<pre><code>public static void ScalarHandlerDemo() throws SQLException {
+    QueryRunner queryRunner = new QueryRunner(JDBCUtils2.getDataSource());
+    Object value = queryRunner.query(&quot;select count(*) from account&quot;, new ScalarHandler());
+    System.out.println(value);
+}
+</code></pre><h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h3><p>使用 <code>DbUtils</code> 这个工具，从代码上就可以看出是十分简单的，并且它也具有十分灵活的封装数据功能，我觉得掌握使用这个工具的重点在于理解 <code>ResultSetHandler</code> 的实现类得到封装结果的内部结构，这个工具用多了之后真的会上瘾，觉得怎么可以设计的这么简洁，真是越用越喜欢。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/DbUtils/" rel="tag"># DbUtils</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/12/数据库连接池/" rel="next" title="数据库连接池">
+                <i class="fa fa-chevron-left"></i> 数据库连接池
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/01/Tomcat服务器/" rel="prev" title="Tomcat服务器">
+                Tomcat服务器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-核心类"><span class="nav-number">1.</span> <span class="nav-text">1.核心类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-增删改查操作"><span class="nav-number">2.</span> <span class="nav-text">2.增删改查操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-增加数据"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 增加数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-删除数据"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 删除数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-修改数据"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 修改数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-查询数据"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 查询数据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-ResultSetHandler的实现类"><span class="nav-number">3.</span> <span class="nav-text">3.ResultSetHandler的实现类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-ArrayHandler"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 ArrayHandler</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-ArrayListHandler"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 ArrayListHandler</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-BeanHandler"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 BeanHandler</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-BeanListHandler"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 BeanListHandler</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-ColumnListHandler"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 ColumnListHandler</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-MapHandler"><span class="nav-number">3.6.</span> <span class="nav-text">3.6 MapHandler</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-MapListHandler"><span class="nav-number">3.7.</span> <span class="nav-text">3.7 MapListHandler</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-8-KeyedHandler"><span class="nav-number">3.8.</span> <span class="nav-text">3.8 KeyedHandler</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-ScalarHandler"><span class="nav-number">3.9.</span> <span class="nav-text">3.9 ScalarHandler</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-总结"><span class="nav-number">4.</span> <span class="nav-text">4.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2017/09/09/DbUtils的使用/';
+
+      var disqus_title = "DbUtils的使用";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
