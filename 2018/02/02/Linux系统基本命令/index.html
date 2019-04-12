@@ -1,0 +1,1271 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="作为程序员来说，除了掌握开发语言之外，能够掌握一些服务器端的知识那就更好了，因为我们开发的项目都是部署在服务器中的，而且大多都是 Linux 服务器，这样当在生产中出现问题时，我们就能在服务器当中更快地定位问题，并进行解决，因此掌握一些服务器方面的知识还是很有用的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux系统基本命令">
+<meta property="og:url" content="http://yoursite.com/2018/02/02/Linux系统基本命令/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="作为程序员来说，除了掌握开发语言之外，能够掌握一些服务器端的知识那就更好了，因为我们开发的项目都是部署在服务器中的，而且大多都是 Linux 服务器，这样当在生产中出现问题时，我们就能在服务器当中更快地定位问题，并进行解决，因此掌握一些服务器方面的知识还是很有用的。">
+<meta property="og:updated_time" content="2019-04-12T15:42:18.031Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux系统基本命令">
+<meta name="twitter:description" content="作为程序员来说，除了掌握开发语言之外，能够掌握一些服务器端的知识那就更好了，因为我们开发的项目都是部署在服务器中的，而且大多都是 Linux 服务器，这样当在生产中出现问题时，我们就能在服务器当中更快地定位问题，并进行解决，因此掌握一些服务器方面的知识还是很有用的。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/02/Linux系统基本命令/"/>
+
+
+
+
+
+  <title> Linux系统基本命令 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/02/Linux系统基本命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Linux系统基本命令
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-02T23:40:21+08:00">
+                2018-02-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/02/Linux系统基本命令/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/02/02/Linux系统基本命令/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/02/02/Linux系统基本命令/" class="leancloud_visitors" data-flag-title="Linux系统基本命令">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>作为程序员来说，除了掌握开发语言之外，能够掌握一些服务器端的知识那就更好了，因为我们开发的项目都是部署在服务器中的，而且大多都是 <code>Linux</code> 服务器，这样当在生产中出现问题时，我们就能在服务器当中更快地定位问题，并进行解决，因此掌握一些服务器方面的知识还是很有用的。</p>
+<a id="more"></a>
+<h3 id="1-Linux介绍"><a href="#1-Linux介绍" class="headerlink" title="1.Linux介绍"></a>1.Linux介绍</h3><p><code>Linux</code> 和 <code>Windows</code> 一样，也是一种操作系统，只是因为我们平常使用习惯的原因，更多的是使用 <code>Windows</code> 操作系统，但是在服务器端，更多的还是使用 <code>Linux</code> 操作系统，因为 <code>Linux</code> 是完全开源的，因此相对来说更加安全，对于我们程序员来说，平时开发时通常还是在 <code>Windows</code> 系统中进行开发，但是开发完成后则会部署在 <code>Linux</code> 系统中，因为总是要与 <code>Linux</code> 系统打交道的，因此掌握它的一些基本命令对于我们来说是非常实用的，掌握基本命令之后还可以接着学习 <code>Shell</code> 脚本，作为 <code>Java</code> 程序员来说，可能解决问题的第一思路就是使用 <code>Java</code> 了，但是也许学习了 <code>Shell</code> 脚本之后，我们就可以学会以其它方式解决问题了，对于某些问题来说，使用 <code>Shell</code> 脚本可能会十分高效，因此掌握好 <code>Linux</code> 系统相关的命令是十分有用的。</p>
+<h3 id="2-Linux的目录结构"><a href="#2-Linux的目录结构" class="headerlink" title="2.Linux的目录结构"></a>2.Linux的目录结构</h3><p><code>Linux</code> 系统中的文件都是采用目录结构来进行管理的，下面我们就来看 <code>Linux</code> 系统中常用的目录，了解了这些之后，也便于我们后续的学习。</p>
+<pre><code>bin(binaries):存放二进制可执行文件
+sbin(super user binaries):存放二进制可执行文件，只有root用户才能访问
+etc(etcetera):存放系统配置文件
+usr(unix shared resources):用于存放共享的系统资源
+home:存放用户文件的根目录
+root:超级用户目录
+dev(devices):用于存放设备文件
+lib(library):存放文件系统中的程序运行所需要的共享库及内核模块
+mnt(mount):系统管理员安装临时文件系统的安装点
+boot:存放用于系统引导时使用的各种文件
+temp(temporary):用户存放各种临时文件
+var(variable):用于存放运行时需要改变数据的文件
+</code></pre><h3 id="3-常用命令"><a href="#3-常用命令" class="headerlink" title="3.常用命令"></a>3.常用命令</h3><p>下面我们就开始学习 <code>Linux</code> 系统中一些常用的命令，熟练使用之后还是非常实用的。</p>
+<h4 id="3-1-切换目录"><a href="#3-1-切换目录" class="headerlink" title="3.1 切换目录"></a>3.1 切换目录</h4><p>在 <code>Linux</code> 系统中，文件都是保存在目录当中的，当我们在使用时，便需要切换目录去查看以及操作文件，因此这时候我们便可以使用 <code>cd</code> 命令来进行操作了。</p>
+<pre><code>cd app:切换到app目录
+cd ..:切换到上一级目录
+cd /:切换到系统根目录
+cd ~:切换到用户主目录
+cd -:切换到上一个所在目录
+</code></pre><p>需要说明一下的是最后一个命令，也就是 <code>cd -</code> 命令了，它的作用是切换回上一个所在目录，其实意思也非常简单，比如先进行一次 <code>cd bin</code> 命令进入到 <code>bin</code> 目录，然后再进行一次 <code>cd usr</code> 进入到了 <code>usr</code> 目录，这时候如果执行 <code>cd -</code> 命令的话，那就会切回到 <code>bin</code> 目录了。</p>
+<h4 id="3-2-列出文件列表"><a href="#3-2-列出文件列表" class="headerlink" title="3.2 列出文件列表"></a>3.2 列出文件列表</h4><p>下面要介绍的命令，则是列出文件列表的命令了，我们一般都会使用 <code>ls</code> 命令，这个命令是可以搭配一些参数使用的，关于这个命令参数的说明，我们可以使用 <code>ls --help</code> 来查看，其中查看文件列表时使用比较多的两个命令为：</p>
+<pre><code>ls -a:显示所有的文件和目录(包含隐藏文件)
+ls -l:以较长格式列出文件和目录信息，可以简写为ll
+</code></pre><p>需要说明一下的是，<code>Linux</code> 中的隐藏文件通常都是以点号 <code>.</code> 开头的文件，最后需要说明的就是，列出文件列表，其实还可以使用 <code>dir</code> 命令，并且同样可以带上一些参数，具体的参数说明可以使用 <code>dir --help</code> 查看的。</p>
+<h4 id="3-3-创建目录和移除目录"><a href="#3-3-创建目录和移除目录" class="headerlink" title="3.3 创建目录和移除目录"></a>3.3 创建目录和移除目录</h4><p>下面我们再看如何在 <code>Linux</code> 系统中创建目录以及移除目录，创建目录我们可以使用 <code>mkdir</code> 命令，其实也就是 <code>make directory</code> 的缩写，而移除目录则是使用 <code>rmdir</code> 命令，也就是 <code>remove directory</code> 的缩写了，下面我们看具体命令的使用。</p>
+<pre><code>mkdir aaa:在当前目录下创建aaa目录
+mkdir -p aaa/bbb:在当前目录下创建多级目录，也就是aaa目录下面再创建bbb目录
+rmdir aaa:移除空目录，当aaa为空目录时进行移除操作
+</code></pre><p>关于创建多级目录，需要说明一下的，这里是使用了 <code>-p</code> 参数，也就是在需要时再创建一级目录，其实这个参数的说明，我们也可以使用 <code>mkdir --help</code> 命令查看的，最后关于移除目录的，其实 <code>rmdir</code> 命令只有当要移除的目录为空时才能移除成功，否则是移除不了的，关于如何移除一个包含文件和子目录的目录，我们在下面再进行说明。</p>
+<h4 id="3-4-浏览文件的命令"><a href="#3-4-浏览文件的命令" class="headerlink" title="3.4 浏览文件的命令"></a>3.4 浏览文件的命令</h4><p>下面则是介绍查看文件中内容的命令了，主要是 <code>cat</code>、<code>more</code>、<code>less</code> 以及 <code>tail</code> 这些，其实掌握了这些查看文件内容的命令，在实际开发过程中查看日志是十分方便的，下面具体来看每个命令。</p>
+<p>先看 <code>cat</code> 命令，<code>cat</code> 命令后面直接接文件名就可以查看文件中的内容了，如:</p>
+<pre><code>cat time.log
+</code></pre><p>这样我们就能看到文件中的内容了，不过有一点需要注意的就是，如果文件中的内容过多，使用这个命令效果就不是很好了，因为会将所有的内容进行展示，而内容如果过多，其实我们是看不到重点的，不过如果文件内容不是很多的话，还是可以使用的。</p>
+<p>下面再看 <code>more</code> 命令，使用的话其实也是直接在后面加文件名，这样就能查看到文件内容了，不过使用 <code>more</code> 命令时，一般只会展示一页的内容，如果我们需要查看更多的内容，则可以使用空格键或者回车键，空格键则是查看下一页的内容，而回车键则是查看下一行的内容，因此阅读内容的体验也就会更好，当我们想停止阅读时，则可以按 <code>q</code> 键退出。</p>
+<p>而 <code>less</code> 命令的话，使用起来则是和 <code>more</code> 命令类似，后面也是直接接文件名进行查看，同样一次也只是展示一页的内容，需要查看更多内容的话则可以通过 <code>PgUp</code> 和 <code>PgDn</code> 进行翻页操作，<code>PgUp</code> 则是向上翻页，而 <code>PgDn</code> 则是向下翻页操作，这样的话也是可以满足我们的阅读需要的，同样，当我们想停止阅读时，则可以按 <code>q</code> 键退出。</p>
+<p>最后进行说明的则是 <code>tail</code> 命令了，这个命令的主要作用则是查看文件最后一行的内容，具体事宜如下:</p>
+<pre><code>tail -10 time.log:查看文件中最后10行内容
+tail -f time.log:动态查看文件增加内容
+</code></pre><p>这个命令在我们的实际开发中是用的比较多的，因为当我们监控某个服务是否正常时，可能就会直接查看它对应的日志输出，那这时候我们就可以使用如下命令了。</p>
+<pre><code>tail -50f time.log
+</code></pre><p>这个命令其实融合了上面的两个命令，起到的作用就是查看日志文件最后面的 <code>50</code> 行内容，而且当有新的日志写入到该文件时，也会进行输出。</p>
+<h4 id="3-5-文件操作"><a href="#3-5-文件操作" class="headerlink" title="3.5 文件操作"></a>3.5 文件操作</h4><p>下面我们再来看对于文件的操作，主要就是复制，移动以及删除了，对应的命令也就是 <code>cp</code>、<code>mv</code> 以及 <code>rm</code> 了，首先先看复制命令。</p>
+<pre><code>cp a.txt b.txt:将a.txt复制为b.txt文件
+cp a.txt ../:将a.txt文件复制到上一级目录
+</code></pre><p>其实在实际开发中，复制命令还是非常有用的，比如我们想要对某个文件进行处理，而又怕因为操作失误对文件造成无法复原的损坏，因此这时候我们就可以先将该文件备份一下，然后再进行操作，这样就能保证不出问题，接下来我们再看移动命令，常用形式为:</p>
+<pre><code>mv a.txt b.txt:将a.txt文件重命名为b.txt文件
+mv a.txt ../:将a.txt文件移动到上一级目录
+</code></pre><p>其实移动命令有时候就是重命名操作，最后我们再看删除操作，也就是 <code>rm</code> 命令的操作，因为删除命令都是无法回退的，因此在操作时还是应该多加仔细，以免造成损失，下面看具体的使用(下面的 <code>a.txt</code> 是一个文件，而 <code>a</code> 则是一个目录)。</p>
+<pre><code>rm a.txt:删除a.txt文件，会进行提示是否确认删除，y表示是，n表示否
+rm -f a.txt:强制删除a.txt文件，不进行询问
+rm -r a:删除a目录中的所有文件，每个文件都会提示是否确认删除
+rm -rf a:循环强制删除a目录中的所有文件
+rm -rf *:删除所有文件
+rm -rf /*:删除根目录下面的所有文件
+</code></pre><p>还是想提醒一句，删除操作具有强大的破坏力，因此在使用时应该格外小心，以免造成不必要的损失，上述列出的最后两个命令最好不要使用。</p>
+<h4 id="3-6-打包压缩与解压"><a href="#3-6-打包压缩与解压" class="headerlink" title="3.6 打包压缩与解压"></a>3.6 打包压缩与解压</h4><p>下面我们开始介绍如何在 <code>Linux</code> 系统中进行打包并压缩或解压操作，其实这些操作在我们平时还是用的非常多的，因为如果需要在网络中传输某个文件的话，这时候先将文件压缩一下速度肯定是会有很大提高的，特别是在文件比较大的情况下，而这些操作我们都可以使用 <code>tar</code> 命令来完成，我们先看具体的使用。</p>
+<pre><code>tar -cvf a.tar ./*:将当前目录下的所有文件打包成一个新文件a.tar
+tar -zcvf a.tar.gz ./*:将当前目录下的所有文件打包并压缩成一个新文件a.tar.gz
+tar -xvf a.tar:将a.tar这个包文件解压到当前文件夹
+tar -xvf a.tar.gz -C ./b:将a.tar.gz压缩文件解压到当前目录的b目录中
+</code></pre><p>上面的这几个操作便是我们平时会经常使用到的命令了，因此还是要牢记的，不过也不用太过担心，因为我们使用的多了之后就自然会记住了，同时，我们需要多关注一下 <code>tar</code> 命令后面可以接的参数有哪些，这样在实际中就能灵活运用了。</p>
+<pre><code>-c:创建一个新tar文件
+-v:显示运行过程的信息
+-f:指定文件名
+-z:调用gzip压缩命令进行压缩
+-t:查看压缩文件的内容
+-x:解开tar文件
+</code></pre><p>需要说明一下的是，其实 <code>tar</code> 命令是只做打包操作的，即将多个文件打包到一个文件当中，而不做压缩命令的，需要压缩时是在 <code>tar</code> 命令的参数中加上 <code>-z</code> 参数调用的 <code>gzip</code> 压缩文件命令，同时需要注意的一点就是，在使用 <code>tar</code> 命令解压压缩文件时，如果需要指定解压到哪个目录中，是需要使用 <code>-C</code> 进行指定的，而且这里的 <code>C</code> 是大写的，并且需要预先创建好目录，否则会解压失败。</p>
+<h4 id="3-7-查找文件"><a href="#3-7-查找文件" class="headerlink" title="3.7 查找文件"></a>3.7 查找文件</h4><p>下面我们再来看查找文件的命令，查找文件其实是可以分为两种的，一种是查找符合条件的文件，第二种则是在文件中查找符合条件的字符串，这两种查找也就分别对应我们下面将要介绍的两种命令，也就是 <code>find</code> 和 <code>grep</code> 了。</p>
+<p>先看 <code>find</code> 命令，这个命令主要的就是用来查找符合条件的文件了，我们可以使用这个命令根据文件名称、所属用户以及文件权限来进行查找，下面先看具体的使用:</p>
+<pre><code>find / -name &quot;log*&quot;:查找根目录下文件名以log开头的文件和目录
+find / -name &quot;log*&quot; -ls:查找到根目录下文件名以log开头的文件和目录，并展示其详细信息
+find / -user laucloud -ls:查找根目录下所属用户为laucloud的文件和目录，并展示其详细详细
+find / -user laucloud -type d -ls:查找根目录下所属用户为laucloud的目录，并展示其详细详细
+find / -perm 777 -type f -ls:查找根目录下权限为777的文件
+</code></pre><p>这里需要说明的是，上面的例子中 <code>find</code> 后面直接跟的 <code>/</code>，代表的是查找范围为根目录下，如果只是想查找本目录的话，则可以指定为 <code>./</code>，同时有的命令后会跟着 <code>-ls</code>，这是表示在查找到符合条件的文件或目录之后，会展示它的详细信息，最后一个便是 <code>-type</code> 参数，如果后面跟的是 <code>d</code>，则表明查找的只是目录，而如果是 <code>f</code> 的话，则表示查找的只是文件。</p>
+<p>下面再看 <code>grep</code> 命令，这个命令则是用来查找文件中符合条件的字符串，在实际的开发过程中，我们可能会经常使用这个命令来查找日志文件，以便得到我们想要的信息，下面先看具体的使用:</p>
+<pre><code>grep exception time.log:在time.log文件中查找exception这个字符串
+grep exception time.log --color:在time.log文件中查找exception这个字符串，并将找到的字符串高亮显示
+grep exception time.log --color -A5 -B5:找到对应的关键字之后，高亮显示，并显示关键字前面的5行信息和后面5行信息
+</code></pre><p>这里需要说明的是，如果我们需要查找的关键字中是包含空格的，那我们可以使用引号将关键字引起来，这样就可以检索多个单词了，还有就是上面命令中的参数说明，其中的 <code>--color</code> 是表示在查找到对应的字符串之后需要将它高亮显示，而 <code>-A5</code> 和 <code>-B5</code> 则是表示显示查找到对应关键字的前 <code>5</code> 行信息和后 <code>5</code> 行信息，其实这里的 <code>A</code> 就是表示的 <code>After</code>，而 <code>B</code> 则是表示的 <code>Before</code>，这样就很好理解了。</p>
+<h4 id="3-8-其它常用命令"><a href="#3-8-其它常用命令" class="headerlink" title="3.8 其它常用命令"></a>3.8 其它常用命令</h4><p>下面我们再看一些常用的实用命令，掌握了这些可以使我们使用 <code>Linux</code> 时更加熟练，下面先看具体的使用:</p>
+<pre><code>pwd:显示当前所在目录
+touch a.txt:创建一个空文件a.txt
+ll -h:友好的显示文件大小
+wget http://nginx.org/download/nginx-1.9.12.tar.gz:下载nginx安装包
+</code></pre><p>下面逐一的进行说明一下，<code>pwd</code> 命令用于显示当前所在目录，我们在 <code>Linux</code> 系统中进行操作时，一般都是在某个目录中，而有时候则需要跳转到其它目录，当我们跳转目录次数多了之后，很可能已经无法准确知道自己现在是在哪个目录下面了，那这时候使用 <code>pwd</code> 命令，就能知道当前所在目录的绝对路径了；<code>touch</code> 命令则是可以创建空文件，比如上面我们就创建了一个 <code>a.txt</code> 的空文件；下面再看 <code>ll -h</code> 命令，这个命令可以用于展示当前目录中所有文件的大小，而且是十分友好的进行展示，单位会根据文件实际大小来确定，比如 <code>K</code> 和 <code>M</code> 以及 <code>G</code>，简单点说，就是以便于人类阅读的方式进行展示；最后则是 <code>wget</code> 命令了，这个命令主要是用来下载网络中的文件，在 <code>Windows</code> 系统中，我们下载网络中的文件时，主要是通过浏览器来进行的，其实也是获取到相应链接之后然后传输文件，而在 <code>Linux</code> 系统中的话，我们就可以直接使用 <code>wget</code> 命令进行下载了，只要后面跟上网络中资源的链接的地址便可以下载了。</p>
+<h4 id="3-9-vi和vim编辑器"><a href="#3-9-vi和vim编辑器" class="headerlink" title="3.9 vi和vim编辑器"></a>3.9 vi和vim编辑器</h4><p>下面我们开始介绍 <code>vi</code> 和 <code>vim</code> 编辑器，其实就有点类似于我们 <code>Windows</code> 系统中的 <code>EditPlus</code>，也就是用来专门编辑文本文件的，而 <code>vim</code> 相当于是对 <code>vi</code> 升级的工具，因此在 <code>vi</code> 中可以使用的操作方法在 <code>vim</code> 中同样也是可以使用的，其实我们平时经常使用的一些操作方法对于 <code>vi</code> 和 <code>vim</code> 来说都是相同的，因此掌握了一种，另一种也是可以灵活运用的，下面开始具体介绍。</p>
+<p>首先需要说明的是，<code>vi</code> 编辑器一共有 <code>3</code> 中模式，分别为:</p>
+<pre><code>命令行模式:使用命令对文件中内容进行操作
+插入模式：使用键盘对文件中内容增加和修改
+尾行模式:保存对文件的修改并退出或直接退出
+</code></pre><p>下面我们根据 <code>vi</code> 编辑器操作一个文件的流程来具体讲解一下 <code>vi</code> 编辑器应该如何使用，可以假设操作的文件名为 <code>a.txt</code>，首先我们开始编辑该文件，我们可以直接使用 <code>vi a.txt</code> 或者 <code>vim a.txt</code> 进入编辑状态，要是 <code>a.txt</code> 文件根本不存在也不要紧，使用上面的命令时，如果操作的文件不存在，系统会自动帮我们新建一个空文件，同时我们现在也就进入到了命令模式，如果此时文件中已经有内容的话，我们这时候就可以根据相关命令对文件中内容进行操作了，常用的命令有:</p>
+<pre><code>dd:快速删除一行
+yy:复制当前行
+nyy:从当前行开始向后复制n行
+p:粘贴
+R:替换
+</code></pre><p>上面需要说明的就是关于复制的命令，<code>yy</code> 复制命令常和 <code>p</code> 粘贴命令一起使用，这样就相当于把光标所在行进行了复制并粘贴，同样的，如果是复制多行的话，那就是 <code>nyy</code> 命令和 <code>p</code> 粘贴命令一起使用了，最后说一下 <code>R</code> 替换命令，在我们按下替换命令之后，我们就可以在文件中输入了，而输入的字符则会直接替换掉光标所在行的字符，这样也就完成了替换操作。</p>
+<p>上面就是在命令模式下我们会使用到的常用命令，下面我们开始介绍插入模式，可以直接按一个 <code>i</code> 键进入插入模式，这样我们就能对文件进行编辑了，其实想要从命令行模式到插入模式不止可以按一个 <code>i</code> 键，也可以按下面这些键，下面一一进行说明:</p>
+<pre><code>i:在光标所在位置前面插入字符
+I:在光标所在行行首插入字符
+a:在光标所在位置后面插入字符
+A:在光标所在行行尾插入字符
+o:在光标所在行下面插入一行
+O:在光标所在行上面插入一行
+</code></pre><p>这些按键都可以使我们由命令模式转入到插入模式，在插入模式中我们就可以使用键盘对文件中的内容进行编辑了，当我们编辑完了之后，想要保存应该怎么办呢？这时候我们就需要先按键盘左上角的 <code>Esc</code> 键由插入模式退回到命令模式，这时我们便可以进入到尾行模式进行保存退出操作了，如何才能由命令模式进入到尾行模式呢？其实也很简单，只需要在键盘中输入一个冒号 <code>:</code> 就行了，其实也就是 <code>Shift+:</code> 的组合按键了，如果这时候我们想要保存刚才我们对文件的操作并退出，则可以在尾行中输入 <code>wq</code>，然后回车就行了，其实 <code>wq</code> 也就是 <code>write</code> 和 <code>quit</code> 的简写了，如果我们不打算保存刚才对文件的操作而直接退出呢？那就可以在尾行中输入 <code>q!</code> 了，这样的话就是直接退出对文件的编辑，而不进行保存了。</p>
+<p>其实 <code>vi</code> 编辑器就相当于是 <code>Windows</code> 系统中的各种文本编辑器了，只是它还提供了一些命令来供我们使用，只要我们经常使用的话，就会慢慢地熟悉它的使用规则了。</p>
+<h4 id="3-10-重定向和管道操作"><a href="#3-10-重定向和管道操作" class="headerlink" title="3.10 重定向和管道操作"></a>3.10 重定向和管道操作</h4><p>下面我们再来看重定向和管道操作，先看重定向命令，它的作用便是将一个命令所得到的结果输出到一个文件当中，重定向命令有两种写法，分别如下:</p>
+<pre><code>&gt;:重定向输出，会覆盖之前已有的内容
+&gt;&gt;:重定向输出，会在之前已有的内容后面追加写
+</code></pre><p>其实 <code>&gt;</code> 和 <code>&gt;&gt;</code> 两者最大的区别也就是一个会覆盖之前已有的内容，而另外一个则是追加写，使用方式也是十分简单，如下：</p>
+<pre><code>ls -l &gt; a.txt：将当前目录下所有文件以及目录的列表详细信息写入到a.txt文件中
+</code></pre><p>上面的例子中如果将 <code>&gt;</code> 直接换为 <code>&gt;&gt;</code>，那么得到的效果就是将得到的列表信息追加写到 <code>a.txt</code> 文件当中，重定向命令还是十分有用的，比如可以将 <code>Shell</code> 脚本中的日志输入到某个文件中，以便我们后续进行查看。</p>
+<p>下面我们再看管道命令，也就是 <code>|</code> 符号了，它的作用就是将前一个命令的输出用作后一个命令的输入，可以看下面这些具体的使用。</p>
+<pre><code>ls --help | more:分页展示ls命令的说明文档
+ps -ef | grep java:查询名称中包含java的进程
+</code></pre><p>其实在实际开发中，上面这个命令我们是经常使用的，即查看进程，<code>ps -ef</code> 命令是查看当前系统中所有的进程，而后面 <code>grep java</code> 则是在这所有的进程当中查询名称中包含 <code>java</code> 的进程，也就是将前一个命令所得到的结果作为后一个命令的输入了。</p>
+<p>下面我们最后看一个 <code>&amp;&amp;</code> 命令，它的作用是连接两个命令的，实现逻辑与的功能，只有当左边的命令返回真，也就是执行成功，才会执行右边的命令，比较好理解的例子就是下面这个了。</p>
+<pre><code>mkdir test &amp;&amp; cd test
+</code></pre><p>上面这个命令的作用就是创建一个 <code>test</code> 目录，并进入到该目录当中，如果创建目录失败的话，就不会执行进入目录命令了。</p>
+<h4 id="3-11-系统管理命令"><a href="#3-11-系统管理命令" class="headerlink" title="3.11 系统管理命令"></a>3.11 系统管理命令</h4><p>下面我们再来看一些系统常用的管理命令，掌握了这些命令的使用，可以让我们更好地在 <code>Linux</code> 系统中管理相关程序，下面具体来看:</p>
+<pre><code>date:显示系统当前时间
+date -s &quot;2008-01-01 00:00:00&quot;:设置系统当前时间
+</code></pre><p>上面的 <code>date</code> 命令则是与当前系统时间相关的命令了，可以直接获取得到系统当前时间，也可以设置系统当前时间。</p>
+<pre><code>df:显示磁盘信息
+df -h:友好地显示磁盘信息
+free:显示内存状态
+free -m:以MB为单位显示内存状态
+free -g:以GB为单位显示内存状态
+top:显示正在执行中的程序
+</code></pre><p>上面这些命令都是用来显示系统相关信息的，比如磁盘和内存的相关情况，同时还可以查看当前系统中正在运行的程序，下面我们再看进程管理的命令：</p>
+<pre><code>ps -ef:查看所有进程
+ps -ef | grep java:查找进程名中包含java的进程
+kill 2868:杀掉PID为2868的进程
+kill -9 2868:强制杀掉PID为2868的进程
+</code></pre><p>上面查看进程和杀掉某个进程在实际开发中还是很有用的，因为有可能我们需要及时地结束掉某个进程，这时候就需要使用上面的命令了。</p>
+<pre><code>du:显示目录的大小
+du -h:友好的展示目录的大小
+who:显示当前登录用户的信息
+uname:显示系统信息
+uname -a:显示系统详细信息，信息依次为：内核名称(类别)，主机名，内核版本号，内核版本，内核编译日期，硬件名，处理器类型，硬件平台类型，操作系统名称
+</code></pre><p>上面的这些命令中显示目录大小可能是经常会使用的，其它命令可能不是那么常用，了解一下就好。</p>
+<h4 id="3-12-用户管理"><a href="#3-12-用户管理" class="headerlink" title="3.12 用户管理"></a>3.12 用户管理</h4><p>下面我们开始介绍 <code>Linux</code> 系统中的用户，很显然的，只有有了用户，才能登录并使用 <code>Linux</code> 系统，否则是无法使用的，下面我们就来看在 <code>Linux</code> 系统中是如何管理用户的，首先，我们最开始登录系统时，一般是使用的 <code>root</code> 用户，这个用户也是系统中权限最大的用户了，但是我们在实际开发过程中，一般都是有多个用户的，这也是为了系统的安全性，那怎样才能新增用户呢？就是使用下面的命令：</p>
+<pre><code>useradd test:增加一个test用户
+</code></pre><p>在系统中，每次增加一个用户，系统都会在 <code>/home</code> 目录下新建一个和用户名相同的目录，用来存放该用户的数据，如果想要指定用户的目录，则可以使用 <code>-d</code> 参数，具体使用如下：</p>
+<pre><code>useradd test -d /home/t1
+</code></pre><p>这样的话，在 <code>/home</code> 目录下，为 <code>test</code> 用户分配的目录便不是 <code>test</code> 目录了，而是 <code>t1</code> 目录了，那如果是 <code>root</code> 用户呢，它对应的用户目录又是什么呢？其实 <code>root</code> 用户所对应的用户目录就直接是 <code>/root</code> 了，当创建了一个用户之后，我们便需要为这个用户设置密码，以便后续可以登录使用，设置密码则可以使用如下命令：</p>
+<pre><code>passwd test test123
+</code></pre><p>上面命令的作用则是为 <code>test</code> 用户分配 <code>test123</code> 的密码，这样后面我们就可以使用该用户来登录系统了，那如果想要切换用户的话，我们应该使用什么命令呢？其实可以使用下面这两个：</p>
+<pre><code>ssh -l 用户名 -p 端口号 ip地址
+su 用户名
+</code></pre><p>其实如果将上面这两种方式登录的环境具体一些的话，就可以是下面这样的：</p>
+<pre><code>ssh -l test -p 22 192.168.1.112
+su test
+</code></pre><p>使用上面两种方式时，输入上面的命令之后，系统都会提示输入密码，这时输入正确的密码就能够正常切换用户了，同时也可以使用 <code>who</code> 命令查看当前登录的用户是谁。</p>
+<p>最后需要介绍的就是删除用户了，当某个用户不再需要时，我们便需要对用户进行删除操作了，这时候我们就可以使用 <code>userdel</code> 命令了，比如我们想删除 <code>test</code> 用户的话，那我们就可以使用如下的命令：</p>
+<pre><code>userdel test
+</code></pre><p>这时候我们便删除掉系统中的 <code>test</code> 用户了，但需要注意的是，这时候虽然删除掉了该用户，但是该用户所对应的用户目录是没有被删除的，也就是 <code>/home</code> 目录下面的 <code>/test</code> 目录是没有被删除的，如果我们想要在删除用户时，连带它的用户目录也一起删除，那应该怎么办呢？其实是可以使用下面这个命令的：</p>
+<pre><code>userdel -r test
+</code></pre><p>这样的话，当我们在删除 <code>test</code> 用户时，就不仅删除掉了 <code>test</code> 用户了，而且其对应的用户目录也一起被删除了。</p>
+<h4 id="3-13-组管理与账户文件"><a href="#3-13-组管理与账户文件" class="headerlink" title="3.13 组管理与账户文件"></a>3.13 组管理与账户文件</h4><p>上面是介绍的 <code>Linux</code> 中的用户，我们现在便介绍系统中用户所属的组，其实系统中的每一个用户都属于一个组，当我们创建一个用户，却没有为它指定所属的组时，系统会自动创建一个和该用户名相同的私有组的，并将该用户划分为该组中的成员，比如我们上面新建的用户 <code>test</code>，新建时是没有为它指定所属组的，那么系统就会新建一个 <code>test</code> 的私有组，并将 <code>test</code> 用户划分到这个组中，其实我们是可以使用 <code>id</code> 命令进行查看的，也就是 <code>id test</code> 命令，这样我们就可以看到用户的 <code>uid</code> 和 <code>gid</code>，这里我们通过 <code>gid</code>，也就是组 <code>id</code> 就可以知道 <code>test</code> 用户是在 <code>test</code> 组中的。</p>
+<p>下面我们再看如何在创建用户时为它指定所属组，也就是将用户划分到哪个组中，其实只需要先创建一个组，然后在创建用户的时候指定所属组就好了，这样就能达到我们想要的效果了。</p>
+<pre><code>groupadd public
+useradd test -g public
+</code></pre><p>通过上面的命令，我们就能在创建用户时指定用户所属组了，在执行完之后也是可以通过 <code>id</code> 命令来查看用户所属的组的，接着再看一下如何管理组呢？上面我们已经知道了如何添加一个组，那应该如何删除一个组呢？其实也是很简单的：</p>
+<pre><code>groupdel public
+</code></pre><p>这样的话就能将 <code>public</code> 这个组删除掉了，需要注意的一点是，在删除某个组时，如果某个组中还有用户成员的话，那么就应该先将用户删完，然后再删除组。</p>
+<p>下面我们再看一个命令，那就是 <code>su</code> 命令，上面我们已经知道这个命令是用来切换用户登录的，使用方式为:</p>
+<pre><code>su test
+</code></pre><p>然后系统就会提示我们输入密码，当输入正确的密码之后，系统就会切换到 <code>test</code> 用户了，这里需要注意的一点是，当我们在 <code>/home</code> 目录执行命令进行用户切换时，切换到了之后我们就还是在 <code>/hmoe</code> 目录，也就是说当我们在哪个目录执行命令进行用户切换，那切换完成之后也会在哪个目录当中，而这里如果我们加入一个参数的话，也就是 <code>-</code> 的话，就会有另外的效果：</p>
+<pre><code>su - test
+</code></pre><p>不管我们在哪里执行命令进行用户切换时，切换完成之后都会自动跳转到用户所对应的用户目录当中，比如上面的 <code>test</code> 用户，当用户切换成功之后，目录就会切换到 <code>/home/test</code> 目录了，那如果是 <code>root</code> 用户呢？也是切换到对应用户的用户目录当中，也就是 <code>/root</code> 目录下了。</p>
+<p>最后我们再介绍一下账户文件，其实账户文件一共有三种，名称以及它们对应的目录为：</p>
+<pre><code>/etc/passwd:用户文件
+/etc/shadow:密码文件
+/etc/group:组信息文件
+</code></pre><p>其实我们可以打开这三个文件进行查看的，使用 <code>cat</code> 命令就行，文件中的数据每一行表示一个信息，而且数据都是使用冒号 <code>:</code> 分割，下面我们就具体来看一下这三种文件中的每一行数据都是由什么组成的。</p>
+<p>用户文件:</p>
+<pre><code>root:x:0:0:root:/root:/bin/bash
+账号名称:在系统中是唯一的
+用户密码:此字段存放加密口令
+用户标识码(User ID):系统内部用它来标示用户
+组标识码(Group ID):系统内部用它来标识用户属性
+用户相关信息:例如用户全名等
+用户目录:用户登录系统后所进入的目录
+用户环境:用户工作的环境
+</code></pre><p>密码文件:</p>
+<pre><code>shadow文件中每条记录用冒号间隔的9个字段组成.
+用户名:用户登录到系统时使用的名字，而且是惟一的
+口令:存放加密的口令
+最后一次修改时间:标识从某一时刻起到用户最后一次修改时间
+最大时间间隔:口令保持有效的最大天数，即多少天后必须修改口令
+最小时间间隔:再次修改口令之间的最小天数
+警告时间:从系统开始警告到口令正式失效的天数
+不活动时间:口令过期少天后，该账号被禁用
+失效时间:指示口令失效的绝对天数(从1970年1月1日开始计算)
+标志:未使用
+</code></pre><p>组信息文件:</p>
+<pre><code>root:x:0:
+组名:用户所属组
+组口令:一般不用
+GID:组ID
+用户列表:属于该组的所有用户
+</code></pre><p>上面的这三种账户文件只要了解一下就好，因为我们平时开发过程中，操作用户或者组时通常都是使用的命令进行操作的，因此这些账户文件了解一下就行。</p>
+<h4 id="3-14-文件权限管理"><a href="#3-14-文件权限管理" class="headerlink" title="3.14 文件权限管理"></a>3.14 文件权限管理</h4><p>在 <code>Linux</code> 系统中，每一个文件和目录都有它所具有的权限，根据所具有的权限，我们就能知道该文件和目录是否能够被我们查看、修改或者运行，当我们使用 <code>ll</code> 命令查看某个目录下所有的文件和目录时，就能看到所有文件和目录的详细详细，在这些信息中，第一列数据便是权限信息了，举个简单的权限信息例子：</p>
+<pre><code>-rwxrwxrwx
+</code></pre><p>这个便是一个普通文件所具有的的权限信息了，下面我们具体来看上面的符号都代表的是什么意思，先看这里的第 <code>1</code> 个字符，是一个 <code>-</code> 符号，那这个是代表什么意思呢？其实就是表示是一个普通文件，那这第 <code>1</code> 个位置有哪些符号可以选择呢？并且它们所代表的意思又都是什么呢？</p>
+<pre><code>-:普通文件
+d:目录
+l:符号链接
+c:字符设备文件
+b:块设备文件
+s:套接字
+p:命名管道
+</code></pre><p>其实我们在这里只需要记住前面 <code>3</code> 种就好了，也就是普通文件、目录和符号链接，因为在平时的开发中最常见到的也就是这三类。</p>
+<pre><code>普通文件:文本文件、数据文件和可执行的二进制程序文件等
+目录:在Linux系统中，目录会被看成为一种特殊的文件
+符号链接:类似于Windows系统下的快捷方式
+设备文件:Linux系统中将每一个设备看做一个文件
+</code></pre><p>介绍完了权限信息中的第 <code>1</code> 个字符以后，我们再来看后面的 <code>9</code> 个字符分别代表的是什么意思，其实后面的 <code>9</code> 个字符应该分为 <code>3</code> 组，每组 <code>3</code> 个字符，第一组表示的是当前用户对该文件或目录所具有的权限，第二组表示的是同一个组中的用户对该文件或目录所具有的权限，最后第三组则是表示其它用户对该文件或目录所具有的权限，而且这三组数据所表示权限的方式是完全一样的，这样的话，只要我们弄懂了一组中字符所代表的权限信息，那其余的两组权限信息我们也就懂了，那我们就直接看第一组数据所表示的权限信息吧。</p>
+<p>根据上面的例子，第一组数据应该是 <code>rwx</code>，<code>r</code> 表示的是该文件可读，<code>w</code> 表示的是该文件可写，<code>x</code> 表示的则是该文件可以执行，因此这三个位置的符号分别代表了一种权限，那如果没有某种权限呢？应该如何表示呢？其实就是在对应的位置使用 <code>-</code> 符号来表示了，比如某个文件可写并且可以执行，但是不能被读，那它的权限应该就是 <code>-wx</code> 了，其它的两个位置也是类似的道理了。</p>
+<p>需要说明一下的是，上面所说的三个权限，可读、可写以及可执行，它们对于文件和目录来说代表的意思可能是有点不一样的。</p>
+<pre><code>r:可读权限。对文件来说是可以读取其中的内容，对目录来说则是可以执行ls命令进行查看
+w:可写权限。对文件来说是可以修改其中的文件内容，对目录来说是可以在其中新建和删除子节点(文件和子目录)
+x:可执行权限。对文件来说是可以运行这个文件，对目录来说则是可以使用cd命令进入该目录
+</code></pre><p>还有一点需要注意的是，对于 <code>3</code> 种权限，是可以使用数字来进行表示的，比如对于可读权限，可以使用 <code>4</code> 这个数字来进行表示，对于可写权限来说，则可以使用 <code>2</code> 这个数字来进行表示，而对于可执行权限来说的话，则可以使用 <code>1</code> 来进行表示了，感觉这个确实设计的蛮巧妙的，因为它是根据数字的二进制表示来的，<code>4</code> 的二进制表示为 <code>100</code>，其中 <code>1</code> 的位置和 <code>r</code> 的位置刚好是相对应的，而且 <code>1</code> 也可以理解为拥有权限，而 <code>0</code> 则是表示不拥有权限，可写权限使用 <code>2</code> 来表示也是一样了，<code>2</code> 的二进制表示为 <code>010</code>，其中的 <code>1</code> 也是和 <code>w</code> 的位置相对应，最后可执行权限使用 <code>1</code> 来进行表示，<code>1</code> 的二进制表示为 <code>001</code>，其中的 <code>1</code> 也是和 <code>x</code> 所处的位置相对应，这样来看的话，确实设计的简单好记，后面我们修改文件或目录的权限信息时也可以使用数字来进行修改，其中的原理也就是上面所说的了。</p>
+<p>下面我们便来看如何修改文件或目录的权限信息，上面的一段也说了，我们是可以根据数字来修改文件的权限的，修改权限使用的命令就是 <code>chmod</code> 命令了，比如我们想要给某个文件所属用户、同组用户和其它用户都都赋上可读、可写以及可执行权限，那我们就可以使用以下命令：</p>
+<pre><code>chmod 777 a.txt
+</code></pre><p>因为数字 <code>7</code> 的二进制表示就是 <code>111</code>，所以对应到一组权限信息的话就是三种权限都是拥有的，三个数字 <code>7</code> 的话，则就是表明对于三组用户都是具有三种权限的，除了使用数字这种方式之外，我们还可以分组去指定权限，文件所属用户组是使用的 <code>u</code> 来表示的，同组用户则是使用的 <code>g</code> 表示的，其它用户则是使用 <code>o</code> 来进行表示的，因此我们可以使用如下方式来进行权限修改:</p>
+<pre><code>chmod u=rwx,g=rwx,o=rwx a.txt
+</code></pre><p>上面命令的意思就是对于 <code>a.txt</code> 文件，对于三组用户为它们赋上所有的权限，其实除了这种赋上全部权限以外，我们还可以根据用户组再增减权限：</p>
+<pre><code>chmod u-x,g+r a.txt
+</code></pre><p>这样操作我们也是可以达到修改权限的目的的，其实 <code>chmod</code> 命令修改权限信息真的是蛮灵活的，比如还可以下面这些操作：</p>
+<pre><code>chmod u=x,g=r a.txt
+chmod 000 a.txt
+chmod -R 777 laucloud
+</code></pre><p>上面的第 <code>1</code> 个命令是让 <code>a.txt</code> 文件对于所属用户来说，只有可执行权限，对于同组用户来说只有可读权限；第 <code>2</code> 个命令则是对于三组用户来说都完全去掉对 <code>a.txt</code> 文件的操作权限；第 <code>3</code> 个命令则是相当于递归赋予权限，当 <code>laucloud</code> 是一个目录时，使用上面的命令，不仅会为 <code>laucloud</code> 目录赋予所有的权限，而且会为 <code>laucloud</code> 目录里面的所有文件和子目录赋予相同的权限，经过上面的介绍，应该可以很容易看出，修改文件和目录的权限还是非常简单的。</p>
+<p>最后我们再介绍一个命令，用于改变文件或目录的所属用户和组，用到的命令就是 <code>chown</code> 了，具体使用方式为:</p>
+<pre><code>chown 用户名:所属组 所要操作的文件或目录
+</code></pre><p>使用上面这个命令就可以完成对文件或者目录所属用户和所属组的修改了，为了看得更清晰，可以将上面命令中的文字换成具体的对象，如：</p>
+<pre><code>chown test:public a.txt
+</code></pre><p>上面这条命令的意思就是将文件 <code>a.txt</code> 的所属用户修改为 <code>test</code>，所属组修改为 <code>public</code>，和修改权限信息的 <code>chmod</code> 命令一样的，如果上面这条命令是作用的目录的话，那么上面的命令只会修改当前目录的所属用户和所属组，而不会修改目录中文件和子目录的所属用户和所属组，那为了能够实现递归修改的效果，也是需要加一个 <code>-R</code> 参数就好了。</p>
+<pre><code>chown -R test:public laucloud
+</code></pre><p>上面的这条命令则是不仅修改 <code>laucloud</code> 目录的所属用户和所属组，而且也会修改该目录当中文件和子目录的所属用户和所属组，因此我们可以根据自己想要的效果来选择执行不同的命令。</p>
+<h4 id="3-15-登录ftp和sftp服务器"><a href="#3-15-登录ftp和sftp服务器" class="headerlink" title="3.15 登录ftp和sftp服务器"></a>3.15 登录ftp和sftp服务器</h4><p>在我们平时的开发过程中，有时候是需要将数据传到别人的服务器上面的，比如将我们服务器上面生成的一个文件上传到别人的服务器上，这时候就要看对方服务器开通的服务是 <code>ftp</code> 还是 <code>sftp</code> 的，然后我们根据不同的方式去登录别人的服务器，然后进行上传文件操作，这里的登录方式也就是 <code>ftp</code> 和 <code>sftp</code> 这两种了，如果对方服务器开通的是 <code>ftp</code> 服务，那我们就使用 <code>ftp</code> 方式登录，当然 <code>sftp</code> 方式也是同样的道理了，下面我们具体来看两种方式应该如何登录：</p>
+<pre><code>ftp方式:ftp ip地址 端口号
+sftp方式:sftp 用户名@ip地址
+</code></pre><p>使用上面的命令，在使用 <code>ftp</code> 方式进行登录时，系统就会提示我们输入用户名和密码，输入正确的用户名和密码，我们就能登录成功了，而使用 <code>sftp</code> 方式登录的话，则系统会提示我们输入密码，输入密码之后就能登录系统了。</p>
+<h3 id="4-常用网络操作"><a href="#4-常用网络操作" class="headerlink" title="4.常用网络操作"></a>4.常用网络操作</h3><p>下面我们再来看在 <code>Linux</code> 系统中的一些常用网络操作，主要就是主机名设置，<code>IP</code> 地址配置，域名映射以及网络服务管理，掌握了这些可以使我们对 <code>Linux</code> 中的网络设置有更加清晰的了解，以后有需要时也能轻松地进行修改，因此掌握还是十分有用的。</p>
+<h4 id="4-1-主机名配置"><a href="#4-1-主机名配置" class="headerlink" title="4.1 主机名配置"></a>4.1 主机名配置</h4><p>我们这里就来看如何获取得到主机名以及如何修改主机名，其实获取和修改主机名我们都可以使用 <code>hostname</code> 这个命令，具体使用如下：</p>
+<pre><code>hostname:获取当前系统的主机名
+hostname laucloud:将当前系统的主机名修改为laucloud
+</code></pre><p>但是需要注意的是，使用 <code>hostname</code> 修改主机名这种方式只是暂时的修改，也就是只是在内存中做了修改，如果重启系统的话，修改就会失效了，而如果想要永久性地修改主机名的话，我们可以采用修改配置文件的方式，也就是修改下面这个文件：</p>
+<pre><code>/etc/sysconfig/network
+</code></pre><p>打开这个文件可以看到里面有一行主机名配置的数据，如 <code>hostname=laucloud</code>，所以我们只需要修改这里键值对中的值，就能永久地修改主机名。</p>
+<h4 id="4-2-IP地址配置"><a href="#4-2-IP地址配置" class="headerlink" title="4.2 IP地址配置"></a>4.2 IP地址配置</h4><p>下面我们再看如何获取和修改 <code>IP</code> 地址，同样的，我们也可以使用一个命令来办到，那就是 <code>ifconfig</code> 命令，具体的使用如下：</p>
+<pre><code>ifconfig:获取ip地址
+ifconfig 设备名称 ip地址:设置ip地址
+</code></pre><p>第 <code>2</code> 条命令也就是用来设置 <code>IP</code> 地址的了，通常的设备名称都为 <code>eth0</code>，因此我们修改 <code>IP</code> 地址的命令可以为：</p>
+<pre><code>ifconfig eth0 ip地址
+</code></pre><p>不过这种修改只是暂时的，也就是只在内存当中做了修改，如果我们重启系统的话，那么修改就会失效了，下面我们就来介绍如何永久性地修改 <code>IP</code> 地址，<code>Linux</code> 系统中一共提供了两种方式，一种是通过界面的方式，另一种则是直接修改配置文件的方式，下面我们先看使用界面修改的方式。</p>
+<p>想要通过界面的方式来修改 <code>IP</code> 地址，其实只需要使用一个命令就好了，那就是 <code>setup</code>，此时就会出现一个界面，界面中有一个 <code>网络配置</code> 的选项，选择它，然后再进入一个界面，会有一个 <code>设备配置</code> 的选项，再选择它，然后就会看到一个 <code>eth0</code> 的设备了，同样的也是选择它，这时候我们就能看到真正的修改界面了，这时候会看到界面中有很多项目，有一个是 <code>使用DHCP</code>，意思就是是否是自动分配 <code>IP</code> 地址，界面中默认的值是 <code>[*]</code>，我们将这个值中的第一个符号，也就是 <code>[</code> 使用空格替换掉，然后我们就可以修改界面中下面的一些配置了，其实也就是可以设置静态 <code>IP</code> 地址了，需要设置的项为：静态 <code>IP</code>，子网掩码，默认网关 <code>IP</code> 以及主 <code>DNS</code> 服务器了，下面是一个示例的修改：</p>
+<pre><code>静态IP:192.168.19.100
+子网掩码:255.255.255.0
+默认网关IP:192.168.19.1
+主DNS服务器:192.168.19.1
+</code></pre><p>这时候做好修改之后我们就可以选择确认按钮进行保存了，保存好了之后系统界面就会自动退出到显示设备的界面了，这时候也应该选择保存，如果发现光标移动不到下面的话，可以按一下 <code>Tab</code> 键，就可以进行保存了，同样的，后面界面弹出的界面我们也应该依次进行保存操作，这样我们就修改好 <code>IP</code> 地址了，如果我们这时候使用 <code>ifconfig</code> 命令查看 <code>IP</code> 地址的话，可能还并没有修改，那这时候我们可以重启一下网络服务，也就是下面这个命令了。</p>
+<pre><code>service network restart
+</code></pre><p>我们再介绍最后一种修改 <code>IP</code> 地址的方式，也就是修改配置文件的方式了，相应的配置文件为：</p>
+<pre><code>/etc/sysconfig/network-scripts/ifcfg-eth0
+</code></pre><p>我们这时候就可以进入该文件对该文件进行修改了，修改完之后进行保存操作就好了，当然了，最好也是要重启一下网络服务的。</p>
+<h4 id="4-3-域名映射"><a href="#4-3-域名映射" class="headerlink" title="4.3 域名映射"></a>4.3 域名映射</h4><p>我们再来看一下关于域名映射的内容，其实我们在平时上网浏览网页时，也会经常使用域名访问网站，比如百度网站，其实在服务器端，接受到我们请求的服务器也是需要将域名转换为 <code>IP</code> 地址，然后再去获取相关请求资源的，为什么要这样呢？为什么不让用户直接使用 <code>IP</code> 地址访问呢？这是因为 <code>IP</code> 地址不容易记忆，而域名便于记忆，其实不管是在 <code>Windows</code> 系统还是在 <code>Linux</code> 系统，我们都是可以进行域名映射的配置的，这里我们就介绍在 <code>Linux</code> 系统中应该如何进行设置了，其实非常简单，只需要下面这个配置文件就好了。</p>
+<pre><code>/etc/hosts
+</code></pre><p>我们可以直接打开该文件，并进行编辑，可以直接为我们本地 <code>IP</code> 地址添加一个域名，这里我们就直接在这个配置文件的后面进行添加了，比如：</p>
+<pre><code>192.168.19.100 laucloud
+</code></pre><p>这样就添加好了，然后如果我们执行 <code>ping laucloud</code> 命令的话，就相当于是在连接我们自身主机了，很显然是可以连接到的。</p>
+<h4 id="4-4-网络服务管理"><a href="#4-4-网络服务管理" class="headerlink" title="4.4 网络服务管理"></a>4.4 网络服务管理</h4><p>下面我们再看对于系统中服务的管理，当然还是使用命令来进行管理了，下面我们就以网络服务为例，来看看应该如何使用命令来对网络服务进行管理。</p>
+<pre><code>service network status:查看网络服务的状态
+service network stop:停止网络服务
+service network start:启动网络服务
+service network restart:重启网络服务
+</code></pre><p>上面这些便是我们可能会使用到的对网络服务进行管理的命令了，还有下面这两个命令我们可能也会用到：</p>
+<pre><code>service --status–all:查看系统中所有后台服务
+netstat –nltp:查看系统中网络进程的端口监听情况
+</code></pre><p>最后我们看一下 <code>Linux</code> 系统中关于防火墙的设置，防火墙的存在主要是为了我们系统的安全，所以它会根据设置来限制用户对系统的请求，防火墙的配置文件就是：</p>
+<pre><code>/etc/sysconfig/iptables
+</code></pre><p>有时候我们在 <code>Linux</code> 系统中安装了软件之后，我们远程却无法进行访问，这时候就有可能是因为了防火墙限制了软件所需要使用的端口号，我们就可以先暂时关闭防火墙，然后测试一下是否是因为这个原因，不过在生产中一般都只会开放对端口号的访问，而不会完全关闭防火墙。下面是关于防火墙的一些常用命令，大家可以了解一下：</p>
+<pre><code>service iptables status:查看防火墙状态
+service iptables stop:关闭防火墙
+service iptables start:启动防火墙
+chkconfig iptables off:禁止防火墙自启
+</code></pre><h3 id="5-Linux中安装软件"><a href="#5-Linux中安装软件" class="headerlink" title="5.Linux中安装软件"></a>5.Linux中安装软件</h3><p>下面我们来看如何在 <code>Linux</code> 系统中安装一些软件，比如 <code>JDK</code> 和 <code>MySQL</code> 这样的软件，因为我们将开发的项目部署到 <code>Linux</code> 服务器当中后，同样也是需要安装这些软件的，所以掌握安装的步骤还是很有用的。</p>
+<h4 id="5-1-安装方式和上传下载工具"><a href="#5-1-安装方式和上传下载工具" class="headerlink" title="5.1 安装方式和上传下载工具"></a>5.1 安装方式和上传下载工具</h4><p>我们先看一下在 <code>Linux</code> 系统中安装软件的话有哪几种方式，并对每种方式进行一下简单的说明，然后就是介绍一下上传和下载工具，因为有时候我们下载的软件是在 <code>Windows</code> 系统当中的，所以需要将软件从 <code>Windows</code> 系统中传到 <code>Linux</code> 系统中，因此上传下载工具是必不可少的。</p>
+<p>首先看一下在 <code>Linux</code> 系统中安装软件有哪几种方式，其实一共是有 <code>4</code> 种方式的，下面我们分别来看：</p>
+<pre><code>1.二进制发布包
+软件已经针对具体平台编译打包发布，只需要解压，修改配置文件就可以使用了
+2.RPM包
+软件已经按照redhat的包管理工具规范RPM进行打包发布，需要获取到相应的软件RPM发布包，然后用RPM命令进行安装，但是使用这种方式并不会安装软件所需要的依赖包
+3.Yum在线安装
+软件已经以RPM规范打包，但发布在了网络上的一些服务器上，可用yum在线安装服务器上的rpm软件，并且会自动解决软件安装过程中的库依赖问题
+4.源码编译安装
+软件以源码工程的形式发布，需要获取到源码工程后用相应开发工具进行编译打包部署
+</code></pre><p>上面便是对在 <code>Linux</code> 系统中安装软件方式的简单说明，下面我们再看有哪些使用的上传下载工具，主要是有两个，分别为：</p>
+<pre><code>1.FileZilla
+2.lrzsz
+</code></pre><p>先说 <code>FileZilla</code> 这个工具，它是专门用来在 <code>Windows</code> 系统和 <code>Linux</code> 系统之间互传文件的工具了，只需要在工具界面中输入主机 <code>IP</code>，用户名，密码和端口号这些信息，就可以连接到远程的 <code>Linux</code> 主机了，连接到主机之后我们就可以在工具中上传或下载文件了，工具的界面中左边是 <code>Windows</code> 系统下的目录，而右边则是 <code>Linux</code> 系统下的目录，因此当我们在上传或者下载文件时，只需要选择好相应的文件与目录便可以进行操作了，可以说是非常简单了。</p>
+<p>第二个工具便是 <code>lrzsz</code> 了，不过它不是一个独立的软件，而是 <code>SecureCRT</code> 软件中安装的一个工具，<code>SecureCRT</code> 主要是用来连接远程 <code>Linux</code> 系统主机的，在其中借助于 <code>lrzsz</code> 这个小工具，我们也是可以完成 <code>Windows</code> 系统与 <code>Linux</code> 系统之间互传文件的，首先来看如何安装这个工具。</p>
+<pre><code>yum install lrzsz：安装lrzsz
+yum remove lrzsz:卸载lrzsz
+</code></pre><p>这样的话，通过上面的命令，我们就可以安装 <code>lrzsz</code> 工具了，卸载的命令了解一下就好了，因为这个工具很好用，大概你是不会想要卸载的，当安装好之后，我们便可以使用 <code>rz</code> 命令进行上传，而 <code>sz 文件名</code> 进行下载了，使用 <code>rz</code> 命令进行上传时需要注意的一点是，当我们执行 <code>rz</code> 命令之后，会弹出一个界面，让我们选择 <code>Windows</code> 中的哪个文件进行上传，选择好之后进入下面的选择框之后，就可以确认进行上传了，需要注意的一点是，千万不要选择界面中的 <code>以ASCII方式上传文件</code> 选项。</p>
+<h4 id="5-2-安装JDK"><a href="#5-2-安装JDK" class="headerlink" title="5.2 安装JDK"></a>5.2 安装JDK</h4><p>我们现在来看如何在 <code>Linux</code> 系统中安装 <code>Java</code> 的开发以及运行环境 <code>JDK</code>，其实安装的步骤是非常简单的，首先我们需要先检查一下 <code>Linux</code> 系统中有没有安装别的 <code>JDK</code>，这是因为 <code>Linux</code> 系统中可能会有自带的 <code>open-JDK</code>，如果是这样的话，我们就需要先卸载掉 <code>open-JDK</code>，下面就开始介绍如何卸载 <code>open-JDK</code>，首先是查询当前系统中已经安装的 <code>JDK</code>，可以使用如下命令：</p>
+<pre><code>rpm -qa | grep java
+</code></pre><p>这个命令便能查出来当前系统中已经安装的 <code>JDK</code> 了，可能会安装了以下这个 <code>JDK</code>:</p>
+<pre><code>java-1.6.0-openjdk-1.6.0.35-1.13.7.1.el6_6.i686
+</code></pre><p>那这时候我们就需要将上面这个 <code>open-JDK</code> 先卸载掉，卸载的命令为:</p>
+<pre><code>rpm -e --nodeps java-1.6.0-openjdk-1.6.0.35-1.13.7.1.el6_6.i686
+</code></pre><p>这时候我们就成功将之前安装的 <code>open-JDK</code> 卸载了，其实最开始判断当前系统中是否安装了 <code>JDK</code>，还可以使用 <code>Java</code> 的一个命令，那就是 <code>java –version</code>，即查看所安装的 <code>JDK</code> 版本的命令，如果有版本信息的话，那也就说明是有 <code>JDK</code> 安装的，没有版本信息的话则是没有安装的。</p>
+<p>接下来我们来看如何进行安装 <code>JDK</code>，首先我们需要将下载到本地的安装包上传到 <code>Linux</code> 系统中，我们在 <code>Linux</code> 系统中安装软件一般都会安装在 <code>/usr/local</code> 目录，因此我们也就把安装包上传到该目录，如果是使用 <code>SecureCRT</code> 根据进行上传的话，那我们就先进入到上面的目录，然后输入 <code>rz</code> 命令，在弹出的界面中选择相应的安装包上传就好了，上传完成后，我们需要对压缩包进行解压操作，可以直接在当前目录创建一个 <code>jdk</code> 目录，然后将压缩包解压在其中，命令为：</p>
+<pre><code>tar –xvf jdk.tar.gz -C ./jdk
+</code></pre><p>解压完成后，我们就只需要在配置文件中配置一下 <code>JDK</code> 的环境变量就好了，假设上面安装的 <code>JDK</code> 版本为 <code>jdk1.7.0_71</code>，那么在上面进行解压操作时，应该也会在 <code>jdk</code> 目录中新建一个 <code>jdk1.7.0_71</code> 的目录，这样的话，这个 <code>JDK</code> 的安装目录就是 <code>/usr/local/jdk/jdk1.7.0_71</code> 了，下面我们开始配置环境变量，其实就是 <code>/etc/profile</code> 这个文件了，只需要在这个文件的末尾加上下面这些配置就好了。</p>
+<pre><code>#set java environment
+JAVA_HOME=/usr/local/jdk/jdk1.7.0_71
+CLASSPATH=.:$JAVA_HOME/lib.tools.jar
+PATH=$JAVA_HOME/bin:$PATH
+export JAVA_HOME CLASSPATH PATH
+</code></pre><p>保存好文件之后，然后再使用 <code>source /etc/profile</code> 命令使刚才修改的配置文件立即生效，这样的话，我们的 <code>JDK</code> 就配置好了，可以使用查看 <code>Java</code> 版本的命令测试一下的。</p>
+<h4 id="5-3-安装MySQL"><a href="#5-3-安装MySQL" class="headerlink" title="5.3 安装MySQL"></a>5.3 安装MySQL</h4><p>现在我们来看如何在 <code>Linux</code> 系统中安装数据库 <code>MySQL</code>，和之前安装 <code>JDK</code> 类似的，我们要先看一下系统中是否已经安装了别的 <code>MySQL</code>，如果有的话，我们要先进行卸载操作，首先我们还是使用下面的命令查看有没有安装 <code>MySQL</code> 数据库：</p>
+<pre><code>rpm -qa | grep mysql
+</code></pre><p>使用这个命令的话，我们就能查出来当前系统中安装的 <code>MySQL</code> 数据库了，可能会安装了以下这个 <code>MySQL</code> 数据库：</p>
+<pre><code>mysql-libs-5.1.73-5.el6_6.i686
+</code></pre><p>这时候我们就需要先将上面这个数据库卸载掉了，使用的命令为：</p>
+<pre><code>rpm -e --nodeps mysql-libs-5.1.73-5.el6_6.i686
+</code></pre><p>卸载完之前已经安装的 <code>MySQL</code> 数据库之后，我们下面就可以开始安装自己的 <code>MySQL</code> 数据库了，首先还是先上传安装包，因为 <code>Linux</code> 中安装软件一般都是在 <code>/usr/local</code> 目录，所以我们还是将 <code>MySQL</code> 数据库的安装包上传到该目录，上传好了之后，可以在该目录中新建一个 <code>mysql</code> 的目录，然后将数据库 <code>MySQL</code> 的安装包解压到 <code>mysql</code> 目录中，解压命令为：</p>
+<pre><code>tar –xvf MySQL-5.6.22-1.el6.i686.rpm-bundle.tar -C ./mysql
+</code></pre><p>解压好安装包之后，我们就可以进行安装操作了，<code>MySQL</code> 的安装需要安装两部分，那就是服务端和客户端，先看服务端，在上面解压的 <code>mysql</code> 目录中，会有一个 <code>MySQL-server</code> 的 <code>rpm</code> 包，我们就需要安装这个包了，名称可能为：</p>
+<pre><code>MySQL-server-5.6.22-1.el6.i686.rpm
+</code></pre><p>这样的话，我们就可以执行下面的命令进行服务端的安装操作了。</p>
+<pre><code>rpm -ivh MySQL-server-5.6.22-1.el6.i686.rpm
+</code></pre><p>执行该命令就可以进行服务端的安装操作了，这里需要注意的是，有可能因为环境不一样，有时候会缺乏相关的依赖包，导致安装服务端时报错，所以我们需要先安装相应的依赖包，如下：</p>
+<pre><code>yum -y install libaio.so.1 libgcc_s.so.1 libstdc++.so.6
+</code></pre><p>进行安装依赖包操作时可能会报 <code>libstdc++-4.4.7-4.el6.x86_64</code> 的版本太低了，因此我们需要先升级一下版本，操作命令为：</p>
+<pre><code>yum update libstdc++-4.4.7-4.el6.x86_64
+</code></pre><p>这样的话，安装所需要的依赖包也安装好了，就可以再执行一次上面的安装服务端操作了，安装成功时会提示我们已经生成了一个随机的密码供我们第一次登录 <code>MySQL</code> 数据库时使用，并且是保存在 <code>/root/.mysql_secret</code> 中，当然该密码是针对于 <code>root</code> 用户的，所以我们第一次登录 <code>MySQL</code> 数据库时也是需要修改密码的，不过想要登录 <code>MySQL</code> 的话，还需要安装 <code>MySQL</code> 数据库的客户端，其实在之前的 <code>mysql</code> 解压目录中，也是有一个 <code>MySQL</code> 的客户端 <code>rpm</code> 包的，名称可能为：</p>
+<pre><code>MySQL-client-5.6.22-1.el6.i686.rpm
+</code></pre><p>同样的，也是和安装服务端一样的操作，我们也可以使用下面的命令来安装客户端：</p>
+<pre><code>rpm -ivh MySQL-client-5.6.22-1.el6.i686.rpm
+</code></pre><p>这样的话，我们的 <code>MySQL</code> 数据库的服务端和客户端就都已经安装好了，下面我们就可以使用安装的数据库了，那怎样才能使用呢？当然是要先把 <code>MySQL</code> 数据库的服务启动了，所以我们就可以执行下面这个命令启动服务了：</p>
+<pre><code>service mysql start
+</code></pre><p>服务启动之后，为了验证我们的数据库是否成功启动，我们可以采用查看端口号的方式来验证，也就是：</p>
+<pre><code>netstat -nltp
+</code></pre><p>这时候我们就可以看到 <code>3306</code> 端口已经被占用了，而我们知道 <code>3306</code> 其实是 <code>MySQL</code> 数据库默认使用的端口号，因此是可以证实 <code>MySQL</code> 数据库已经启动了。</p>
+<p>数据库启动了之后，我们便可以使用登录命令登录 <code>MySQL</code> 数据了，执行如下命令：</p>
+<pre><code>mysql -u 用户名 -p密码
+</code></pre><p>当然了，这里的密码就是上面数据库为我们随机生成的密码了，登录进去之后我们就可以执行操作数据库的命令了，比如 <code>show databases</code> 查看数据库的操作，但是这时候 <code>MySQL</code> 会给出提示，就是在执行任何操作之前必须要先修改 <code>root</code> 的密码，确实，因为之前的登录密码还是数据库为我们随机生成的，因此我们就可以使用下面的命令来设置 <code>root</code> 用户的密码了。</p>
+<pre><code>set password=password(&apos;123456&apos;)
+</code></pre><p>这样的话我们 <code>root</code> 用户的密码就会修改为 <code>123456</code> 了，下面我们执行操作数据库的命令就都是可以的了。</p>
+<p>通过上面的操作我们就能正常使用 <code>Linux</code> 系统中的 <code>MySQL</code> 数据库了，下面还有一些细节需要说明一下，为了每次我们想要使用 <code>MySQL</code> 数据库时都不用手动进行启动操作，我们可以将 <code>MySQL</code> 的服务加入到系统服务中并设置成自动启动的，需要使用的命令如下：</p>
+<pre><code>chkconfig --add mysql:加入系统服务
+chkconfig mysql on:设置为自动启动
+</code></pre><p>这样的话我们便设置好了，当然我们也可以使用 <code>chkconfig</code> 命令进行查询系统服务列表的操作的。</p>
+<p>还需要说明的一点是，我们的 <code>MySQL</code> 数据库是安装在 <code>Linux</code> 系统当中的，我们在平时开发时则是在 <code>Windows</code> 系统环境下面使用数据库，这时候便需要使用 <code>Navicat</code> 这样的工具来连接 <code>Linux</code> 系统中安装的 <code>MySQL</code> 数据库了，但是一般是不能连接的，因为我们还未在 <code>MySQL</code> 数据库中设置允许远程访问，如果要设置的话，则需要登录 <code>MySQL</code> 数据库之后执行如下命令：</p>
+<pre><code>grant all privileges on *.* to &apos;root&apos; @&apos;%&apos; identified by &apos;123456&apos;;
+flush privileges;
+</code></pre><p>这样设置的话，<code>MySQL</code> 便允许我们进行远程访问了，最后还需要注意的一点就是，防火墙可能会限制我们对 <code>3306</code> 端口的访问，因此我们还需要放开防火墙对 <code>3306</code> 端口的限制，操作如下：</p>
+<pre><code>/sbin/iptables -I INPUT -p tcp --dport 3306 -j ACCEPT
+/etc/rc.d/init.d/iptables save
+/etc/init.d/iptables status
+</code></pre><p>这样的话，我们在 <code>Windows</code> 系统也就可以使用 <code>Navicat</code> 工具对 <code>Linux</code> 系统中的 <code>MySQL</code> 数据库进行访问了，其实最后关于防火墙的设置，如果是自己机器上面使用的话，是可以直接关掉防火墙的。</p>
+<h4 id="5-4-安装Tomcat"><a href="#5-4-安装Tomcat" class="headerlink" title="5.4 安装Tomcat"></a>5.4 安装Tomcat</h4><p>下面我们来看如何在 <code>Linux</code> 系统中安装 <code>Tomcat</code> 服务器，同样的我们还是需要先将 <code>Tomcat</code> 安装包上传到 <code>/usr/local</code> 目录中，假设安装包名称为 <code>apache-tomcat-7.0.57.tar.gz</code>，我们先在当前目录下新建一个 <code>tomcat</code> 目录，然后将安装包解压到该目录中：</p>
+<pre><code>tar –xvf apache-tomcat-7.0.57.tar.gz -C ./tomcat
+</code></pre><p>解压好了之后，我们在 <code>tomcat</code> 目录下看到一个 <code>apache-tomcat-7.0.57</code> 目录，里面便是 <code>Tomcat</code> 服务器的文件了，其实 <code>Linux</code> 系统下的 <code>Tomcat</code> 使用起来和 <code>Windows</code> 下的是一样的，都是进入到 <code>bin</code> 目录，然后执行启动命令，稍微不同的一点在于 <code>Linux</code> 系统下的命令是以 <code>.sh</code> 结尾的，而 <code>Windows</code> 系统下的是以 <code>.bat</code> 结尾的，所以要启动 <code>Tomcat</code> 服务器的话，我们直接执行 <code>./startup.sh</code> 命令就好了，这样就启动好了，当然关于 <code>Tomcat</code> 操作的命令其实都是在 <code>bin</code> 目录下面的，如果想要查看日志的话，是可以进入 <code>bin</code> 的同级目录 <code>logs</code> 目录进行查看的，如其中的 <code>catalina.out</code> 文件。</p>
+<p>启动好了之后，我们便可以在浏览器中输入 <code>http://ip:8080</code> 这样的方式进行访问了，我们知道 <code>Tomcat</code> 服务器默认的端口号为 <code>8080</code>，因此就可以使用上面的网址进行访问了，不过在 <code>Windows</code> 系统中进行访问时，需要注意的就是，防火墙对 <code>8080</code> 端口是没有进行限制的，否则则需要进行放开限制操作，或者直接关闭防火墙。</p>
+<h3 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h3><p>关于 <code>Linux</code> 系统的知识就先总结到这里了，其实关于 <code>Linux</code> 的知识还有很多很多，这里写的只是目前我所了解到的，以后当然还会学习更多的知识，后面再做加强补充，在实际开发过程中，<code>Linux</code> 的知识还是十分有用的，特别是在生产环境中，熟悉 <code>Linux</code> 的操作能够快速地定位问题，所以掌握 <code>Linux</code> 系统的使用还是非常必要的，应该一边学习一边实践的，这样才能理解地深入。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/18/jQuery的使用-三/" rel="next" title="jQuery的使用(三)">
+                <i class="fa fa-chevron-left"></i> jQuery的使用(三)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Linux介绍"><span class="nav-number">1.</span> <span class="nav-text">1.Linux介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Linux的目录结构"><span class="nav-number">2.</span> <span class="nav-text">2.Linux的目录结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-常用命令"><span class="nav-number">3.</span> <span class="nav-text">3.常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-切换目录"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 切换目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-列出文件列表"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 列出文件列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-创建目录和移除目录"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 创建目录和移除目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-浏览文件的命令"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 浏览文件的命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-文件操作"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 文件操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-打包压缩与解压"><span class="nav-number">3.6.</span> <span class="nav-text">3.6 打包压缩与解压</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-查找文件"><span class="nav-number">3.7.</span> <span class="nav-text">3.7 查找文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-8-其它常用命令"><span class="nav-number">3.8.</span> <span class="nav-text">3.8 其它常用命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-vi和vim编辑器"><span class="nav-number">3.9.</span> <span class="nav-text">3.9 vi和vim编辑器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-10-重定向和管道操作"><span class="nav-number">3.10.</span> <span class="nav-text">3.10 重定向和管道操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-11-系统管理命令"><span class="nav-number">3.11.</span> <span class="nav-text">3.11 系统管理命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-12-用户管理"><span class="nav-number">3.12.</span> <span class="nav-text">3.12 用户管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-13-组管理与账户文件"><span class="nav-number">3.13.</span> <span class="nav-text">3.13 组管理与账户文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-14-文件权限管理"><span class="nav-number">3.14.</span> <span class="nav-text">3.14 文件权限管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-15-登录ftp和sftp服务器"><span class="nav-number">3.15.</span> <span class="nav-text">3.15 登录ftp和sftp服务器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-常用网络操作"><span class="nav-number">4.</span> <span class="nav-text">4.常用网络操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-主机名配置"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 主机名配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-IP地址配置"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 IP地址配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-域名映射"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 域名映射</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-网络服务管理"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 网络服务管理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Linux中安装软件"><span class="nav-number">5.</span> <span class="nav-text">5.Linux中安装软件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-安装方式和上传下载工具"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 安装方式和上传下载工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-安装JDK"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 安装JDK</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-安装MySQL"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 安装MySQL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-安装Tomcat"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 安装Tomcat</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-总结"><span class="nav-number">6.</span> <span class="nav-text">6.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2018/02/02/Linux系统基本命令/';
+
+      var disqus_title = "Linux系统基本命令";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
