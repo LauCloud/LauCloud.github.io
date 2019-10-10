@@ -1,0 +1,1739 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Redis," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章我们主要是想介绍 Redis 的使用，现在开发中 Redis 是使用的非常频繁的，一般都是作为缓存来使用，进而减小用户请求对数据库的压力，这样就能使系统运行更加稳定，其实 Redis 数据库中保存的就是比较固定的数据，比如用户的信息，当有请求想要访问某个用户的信息时，就可以直接从 Redis 缓存中获取得到了，而不用每次都去查询数据库了，这样数据库的压力就减轻了，同时当用户信息有修改时，我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis的使用">
+<meta property="og:url" content="http://yoursite.com/2018/02/24/Redis的使用/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="这篇文章我们主要是想介绍 Redis 的使用，现在开发中 Redis 是使用的非常频繁的，一般都是作为缓存来使用，进而减小用户请求对数据库的压力，这样就能使系统运行更加稳定，其实 Redis 数据库中保存的就是比较固定的数据，比如用户的信息，当有请求想要访问某个用户的信息时，就可以直接从 Redis 缓存中获取得到了，而不用每次都去查询数据库了，这样数据库的压力就减轻了，同时当用户信息有修改时，我">
+<meta property="og:updated_time" content="2019-10-10T14:20:53.700Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis的使用">
+<meta name="twitter:description" content="这篇文章我们主要是想介绍 Redis 的使用，现在开发中 Redis 是使用的非常频繁的，一般都是作为缓存来使用，进而减小用户请求对数据库的压力，这样就能使系统运行更加稳定，其实 Redis 数据库中保存的就是比较固定的数据，比如用户的信息，当有请求想要访问某个用户的信息时，就可以直接从 Redis 缓存中获取得到了，而不用每次都去查询数据库了，这样数据库的压力就减轻了，同时当用户信息有修改时，我">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/24/Redis的使用/"/>
+
+
+
+
+
+  <title> Redis的使用 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/24/Redis的使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Redis的使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-24T08:34:09+08:00">
+                2018-02-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Redis/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/24/Redis的使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/02/24/Redis的使用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/02/24/Redis的使用/" class="leancloud_visitors" data-flag-title="Redis的使用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章我们主要是想介绍 <code>Redis</code> 的使用，现在开发中 <code>Redis</code> 是使用的非常频繁的，一般都是作为缓存来使用，进而减小用户请求对数据库的压力，这样就能使系统运行更加稳定，其实 <code>Redis</code> 数据库中保存的就是比较固定的数据，比如用户的信息，当有请求想要访问某个用户的信息时，就可以直接从 <code>Redis</code> 缓存中获取得到了，而不用每次都去查询数据库了，这样数据库的压力就减轻了，同时当用户信息有修改时，我们也同时修改 <code>Redis</code> 缓存中的信息，这样的话就相当于对系统中数据的存储进行了优化。</p>
+<a id="more"></a>
+<h3 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h3><p><code>Redis</code> 也是一种数据库，不过是一种 <code>NoSQL</code> 数据库，也就是 <code>Not Only SQL</code> 的意思，一般的数据库大多都是文件系统的，而 <code>Redis</code> 数据库则不仅有文件系统，同时也有内存，可以将数据保存在内存中，同时也可以持久化到硬盘上面，<code>Redis</code> 数据库中的数据都是以 <code>key-value</code> 这种键值对的形式进行保存的，<code>Redis</code> 这样的缓存数据库有下面 <code>3</code> 种特点：</p>
+<pre><code>1.支持数据的持久化。数据不仅可以保存在内存中，同时也可以保存在磁盘中，并且可以进行交互。
+2.不仅支持保存简单的字符串string格式的数据，还支持list、set、zset、hash等多种格式的数据。
+3.支持数据的备份。也就是主从模式的备份。
+</code></pre><p>同时，<code>Redis</code> 相对于其它的缓存数据库来说，还具有以下优势：</p>
+<pre><code>1.性能好。读写速度都非常快。
+2.丰富的数据类型。也就是我们上面所提到的5种数据类型。
+3.原子性操作。Redis中所有的操作都是原子性的，而且还支持几个操作合并后的原子性执行。
+4.丰富的特性。Redis还支持publish/subscribe，通知以及key过期等高级特性。
+</code></pre><h3 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h3><p>现在我们就来看如何安装 <code>Redis</code> 数据库，安装之前当然是需要先下载了，下载的话我们就可以直接到官网进行下载了，也就是 <code>https://redis.io/</code> 这个网站了，进入网站在导航栏会有一个 <code>Download</code> 按钮，点击该按钮就可以进入到下载页面了，进入下载页面之后我们就能看到不同版本的 <code>Redis</code> 供我们下载了，我们这时候就可以选择稳定版 <code>(Stable)</code> 进行下载了，就是点击 <code>Stable</code> 那一栏下面的 <code>Download</code> 按钮了，当然这样下载的话，肯定就是下载到 <code>Windows</code> 系统中了，而我们是需要在 <code>Linux</code> 系统中进行安装的，因此还需要将该下载的文件上传到 <code>Linux</code> 系统中，不过也可以直接在 <code>Linux</code> 系统中进行下载，那就是直接登录 <code>Linux</code> 系统，然后进入到期望进行安装操作的目录中，直接使用 <code>wget</code> 命令进行下载，比如：</p>
+<pre><code>wget http://download.redis.io/releases/redis-3.2.8.tar.gz
+</code></pre><p>这样的话，同样也是可以进行下载操作的，不过需要保证是有网络环境的，这样操作之后，我们的安装包就下载好了，这里我们使用 <code>Redis</code> 的版本为 <code>3.2.8</code> 的，还需要说明的一点就是，<code>Redis</code> 数据库原生是只支持 <code>Linux</code> 系统的，不支持 <code>Windows</code> 系统的，所以 <code>Windows</code> 版本的 <code>Redis</code> 数据库是微软自己建立的分支，当然是根据 <code>Redis</code> 官方的源码进行编译、发布和维护的，这样的话，<code>Windows</code> 版本的 <code>Redis</code> 版本就总是低于 <code>Linux</code> 版本的，但是使用起来是没有什么区别的。</p>
+<p>下面我们就来看如何进行安装操作，之前我们已经得到了 <code>Redis</code> 数据库的安装包，也就是 <code>redis-3.2.8.tar.gz</code> 的安装包，我们在 <code>Linux</code> 系统中安装软件时一般都会将其安装到 <code>/usr/local</code> 目录下，因此我们可以先将 <code>Redis</code> 数据库的安装包上传到该目录，然后我们就可以进行安装操作了，第一步便是解压安装包了，我们可以使用 <code>tar -zxvf redis-3.2.8.tar.gz</code> 命令进行解压缩包操作，执行完解压操作之后，就可以在同一级目录中看到有一个 <code>redis-3.2.8</code> 目录，当然就是我们压缩包解压出来的了，那接下来就是第二步的操作了，因为 <code>redis-3.2.8</code> 目录中的都是 <code>Redis</code> 数据库的源码，所以我们需要对该源码进行编译和安装操作，第二步我们便是进行编译操作，首先需要进入到 <code>redis-3.2.8</code> 目录，然后执行 <code>make</code> 命令就行了，这个命令便是进行编译源码操作的，这里需要注意的一点是，这里由于系统环境的原因可能会报错，如：</p>
+<pre><code>/bin/sh: cc: command not found
+</code></pre><p>这个报错是因为当前 <code>Linux</code> 系统中缺少 <code>gcc</code> 环境的原因，所以我们需要先安装 <code>gcc</code> 环境，安装方式为：</p>
+<pre><code>yum install gcc
+</code></pre><p>这样我们安装了 <code>gcc</code> 环境之后，再执行 <code>make</code> 命令进行源码编译就是可以的了，执行了编译操作之后，下面就是最后一步安装操作了，即将我们的 <code>Redis</code> 安装到指定的目录当中，当然还是在 <code>redis-3.2.8</code> 目录当中，执行如下命令：</p>
+<pre><code>make PREFIX=/usr/local/redis install
+</code></pre><p>这个命令便是将 <code>Redis</code> 安装到 <code>/usr/local/redis</code> 这个目录当中，但是因为现在 <code>/usr/local</code> 目录是没有 <code>redis</code> 目录的，所以需要先去新建这个目录，然后再执行上面的安装操作，操作完成之后就安装完成了，这便是第三步安装操作，这样的话，<code>Redis</code> 数据库的安装便完成了。</p>
+<p>下面我们就可以到 <code>Redis</code> 数据库的安装目录 <code>/usr/local/redis</code> 目录进行查看了，会发现其中有一个 <code>bin</code> 目录，进入该 <code>bin</code> 目录，会发现有几个文件，我们一个一个进行说明。</p>
+<pre><code>redis-server:Redis服务器
+redis-cli:Redis命令行客户端
+redis-benchmark:Redis性能检测工具
+redis-check-aof:AOF文件修复工具
+redis-check-rdb:RDB文件修复工具
+</code></pre><p>安装好 <code>Redis</code> 服务器之后，我们可以启动服务然后测试是否可以正常使用的，启动的方式十分简单，可以直接到 <code>redis</code> 目录，然后再到 <code>bin</code> 目录，直接执行 <code>./redis-server</code> 命令，这时候我们就可以看到日志提示 <code>Redis</code> 数据库正常启动了，这种方式在测试时可以使用，但是在实际使用中一般不会这样，在实际使用中我们通常会使用配置文件的方式启动服务，配置文件就是 <code>redis-3.2.8</code> 目录中的 <code>redis.conf</code> 文件，我们可以先进入到 <code>redis-3.2.8</code> 目录，然后使用下面的命令将配置文件拷贝到 <code>Redis</code> 的安装目录中。</p>
+<pre><code>cp redis.conf /usr/local/redis
+</code></pre><p>复制好文件之后，我们就可以回到 <code>redis</code> 目录中启动 <code>Redis</code> 数据库了，执行命令为：</p>
+<pre><code>./bin/redis-server ./redis.conf
+</code></pre><p>通过控制台打印的日志我们就能看到启动好了，也就是 <code>Redis</code> 数据库的服务端启动好了，然后下面我们还需要启动 <code>Redis</code> 数据库的命令行客户端，这样就便于我们进行测试，启动命令行客户端也十分简单，只需要进入到 <code>bin</code> 目录，然后执行 <code>./redis-cli</code> 命令就好了，当然执行这种命令的话，就是默认连接本地的 <code>Redis</code> 数据库了，那如果想要连接指定 <code>IP</code> 和端口的服务器呢，就可以使用类似下面的命令了。</p>
+<pre><code>./redis-cli -h 127.0.0.1 -p 6379
+</code></pre><p>上面的命令就是指定连接本地主机端口号为 <code>6379</code> 的 <code>Redis</code> 数据库了，连接成功后，我们便可以使用 <code>Redis</code> 数据库了，我们可以输入一个 <code>ping</code> 命令进行测试，这时候会返回一个 <code>PONG</code>，这就表示 <code>Redis</code> 数据库安装是正常的了。</p>
+<p>需要说明的一点是，当 <code>Redis</code> 数据库启动时默认是只能在本机进行访问的，也就是别的主机是访问不了的，这是在 <code>Redis</code> 的配置文件 <code>redis.conf</code> 中进行设置的，配置为 <code>bind 127.0.0.1</code>，也就是为 <code>Redis</code> 数据库绑定的 <code>IP</code> 地址为 <code>127.0.0.1</code>，然后我们看这个配置上面的说明的话，就可以看到，之所以默认设置为只能本机访问，是出于安全考虑。</p>
+<h3 id="3-Redis数据类型与常见操作"><a href="#3-Redis数据类型与常见操作" class="headerlink" title="3.Redis数据类型与常见操作"></a>3.Redis数据类型与常见操作</h3><p><code>Redis</code> 数据库提供了丰富的数据类型供我们使用，一共有 <code>5</code> 种数据类型，分别为：</p>
+<pre><code>string:普通字符串
+list:链表
+set:集合
+zset:有序集合(sorted set)
+hash:哈希
+</code></pre><p>下面我们就分别针对这五种数据类型分别进行说明，看看它们各自都有什么方法供我们使用。</p>
+<h4 id="3-1-string类型数据"><a href="#3-1-string类型数据" class="headerlink" title="3.1 string类型数据"></a>3.1 string类型数据</h4><p>字符串类型数据是 <code>Redis</code> 数据库中最基本的一种数据类型，在 <code>Redis</code> 数据库中是使用二进制进行安全存储的，因此我们便可以存储任何格式的数据，比如 <code>json</code> 格式的数据，甚至是 <code>jpeg</code> 这样的图片格式数据，同时，在 <code>Redis</code> 数据库中的字符串类型的 <code>value</code> 最大可以存储 <code>512M</code> 大小的数据，那对于 <code>Redis</code> 的基本数据类型字符串，也就是 <code>string</code> 来说，有哪些常用的命令是可以供我们使用的呢，下面我们一一进行说明。</p>
+<pre><code>set key value
+</code></pre><p>这个 <code>set</code> 命令便是用来设置键值对的，即设置 <code>key</code> 所对应的值为 <code>value</code>，如果这个 <code>key</code> 已经存在了，则会覆盖这个 <code>key</code> 所对应的原来的 <code>value</code> 值。比如可以这样使用：</p>
+<pre><code>set name kobe
+</code></pre><p>上面这个命令便是设置 <code>name</code> 这个键所对应的值为 <code>kobe</code>，那如果想要获取到某个键对应的值呢？那就可以使用与上面这个 <code>set</code> 命令相对应的 <code>get</code> 命令了，使用 <code>get</code> 命令我们便可以获取 <code>key</code> 所对应的 <code>value</code> 值了。</p>
+<pre><code>get key
+</code></pre><p>这个 <code>get</code> 命令便是用来获取键所对应的值的，如果 <code>key</code> 在 <code>Redis</code> 数据库中不存在的话，则会返回 <code>nil</code>，表示该 <code>key</code> 不存在，并且该 <code>key</code> 所对应的 <code>value</code> 也不存在。</p>
+<pre><code>mset key value [key value...]
+</code></pre><p>这个 <code>mset</code> 命令是用来设置多个键值对的，和 <code>set</code> 命令相同的，当对应的 <code>key</code> 已经存在时，这个命令同样也会覆盖 <code>key</code> 所对应的 <code>value</code> 值，所以这个命令完全可以看成是 <code>set</code> 命令的多次迭代操作。具体的使用则可以如下：</p>
+<pre><code>mset age 18 sex boy
+</code></pre><p>这里便是设置了两组键值对，一组为年龄，另一组则为性别，<code>key</code> 为 <code>age</code> 所对应的 <code>value</code> 为 <code>18</code>，而 <code>key</code> 为 <code>sex</code> 所对应的 <code>value</code> 则为 <code>boy</code>，这样就完成了设置多组键值对的操作。有设置多个键值对的命令，当然也有对应的根据多个键获取对应值的操作了，也就是 <code>mget</code> 命令了。</p>
+<pre><code>mget key [key...]
+</code></pre><p>这个 <code>mget</code> 命令就是根据多个键获取得到对应的值了，当有的 <code>key</code> 不存在时，则会返回 <code>nil</code>，因此 <code>mget</code> 可以完全看作是 <code>get</code> 命令的多次迭代操作，例如我们可以这样使用：<code>mget sex age</code>，这样的话我们就能获取得到 <code>sex</code> 和 <code>age</code> 这两个键所对应的 <code>value</code> 了。</p>
+<pre><code>setnx key value
+</code></pre><p>这个 <code>setnx</code> 命令同样也是用来设置某个键所对应的值的，但是它比较特别的地方在于，当这个 <code>key</code> 不存在时，<code>setnx</code> 命令的效果和 <code>set</code> 命令是一样的，都是设置这个 <code>key</code> 所对应的 <code>value</code>，并且此时的返回值为 <code>1</code>，但是当命令中设置的 <code>key</code> 已经在 <code>Redis</code> 中存在时，那么这时候不会做任何操作，这时的返回值为 <code>0</code>。具体的使用可以如下：</p>
+<pre><code>setnx age 19
+setnx birth 2019-01-18
+</code></pre><p>第一个命令是来设置 <code>age</code> 这个 <code>key</code> 对应的 <code>value</code> 值为 <code>19</code> 的，但是之前我们已经设置过 <code>age</code> 对应的 <code>value</code> 为 <code>18</code>，因此这里使用 <code>setnx</code> 命令不会修改 <code>age</code> 所对应的 <code>value</code> 值，而且此时的返回值也为 <code>0</code>；再看第二个命令，是设置 <code>birth</code> 这个 <code>key</code> 的，因为我们之前是没有设置过这个 <code>key</code> 的，因此此时是可以设置成功的，返回值也应该为 <code>1</code>。</p>
+<pre><code>msetnx key value [key value...]
+</code></pre><p>这个 <code>msetnx</code> 命令是原子性的完成参数中所有 <code>key/value</code> 的设置操作，相当于是循环迭代的 <code>setnx</code> 命令，有一点需要注意的就是，如果命令中的某个 <code>key</code> 已经存在了，那么该命令所有的操作都会回滚，也就是全部的操作都会失效，返回值为 <code>0</code>，具体的使用可以如下：</p>
+<pre><code>msetnx age 10 like basketball
+</code></pre><p>在上面这个命令中，由于我们之前已经设置过 <code>key</code> 为 <code>age</code> 的键值对，因此在这里再次设置时是不会生效的，而且由于该命令具有原子性的特点，因此命令中所有的键值对设置都不会生效。</p>
+<pre><code>append key value
+</code></pre><p>这个 <code>append</code> 命令是用来追加某个 <code>key</code> 所对应的 <code>value</code> 值的，当命令中的 <code>key</code> 已经存在时，那这个命令就会将命令中的 <code>value</code> 追加到命令中 <code>key</code> 所对应 <code>value</code> 的后面，如果命令中的 <code>key</code> 在 <code>Redis</code> 数据库还不存在的话，那么就相当于是一次设置操作，具体的使用可以如下：</p>
+<pre><code>append name &apos; is a boy&apos;
+</code></pre><p>因为在之前的命令中，我们已经设置 <code>name</code> 这个 <code>key</code> 所对应的 <code>value</code> 为 <code>kobe</code> 了，然后在这里再使用 <code>append</code> 追加命令，那么现在 <code>name</code> 这个 <code>key</code> 所对应的 <code>value</code> 就应该是 <code>kobe is a boy</code> 了，当然我们是可以使用 <code>get name</code> 这个命令来进行验证的。</p>
+<pre><code>decr key
+</code></pre><p>这个 <code>decr</code> 命令是将 <code>key</code> 所对应的 <code>value</code> 值递减 <code>1</code>，当然这时候就必须要求这个 <code>key</code> 所对应的 <code>value</code> 必须是能转换成整形值的数据了，否则就会报错了，同时，如果命令中的 <code>key</code> 不存在的话，那么就会默认这个 <code>key</code> 所对应的 <code>value</code> 为 <code>0</code>，然后再进行递减 <code>1</code> 的操作，返回的就是 <code>-1</code> 了，其实这里的 <code>key</code> 如果不存在的话，就相当于是先设置该 <code>key</code> 所对应的 <code>value</code> 值为 <code>0</code> 了，然后再进行的递减操作。具体使用可以如下：</p>
+<pre><code>decr age
+</code></pre><p>由于之前我们已经将 <code>age</code> 这个 <code>key</code> 所对应的 <code>value</code> 设置为 <code>18</code> 了，然后这里 <code>decr</code> 命令的结果就会返回 <code>17</code> 了。</p>
+<pre><code>incr key
+</code></pre><p>这个 <code>incr</code> 命令的效果便是和上面 <code>decr</code> 命令的效果是相对的，也就是将 <code>key</code> 所对应的 <code>value</code> 递增 <code>1</code>，同样也要求 <code>key</code> 所对应的 <code>value</code> 值是能转换成整形值的数据，当命令中的 <code>key</code> 在 <code>Redis</code> 中不存在时，会先设置该 <code>key</code> 所对应的 <code>value</code> 为 <code>0</code>，然后再进行递增 <code>1</code> 的操作，这时候就会返回 <code>1</code> 了，具体的使用如下：</p>
+<pre><code>incr age
+</code></pre><p>因为之前的操作，<code>Redis</code> 数据库中 <code>age</code> 对应的 <code>value</code> 应该是 <code>17</code> 了，而这里使用 <code>incr</code> 命令的话就会返回 <code>18</code> 了。</p>
+<pre><code>decrby key decrement
+</code></pre><p>这个 <code>decrby</code> 命令的作用和 <code>decr</code> 命令的作用是一样的，也是将命令中 <code>key</code> 所对应的 <code>value</code> 值进行减操作，只不过 <code>decr</code> 命令每次都是确定的减 <code>1</code>，而 <code>decrby</code> 命令则可以根据命令中的参数减少指定的数据，不过有一点是相同的，那就是当命令中的 <code>key</code> 不存在时，<code>Redis</code> 会先指定该 <code>key</code> 对应的 <code>value</code> 值为 <code>0</code>，然后再进行减操作。具体的使用可以如下：</p>
+<pre><code>decrby count 4
+</code></pre><p>这里因为之前在 <code>Redis</code> 中是不存在 <code>count</code> 这个 <code>key</code> 的，所以返回的应该是 <code>-4</code>。</p>
+<pre><code>incrby key increment
+</code></pre><p>这个命令则是和上面的 <code>decrby</code> 命令相对应的，<code>incrby</code> 命令主要是用来对某个 <code>key</code> 所对应的 <code>value</code> 值进行增加操作，同样可以指定所增加值的大小，并且当 <code>key</code> 不存在时，也会先将 <code>key</code> 所对应的 <code>value</code> 置为 <code>0</code>，具体使用可以如下：</p>
+<pre><code>incrby count 5
+</code></pre><p>由于之前 <code>count</code> 所对应的值已经设为 <code>-4</code> 了，在这里进行加 <code>5</code> 的操作，那最后返回的结果就应该是 <code>1</code> 了。</p>
+<pre><code>getset key value
+</code></pre><p>这个 <code>getset</code> 命令同样也是用来设置键值对的，作用的效果其实和 <code>set</code> 命令是一样的，不过有一点区别的就是，<code>getset</code> 命令不仅会设置键值对，而且还会返回这个 <code>key</code> 所对应的原来 <code>value</code> 值，具体使用可以如下：</p>
+<pre><code>getset age 16
+</code></pre><p>因为之前 <code>age</code> 这个 <code>key</code> 所对应的 <code>value</code> 是 <code>18</code>，所以执行上面这个命令时，就会将 <code>age</code> 这个 <code>key</code> 所对应的 <code>value</code> 设置为 <code>16</code>，同时也会返回原来的对应值 <code>18</code>。</p>
+<pre><code>strlen key
+</code></pre><p>这个 <code>strlen</code> 命令则是用来返回 <code>key</code> 所对应 <code>value</code> 值的长度，我们可以直接使用：</p>
+<pre><code>strlen name
+</code></pre><p>由于之前 <code>name</code> 这个 <code>key</code> 所对应的 <code>value</code> 值为 <code>kobe is a boy</code>，因此这里的返回值应该是 <code>13</code>。</p>
+<pre><code>setex key seconds value
+</code></pre><p>这个 <code>setex</code> 命令主要是用来设置键值对，同时设置键的生命周期的，也就是这个 <code>key</code> 在 <code>Redis</code> 中存在的时长，之前我们使用 <code>set</code> 命令设置的键值对，其生命周期都是永久的，在实际开发中我们一般都会指定 <code>key</code> 的生命周期，这样就不会使 <code>Redis</code> 中的 <code>key</code> 过多。具体的使用可以如下：</p>
+<pre><code>setex age 10 6
+</code></pre><p>上面这个命令的作用就是设置 <code>age</code> 这个 <code>key</code> 所对应的 <code>value</code> 值为 <code>6</code>，并且该 <code>key</code> 的存活时间为 <code>10</code> 秒钟，我们这里如果想要查看某个 <code>key</code> 的生命周期的话，是可以使用 <code>ttl</code> 命令的，比如 <code>ttl age</code> 命令，便是查看 <code>age</code> 这个 <code>key</code> 的生命周期了，我们之前使用 <code>set</code> 命令设置的键值对，其生命周期为永远，这时候使用 <code>ttl</code> 命令返回的就是 <code>-1</code> 了。</p>
+<pre><code>setrange key offset value
+</code></pre><p>这个 <code>setrange</code> 命令主要是用来对 <code>key</code> 所对应的 <code>value</code> 值进行局部替换操作，替换的位置就是 <code>offset</code> 了，替换的值也就是命令中的 <code>value</code> 值了，当命令中的 <code>offset</code> 值大于 <code>key</code> 所对应 <code>value</code> 的长度时，那就会在原 <code>value</code> 值和 <code>offset</code> 之间插入 <code>\u0000</code> 值，在我们之前的操作中，<code>name</code> 这个 <code>key</code> 所对应的 <code>value</code> 值应该是 <code>kobe is a boy</code>，我们现在如果使用下面这个命令的话：</p>
+<pre><code>setrange name 10 girl
+</code></pre><p>那这时候，<code>name</code> 这个 <code>key</code> 所对应的 <code>value</code> 值就应该是 <code>kobe is a girl</code> 了。同时，如果命令中的 <code>key</code> 是不存在的话，那就会直接为该 <code>key</code> 进行设置操作了，并且如果该命令中的 <code>offset</code> 大于 <code>0</code> 的话，同样的也会在 <code>offset</code> 位置之前插入 <code>\u0000</code> 字符的。</p>
+<pre><code>getrange key start end
+</code></pre><p>这个 <code>getrange</code> 命令则是用来获取 <code>key</code> 所对应 <code>value</code> 中的某部分值的，命令中的 <code>start</code> 和 <code>end</code> 则是表示获取数据的区间，这里的区间是闭区间，也就是说获取 <code>value</code> 值上面的第 <code>start</code> 个元素到 <code>end</code> 个元素时，<code>start</code> 和 <code>end</code> 位置上面的元素都会包含在内，比如我们可以如下进行使用：</p>
+<pre><code>getrange name 0 1
+</code></pre><p>那上面这个命令就会返回 <code>ko</code> 了，当然，如果想要获取得到 <code>key</code> 所对应的 <code>value</code> 完整值的话，其实是可以使用这个命令的，<code>getrange name 0 -1</code>，<code>0</code> 表示的是从第 <code>1</code> 位开始，<code>-1</code> 则是表示到最后一位。</p>
+<pre><code>getbit key offset
+</code></pre><p>这个 <code>getbit</code> 命令是用来获取 <code>key</code> 所对应 <code>value</code> 值二进制位的，每个二进制位只可能是 <code>0</code> 或者 <code>1</code>，这里就需要说一下十进制数和字母如何用二进制进行表示了，比如十进制数 <code>1</code>，如果用 <code>8</code> 位二进制表示的话，那就应该是 <code>0000 0001</code> 了，其实所有的十进制数都可以使用二进制来表示的，那字母呢？其实也是可以的，这里就需要使用 <code>ASCII</code> 码表了，这张表上面就列出了字母所表示的十进制数以及二进制数，比如 <code>a</code>，它的十进制表示就是 <code>97</code>，二进制表示就是 <code>0110 0001</code> 了，而 <code>A</code> 的话，它的十进制表示就是 <code>65</code>，二进制表示则是 <code>0100 0001</code> 了，如果我们先设置一个 <code>key</code> 所对应的 <code>value</code> 为 <code>a</code>，那再获取得到它每一个二进制位上面的数据，就可以看到该 <code>value</code> 的二进制表示了。</p>
+<pre><code>&gt; set key a
+OK
+&gt; get key
+&quot;a&quot;
+&gt; getbit key 0
+0
+&gt; getbit key 1
+1
+&gt; getbit key 2
+1
+&gt; getbit key 3
+0
+&gt; getbit key 4
+0
+&gt; getbit key 5
+0
+&gt; getbit key 6
+0
+&gt; getbit key 7
+1
+</code></pre><p>上面我们得到的结果其实依次来看的话，就是 <code>0110 0001</code> 了，和我们上面说的 <code>a</code> 的二进制表示是一致的。</p>
+<pre><code>setbit key offset value
+</code></pre><p>这个 <code>setbit</code> 命令是用来设置 <code>key</code> 所对应 <code>value</code> 上的二进制位的，其实理解了上面的 <code>getbit</code> 命令，那这个 <code>setbit</code> 命令也就很好理解了，因为这两个命令刚好也是相对的，<code>setbit</code> 命令刚好就是用来修改 <code>value</code> 上面某个二进制位上面的值的，如果想看到效果的话，那我们可以直接对上面的 <code>key</code> 所对应的 <code>a</code> 这个 <code>value</code> 进行修改，<code>a</code> 所对应的二进制为 <code>0110 0001</code>，而 <code>A</code> 所对应的二进制为 <code>0100 0001</code>，两者的二进制表示主要就是第 <code>3</code> 个二进制位的差别，那我们可以执行下面的命令：</p>
+<pre><code>setbit key 2 0
+</code></pre><p>也就是将原 <code>value</code> 值的二进制表示第 <code>3</code> 位上面的数值改为 <code>0</code>，那这样的话，现在 <code>key</code> 所对应的 <code>value</code> 值就是 <code>A</code> 了。</p>
+<h4 id="3-2-list类型数据"><a href="#3-2-list类型数据" class="headerlink" title="3.2 list类型数据"></a>3.2 list类型数据</h4><p>下面我们再来看 <code>list</code> 类型的数据，其实就是数据结构中的链表了，对于链表来说，效率最高的操作就是在链表的头尾进行元素的增删了，<code>Redis</code> 对于 <code>list</code> 类型的数据也提供了很多在头尾进行数据增删的操作，下面我们具体的来看。</p>
+<pre><code>lpush key value [value...]
+</code></pre><p>这个 <code>lpush</code> 命令主要是向链表中插入一个或多个元素，当命令中的 <code>key</code> 还不存在时，则会新建该 <code>key</code>，也就是一个链表了，需要注意一下的就是，往链表中插入元素时，先插入的元素是在链表尾的，后插入的元素则是在链表头部的，下面看具体的使用：</p>
+<pre><code>lpush lkey01 1 2 3 4 5
+</code></pre><p>上面这个命令则是向 <code>lkey01</code> 这个链表中插入了 <code>5</code> 个元素，由于在 <code>Redis</code> 数据库中 <code>lkey01</code> 这个链表是不存在的，因此在这里会先创建该链表，然后再往里面插入元素。</p>
+<pre><code>lpushx key value [value...]
+</code></pre><p>这个 <code>lpushx</code> 命令同样也是往链表中插入元素的，只是有一点不一样的地方，就是当命令中 <code>key</code> 已经存在时，那么使用 <code>lpushx</code> 命令插入元素是和 <code>lpush</code> 命令一样的，但是如果命令中的 <code>key</code> 不存在，那么插入元素的操作就不会执行，因此如果想要使用 <code>lpushx</code> 插入元素时则必须保证链表已经是存在的了，下面看具体的使用：</p>
+<pre><code>lpushx lkey01 10
+</code></pre><p>上面这个命令就是向 <code>lkey01</code> 链表又插入了一个元素 <code>10</code>，如果是还不存在的链表的话，那就不会进行插入操作了。</p>
+<pre><code>lrange key start end
+</code></pre><p>这个 <code>lrange</code> 命令主要是用来查看链表中的元素的，<code>start</code> 和 <code>end</code> 就是元素所在的位置了，都是以 <code>0</code> 为开始计数的，同样的，查询区间也是闭区间，即 <code>start</code> 和 <code>end</code> 位置上面的元素都会被查出来，而 <code>-1</code> 的话则是表示最后一个位置，以此类推，<code>-2</code> 则是表示倒数第二个位置，所以当我们想查询链表中全部的元素时，就可以使用如下的命令：</p>
+<pre><code>lrange lkey01 0 -1
+</code></pre><p>上面便可以查询出链表中所有的元素来了。</p>
+<pre><code>lpop key
+</code></pre><p>这个 <code>lpop</code> 命令主要是从链表中取出头部元素，如果链表不存在的话，就会返回 <code>nil</code>，因此当我们想要从链表中取得头部元素时就可以使用该命令了，具体使用可以如下：</p>
+<pre><code>lpop lkey01
+</code></pre><p>这里便是取出 <code>lkey01</code> 这个链表中的头部元素了，很显然这里取出的就应该是 <code>10</code> 这个元素了。</p>
+<pre><code>llen key
+</code></pre><p>这个 <code>llen</code> 命令则是用来获取链表的长度了，也就是链表中元素的个数，当链表还不存在时，就会返回 <code>0</code>，已经存在的话则会返回链表实际长度，具体使用可以如下：</p>
+<pre><code>llen lkey01
+</code></pre><p>这里返回的值就是 <code>5</code> 了，因为现在链表中还有 <code>5</code> 个元素。</p>
+<pre><code>lrem key count value
+</code></pre><p>这个 <code>lrem</code> 命令主要是用来删除链表中元素的，即删除链表中 <code>count</code> 个值为 <code>value</code> 的元素，当 <code>count</code> 的值大于 <code>0</code> ，则是表示依次从头到尾进行删除，当 <code>count</code> 的值小于 <code>0</code> 时，则表示依次从尾到头进行删除，当 <code>count</code> 的值等于 <code>0</code> 时，则表示删除链表中所有值为 <code>value</code> 的元素。</p>
+<pre><code>lset key index value
+</code></pre><p>这个 <code>lset</code> 命令主要是用来设置链表中某个位置上面的元素值的，我们就可以用来进行替换操作了，索引值 <code>index</code> 是从 <code>0</code> 开始的，当命令中的 <code>index</code> 大于链表的实际长度时，就会报索引越界错误了，如果我们想设置链表中第一个元素为 <code>100</code>，则可以使用如下命令：</p>
+<pre><code>lset lkey01 0 100
+</code></pre><p>这样的话，<code>lkey01</code> 链表的头部元素就会被设置为 <code>100</code>。</p>
+<pre><code>lindex key index
+</code></pre><p>这个 <code>lindex</code> 命令主要是返回链表中某个位置的元素值，我们便可以根据这个命令做查询相关的操作了，命令中的 <code>index</code> 同样是以 <code>0</code> 为开始的，<code>0</code> 表示的是链表的头部元素所在位置，<code>-1</code> 则是表示链表中尾部元素所在的位置，如果我们想获取到链表中的头部元素，那就可以这样：</p>
+<pre><code>lindex lkey01 0
+</code></pre><p>这样的话便能得到链表的头部元素了，结合上面的 <code>lset</code> 命令来看的话，这里获得的元素应该是 <code>100</code> 了。</p>
+<pre><code>ltrim key start end
+</code></pre><p>这个 <code>ltrim</code> 命令主要是用来将链表中的元素截取一部分然后保存下来，<code>start</code> 和 <code>end</code> 则是表示保留链表中元素所在位置的区间了，<code>start</code> 和 <code>end</code> 都是以 <code>0</code> 为开始的，并且区间也是闭区间，即 <code>start</code> 和 <code>end</code> 所在位置的元素都会包含在内。</p>
+<pre><code>linsert key before|after pivot value
+</code></pre><p>这个 <code>linsert</code> 命令主要是用来向链表中插入元素的，即向链表中元素值为 <code>pivot</code> 的元素前面或者后面插入值为 <code>value</code> 的元素，命令中的 <code>before</code> 和 <code>after</code> 就是指定是在元素前面还是后面进行插入了。</p>
+<pre><code>rpush key value [value...]
+</code></pre><p>前面我们介绍的往链表中插入元素和取出一个元素，都是在链表头部进行操作的，其实我们同样也是可以在链表尾部进行这样的操作的，比如这个 <code>rpush</code> 命令，则是向链表尾部插入元素，同样的，如果命令中的链表还不存在，则先创建该链表然后再在尾部进行插入操作。</p>
+<pre><code>rpushx key value
+</code></pre><p>这个 <code>rpushx</code> 命令同样也是在链表的尾部进行插入操作，和 <code>lpushx</code> 类似的，这个 <code>rpushx</code> 只有当链表已经存在时才会进行插入操作，如果链表不存在就不会做任何操作。</p>
+<pre><code>rpop key
+</code></pre><p>这个 <code>rpop</code> 命令主要是在链表尾部取出一个元素，也就是尾部元素了。</p>
+<pre><code>rpoplpush source destination
+</code></pre><p>这个 <code>rpoplpush</code> 命令是作用于两个链表的，即将 <code>source</code> 链表的尾部元素弹出，然后插入到 <code>destination</code> 链表的头部，如果 <code>source</code> 链表不存在，则只会返回 <code>nil</code>，而不会做其它操作了，如果 <code>source</code> 链表和 <code>destination</code> 链表是同一个链表，那就相当于是将这个链表的尾部元素弹出然后插入到头部了。</p>
+<h4 id="3-3-hash类型数据"><a href="#3-3-hash类型数据" class="headerlink" title="3.3 hash类型数据"></a>3.3 hash类型数据</h4><p>下面我们再来看 <code>Redis</code> 数据库中的 <code>hash</code> 类型的数据，<code>Redis</code> 数据库中的 <code>hash</code> 类型数据类似于 <code>Java</code> 中的 <code>Map</code> 集合类型的数据，在这里我们可以简单的将 <code>hash</code> 类型的数据理解为一个 <code>key</code> 所对应的值为一个 <code>Map</code> 集合，因此我们可以使用该类型的数据保存对象信息，比如 <code>key</code> 为 <code>user</code> ，然后该 <code>key</code> 所对应的 <code>Map</code> 则保存该用户对象的各种属性，比如姓名，性别以及年龄，这样就能很好的描述一个对象了，下面我们具体来看 <code>hash</code> 类型的数据有哪些常用命令。</p>
+<pre><code>hset key field value
+</code></pre><p>这个 <code>hset</code> 命令主要是用来设置一个 <code>hash</code> 类型的数据，当命令中的 <code>key</code> 不存在时，便会执行新增操作，命令中的 <code>field</code> 参数则是 <code>key</code> 所对应 <code>Map</code> 类型数据中的键，<code>value</code> 则是 <code>key</code> 所对应 <code>Map</code> 类型数据中的值，下面通过具体的命令来学习。</p>
+<pre><code>hset user username tom
+</code></pre><p>上面这个命令则是设置了一个 <code>hash</code> 类型的数据，该数据的 <code>key</code> 则为 <code>user</code>，该 <code>key</code> 所对应的则是一个 <code>Map</code> 集合，现在该 <code>Map</code> 中有一对键值对，键为 <code>username</code>，值则为 <code>tom</code>。</p>
+<pre><code>hget key field
+</code></pre><p><code>hget</code> 命令则是用来获取 <code>key</code> 所对应 <code>hash</code> 类型数据中 <code>field</code> 所对应的值的，显然它的作用便是和 <code>hset</code> 是相对的，实际使用可以如下：</p>
+<pre><code>hget user username
+</code></pre><p>这样的话，我们就能获得 <code>user</code> 这个 <code>key</code> 所对应 <code>hash</code> 类型数据中 <code>username</code> 这个键所对应的值了，很显然，这个值就是 <code>tom</code> 了。</p>
+<pre><code>hsetnx key field value
+</code></pre><p><code>hsetnx</code> 这个命令也是用来设置命令中 <code>key</code> 所对应的 <code>hash</code> 类型数据的，只不过和 <code>hset</code> 命令有区别的是，只有当命令中的 <code>key</code> 或者 <code>field</code> 不存在的时候，命令才会起作用，否则是不会起作用的，使用可以如下：</p>
+<pre><code>hsetnx user age 20
+</code></pre><p>由于之前 <code>user</code> 所对应的 <code>hash</code> 类型数据中是不存在 <code>age</code> 这个键的，因此上面的命令便是相当于对 <code>user</code> 这个 <code>key</code> 所对应的 <code>hash</code> 类型数据的一次设置操作，设置其中 <code>age</code> 这个键所对应的值为 <code>20</code>。当然如果使用下面这个命令的话那就没有用了：</p>
+<pre><code>hsetnx user username jerry
+</code></pre><p>由于 <code>user</code> 这个 <code>key</code> 所对应的 <code>hash</code> 类型数据中之前就已经有了 <code>username</code> 这个键，因此再对这个键进行设置时，就不会再起作用了。</p>
+<pre><code>hexists key field
+</code></pre><p><code>hexists</code> 命令主要是用来判断 <code>key</code> 所对应的 <code>hash</code> 类型数据中是否包含 <code>field</code> 这个键，如果包含的话就会返回 <code>1</code>，不包含或者连 <code>user</code> 这个 <code>key</code> 都不存在的话就会返回 <code>0</code> 了。具体使用可以如下：</p>
+<pre><code>hexists user username
+</code></pre><p>上面这个命令则是用来判断 <code>user</code> 这个 <code>key</code> 所对应的 <code>hash</code> 类型数据中是否包含 <code>username</code> 这个键，很显然是包含的，因此会返回 <code>1</code>。</p>
+<pre><code>hlen key
+</code></pre><p><code>hlen</code> 命令是用来确定 <code>key</code> 所对应的 <code>hash</code> 类型数据中包含 <code>field</code> 的个数，如果 <code>key</code> 不存在的话，则会返回 <code>0</code>。具体使用可以如下：</p>
+<pre><code>hlen user
+</code></pre><p>上面这个命令则是为了确定 <code>user</code> 这个 <code>key</code> 所对应 <code>hash</code> 类型数据中 <code>field</code> 的个数，很显然现在 <code>user</code> 所对应 <code>hash</code> 类型数据中包含的 <code>field</code> 有 <code>username</code> 和 <code>age</code> 这两个，因此上面命令的返回值为 <code>2</code>。</p>
+<pre><code>hdel key field [field...]
+</code></pre><p><code>hdel</code> 命令是用来删除 <code>key</code> 所对应 <code>hash</code> 类型数据中对应的 <code>field</code>，当命令中的 <code>field</code> 不存在时，则会忽略该 <code>field</code>，具体使用可以如下：</p>
+<pre><code>hdel user age
+</code></pre><p>上面的命令则是用来删除 <code>user</code> 这个 <code>key</code> 所对应的 <code>hash</code> 类型数据中的 <code>age</code> 这个 <code>field</code>，当然在我们之前的操作中，<code>age</code> 这个 <code>field</code> 是存在的，因此在这里的删除操作也是可以进行的。</p>
+<pre><code>hincrby key field increment
+</code></pre><p><code>hincrby</code> 命令是用来对 <code>key</code> 所对应 <code>hash</code> 类型数据中 <code>field</code> 所对应值进行增减操作的命令，当然这就必须要保证 <code>field</code> 对应的值必须是可以被转换为整数型值的，当命令中的 <code>key</code> 或者 <code>field</code> 不存在时，就会新建命令中的 <code>key</code> 或者 <code>field</code>，并将 <code>field</code> 所对应的值设为 <code>0</code>，然后再进行加减操作。具体使用可以如下：</p>
+<pre><code>hincrby user age 10
+</code></pre><p>上面这个命令便是对 <code>user</code> 这个 <code>key</code> 所对应的 <code>hash</code> 类型数据中的 <code>age</code> 这个 <code>field</code> 对应的值进行加 <code>10</code> 操作，由于之前已经不存在 <code>age</code> 这个 <code>field</code> 了，因此这里 <code>age</code> 所对应的值先设置为 <code>0</code>，然后再进行加 <code>10</code> 操作，最后返回的就是 <code>10</code> 了。</p>
+<pre><code>hgetall key
+</code></pre><p><code>hgetall</code> 命令是用来获取 <code>key</code> 所对应 <code>hash</code> 类型数据中所有的 <code>field</code> 以及 <code>field</code> 所对应的值的，相当于是对 <code>key</code> 所对应 <code>hash</code> 类型数据的遍历，具体使用可以如下：</p>
+<pre><code>hgetall user
+</code></pre><p>上面的命令便是获取 <code>user</code> 这个 <code>key</code> 所对应 <code>hash</code> 类型数据中所有的数据了，包括 <code>field</code> 以及其所对应的值。</p>
+<pre><code>hkeys key
+</code></pre><p><code>hkeys</code> 命令是用来获取 <code>key</code> 所对应 <code>hash</code> 类型数据中所有的 <code>field</code>，类似于 <code>Java</code> 中获取 <code>Map</code> 集合中所有的 <code>key</code>，因此还是很好理解的，具体使用可以如下：</p>
+<pre><code>hkeys user
+</code></pre><p>上面命令是用来获取 <code>user</code> 这个 <code>key</code> 所对应 <code>hash</code> 类型数据中所有 <code>field</code>，根据现在的情况，返回的就应该是 <code>username</code> 和 <code>age</code> 这两个 <code>field</code> 了。</p>
+<pre><code>hvals key
+</code></pre><p><code>hvals</code> 命令是用来获取 <code>key</code> 所对应 <code>hash</code> 类型数据中所有 <code>field</code> 所对应的值的，相当于是 <code>Java</code> 中获取 <code>Map</code> 集合中的所有 <code>value</code> 值，该命令的具体使用如下：</p>
+<pre><code>hvals user
+</code></pre><p>上面的命令是用来获取 <code>user</code> 这个 <code>key</code> 所对应 <code>hash</code> 类型数据中所有 <code>field</code> 所对应的值的。</p>
+<pre><code>hmget key field [field...]
+</code></pre><p><code>hmget</code> 命令是用来获取 <code>key</code> 所对应 <code>hash</code> 类型数据中多个 <code>field</code> 所对应的值的，如果命令中 <code>field</code> 不存在，返回的就是 <code>nil</code> 了，如果命令中的 <code>key</code> 都不存在，那返回的就是一组 <code>nil</code> 了。具体使用可以如下：</p>
+<pre><code>hmget user username age
+</code></pre><p>上面这个命令是用来获取 <code>user</code> 这个 <code>key</code> 所对应 <code>hash</code> 类型数据中 <code>username</code> 和 <code>age</code> 这两个 <code>field</code> 所对应的值的。</p>
+<pre><code>hmset key field value [field value...]
+</code></pre><p><code>hmset</code> 命令是用来设置 <code>key</code> 所对应 <code>hash</code> 类型数据中多个 <code>field</code> 所对应的值的，这个的作用当然就是刚好和 <code>hmget</code> 命令是相对的了，具体的使用可以如下：</p>
+<pre><code>hmset user addr hubei birth 2019-01-01
+</code></pre><p>上面命令的作用便是设置 <code>user</code> 这个 <code>key</code> 所对应的 <code>hash</code> 类型数据中 <code>addr</code> 这个 <code>field</code> 所对应的值为 <code>hubei</code>，<code>birth</code> 这个 <code>field</code> 所对应的值为 <code>2019-01-01</code>。</p>
+<h4 id="3-4-set类型数据"><a href="#3-4-set类型数据" class="headerlink" title="3.4 set类型数据"></a>3.4 set类型数据</h4><p>下面我们来介绍 <code>Redis</code> 数据库中的 <code>set</code> 类型数据，<code>Redis</code> 数据库中的 <code>set</code> 类型数据就相当于 <code>Java</code> 中的 <code>Set</code> 集合类型数据，和 <code>Java</code> 中一样，<code>Redis</code> 数据库中的 <code>set</code> 类型数据中存放的也是无序的数据，可以简单地看成是一组无序的字符串集合，同时，<code>set</code> 类型数据还可以在两个集合间完成交并差等集合操作，所以还是十分实用的，下面我们具体来看 <code>set</code> 类型数据为我们提供了哪些实用的命令。</p>
+<pre><code>sadd key member [member...]
+</code></pre><p><code>sadd</code> 命令相当于是往 <code>key</code> 这个集合中添加元素，当命令中的元素在集合中已经存在时，我们会忽略该元素，而其它的元素仍会添加成功，具体使用可以如下：</p>
+<pre><code>sadd set a b c d
+</code></pre><p>上面命令就是往集合 <code>set</code> 中添加 <code>4</code> 个元素了，同时 <code>4</code> 个元素之间是无需排列的。</p>
+<pre><code>scard key
+</code></pre><p><code>scard</code> 命令则是用来获取集合中元素的个数，当集合还不存在时会返回 <code>0</code>，否则就是返回实际元素个数了。具体使用可以如下：</p>
+<pre><code>scard set
+</code></pre><p>上面这个命令便是获取 <code>set</code> 这个集合中元素个数了，很明显这里是有 <code>4</code> 个元素的，所以应该返回 <code>4</code>。</p>
+<pre><code>sismember key member
+</code></pre><p><code>sismember</code> 命令则是用来判断某个元素是否是属于某个集合的，返回值 <code>1</code> 表示存在，而 <code>0</code> 则是表示不存在。具体使用可以如下：</p>
+<pre><code>sismember set a
+</code></pre><p>上面命令则是判断 <code>a</code> 这个元素是否在 <code>set</code> 这个集合当中，很显然是在集合当中的，因此应该返回 <code>1</code>。</p>
+<pre><code>smembers key
+</code></pre><p><code>smembers</code> 命令是用来查看集合中所有元素的，也就相当于是对集合的遍历了。具体使用可以如下：</p>
+<pre><code>smembers set
+</code></pre><p>上面这个命令便是查看 <code>set</code> 集合中的所有元素。</p>
+<pre><code>spop key
+</code></pre><p><code>spop</code> 命令是从 <code>key</code> 集合中返回并删除一个元素，由于集合中元素是无序排列的，因此每次返回并删除都相当于是随机的。具体使用可以如下：</p>
+<pre><code>spop set
+</code></pre><p>上面命令就会从 <code>set</code> 集合中随机返回并删除一个元素。</p>
+<pre><code>srandmember key
+</code></pre><p><code>srandmember</code> 命令是随机返回集合中的某个元素，与 <code>spop</code> 不一样的是，<code>srandmember</code> 命令只会返回元素，而不会将元素从集合中删除。具体使用可以如下：</p>
+<pre><code>srandmember set
+</code></pre><p>上面命令就是从集合中随机返回一个元素，因为集合中元素是排列无序的，因此每次返回的元素也是随机的。</p>
+<pre><code>srem key member [member...]
+</code></pre><p><code>srem</code> 命令主要是用来删除集合中指定元素的，如果命令中的元素在集合中不存在，则会忽略该元素。具体使用可以如下：</p>
+<pre><code>srem set a c
+</code></pre><p>上面命令则是从集合中删除 <code>a</code> 和 <code>c</code> 这两个元素。</p>
+<pre><code>smove source destination member
+</code></pre><p><code>smove</code> 命令是用于将 <code>source</code> 集合中的元素移到 <code>destination</code> 集合当中，也就是源集合和目标集合了，假如 <code>set</code> 集合中的元素为 <code>a</code>,<code>b</code>,<code>c</code>，而 <code>set2</code> 集合中元素为 <code>1</code>,<code>2</code>,<code>3</code>，当我们想把 <code>a</code> 元素从 <code>set</code> 集合移到 <code>set2</code> 集合时，我们就可以使用下面这个命令：</p>
+<pre><code>smove set set2 a
+</code></pre><p>这样的话我们就可以达到我们想要的效果了，即将 <code>a</code> 元素从 <code>set</code> 集合移动到 <code>set2</code> 集合了。</p>
+<pre><code>sdiff key [key...]
+</code></pre><p><code>sdiff</code> 命令是用来获取第一个集合与其后所有集合的差集的，为了便于说明，我们假定有两个集合，<code>set</code> 与 <code>set2</code>，<code>set</code> 中元素为 <code>1</code>,<code>2</code>,<code>3</code>,<code>4</code>,<code>5</code>，而 <code>set2</code> 中元素为 <code>4</code>,<code>5</code>,<code>6</code>,<code>7</code>,<code>8</code>，当我们想求两个集合的差集时，则可以使用如下命令：</p>
+<pre><code>sdiff set set2
+</code></pre><p>通过上面的命令，我们就得到了 <code>set</code> 集合与 <code>set2</code> 集合的差集了，很明显我们这里的结果就是 <code>1</code>,<code>2</code>,<code>3</code> 了。</p>
+<pre><code>sdiffstore destination key [key...]
+</code></pre><p><code>sdiffstore</code> 命令同样也是用来计算集合之间的差集的，只不过和 <code>sdiff</code> 命令之间的差别在于，<code>sdiffstore</code> 命令会将集合之间的差集保存在 <code>destination</code> 集合当中，也就是目标集合当中，而 <code>sdiff</code> 命令不会，因此上面同样的两个集合求差集，也可以使用下面这个命令：</p>
+<pre><code>sdiffstore sdiffset set set2
+</code></pre><p>上面这个命令会将两个集合之间求差集的结果保存到 <code>sdiffset</code> 集合当中，保存的元素也就是 <code>1</code>,<code>2</code>,<code>3</code> 了。</p>
+<pre><code>sinter key [key...]
+</code></pre><p><code>sinter</code> 命令则是用来求第一个集合与其后所有集合之间的交集的，这样来看的话，当命令中有一个集合为空集合或者集合不存在的话，那我们运算的结果也就是空集合了。这里我们还是求 <code>set</code> 和 <code>set2</code> 这两个集合之间的交集，命令如下：</p>
+<pre><code>sinter set set2
+</code></pre><p>经过上面的命令，我们便能得到 <code>set</code> 和 <code>set2</code> 集合之间的交集了，很明显这里我们得到的结果应该是 <code>4</code>,<code>5</code>。</p>
+<pre><code>sinterstore destination key [key...]
+</code></pre><p><code>sinterstore</code> 命令也是用来计算第一个集合与其后所有集合之间的交集的，与 <code>sinter</code> 命令稍微有点不同的是，<code>sinterstore</code> 命令会将交集计算的结果保存在 <code>destination</code> 集合中，也就是目标集合中，而 <code>sinter</code> 命令则是将交集计算的结果直接返回。如果要计算 <code>set</code> 和 <code>set2</code> 这两个集合之间的交集的话，那我们就还可以使用下面的命令：</p>
+<pre><code>sinterstore sinterset set set2
+</code></pre><p>上面这个命令则是将两个集合的交集结果保存到 <code>sinterset</code> 集合当中了，很显然其中就是 <code>4</code> 和 <code>5</code> 这两个元素了。</p>
+<pre><code>sunion key [key...]
+</code></pre><p><code>sunion</code> 命令则是用来获取第一个集合与其后所有集合之间的并集，为了便于演示，我们还是使用 <code>set</code> 和 <code>set2</code> 这两个集合，以求它们的并集：</p>
+<pre><code>sunion set set2
+</code></pre><p>上面这个命令便是求 <code>set</code> 集合和 <code>set2</code> 集合之间的并集了，很明显可以看出结果就是 <code>1</code>,<code>2</code>,<code>3</code>,<code>4</code>,<code>5</code>,<code>6</code>,<code>7</code>,<code>8</code>。</p>
+<pre><code>sunionstore destination key [key...]
+</code></pre><p><code>sunionstore</code> 命令同样也是用来求两个集合之间的并集的，同样的，与 <code>sunion</code> 命令不同的地方就还是在于，<code>sunionstore</code> 命令会将集合之间并集运算的结果保存到 <code>destination</code> 集合中，也就是目标集合当中，而 <code>sunion</code> 命令则是直接返回结果，具体使用如下：</p>
+<pre><code>sunionstore sunionset set set2
+</code></pre><p>上面命令则是将 <code>set</code> 集合和 <code>set2</code> 集合并集的结果保存在 <code>destination</code> 集合之中了，很明显其中集合元素也是 <code>1</code>,<code>2</code>,<code>3</code>,<code>4</code>,<code>5</code>,<code>6</code>,<code>7</code>,<code>8</code>。</p>
+<h4 id="3-5-sortedSet类型数据"><a href="#3-5-sortedSet类型数据" class="headerlink" title="3.5 sortedSet类型数据"></a>3.5 sortedSet类型数据</h4><p>下面我们再来介绍 <code>Redis</code> 数据库中的 <code>sortedSet</code> 类型数据，其实就是相当于 <code>Java</code> 中的 <code>Set</code> 集合，不过这里的 <code>sortedSet</code> 是有序集合，那它其中元素是如何保持有序状态的呢？其实就是因为集合中每个元素都会有一个分数，然后每个元素都根据分数的大小进行排列，这样就能保证集合中元素是有序的了，同时，集合中元素是不允许重复的，但是元素所带有的分数是允许重复的，由于 <code>sortedSet</code> 中元素都是有序排列的，因此即使是在集合中部进行增删操作，效率也是很高的，下面我们再具体来看 <code>Redis</code> 中提供了哪些实用的方法供我们使用。</p>
+<pre><code>zadd key score member [score member...]
+</code></pre><p><code>zadd</code> 命令的作用就是往集合中添加元素了，只不过在添加元素时也会指定元素所对应的分数，这样集合中元素就能根据分数大小进行排序了，如果命令中的元素在集合中已经存在了，那这时就会根据命令中元素对应的分数对集合中元素对应的分数进行更新，同时调整集合中元素的排序。下面看具体的使用：</p>
+<pre><code>zadd zset 1 a 2 b 3 c 4 d 5 e
+</code></pre><p>这样我们就创建了一个新的有序集合 <code>zset</code>，并往其中添加了 <code>5</code> 个元素，并指定了 <code>5</code> 个元素所对应的分数是多少。</p>
+<pre><code>zincrby key increment member
+</code></pre><p><code>zincrby</code> 命令的作用主要是调整集合中元素所对应的分数，当命令中的元素在集合中并不存在时，我们就会新增该元素到集合之中，并指定该元素所对应的分数为命令中的分数参数，具体使用可以如下：</p>
+<pre><code>zincrby zset 2 d
+</code></pre><p>上面的命令就是将集合中的 <code>d</code> 元素所对应的分数增加了 <code>2</code>，从而也就改变了元素之间的排序序列。</p>
+<pre><code>zcard key
+</code></pre><p><code>zcard</code> 命令则是用来获取集合中的元素个数的，具体使用可以如下：</p>
+<pre><code>zcard zset
+</code></pre><p>上面这个命令就是用来获取 <code>zset</code> 集合中元素个数了，很明显这里会返回 <code>5</code>。</p>
+<pre><code>zcount key min max
+</code></pre><p><code>zcount</code> 命令同样也是用来获取集合中元素数量的，只不过它获取的是分数在 <code>min</code> 和 <code>max</code> 之间元素的个数，需要注意的是在默认情况下这个区间是闭区间，也就是两边都是包含的，如果想表示开区间的话，则可以使用 <code>(</code> 符号，如 <code>zcount key (min (max</code>，这样的话就是表示分数在最小值和最大值之间的元素个数是多少了，当然如果只想表示单个闭区间也是可以的，总结起来的话就是哪一边想表示开区间的话哪一边就需要加上 <code>(</code> 符号。下面看具体使用：</p>
+<pre><code>zcount zset 2 4
+</code></pre><p>上面这个命令就是得到分数大于等于 <code>2</code> 并小于等于 <code>4</code> 之间的元素个数。</p>
+<pre><code>zrange key start stop [withscores]
+</code></pre><p><code>zrange</code> 命令是用来根据索引范围获取元素的，命令中的 <code>start</code> 和 <code>stop</code> 都是表示元素在集合之中的索引区间，这里的索引都是从 <code>0</code> 开始的,<code>0</code> 表示的是第一个元素，<code>-1</code> 则是表示的最后一个元素，因此总的来说就相当于是获取某个索引区间之中的元素，需要注意的一点是，命令中还有一个可选参数 <code>withscore</code>，表示的是返回元素时是否带上元素所对应的分数，存在该参数时就会带上元素所对应的分数，下面看具体的使用：</p>
+<pre><code>zrange zset 0 -1 withscore
+</code></pre><p>上面的命令则是表示获取集合中所有的元素以及它们各自所对应的分数。</p>
+<pre><code>zrevrange key start stop [withscores]
+</code></pre><p><code>zrevrange</code> 命令同样也是根据索引获取集合中的元素以及元素所对应的分数的，和 <code>zrange</code> 命令唯一的区别就是 <code>zrevrange</code> 命令是将元素进行倒序排列，即根据元素所对应的分数按从大到小进行排列的，具体使用可以如下：</p>
+<pre><code>zrevrange zset 0 -1 withscores
+</code></pre><p>上面这个命令同样也是获取 <code>zset</code> 集合中元素以及元素对应分数的，只不过和上面使用 <code>zrange</code> 命令不一样的是，这里所得到的元素排列顺序是和 <code>zrange</code> 命令刚好相反的。</p>
+<pre><code>zrangebyscore key min max [withscores] [limit offset count]
+</code></pre><p><code>zrangebyscore</code> 命令的作用主要是根据元素所对应的分数来获取集合中的元素，即返回分数大于等于 <code>min</code> 并且小于等于 <code>max</code> 的元素，命令中的可选参数 <code>withscorea</code> 则是表示是否需要返回元素所对应的分数，后面还有一个可选参数 <code>limit</code>，则类似于 <code>MySQL</code> 数据中进行分页的关键字 <code>limit</code>，同样的，这里的 <code>offset</code> 也是表示从第多少个元素开始返回，而 <code>count</code> 则是表示每次返回多少个元素，具体使用可以如下：</p>
+<pre><code>zrangebyscore zset 2 4
+</code></pre><p>上面命令则是表示返回 <code>zset</code> 集合中分数在 <code>2</code> 和 <code>4</code> 之间的元素。</p>
+<pre><code>zrevrangebyscore key max min [withscores] [limit offset count]
+</code></pre><p><code>zrevrangebyscore</code> 命令同样也是根据分数来获取集合中的元素，不过和 <code>zrangebyscore</code> 命令不同的是，<code>zrevrangebyscore</code> 命令是根据分数从高到低来进行排列元素的，需要注意的一点是，在使用 <code>zrevrangebyscore</code> 命令的时候，参数中的分数的最大值是放在前面的，而分数的最小值是放在后面的，具体使用可以如下：</p>
+<pre><code>zrevrangebyscore zset 4 2
+</code></pre><p>上面的命令则是获取分数在 <code>2</code> 和 <code>4</code> 之间的元素，并按分数从高到低进行排列返回。</p>
+<pre><code>zrank key member
+</code></pre><p><code>zrank</code> 命令是用来获取指定元素在集合中的索引值，当然，索引值是从 <code>0</code> 开始计数的，具体使用可以如下：</p>
+<pre><code>zrank zset d
+</code></pre><p>上面这个命令便是获取 <code>d</code> 这个元素在 <code>zset</code> 集合中所在的索引值是多少。</p>
+<pre><code>zrevrank key member
+</code></pre><p><code>zrevrank</code> 命令也是用来获取指定元素在集合中的索引值的，只不过和 <code>zrank</code> 命令相反的是，<code>zrevrank</code> 返回的顺序和 <code>zrank</code> 命令返回的刚好是相反的。具体使用可以如下：</p>
+<pre><code>zrevrank zset d
+</code></pre><p>上面这个命令也是获取 <code>d</code> 这个元素在 <code>zset</code> 集合之中的索引值的，其实就是相当于，<code>zrank</code> 命令获取索引值的时候是从前往后数的，而 <code>zrevrank</code> 命令是从后往前数的。</p>
+<pre><code>zscore key member
+</code></pre><p><code>zscore</code> 命令的作用就是获取集合中指定元素所对应的分数，当元素不存在时就直接返回 <code>nil</code> 了，具体使用可以如下：</p>
+<pre><code>zscore zset d
+</code></pre><p>上面这个命令就是获取 <code>d</code> 这个元素在 <code>zset</code> 集合中所对应的分数。</p>
+<pre><code>zrem key member [member...]
+</code></pre><p><code>zrem</code> 命令是用来删除集合中指定元素的，如果命令中的元素在集合中并不存在时，则直接忽略，具体使用可以如下：</p>
+<pre><code>zrem zset a
+</code></pre><p>上面这个命令就是直接删除掉 <code>zset</code> 集合中的 <code>a</code> 元素。</p>
+<pre><code>zremrangebyrank key start stop
+</code></pre><p><code>zremrangebyrank</code> 命令则是根据元素的索引值来删除集合中的元素，<code>start</code> 和 <code>stop</code> 都是表示的索引值，从 <code>0</code> 开始计数，<code>0</code> 表示的是第一个元素，而 <code>-1</code> 则是表示的最后一个元素，命令的作用就是删除索引值在 <code>start</code> 和 <code>stop</code> 之间的元素，具体使用可以如下：</p>
+<pre><code>zremrangebyrank zset 0 0
+</code></pre><p>上面这个命令便是相当于删除 <code>zset</code> 集合中索引值为 <code>0</code> 的元素。</p>
+<pre><code>zremrangebyscore key min max
+</code></pre><p><code>zrenrangebyscore</code> 命令则是根据元素所对应的分数来删除元素，将分数处在 <code>min</code> 和 <code>max</code> 之间的元素进行删除，具体使用可以如下：</p>
+<pre><code>zremrangebyscore zset 5 5
+</code></pre><p>上面命令则是删除 <code>zset</code> 集合中元素对应分数为 <code>5</code> 的元素。</p>
+<h4 id="3-6-key通用操作"><a href="#3-6-key通用操作" class="headerlink" title="3.6 key通用操作"></a>3.6 key通用操作</h4><p>介绍完了 <code>Redis</code> 数据库中的 <code>5</code> 种基本数据类型，我们再来看一些专门针对于 <code>key</code> 的操作命令，比如列出所有的 <code>key</code> 以及删除某些 <code>key</code>，使用这些命令我们可以完成许多我们想要的功能，因此也是十分实用的，下面具体来看。</p>
+<pre><code>keys pattern
+</code></pre><p><code>keys</code> 命令的作用是列出所有匹配给定模式的 <code>key</code>，其中的 <code>pattern</code> 参数即为正则表达式，在实际生产中，还是应该尽量避免使用该命令的，因为该命令是非常耗时的，对 <code>Redis</code> 数据库的性能消耗也是非常高的，下面我们来看一下具体使用：</p>
+<pre><code>keys *
+</code></pre><p>上面这个命令的作用便是列出当前数据库中的所有 <code>key</code>，因为生产环境的数据量都是很大的，因此在生产环境最好不要使用该命令。</p>
+<pre><code>del key [key...]
+</code></pre><p><code>del</code> 命令则是用于删除 <code>Redis</code> 数据库中指定的 <code>key</code>，当然当命令参数中的 <code>key</code> 不存在时，那就会直接将 <code>key</code> 忽略掉了，下面看具体使用：</p>
+<pre><code>del name
+</code></pre><p>上面的命令则是直接删除掉 <code>name</code> 这个 <code>key</code>。</p>
+<pre><code>exists key
+</code></pre><p><code>exists</code> 命令主要是用来判断指定 <code>key</code> 在当前数据库中是否存在，如果存在则是返回 <code>1</code>，不存在则是返回 <code>0</code>，下面看具体使用：</p>
+<pre><code>exists name
+</code></pre><p>上面这个命令便是判断 <code>name</code> 这个 <code>key</code> 是否存在于当前的数据库中。</p>
+<pre><code>move key db
+</code></pre><p><code>move</code> 命令的作用就是将指定的 <code>key</code> 移动到指定的数据库中，当指定的 <code>key</code> 在目标数据库中已经存在或者在当前数据库中不存在时，移动操作就不会发生。在 <code>Redis</code> 的配置文件 <code>redis.conf</code> 中默认配置的数据库数量是 <code>16</code>，而我们默认使用的数据库是 <code>0</code> 号数据库，当我们想切换数据库时就可以使用 <code>select</code> 命令，比如想切换到 <code>10</code> 号数据库，那我们就可以使用 <code>select 10</code> 这个命令，下面我们来看移动指定的 <code>key</code> 到别的数据库的命令。</p>
+<pre><code>move name 10
+</code></pre><p>上面这个命令便是将 <code>name</code> 这个 <code>key</code> 移动到了 <code>10</code> 号数据库。</p>
+<pre><code>rename key newkey
+</code></pre><p><code>rename</code> 命令主要是为指定的 <code>key</code> 改名，如果当 <code>newkey</code> 已经存在时，那么命令实际的效果就是 <code>key</code> 所对应的数据会覆盖 <code>newkey</code> 所对应的数据，下面看具体使用：</p>
+<pre><code>rename username name
+</code></pre><p>上面的命令就是将 <code>username</code> 这个 <code>key</code> 名称替换为 <code>name</code>，当 <code>name</code> 这个 <code>key</code> 在之前就已经存在时，那么就会使用 <code>username</code> 这个 <code>key</code> 所对应的数据去覆盖 <code>name</code> 这个 <code>key</code> 所对应的数据。</p>
+<pre><code>renamenx key newkey
+</code></pre><p><code>renamenx</code> 这个命令同样也是为指定的 <code>key</code> 改名，但是稍有不用的是，只有当 <code>newkey</code> 不存在时，操作才会执行成功，当返回值为 <code>1</code> 时表示操作成功，为 <code>0</code> 时则表示操作失败，下面看具体使用：</p>
+<pre><code>renamenx username name
+</code></pre><p>上面这个命令便是将 <code>username</code> 这个 <code>key</code> 名称修改为 <code>name</code>，当然只有当 <code>name</code> 这个名称不存在时才会成功。</p>
+<pre><code>expire key second
+</code></pre><p><code>expire</code> 命令是用来设置指定 <code>key</code> 的有效时间的，这里的有效时间主要是秒数了，在我们之前的操作中，都是没有设置有效期的，那默认的就是永久有效，但是在实际生产中，所有的数据都是永久有效的话，就会占用相当大空间的内存，同时有些数据保留永久也没有很大意义，这样的话，为了优化，我们一般会对数据设置一个有效时间，这样就能保证缓存空间的大小不会过大，下面我们来看该命令的具体使用：</p>
+<pre><code>expire name 100
+</code></pre><p>上面这个命令便是设置 <code>name</code> 这个 <code>key</code> 的有效时间为 <code>100</code> 秒，当时间过了 <code>100</code> 秒之后，该 <code>key</code> 就会自动被删除了，同时对应的数据也就被删除了。</p>
+<pre><code>expireat key timestamp
+</code></pre><p><code>expireat</code> 命令同样也是用来设置有效时间的，不过不同之处在于，<code>expireat</code> 是使用的绝对时间，而不是相对时间，该时间参数是 <code>Unix timestamp</code> 格式的，也就是从 <code>1970-01-01</code> 这一天开始所流经的秒数，因此可以想到使用该命令设置有效时间时是一个很大的数了，具体使用可以如下：</p>
+<pre><code>expireat name 100
+</code></pre><p>上面这个命令的作用是设置 <code>name</code> 这个 <code>key</code> 有效时间为 <code>1970-01-01</code> 开始时的 <code>100</code> 秒，当我们再次查看该 <code>key</code> 时，就会发现这个 <code>key</code> 已经过期了，这是因为我们现在肯定远远过去 <code>1970-01-01</code> 这一天很长时间了。</p>
+<pre><code>ttl key
+</code></pre><p><code>ttl</code> 命令用于获取指定 <code>key</code> 剩下的有效生存时间，当默认情况下，<code>key</code> 是永久生效时，使用 <code>ttl</code> 命令会返回 <code>-1</code>，表示是永久有效的，当然对于这个 <code>key</code> 来说，之前指定的有效生存时间也就永久延长了，具体使用可以如下：</p>
+<pre><code>ttl name
+</code></pre><p>上面这个命令便是查看 <code>name</code> 这个 <code>key</code> 所剩下的有效生存时间，因为本身时间也会自然流逝，因此每次我们使用该命令时，所返回的结果也是不一样的，不过肯定是慢慢减少的。</p>
+<pre><code>persist key
+</code></pre><p><code>persist</code> 命令的作用是在当 <code>key</code> 有生效时间时，将 <code>key</code> 所对应的生效时间设置为永久，并且可以持久化存储，当 <code>key</code> 的有效时间被设置为永久之后，我们再使用 <code>ttl</code> 命令查看 <code>key</code> 所对应的有效时间就会返回 <code>-1</code> 了，下面看具体使用：</p>
+<pre><code>persist name
+</code></pre><p>上面这个命令便是将 <code>name</code> 这个 <code>key</code> 所对应的有效生存时间设置为永久。</p>
+<pre><code>randomkey
+</code></pre><p><code>randomkey</code> 命令的作用便是从当前数据库中随机返回一个 <code>key</code>，当然具体的使用也就是直接调用该命令了。</p>
+<pre><code>type key
+</code></pre><p><code>type</code> 命令用于返回指定 <code>key</code> 所对应的数据类型，因为 <code>Redis</code> 只有 <code>5</code> 种数据类型，因此返回值也就只有这 <code>5</code> 种，具体为 <code>string</code>，<code>list</code>，<code>set</code>，<code>hash</code> 和 <code>zset</code>，同时当命令中的 <code>key</code> 在数据库中并不存在时，那这时候就会返回 <code>none</code> 了。具体使用可以如下：</p>
+<pre><code>type name
+</code></pre><p>上面这个命令便是返回 <code>name</code> 这个 <code>key</code> 所对应的数据类型了，很明显这时候返回的应该是 <code>string</code>。</p>
+<h4 id="3-7-事务"><a href="#3-7-事务" class="headerlink" title="3.7 事务"></a>3.7 事务</h4><p>下面我们再来看 <code>Redis</code> 数据库中的事务，和 <code>MySQL</code> 数据库中一样，<code>Redis</code> 数据库中的事务也有两个特点：</p>
+<pre><code>1.事务是一个单独的隔离操作。
+2.事务是一个原子操作。
+</code></pre><p>事务是一个单独的隔离操作，是表示事务中所有的命令都会序列化，按顺序进行执行，在事务执行命令的过程中，不会被其它客户端发送的命令请求所打断；事务是一个原子操作，表示在事务中的多个命令，要么全部执行成功，要么全部执行失败。</p>
+<p>关于事务的命令有如下这些，我们先看一下：</p>
+<pre><code>multi:表示事务开始
+exec:表示执行事务
+discard:表示取消事务
+watch:表示对指定key进行监视
+unwatch:取消对指定key的监视
+</code></pre><p>下面我们通过事务执行的流程，来对事务相关的命令进行详细说明，事务执行的一般流程为先开启事务，然后多个命令进入事务队列，最后我们就是执行事务或者取消事务，这边是一个完整的事务流程，针对上面说的流程，我们的一般命令的执行流程为：</p>
+<p>执行事务：</p>
+<pre><code>multi
+多条命令入队
+exec
+</code></pre><p>取消事务：</p>
+<pre><code>multi
+多条命令入队
+discard
+</code></pre><p>需要说明的是，当我们取消事务时，事务中对 <code>key</code> 执行的操作都不会生效，下面我们再看最后的两个命令，<code>watch</code> 和 <code>unwatch</code> 命令。</p>
+<p><code>watch</code> 命令的作用是监视一个或多个 <code>key</code>，在事务执行之前如果有别的命令对 <code>key</code> 有修改操作的话，那事务将会被打断；<code>unwatch</code> 命令则是用于取消 <code>watch</code> 命令对于 <code>key</code> 的监视。</p>
+<h3 id="4-使用Java操作Redis数据库"><a href="#4-使用Java操作Redis数据库" class="headerlink" title="4.使用Java操作Redis数据库"></a>4.使用Java操作Redis数据库</h3><p>上面我们已经介绍了 <code>Redis</code> 数据库中的 <code>5</code> 种数据类型以及一些常用的命令，而我们在实际开发中，肯定是不能一直使用命令来操作数据库的，一般都会采用开发语言来进行操作，我们当然是使用 <code>Java</code> 语言了，因此我们下面就来介绍应该如何使用 <code>Java</code> 来操作 <code>Redis</code> 数据库。</p>
+<h4 id="4-1-使用Jedis连接Redis"><a href="#4-1-使用Jedis连接Redis" class="headerlink" title="4.1 使用Jedis连接Redis"></a>4.1 使用Jedis连接Redis</h4><p>对于 <code>Java</code> 语言使用者来说，我们一般都会使用 <code>Jedis</code> 来操作 <code>Redis</code> 数据库，<code>Jedis</code> 是一种十分强大并且简单的操作 <code>Redis</code> 数据库的工具，使用它我们就可以完成对 <code>Redis</code> 数据库的各种操作，平时开发中也能帮助我们快速的完成相关任务，下面先看如何使用 <code>Jedis</code> 连接 <code>Redis</code> 数据库。</p>
+<p>首先我们需要得到 <code>Jedis</code> 的 <code>jar</code> 包，我们这里使用的是 <code>jedis-2.8.2.jar</code>，有了 <code>jar</code> 包我们就能使用其中提供的工具类完成我们想要的功能了，所以我们就将上面这个 <code>jar</code> 包加入到我们的工程当中，下面我们就开始写代码连接 <code>Redis</code> 数据库了。</p>
+<pre><code>Jedis jedis = new Jedis(&quot;10.21.10.27&quot;, 6379);
+jedis.set(&quot;name&quot;, &quot;kobe&quot;);
+String name = jedis.get(&quot;name&quot;);
+System.out.println(name);
+</code></pre><p>上面的代码便是连接 <code>Redis</code>，然后往里面存入一个 <code>key</code> 为 <code>name</code> 的键值对，我们下面再获取其对应的值，预想是可以得到我们想要的值的，执行代码，我们会发现有报错，报错为 <code>connect timed out</code>，也就是说未连接到 <code>Redis</code> 数据库，那这是什么原因呢？其实我们在之前就已经提到过，<code>Redis</code> 出于安全考虑，默认情况下只允许本地访问，因此当我们在 <code>windows</code> 中写代码访问 <code>Linux</code> 中安装的 <code>Redis</code> 数据库时是访问不了的，因此我们应该允许 <code>Redis</code> 数据库被外围访问，这个设置是在 <code>Redis</code> 的配置文件 <code>redis.conf</code> 当中进行设置的，也就是：</p>
+<pre><code>bind 127.0.0.1
+</code></pre><p>我们需要做的修改就是使用 <code>#</code> 将这句设置注释掉，注释掉之后，<code>Redis</code> 数据库就能被外围所访问了，因此当我们修改好配置文件之后，就可以重启 <code>Redis</code> 数据库了，然后我们就可以接着执行上面的代码，看看是否可以了，执行的话发现还是不行，这次的报错信息是没有设置密码，因此我们需要设置 <code>Redis</code> 数据库的密码，同样也是在配置文件 <code>redis.conf</code> 当中，就是：</p>
+<pre><code># requirepass foobared
+</code></pre><p>默认情况下是被注释的，也就是没有密码的，然后我们就需要将上面注释放开，然后设置新的密码，比如下面这样：</p>
+<pre><code>requirepass admin
+</code></pre><p>这样就是设置 <code>Redis</code> 数据库的密码为 <code>admin</code> 了，当然修改了 <code>Redis</code> 的密码设置之后，同样也是需要重启 <code>Redis</code> 数据库的，这时候我们的代码也需要做一些调整，也就是使用密码去做认证，具体的代码如下：</p>
+<pre><code>Jedis jedis = new Jedis(&quot;10.21.10.27&quot;, 6379);
+jedis.auth(&quot;admin&quot;);
+jedis.set(&quot;name&quot;, &quot;kobe&quot;);
+String name = jedis.get(&quot;name&quot;);
+System.out.println(name);
+</code></pre><p>这样再执行代码的话我们就可以得到预期的结果了，还有一点需要说明的是，当我们 <code>Redis</code> 的服务端设置了密码之后，我们再使用 <code>Redis</code> 命令行客户端进行连接时，可以使用如下的命令：</p>
+<pre><code>./redis-cli -h 127.0.0.1 -p 6379 -a admin
+</code></pre><p>在上面的命令中，我们指定密码时使用的 <code>-a</code> 参数，这样的话当服务器端设置了密码我们也能在客户端进行连接了。</p>
+<h4 id="4-2-使用Jedis操作string类型数据"><a href="#4-2-使用Jedis操作string类型数据" class="headerlink" title="4.2 使用Jedis操作string类型数据"></a>4.2 使用Jedis操作string类型数据</h4><p>下面我们就具体来看使用 <code>Jedis</code> 操作 <code>Redis</code> 数据库中基本的数据类型了，其实 <code>Jedis</code> 中提供的方法和 <code>Redis</code> 中提供的命令名称一般都是一致的，因此使用起来也是非常简单与便于我们理解的，下面我们先看 <code>string</code> 类型数据。</p>
+<p>由于之前已经介绍了 <code>Redis</code> 中所提供命令的作用，而且 <code>Jedis</code> 提供方法的名称也是和命令一致的，那我们就直接看代码了。</p>
+<pre><code>public class RedisDemo2 {
+
+    private Jedis jedis;
+
+    @Before
+    public void createJedis() {
+        jedis = new Jedis(&quot;10.21.10.27&quot;, 6379);
+        jedis.auth(&quot;admin&quot;);
+    }
+
+    // set和get
+    @Test
+    public void test() {
+        jedis.set(&quot;name&quot;, &quot;kobe&quot;);
+        String name = jedis.get(&quot;name&quot;);
+        System.out.println(name);
+    }
+
+    // mset和mget
+    @Test
+    public void test2() {
+        jedis.mset(&quot;password&quot;, &quot;admin&quot;, &quot;age&quot;, &quot;20&quot;);
+        List&lt;String&gt; values = jedis.mget(&quot;name&quot;, &quot;password&quot;, &quot;age&quot;);
+        System.out.println(values);
+    }
+
+    // append setrange getrange
+    @Test
+    public void test3() {
+        // jedis.append(&quot;name&quot;, &quot; is boy&quot;);
+        System.out.println(jedis.get(&quot;name&quot;));
+
+        jedis.setrange(&quot;name&quot;, 8, &quot;girl&quot;);
+        System.out.println(jedis.get(&quot;name&quot;));
+
+        System.out.println(jedis.getrange(&quot;name&quot;, 8, -1));
+    }
+}
+</code></pre><p>看上面代码中的每一个测试方法应该都是非常好理解的，因为每个方法的作用都是和命令是一致的，这里只是简单地演示了几个方法，不过其它的方法也是类似的，因此大家可以自己探索。</p>
+<h4 id="4-3-使用Jedis操作list类型数据"><a href="#4-3-使用Jedis操作list类型数据" class="headerlink" title="4.3 使用Jedis操作list类型数据"></a>4.3 使用Jedis操作list类型数据</h4><p>下面我们就开始介绍使用 <code>Jedis</code> 操作 <code>Redis</code> 数据库中的 <code>list</code> 类型数据，其实也和 <code>string</code> 类型数据一样的，使用起来非常简单，因为提供的 <code>api</code> 方法和命令名称是一致的，下面我们就直接看代码了。</p>
+<pre><code>public class RedisDemo3 {
+
+    private Jedis jedis;
+
+    @Before
+    public void createJedis() {
+        jedis = new Jedis(&quot;10.21.10.27&quot;, 6379);
+        jedis.auth(&quot;admin&quot;);
+    }
+
+    @After
+    public void destroyJedis() throws IOException {
+        if (null != jedis) {
+            jedis.close();
+        }
+    }
+
+    // lpush lrange
+    @Test
+    public void test() {
+        jedis.lpush(&quot;names&quot;, &quot;tom&quot;, &quot;jerry&quot;, &quot;kobe&quot;, &quot;james&quot;);
+        List&lt;String&gt; names = jedis.lrange(&quot;names&quot;, 0, -1);
+        System.out.println(names);
+    }
+
+    // lset
+    @Test
+    public void test2() {
+        jedis.lset(&quot;names&quot;, 0, &quot;wade&quot;);
+        List&lt;String&gt; names = jedis.lrange(&quot;names&quot;, 0, -1);
+        System.out.println(names);
+    }
+
+    // lindex
+    @Test
+    public void test3() {
+        String value = jedis.lindex(&quot;names&quot;, 1);
+        System.out.println(value);
+    }
+
+    // linsert
+    @Test
+    public void test4() {
+        jedis.linsert(&quot;names&quot;, LIST_POSITION.BEFORE, &quot;kobe&quot;, &quot;james&quot;);
+        List&lt;String&gt; names = jedis.lrange(&quot;names&quot;, 0, -1);
+        System.out.println(names);
+    }
+
+    // lrem
+    @Test
+    public void test5() {
+        jedis.lrem(&quot;names&quot;, 1, &quot;james&quot;);
+        List&lt;String&gt; names = jedis.lrange(&quot;names&quot;, 0, -1);
+        System.out.println(names);
+    }
+}
+</code></pre><h4 id="4-4-使用Jedis操作hash类型数据"><a href="#4-4-使用Jedis操作hash类型数据" class="headerlink" title="4.4 使用Jedis操作hash类型数据"></a>4.4 使用Jedis操作hash类型数据</h4><p>下面我们开始介绍使用 <code>Jedis</code> 操作 <code>Redis</code> 数据库中的 <code>hash</code> 类型数据，同样的我们也是直接给出代码了。</p>
+<pre><code>public class RedisDemo4 {
+
+    private Jedis jedis;
+
+    @Before
+    public void createJedis() {
+        jedis = new Jedis(&quot;10.21.10.27&quot;, 6379);
+        jedis.auth(&quot;admin&quot;);
+    }
+
+    @After
+    public void destroyJedis() throws IOException {
+        if (null != jedis) {
+            jedis.close();
+        }
+    }
+
+    // hset hget
+    @Test
+    public void test() {
+        jedis.hset(&quot;user&quot;, &quot;username&quot;, &quot;tom&quot;);
+        String username = jedis.hget(&quot;user&quot;, &quot;username&quot;);
+        System.out.println(username);
+    }
+
+    // hmset hmget
+    @Test
+    public void test2() {
+        Map&lt;String, String&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;password&quot;, &quot;123&quot;);
+        map.put(&quot;sex&quot;, &quot;male&quot;);
+        jedis.hmset(&quot;user&quot;, map);
+
+        List&lt;String&gt; values = jedis.hmget(&quot;user&quot;, &quot;username&quot;, &quot;password&quot;, &quot;sex&quot;);
+        System.out.println(values);
+    }
+
+    // hgetall hkeys kvals
+    @Test
+    public void test3() {
+        Map&lt;String, String&gt; map = jedis.hgetAll(&quot;user&quot;);
+        for (String key : map.keySet()) {
+            System.out.println(key + &quot;  &quot; + map.get(key));
+        }
+
+        Set&lt;String&gt; keys = jedis.hkeys(&quot;user&quot;);
+        System.out.println(keys);
+
+        List&lt;String&gt; vals = jedis.hvals(&quot;user&quot;);
+        System.out.println(vals);
+    }
+
+    // hdel
+    @Test
+    public void test4() {
+        jedis.hdel(&quot;user&quot;, &quot;sex&quot;);
+        Map&lt;String, String&gt; map = jedis.hgetAll(&quot;user&quot;);
+        for (String key : map.keySet()) {
+            System.out.println(key + &quot;  &quot; + map.get(key));
+        }
+    }
+}
+</code></pre><h4 id="4-5-使用Jedis操作set类型数据"><a href="#4-5-使用Jedis操作set类型数据" class="headerlink" title="4.5 使用Jedis操作set类型数据"></a>4.5 使用Jedis操作set类型数据</h4><p>下面我们再来介绍使用 <code>Jedis</code> 操作 <code>Redis</code> 数据库中的 <code>set</code> 类型数据，同样的我们直接看代码：</p>
+<pre><code>public class RedisDemo5 {
+
+    private Jedis jedis;
+
+    @Before
+    public void createJedis() {
+        jedis = new Jedis(&quot;10.21.10.27&quot;, 6379);
+        jedis.auth(&quot;admin&quot;);
+    }
+
+    @After
+    public void destroyJedis() throws IOException {
+        if (null != jedis) {
+            jedis.close();
+        }
+    }
+
+    // sadd smembers
+    @Test
+    public void test() {
+        jedis.sadd(&quot;language&quot;, &quot;java&quot;, &quot;c++&quot;, &quot;ruby&quot;, &quot;python&quot;);
+        Set&lt;String&gt; smembers = jedis.smembers(&quot;language&quot;);
+        System.out.println(smembers);
+    }
+
+    // srem
+    @Test
+    public void test2() {
+        jedis.srem(&quot;language&quot;, &quot;java&quot;);
+        Set&lt;String&gt; smembers = jedis.smembers(&quot;language&quot;);
+        System.out.println(smembers);
+    }
+
+    // sdiff
+    @Test
+    public void test3() {
+        jedis.sadd(&quot;language&quot;, &quot;java&quot;, &quot;c++&quot;, &quot;ruby&quot;, &quot;python&quot;);
+        jedis.sadd(&quot;language2&quot;, &quot;c&quot;, &quot;c++&quot;, &quot;c#&quot;, &quot;php&quot;);
+        Set&lt;String&gt; sdiff = jedis.sdiff(&quot;language&quot;, &quot;language2&quot;);
+        System.out.println(sdiff);
+    }
+
+    // sinter
+    @Test
+    public void test4() {
+        jedis.sadd(&quot;language&quot;, &quot;java&quot;, &quot;c++&quot;, &quot;ruby&quot;, &quot;python&quot;);
+        jedis.sadd(&quot;language2&quot;, &quot;c&quot;, &quot;c++&quot;, &quot;c#&quot;, &quot;php&quot;);
+        Set&lt;String&gt; sinter = jedis.sinter(&quot;language&quot;, &quot;language2&quot;);
+        System.out.println(sinter);
+    }
+
+    // sunion
+    @Test
+    public void test5() {
+        jedis.sadd(&quot;language&quot;, &quot;java&quot;, &quot;c++&quot;, &quot;ruby&quot;, &quot;python&quot;);
+        jedis.sadd(&quot;language2&quot;, &quot;c&quot;, &quot;c++&quot;, &quot;c#&quot;, &quot;php&quot;);
+        Set&lt;String&gt; sunion = jedis.sunion(&quot;language&quot;, &quot;language2&quot;);
+        System.out.println(sunion);
+    }
+}
+</code></pre><h4 id="4-6-使用Jedis操作sortedSet类型数据"><a href="#4-6-使用Jedis操作sortedSet类型数据" class="headerlink" title="4.6 使用Jedis操作sortedSet类型数据"></a>4.6 使用Jedis操作sortedSet类型数据</h4><p>下面我们开始介绍使用 <code>Jedis</code> 操作 <code>Redis</code> 数据库中的 <code>sortedSet</code> 类型数据，同样的我们直接看代码：</p>
+<pre><code>public class RedisDemo6 {
+
+    private Jedis jedis;
+
+    @Before
+    public void createJedis() {
+        jedis = new Jedis(&quot;10.21.10.27&quot;, 6379);
+        jedis.auth(&quot;admin&quot;);
+    }
+
+    @After
+    public void destroyJedis() throws IOException {
+        if (null != jedis) {
+            jedis.close();
+        }
+    }
+
+    // zadd zrange zrangeByScore
+    @Test
+    public void test() {
+        Map&lt;String, Double&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;张三&quot;, 60.0);
+        map.put(&quot;李四&quot;, 70.0);
+        map.put(&quot;王五&quot;, 80.0);
+        map.put(&quot;赵六&quot;, 90.0);
+        map.put(&quot;孙七&quot;, 50.0);
+        jedis.zadd(&quot;zset&quot;, map);
+        Set&lt;String&gt; zset = jedis.zrange(&quot;zset&quot;, 0, -1);
+        System.out.println(zset);
+
+        Set&lt;String&gt; zset2 = jedis.zrangeByScore(&quot;zset&quot;, 70, 90);
+        System.out.println(zset2);
+    }
+
+    // zrangeWithScores
+    @Test
+    public void test2() {
+        Map&lt;String, Double&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;张三&quot;, 60.0);
+        map.put(&quot;李四&quot;, 70.0);
+        map.put(&quot;王五&quot;, 80.0);
+        map.put(&quot;赵六&quot;, 90.0);
+        map.put(&quot;孙七&quot;, 50.0);
+        jedis.zadd(&quot;zset&quot;, map);
+        Set&lt;Tuple&gt; tuples = jedis.zrangeWithScores(&quot;zset&quot;, 0, -1);
+        for (Tuple tuple : tuples) {
+            System.out.println(tuple.getScore() + &quot;  &quot; + tuple.getElement());
+        }
+    }
+
+    // zrank
+    @Test
+    public void test3() {
+        Map&lt;String, Double&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;张三&quot;, 60.0);
+        map.put(&quot;李四&quot;, 70.0);
+        map.put(&quot;王五&quot;, 80.0);
+        map.put(&quot;赵六&quot;, 90.0);
+        map.put(&quot;孙七&quot;, 50.0);
+        jedis.zadd(&quot;zset&quot;, map);
+        Long zrank = jedis.zrank(&quot;zset&quot;, &quot;李四&quot;);
+        System.out.println(zrank);
+    }
+
+    // zscore
+    @Test
+    public void test4() {
+        Map&lt;String, Double&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;张三&quot;, 60.0);
+        map.put(&quot;李四&quot;, 70.0);
+        map.put(&quot;王五&quot;, 80.0);
+        map.put(&quot;赵六&quot;, 90.0);
+        map.put(&quot;孙七&quot;, 50.0);
+        jedis.zadd(&quot;zset&quot;, map);
+        Double zscore = jedis.zscore(&quot;zset&quot;, &quot;张三&quot;);
+        System.out.println(zscore);
+    }
+
+    // zrem
+    @Test
+    public void test5() {
+        Map&lt;String, Double&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;张三&quot;, 60.0);
+        map.put(&quot;李四&quot;, 70.0);
+        map.put(&quot;王五&quot;, 80.0);
+        map.put(&quot;赵六&quot;, 90.0);
+        map.put(&quot;孙七&quot;, 50.0);
+        jedis.zadd(&quot;zset&quot;, map);
+        jedis.zrem(&quot;zset&quot;, &quot;王五&quot;);
+        Set&lt;Tuple&gt; tuples = jedis.zrangeWithScores(&quot;zset&quot;, 0, -1);
+        for (Tuple tuple : tuples) {
+            System.out.println(tuple.getScore() + &quot;  &quot; + tuple.getElement());
+        }
+    }
+}
+</code></pre><h4 id="4-7-使用Jedis进行key的通用操作"><a href="#4-7-使用Jedis进行key的通用操作" class="headerlink" title="4.7 使用Jedis进行key的通用操作"></a>4.7 使用Jedis进行key的通用操作</h4><p>下面我们开始介绍使用 <code>Jedis</code> 进行 <code>Redis</code> 中 <code>key</code> 的通用操作，比如获取 <code>Redis</code> 数据库中所有的 <code>key</code>，删除某些 <code>key</code>，对 <code>key</code> 设置过期时间之类的，我们先看具体的代码：</p>
+<pre><code>public class RedisDemo7 {
+
+    private Jedis jedis;
+
+    @Before
+    public void createJedis() {
+        jedis = new Jedis(&quot;10.21.10.27&quot;, 6379);
+        jedis.auth(&quot;admin&quot;);
+    }
+
+    @After
+    public void destroyJedis() throws IOException {
+        if (null != jedis) {
+            jedis.close();
+        }
+    }
+
+    // keys pattern
+    @Test
+    public void test() {
+        Set&lt;String&gt; keys = jedis.keys(&quot;*&quot;);
+        System.out.println(keys);
+    }
+
+    // del
+    @Test
+    public void test2() {
+        Long del = jedis.del(&quot;user&quot;);
+        System.out.println(del);
+    }
+
+    // 关于key的时间设置
+    @Test
+    public void test3() throws ParseException {
+        jedis.set(&quot;name&quot;, &quot;kobe&quot;);
+        String name = jedis.get(&quot;name&quot;);
+        System.out.println(name);
+        Long ttl = jedis.ttl(&quot;name&quot;);
+        System.out.println(ttl);
+
+        jedis.expire(&quot;name&quot;, 100);
+        Long ttl2 = jedis.ttl(&quot;name&quot;);
+        System.out.println(ttl2);
+
+        jedis.persist(&quot;name&quot;);
+        Long ttl3 = jedis.ttl(&quot;name&quot;);
+        System.out.println(ttl3);
+    }
+}
+</code></pre><p>关于对 <code>key</code> 设置过期时间，在默认情况下，<code>key</code> 在 <code>Redis</code> 数据库中是永久有效的，我们使用 <code>ttl()</code> 方法查看 <code>key</code> 的有效期时，返回值为 <code>-1</code>，当我们使用 <code>expire()</code> 方法为 <code>key</code> 设置了有效期之后，然后再使用 <code>ttl()</code> 方法获取有效期时，那返回的就是剩余的有效期了，最后 <code>persist()</code> 方法是将 <code>key</code> 的有效期限设置为永远，也就是使 <code>key</code> 在 <code>Redis</code> 数据库中永久有效。</p>
+<h3 id="5-Redis数据持久化"><a href="#5-Redis数据持久化" class="headerlink" title="5.Redis数据持久化"></a>5.Redis数据持久化</h3><p>下面我们来介绍一下 <code>Redis</code> 的数据持久化方面知识，<code>Redis</code> 数据库的数据持久化方式一共有 <code>2</code> 种，那就是 <code>RDB</code> 和 <code>AOF</code> 持久化方式，我们先分别介绍一下：</p>
+<pre><code>RDB持久化：在指定的时间间隔内将内存中的数据集快照写入到磁盘上面。
+AOF持久化：以日志的形式记录服务器端进行的每一个写操作，在Redis数据库启动之时，会读取该文件构建数据库，保证启动之后数据库中的数据是完整的。
+</code></pre><p>了解了 <code>Redis</code> 数据库的两种持久化方式之后，我们可以在 <code>Redis</code> 数据库中使用的持久化机制就有下面 <code>4</code> 种了。</p>
+<pre><code>1.RDB持久化；
+2.AOF持久化；
+3.同时应用RDB和AOF；
+4.无持久化。
+</code></pre><p>介绍了 <code>Redis</code> 数据库持久化机制之后，下面再对 <code>RDB</code> 和 <code>AOF</code> 这两种持久化方式进行详细说明。</p>
+<h4 id="5-1-RDB持久化方式"><a href="#5-1-RDB持久化方式" class="headerlink" title="5.1 RDB持久化方式"></a>5.1 RDB持久化方式</h4><p>在 <code>Redis</code> 数据库中默认使用的持久化方式便是 <code>RDB</code> 方式了，因此如果我们不修改相关设置的话，那我们就是使用的这种持久化方式，我们在 <code>Redis</code> 数据库的配置文件 <code>redis.conf</code> 中可以看到以下配置：</p>
+<pre><code>save 900 1
+save 300 10
+save 60 10000
+</code></pre><p>这便是针对于 <code>RDB</code> 持久化方式进行的设置，前面一个数字为时间的秒数，后一个数字为操作 <code>key</code> 的个数，比如 <code>save 900 1</code>，就是表示如果在 <code>900</code> 秒以内有 <code>1</code> 个 <code>key</code> 被修改的话，那么就会将内存中的数据集快照写入到硬盘中的 <code>dump.rdb</code> 文件，当然这个 <code>dump.rdb</code> 文件名称也是在 <code>redis.conf</code> 配置文件中进行配置的，这样的话，其它的配置也是一样的了，都是在多少秒之内有多少个 <code>key</code> 被修改就会将内存快照写入到磁盘当中。</p>
+<h4 id="5-2-AOF持久化方式"><a href="#5-2-AOF持久化方式" class="headerlink" title="5.2 AOF持久化方式"></a>5.2 AOF持久化方式</h4><p>如果想要启用 <code>AOF</code> 方式的持久化的话，那就需要修改 <code>redis.conf</code> 文件当中的一个配置，也就是：</p>
+<pre><code>appendonly no
+</code></pre><p>修改的方式也就是将其中的 <code>no</code> 改为 <code>yes</code>，这样的话便是启用 <code>AOF</code> 的持久化方式了。</p>
+<p><code>AOF</code> 持久化方式的策略一共有三种，在 <code>redis.conf</code> 配置文件中的默认配置为：</p>
+<pre><code># appendfsync always
+appendfsync everysec
+# appendfsync no
+</code></pre><p>可以看出一共是三种方式，第一种为每次有修改操作时都会追加写 <code>AOF</code> 文件；第二种为每一秒进行追加写 <code>AOF</code> 文件；第三种则是不同步。从上面的设置可以看出默认是采用的第二种方式，也就是每秒钟进行追加写 <code>AOF</code> 文件，这种方式通常情况也是最适中的。</p>
+<p>关于 <code>AOF</code> 持久化方式，还有一点需要说明的是，因为是采用的追加写日志的方式，因此我们是可以对日志文件进行瘦身处理的，也就是只保留对 <code>key</code> 修改最近的一条，这样的话也是能保证数据是完整的，其实在 <code>redis.conf</code> 文件中也有配置，那就是：</p>
+<pre><code>auto-aof-rewrite-percentage 100
+auto-aof-rewrite-min-size 64mb
+</code></pre><p>第一条设置是说当对操作记录追加写的比率达到 <code>100%</code> 时，就会进行自动瘦身了；第二条则是当日志文件大小达到 <code>64mb</code> 时，也会进行自动瘦身操作。其实除了配置之外，我们还可以使用命令来主动进行文件瘦身，那就是 <code>bgrewriteaof</code> 命令了。</p>
+<h4 id="5-3-RDB和AOF方式对比"><a href="#5-3-RDB和AOF方式对比" class="headerlink" title="5.3 RDB和AOF方式对比"></a>5.3 RDB和AOF方式对比</h4><p>上面已经介绍了 <code>RDB</code> 和 <code>AOF</code> 方式的相关特性，下面我们就将它们对比来看一下彼此的优缺点。</p>
+<pre><code>RDB方式：
+优势：
+1.数据的备份和恢复非常方便，因为一个数据库只有一个持久化文件；
+2.性能更高；对Redis服务进程来说，当需要做持久化时，只需要创建出子进程，然后让子进程去做这些持久化的工作，这样就可以避免服务进程进行IO操作了；
+3.对比AOF来说，当持久化文件较大时，RDB方式的启动效率会更高。
+
+劣势：
+1.当系统在持久化时宕机，那还没来得及写入磁盘的数据就会丢失了；
+2.由于RDB方式是通过创建子进程来协助完成数据持久化工作的，当要持久化的数据集较大时，可能会导致整个服务器停止服务几百毫秒；
+
+AOF方式：
+优势：
+1.更高的数据安全性，也就是数据持久性，提供了3种同步策略，每秒同步，每次修改同步和不同步；
+2.由于对持久化文件是采用追加写入的方式，因此即使在写入过程中发生服务器宕机，也不会影响已经写入的数据内容；
+3.当持久化文件过大时，Redis可以进行自动瘦身；
+4.AOF日志文件格式清晰，便于理解，很容易用该文件完成数据的重建。
+
+劣势：
+1.对于相同的数据来说，AOF文件要大于RDB持久化文件；
+2.根据同步策略的不同，AOF运行的效率会慢于RDB方式。每秒同步策略的效率是比较高的，同步禁用策略的效率和RDB是一样的。
+</code></pre><h3 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h3><p>其实上面的 <code>Redis</code> 知识更多的是一些基础类知识，也是很容易掌握的，通过自己写的过程，也能使自己的学习更加深刻，这便是我写博客的目的，掌握了最基础的知识之后，自己也能有信心去学更多精深的内容，保持乐观，耐心地积累下去吧。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/02/Linux系统基本命令/" rel="next" title="Linux系统基本命令">
+                <i class="fa fa-chevron-left"></i> Linux系统基本命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-介绍"><span class="nav-number">1.</span> <span class="nav-text">1.介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-安装"><span class="nav-number">2.</span> <span class="nav-text">2.安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Redis数据类型与常见操作"><span class="nav-number">3.</span> <span class="nav-text">3.Redis数据类型与常见操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-string类型数据"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 string类型数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-list类型数据"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 list类型数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-hash类型数据"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 hash类型数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-set类型数据"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 set类型数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-sortedSet类型数据"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 sortedSet类型数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-key通用操作"><span class="nav-number">3.6.</span> <span class="nav-text">3.6 key通用操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-事务"><span class="nav-number">3.7.</span> <span class="nav-text">3.7 事务</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-使用Java操作Redis数据库"><span class="nav-number">4.</span> <span class="nav-text">4.使用Java操作Redis数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-使用Jedis连接Redis"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 使用Jedis连接Redis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-使用Jedis操作string类型数据"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 使用Jedis操作string类型数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-使用Jedis操作list类型数据"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 使用Jedis操作list类型数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-使用Jedis操作hash类型数据"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 使用Jedis操作hash类型数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-使用Jedis操作set类型数据"><span class="nav-number">4.5.</span> <span class="nav-text">4.5 使用Jedis操作set类型数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-6-使用Jedis操作sortedSet类型数据"><span class="nav-number">4.6.</span> <span class="nav-text">4.6 使用Jedis操作sortedSet类型数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-7-使用Jedis进行key的通用操作"><span class="nav-number">4.7.</span> <span class="nav-text">4.7 使用Jedis进行key的通用操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Redis数据持久化"><span class="nav-number">5.</span> <span class="nav-text">5.Redis数据持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-RDB持久化方式"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 RDB持久化方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-AOF持久化方式"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 AOF持久化方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-RDB和AOF方式对比"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 RDB和AOF方式对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-总结"><span class="nav-number">6.</span> <span class="nav-text">6.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2018/02/24/Redis的使用/';
+
+      var disqus_title = "Redis的使用";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
