@@ -1,0 +1,1224 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Nginx," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章我们主要是介绍 nginx 的使用，通过介绍其中的相关概念和具体使用，让我们能够对 nginx 有较为清晰的认识，下面具体来看。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx基础">
+<meta property="og:url" content="http://yoursite.com/2018/03/16/Nginx基础/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="这篇文章我们主要是介绍 nginx 的使用，通过介绍其中的相关概念和具体使用，让我们能够对 nginx 有较为清晰的认识，下面具体来看。">
+<meta property="og:updated_time" content="2020-07-31T02:20:20.432Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx基础">
+<meta name="twitter:description" content="这篇文章我们主要是介绍 nginx 的使用，通过介绍其中的相关概念和具体使用，让我们能够对 nginx 有较为清晰的认识，下面具体来看。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/16/Nginx基础/"/>
+
+
+
+
+
+  <title> Nginx基础 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/16/Nginx基础/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Nginx基础
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-16T10:17:19+08:00">
+                2018-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Nginx/" itemprop="url" rel="index">
+                    <span itemprop="name">Nginx</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/16/Nginx基础/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/03/16/Nginx基础/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/03/16/Nginx基础/" class="leancloud_visitors" data-flag-title="Nginx基础">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章我们主要是介绍 <code>nginx</code> 的使用，通过介绍其中的相关概念和具体使用，让我们能够对 <code>nginx</code> 有较为清晰的认识，下面具体来看。</p>
+<a id="more"></a>
+<h3 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h3><p><code>nginx</code> 是一个高性能的 <code>HTTP</code> 服务器和反向代理服务器，是同类型服务器中并发能力最好的，目前很多网站都在使用，我们平时部署项目到 <code>Tomcat</code> 服务器中时，单机 <code>Tomcat</code> 能承受的访问是十分有限的，这时候使用 <code>nginx</code> 做负载均衡，就能极大地提高服务接受访问请求的次数，同时，使用 <code>nginx</code> 这种软负载方式来做负载均衡，成本几乎为 <code>0</code>，因此是十分划算的，最后 <code>nginx</code> 一般应用于如下场景:</p>
+<pre><code>1.HTTP服务器；
+2.配置虚拟机；
+3.反向代理，做负载均衡，将请求转发给不同的服务器。
+</code></pre><p>说到了代理，那我们在这里说明一下代理的概念，常用的代理有正向代理和反向代理以及透明代理，下面我们分别进行说明。</p>
+<p>正向代理</p>
+<p>一般情况，不加特殊说明的话，我们平时说的代理就是正向代理了。正向代理就是一个位于客户端和原始服务器之间的服务器，当客户端想获取原始服务器上的资源时，会向代理服务器发送一个请求，请求目标为原始服务器，代理服务器则转发该请求，并将原始服务器响应回来的内容返回给客户端。其实，这里的正向代理就是代替客户端访问原始服务器了。在此过程中客户端必须要进行一些特殊的设置才能使用正向代理。</p>
+<p>那为什么要使用代理服务器呢？主要有以下几个作用：</p>
+<p>1.访问客户端本来无法访问的服务器。有时候客户端与原始服务器之间的链路是断的，但是代理服务器和原始服务器之间的链路是通的，这时候我们通过代理服务器便可以访问得到原始服务器了，比较好理解的例子就是我们在国内想要访问谷歌了，因为链路不通所以访问不了，这时候就只能通过代理来进行访问了。</p>
+<p>2.加速访问原始服务器。主要是指当客户端到原始服务器是低宽带链路，而客户端到代理服务器，代理服务器到原始服务器是高宽带链路时，这时候使用代理便可以提高我们的访问速度。</p>
+<p>3.缓存作用。当客户端通过代理服务器访问原始服务器上面的某个资源时，如果该资源在之前已经有人通过代理服务器访问过，那么就会在代理服务器上面保存有缓存，这时候代理服务器就会直接将缓存的资源返回给客户端，而不必再去请求原始服务器了。</p>
+<p>4.客户端访问授权。这个使用比较多的就是某些公司会通过代理设置员工访问互联网的权限，有的员工有授权，那便可以访问互联网，有的没有授权，则不能访问互联网。</p>
+<p>5.隐藏访问者的行踪。在我们使用代理服务器去访问原始服务器上面的资源时，原始服务器其实不知道实际访问自己的是客户端，而以为是和自己进行交互的代理服务器，这样客户端便隐藏了自己的行踪。</p>
+<p>反向代理</p>
+<p>反向代理和正向代理正好相反，对于客户端来说，代理服务器就相当于是原始服务器，并且客户端不需要进行什么特殊的设置，客户端向代理发送请求时是发送的普通请求，代理服务器将请求转发给原始服务器，并将原始服务器的响应返回给客户端。</p>
+<p>反向代理的作用主要有以下几个：</p>
+<p>1.保护和隐藏原始服务器。在反向代理中，客户端一直以为自己访问的就是原始服务器，其实是代理服务器，是代理服务器将客户端的请求转发给原始服务器，然后再将响应返回给客户端；同时还可以在代理服务器和原始服务器之间设置防火墙只允许代理服务器访问原始服务器，这样的话就能保证原始服务器的安全。</p>
+<p>2.负载均衡。当反向代理服务器不止一个的时候，我们可以将他们做成集群，这样的话我们就可以使用不同的代理服务器去响应不同的用户请求了，而且每台代理服务器上面同样也有缓存，如果代理服务器上面的资源之前已经有用户请求过，那下次再有请求过来时就可以直接使用服务器上面的缓存，不用每次都去请求原始服务器了，这样就能够减轻原始服务器的压力了。</p>
+<p>透明代理</p>
+<p>透明代理中，客户端根本感受不到代理的存在，当客户端向原始服务器发送请求时，透明代理会修改客户端发送的请求报文，并传送客户端的真实 <code>IP</code> 地址，具体使用的例子则是有的公司使用的行为管理软件，当客户端向原始服务器发送请求时，代理服务器会根据自身策略拦截并修改请求报文，并作为实际的请求方向原始服务器发送请求，当接收到原始服务器的响应时，代理服务器会将自身设置允许的报文返回给客户端，如果代理服务器不允许访问某些原始服务器，那客户端便接收不到原始服务器所响应回来的信息。</p>
+<h3 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h3><p>下面我们开始介绍 <code>nginx</code> 的安装，<code>nginx</code> 有 <code>Linux</code> 和 <code>Windows</code> 两个版本的安装包，都可以在 <code>nginx</code> 的主页 <code>http://nginx.org/</code> 下载页面中下载得到，我们这里介绍的安装版本为 <code>nginx-1.8.0</code> 版本，下面分别开始介绍。</p>
+<h4 id="2-1-Windows版本安装"><a href="#2-1-Windows版本安装" class="headerlink" title="2.1 Windows版本安装"></a>2.1 Windows版本安装</h4><p>在 <code>Windows</code> 版本安装中我们只需要将下载得到的 <code>nginx-1.8.0.zip</code> 安装包解压到我们本地的某个磁盘目录下，就可以使用了，我这里是直接解压在 <code>D</code> 盘，因此在 <code>D</code> 盘会有一个 <code>nginx-1.8.0</code> 目录，在该目录中会有一个 <code>nginx.exe</code> 可执行程序，双击执行的话会在 <code>Windows</code> 任务管理器中看到两个进程，一个主进程，一个子进程，除了看进程之外，我们还可以在浏览器地址栏中输入 <code>localhost:80</code> 进行访问，如果能看到 <code>nginx</code> 的欢迎页面，则表示我们 <code>nginx</code> 启动成功了。</p>
+<h4 id="2-2-Linux版本安装"><a href="#2-2-Linux版本安装" class="headerlink" title="2.2 Linux版本安装"></a>2.2 Linux版本安装</h4><p>首先我们先将 <code>nginx</code> 的安装包 <code>nginx-1.8.0.tar.gz</code> 上传到我们想要安装的目录中，我这里使用的目录是 <code>/usr/local/</code>，完成了第一步之后，第二步便是解压安装包了，我们可以使用命令</p>
+<pre><code>tar -zxf nginx-1.8.0.tar.gz
+</code></pre><p>执行完上面的命令，我们就可以在同级目录中看到一个解压目录，名称为 <code>nginx-1.8.0</code>，一般情况下，这时候都是进入目录进行编译和安装操作了，但是这里有点不同的是需要先使用 <code>configure</code> 命令得到 <code>Makefile</code> 文件，然后我们才能进行编译和安装操作，因此我们应该先执行 <code>configure</code> 命令，但是在执行该命令之前，我们需要依赖一些其它的库，因此我们需要先安装依赖的库，主要为以下这些：</p>
+<pre><code>gcc
+安装nginx需要先将官网下载的源码进行编译，编译依赖gcc环境，如果没有gcc环境，需要安装gcc：
+安装命令:yum install gcc-c++
+
+PCRE
+PCRE(Perl Compatible Regular Expressions)是一个Perl库，包括 perl 兼容的正则表达式库。nginx的http模块使用pcre来解析正则表达式，所以需要在linux上安装pcre库。
+安装命令:yum install -y pcre pcre-devel
+注：pcre-devel是使用pcre开发的一个二次开发库。nginx也需要此库。
+
+zlib
+zlib库提供了很多种压缩和解压缩的方式，nginx使用zlib对http包的内容进行gzip，所以需要在linux上安装zlib库。
+安装命令:yum install -y zlib zlib-devel
+
+openssl
+OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及SSL协议，并提供丰富的应用程序供测试或其它目的使用。
+nginx不仅支持http协议，还支持https（即在ssl协议上传输http），所以需要在linux安装openssl库。
+安装命令:yum install -y openssl openssl-devel
+</code></pre><p>上面这些便是安装 <code>nginx</code> 所需要依赖的所有库了，安装好依赖库之后我们就可以接着安装 <code>nginx</code> 了，接下来便是第三步，我们需要进入到 <code>nginx-1.8.0</code> 目录中，然后执行 <code>configure</code> 命令得到 <code>Makefile</code> 文件，命令如下：</p>
+<pre><code>./configure \
+--prefix=/usr/local/nginx \
+--pid-path=/var/run/nginx/nginx.pid \
+--lock-path=/var/lock/nginx.lock \
+--error-log-path=/var/log/nginx/error.log \
+--http-log-path=/var/log/nginx/access.log \
+--with-http_gzip_static_module \
+--http-client-body-temp-path=/var/temp/nginx/client \
+--http-proxy-temp-path=/var/temp/nginx/proxy \
+--http-fastcgi-temp-path=/var/temp/nginx/fastcgi \
+--http-uwsgi-temp-path=/var/temp/nginx/uwsgi \
+--http-scgi-temp-path=/var/temp/nginx/scgi
+</code></pre><p>执行上面这个命令之前需要注意的一点就是，上面将临时文件目录指定为 <code>/var/temp/nginx</code>，所以我们需要先在 <code>/var</code> 下创建 <code>temp</code> 及 <code>nginx</code> 目录，可以使用如下的命令进行创建：</p>
+<pre><code>mkdir -p /var/temp/nginx
+</code></pre><p>这样创建好临时文件目录之后便可以执行上面的 <code>configure</code> 命令了，执行完之后我们就可以在 <code>nginx-1.8.0</code> 目录中看到 <code>Makefile</code> 文件了，下面我们就可以执行编译和安装操作了。</p>
+<p>因此第四步便是编译操作，直接执行 <code>make</code> 命令就可以了；接下来便是第五步安装操作，执行 <code>make install</code> 命令就可以了，到这里，<code>nginx</code> 所有的安装步骤就都完成了，我们可以在 <code>/usr/local/</code> 目录下看到一个 <code>nginx</code> 目录，这便是我们安装完成得到的 <code>nginx</code> 了，进入该目录我们可以看到有 <code>3</code> 个目录，分别如下：</p>
+<pre><code>conf:里面保存的是nginx的配置文件;
+html:里面保存的是html代码;
+sbin:里面只有一个nginx脚本，我们可以通过它来启动和关闭nginx.
+</code></pre><p>如果想启动 <code>nginx</code> 的话，则需要进入到 <code>sbin</code> 目录，然后执行 <code>./nginx</code> 命令，这样就可以启动 <code>nginx</code> 了，如何判断是否启动成功呢？可以使用 <code>ps -ef | grep nginx</code> 命令，查看是否有 <code>nginx</code> 的进程，成功时会看到有两个 <code>nginx</code> 的进程，一个主进程，一个子进程；其实我们还可以通过浏览器访问的方式来确认是否启动成功了，比如我安装的 <code>nginx</code> 是安装在 <code>192.168.245.128</code> 主机，那我就可以在浏览器中输入 <code>http://192.168.245.128:80/</code> 进行访问，如果能看到 <code>nginx</code> 的欢迎页面，同样表示 <code>nginx</code> 启动是成功的。</p>
+<p>除了上面的启动命令，<code>nginx</code> 同样可以进行关闭和重新加载配置文件的操作，对应的命令如下：</p>
+<pre><code>关闭nginx需要使用:
+nginx -s stop 相当于找到nginx进程kill。
+
+退出命令：
+nginx -s quit 等程序执行完毕后关闭，建议使用此命令。
+
+重新加载配置文件:
+nginx -s reload 可以不关闭nginx的情况下更新配置文件.
+</code></pre><p>以上就是 <code>nginx</code> 进行安装的所有步骤和注意事项了。</p>
+<h3 id="3-配置与使用"><a href="#3-配置与使用" class="headerlink" title="3.配置与使用"></a>3.配置与使用</h3><p>下面我们开始介绍 <code>nginx</code> 的配置与使用，为了方便我们直接操作 <code>Windows</code> 环境下面的 <code>nginx</code> 进行测试和说明，<code>nginx</code> 的相关配置主要在 <code>nginx</code> 安装目录中的 <code>conf</code> 目录下的 <code>nginx.conf</code> 文件，打开该文件，发现除去很多注释的内容之后，真正使用的内容是很少的，我们需要重点关注的是：</p>
+<pre><code>server {
+    listen       80;
+    server_name  localhost;
+
+    location / {
+        root   html;
+        index  index.html index.htm;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    }
+}
+</code></pre><p>下面我们对上面配置文件的各部分分别进行说明，</p>
+<pre><code>listen       80;
+</code></pre><p>表示服务监听的端口号</p>
+<pre><code>server_name  localhost;
+</code></pre><p>表示服务器所在的地址，可以是IP地址，也可以是域名</p>
+<pre><code>location / {
+        root   html;
+        index  index.html index.htm;
+}
+</code></pre><p>表示主页资源所在的地址，其中的 <code>root</code> 标识的是主页资源所在的目录，这里就是 <code>nginx</code> 安装目录中的 <code>html</code> 目录了，<code>index</code> 标识的是主页资源文件的文件名称，可以是 <code>index.html</code>，也可以是 <code>index.htm</code>。</p>
+<pre><code>error_page   500 502 503 504  /50x.html;
+location = /50x.html {
+    root   html;
+}
+</code></pre><p>这便是标识的错误页面所在的地址了，同样的 <code>root</code> 标识的是错误页面所在的目录。</p>
+<p>下面我们来看 <code>nginx</code> 虚拟机配置，也就是作为一个 <code>http</code> 服务器的配置。</p>
+<h4 id="3-1-nginx虚拟机配置"><a href="#3-1-nginx虚拟机配置" class="headerlink" title="3.1 nginx虚拟机配置"></a>3.1 nginx虚拟机配置</h4><p><code>nginx</code> 虚拟机配置主要是涉及下面三个方面的配置:</p>
+<pre><code>1.IP配置；
+2.域名配置；
+3.端口配置。
+</code></pre><p>先看第 <code>1</code> 个 <code>IP</code> 配置，我们可以针对 <code>server_name</code> 部分进行修改，这里为了看到测试效果，我们可以增加一个配置，之前是针对 <code>localhost</code> 的，增加一个直接针对 <code>IP</code> 地址的，具体配置文件如下：</p>
+<pre><code>server {
+    listen       80;
+    server_name  localhost;
+
+    location / {
+        root   html_local;
+        index  index.html index.htm;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    }
+}
+
+server {
+    listen       80;
+    server_name  192.168.1.38;
+
+    location / {
+        root   html;
+        index  index.html index.htm;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    }
+}
+</code></pre><p>下面的配置中 <code>server_name  192.168.1.38;</code> 就是直接针对 <code>IP</code> 地址的，这里的 <code>IP</code> 地址我还是使用的本地 <code>IP</code> 地址，这样便于测试，还需要注意的是，为了看出我们访问 <code>localhost</code> 和直接访问 <code>IP</code> 地址的差别，我们在第一个配置中，标识主页资源时是定位在 <code>html_local</code> 目录的，这里需要将 <code>nginx</code> 安装目录中的 <code>html</code> 目录复制一份，然后改名为 <code>html_local</code>，当然为了更清楚看到差别，我们可以对 <code>html_local</code> 目录中的 <code>index.htm</code> 也进行一些修改，比如将网页内容修改为：</p>
+<pre><code>&lt;h1&gt;Welcome to nginx_local!&lt;/h1&gt;
+</code></pre><p>这样我们访问时就能看到明显的区别了，也能验证到我们的配置是有效的。验证方法就是在浏览器中输入 <code>http://localhost/</code> 和 <code>http://192.168.1.38/</code> 时就能看到页面中明显的不同了。</p>
+<p>再看第 <code>2</code> 个域名配置，在讲对 <code>nginx</code> 作为 <code>http</code> 服务器进行域名配置之前，我们需要先知道平时在访问网站时是如何通过域名进行访问的，比如我们经常访问的百度 <code>https://www.baidu.com/</code>，当我们在浏览器地址栏输入这个域名进行访问时，到底发生了什么呢？其实在访问这个域名时，会先到 <code>DNS</code> 服务器找到我们访问域名所对应的 <code>IP</code> 地址，然后再访问 <code>IP</code> 地址进行资源请求，因此到最后我们还是访问的 <code>IP</code> 地址。那我们在对本地 <code>nginx</code> 进行域名配置时，如何才能看到我们想要的效果呢？其实在我们本地电脑中，不管是 <code>Windows</code> 系统还是 <code>Linux</code> 系统，它们都有一个本地域名解析文件，也就是一个 <code>hosts</code> 文件，相当于是在本地缓存的域名与 <code>IP</code> 地址的对应关系，我们可以通过修改这个文件得到我们想要的效果，该文件所在的目录如下：</p>
+<pre><code>Windows系统：C:\Windows\System32\drivers\etc
+Linux系统：/etc
+</code></pre><p>我们在对 <code>nginx</code> 进行域名配置时想要看到的效果主要就是，当我们访问两个域名时，可以看到不同的页面效果，比如我们访问 <code>abc.com</code> 和 <code>def.com</code> 时，可以看到访问页面效果的不同，那这时候我们就可以在 <code>hosts</code> 文件中加入下面两行配置：</p>
+<pre><code>127.0.0.1 abc.com
+127.0.0.1 def.com
+</code></pre><p>这样当我们访问 <code>abc.com</code> 和 <code>def.com</code> 这两个域名时，其实访问的 <code>IP</code> 地址还是本机的，同时我们还需要修改 <code>nginx</code> 的配置文件，主要修改内容如下：</p>
+<pre><code>server {
+    listen       80;
+    server_name  abc.com;
+
+    location / {
+        root   html_local;
+        index  index.html index.htm;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    }
+}
+
+server {
+    listen       80;
+    server_name  def.com;
+
+    location / {
+        root   html;
+        index  index.html index.htm;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    }
+}
+</code></pre><p>这样当我们在浏览器中访问 <code>http://abc.com/</code> 和 <code>http://def.com/</code> 时，就能看到不同的页面效果了，也就证明我们修改的配置是有效的。</p>
+<p>第 <code>3</code> 个便是端口的配置了，之前我们都是监听的 <code>80</code> 端口，由于 <code>http</code> 协议默认是使用的 <code>80</code> 端口，因此我们在浏览器地址栏中输入 <code>http://localhost/</code> 和 <code>http://localhost:80/</code> 进行访问是一样的效果，我们如果想要改变监听的端口，其实也只需要修改 <code>listen</code> 这个配置，比如改成如下的配置：</p>
+<pre><code>server {
+    listen       8001;
+    server_name  localhost;
+
+    location / {
+        root   html_local;
+        index  index.html index.htm;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    }
+}
+</code></pre><p>那修改完成之后我们访问时就需要在浏览器地址栏输入 <code>http://localhost:8001/</code> 进行访问了，这就是 <code>nginx</code> 作为 <code>http</code> 服务器进行端口配置的演示了。</p>
+<h4 id="3-2-nginx反向代理"><a href="#3-2-nginx反向代理" class="headerlink" title="3.2 nginx反向代理"></a>3.2 nginx反向代理</h4><p>下面我们来看 <code>nginx</code> 作为反向代理服务器的使用，为了本地演示方便，我们可以将 <code>nginx</code> 作为本地 <code>Tomcat</code> 服务器的代理来使用，我们知道，<code>Tomcat</code> 默认的端口号是 <code>8080</code>，当启动成功之后就可以在浏览器地址栏中输入 <code>http://localhost:8080/</code> 进行访问了，这时候我们就可以看到 <code>Tomcat</code> 默认的主页了，其实就是 <code>Tomcat</code> 安装目录中 <code>webapps</code> 目录下的 <code>ROOT</code> 工程的 <code>index.jsp</code> 页面，上面便是访问 <code>Tomcat</code> 时主要的内容了，下面看如何将 <code>nginx</code> 作为反向代理来使用。</p>
+<p>首先需要在 <code>nginx</code> 的配置文件中加一段反向代理的配置，如下：</p>
+<pre><code>#反向代理配置
+upstream server_list{
+    server localhost:8080;    #这个是Tomcat的访问路径
+}
+</code></pre><p>这里配置中的 <code>server</code> 指示的就是我们本地 <code>Tomcat</code> 的访问路径，然后之前的配置还需要在定位资源的 <code>location</code> 节点加一个 <code>proxy_pass</code> 的设置，表示当有请求访问 <code>nginx</code> 时，会将请求转发到哪里，配置如下：</p>
+<pre><code>server {
+    listen       80;
+    server_name  localhost;
+
+    location / {
+        root   html_local;
+        proxy_pass http://server_list/;
+        index  index.html index.htm;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    }
+}
+</code></pre><p>这样的话，当我们在浏览器中访问 <code>http://localhost/</code> 时，看到的将不再是 <code>nginx</code> 的欢迎页面，而是 <code>Tomcat</code> 的默认主页了，这里我们就实现了 <code>nginx</code> 作为反向代理服务器的配置。这里可能会有疑问，为什么不直接访问 <code>Tomcat</code> 呢？还要先访问 <code>nginx</code> 然后再访问 <code>Tomcat</code>，原因其实是因为实际生产中 <code>Tomcat</code> 的数量往往不是只有一台，而是多台的集群，这时候就需要使用 <code>nginx</code> 作为 <code>Tomcat</code> 集群的访问入口了。其实我们在本地也可以进行测试，为了方便，我们可以直接将 <code>Tomcat</code> 的安装目录复制一遍，然后直接在原来的目录名称中加上 <code>_bak</code> 进行区分，然后修改第二个 <code>Tomcat</code> 的端口号为 <code>8081</code>，以防止和第一个 <code>Tomcat</code> 的端口号冲突，同时为了方便看出是访问的 <code>Tomcat</code> 集群中的不同服务器，我们可以将两个 <code>Tomcat</code> 安装目录中 <code>webapps</code> 目录下的 <code>ROOT</code> 工程的 <code>index.jsp</code> 页面稍微进行一些修改，比如第一个 <code>Tomcat</code> 的主页面标题修改为：</p>
+<pre><code>&lt;title&gt;&lt;%=request.getServletContext().getServerInfo() %&gt;_main&lt;/title&gt;
+</code></pre><p>第二个 <code>Tomcat</code> 的主页面标题修改为：</p>
+<pre><code>&lt;title&gt;&lt;%=request.getServletContext().getServerInfo() %&gt;_back&lt;/title&gt;
+</code></pre><p>这样的话，如果我们的配置是正确的话，就能在页面中看到两种不同的页面标题。当然，在测试之前我们还需要在 <code>nginx</code> 的配置文件中加一些配置，就是如下：</p>
+<pre><code>#反向代理配置
+upstream server_list{
+    server localhost:8080;    #这个是Tomcat的访问路径
+    server localhost:8081;    #这是另外一个Tomcat的访问路径
+}
+</code></pre><p>增加上另外一个 <code>Tomcat</code> 的访问路径，然后重启 <code>nginx</code> 服务器就好了，这时候我们还是在浏览器中输入 <code>http://localhost/</code> 进行访问，当我们访问多次时，就可以看到页面的标题有 <code>main</code> 和 <code>back</code> 两种了，这样的话我们就完成了 <code>nginx</code> 作为反向代理服务器的配置。</p>
+<h4 id="3-3-nginx负载均衡"><a href="#3-3-nginx负载均衡" class="headerlink" title="3.3 nginx负载均衡"></a>3.3 nginx负载均衡</h4><p>下面我们再看 <code>nginx</code> 负载均衡的内容，其实负载均衡就是将一台服务器承受的访问压力分摊到多台服务器上，这样使得服务能够更加稳定的运行，其实在上节反向代理中，我们使用 <code>nginx</code> 作为两台服务器集群的代理，本身就已经实现了负载均衡，只是因为没有设置权重，两台服务器承受的访问压力是均分的，在实际生产中，如果我们想让某些服务器承受更多的访问压力，那就可以进行权重的设置，权重的设置可以如下所示：</p>
+<pre><code>#反向代理配置
+upstream server_list{
+    server localhost:8080 weight=10;    #这个是Tomcat的访问路径
+    server localhost:8081 weight=5;        #这是另外一个Tomcat的访问路径
+}
+</code></pre><p>根据上面配置中 <code>weight</code> 所标识的权重，就可以看出第一台 <code>Tomcat</code> 服务器会承受更多的访问压力，而且它们分配的压力是根据两者配置的权重比值进行计算的，默认情况便是多台服务器进行均分了，这就是 <code>nginx</code> 的负载均衡相关内容了。</p>
+<h4 id="3-4-多台服务器session共享问题"><a href="#3-4-多台服务器session共享问题" class="headerlink" title="3.4 多台服务器session共享问题"></a>3.4 多台服务器session共享问题</h4><p>在上面介绍的内容中，我们可以看到，使用多台 <code>Tomcat</code> 服务器作为集群，可以减轻服务器的访问压力，以便提供更稳定的服务，但是这时候也会产生一个问题，就是 <code>session</code> 共享问题，比如我们将用户登录信息保存在 <code>session</code> 当中，当我们在一台 <code>Tomcat</code> 登录成功之后，接下来再进行其它请求时，如果这时访问的是别的 <code>Tomcat</code> 服务器，因为别的 <code>Tomcat</code> 是没有保存用户登录信息的 <code>session</code> 的，因此就会判断为未登录状态，这种情况显然就是一个异常情况了，我们需要想办法进行解决，我们现在先测试一下该问题，我们可以创建一个 <code>myweb</code> 工程，然后其中目录结构为：</p>
+<pre><code>WEB-INF
+    web.xml
+index.jsp
+</code></pre><p><code>WEB-INF</code> 目录以及其中的 <code>web.xml</code> 文件是用来描述工程信息的，<code>index.jsp</code> 文件则是工程的主页，我们也是在这个页面中获取 <code>session</code> 并进行展示，首先我们看 <code>web.xml</code> 文件的内容，如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
+&lt;!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the &quot;License&quot;); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+--&gt;
+
+&lt;web-app xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot;
+  xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee
+                      http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot;
+  version=&quot;3.0&quot;
+  metadata-complete=&quot;true&quot;&gt;
+
+  &lt;display-name&gt;Welcome to Tomcat&lt;/display-name&gt;
+  &lt;description&gt;
+     Welcome to Tomcat
+  &lt;/description&gt;
+&lt;/web-app&gt;
+</code></pre><p>然后就是 <code>index.jsp</code> 文件的内容，内容如下：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;%@ page session=&quot;true&quot; %&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;title&gt;tomcat_main&lt;/title&gt;
+    &lt;/head&gt;
+
+    &lt;body&gt;
+        tomcat:tomcat_main&lt;br&gt;
+        sessionid:&lt;%=session.getId()%&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>这样的话 <code>myweb</code> 工程便新建好了，我们将这个工程放到两个 <code>Tomcat</code> 服务器安装目录下的 <code>webapps</code> 目录下，就是相当于部署到两个 <code>Tomcat</code> 服务器当中了，为了后面看到两个服务器页面的差别，我们将部署到 <code>back</code> 的 <code>Tomcat</code> 服务器工程的 <code>index.jsp</code> 主页面稍微进行一些修改。以便于区分：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;%@ page session=&quot;true&quot; %&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;title&gt;tomcat_bak&lt;/title&gt;
+    &lt;/head&gt;
+
+    &lt;body&gt;
+        tomcat:tomcat_bak&lt;br&gt;
+        sessionid:&lt;%=session.getId()%&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>这时候我们就可以启动两个 <code>Tomcat</code> 服务器和 <code>nginx</code> 服务器，然后在浏览器地址栏输入 <code>http://localhost/myweb/index.jsp</code> 进行访问，然后访问多次，就可以在页面中看到两台 <code>Tomcat</code> 服务器中 <code>myweb</code> 工程的 <code>index.jsp</code> 上面展示 <code>sessionId</code> 的不同，如下：</p>
+<pre><code>tomcat:tomcat_main
+sessionid:E6D9758E537F779B921E1B69BD8CE2BB
+
+tomcat:tomcat_bak
+sessionid:3069BD816DFE36536C15B36D8DD5E701
+</code></pre><p>很显然，这时候两台 <code>Tomcat</code> 服务器上面的 <code>session</code> 是不一样的，也就是 <code>session</code> 在集群中是不共享的。那如何解决这个问题呢？其实可以将 <code>Tomcat</code> 集群中的 <code>session</code> 交给 <code>Redis</code> 管理，这样的话就能实现 <code>session</code> 共享了，使用 <code>Redis</code> 管理 <code>session</code> 不需要我们对代码进行修改，只需要增加一些依赖包和配置文件，下面详细来看。</p>
+<p>使用 <code>Redis</code> 实现 <code>session</code> 共享最重要的依赖包就是 <code>tomcat-redis-session-manager-1.2-tomcat-7-java-7.jar</code> 包了，我们可以在这个页面进行下载：</p>
+<pre><code>https://github.com/jcoleman/tomcat-redis-session-manager/downloads
+</code></pre><p>其中它会根绝 <code>Tomcat</code> 版本的不同提供不同的 <code>jar</code> 包供我们使用，有了上面这个 <code>jar</code> 包之后，我们还需要其它一些 <code>jar</code> 包，比如操作 <code>Redis</code> 数据库的 <code>jedis jar</code> 包，总结下来一共需要下面这 <code>4</code> 个 <code>jar</code> 包，而且我使用的这 <code>4</code> 个也是不会有冲突的：</p>
+<pre><code>commons-pool-1.6.jar
+commons-pool2-2.2.jar
+jedis-2.2.0.jar
+tomcat-redis-session-manager-1.2-tomcat-7-java-7.jar
+</code></pre><p><code>jar</code> 包确定之后，我们就需要将这四个 <code>jar</code> 包放到 <code>Tomcat</code> 服务器当中，也就是放到 <code>Tomcat</code> 集群中每个 <code>Tomcat</code> 安装目录中的 <code>lib</code> 目录中，直接拷贝放到里面就好，操作好 <code>jar</code> 包之后，我们还需要增加 <code>Tomcat</code> 连接 <code>Redis</code> 数据库的配置，这里便需要在 <code>Tomcat</code> 安装目录下的 <code>conf</code> 目录中的 <code>context.xml</code> 文件中增加一段配置了，配置内容如下：</p>
+<pre><code>&lt;Valve className=&quot;com.radiadesign.catalina.session.RedisSessionHandlerValve&quot;/&gt;
+&lt;Manager className=&quot;com.radiadesign.catalina.session.RedisSessionManager&quot;
+    host=&quot;10.21.20.227&quot;
+    port=&quot;6385&quot;
+    database=&quot;0&quot;
+    maxInactiveInterval=&quot;60&quot;
+    password=&quot;admin&quot;
+    /&gt;
+</code></pre><p>很显然这里就是配置的连接 <code>Redis</code> 数据库属性了，我们主要是需要根据实际情况，修改 <code>Redis</code> 的主机、端口、用户名和密码信息就好了，这时候我们再重启两个 <code>Tomcat</code> 集群和 <code>nginx</code> 服务器，这时候访问 <code>http://localhost/myweb/index.jsp</code> 就能看到页面中两个 <code>Tomcat</code> 服务器显示的 <code>sessionId</code> 都是一样的了，也就实现了 <code>session</code> 的共享。</p>
+<pre><code>tomcat:tomcat_main
+sessionid:35F785B9C2989BE66EFABCCB973ECEED
+
+tomcat:tomcat_bak
+sessionid:35F785B9C2989BE66EFABCCB973ECEED
+</code></pre><h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h3><p>以上就是我们想要介绍 <code>nginx</code> 的全部内容了，最主要的内容就是其中的一些基本概念，同时需要注意 <code>nginx</code> 作为 <code>http</code> 服务器的相关配置，以及作为反向代理服务器的使用，如何实现负载均衡，最后便是多台 <code>Tomcat</code> 集群实现 <code>session</code> 共享的操作，学习的过程中能够自己操作实现一遍真的还是很有收获，多学一点便收获一份踏实，继续积累吧！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/24/Redis的使用/" rel="next" title="Redis的使用">
+                <i class="fa fa-chevron-left"></i> Redis的使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/05/代理/" rel="prev" title="代理">
+                代理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-介绍"><span class="nav-number">1.</span> <span class="nav-text">1.介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-安装"><span class="nav-number">2.</span> <span class="nav-text">2.安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-Windows版本安装"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Windows版本安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-Linux版本安装"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Linux版本安装</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-配置与使用"><span class="nav-number">3.</span> <span class="nav-text">3.配置与使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-nginx虚拟机配置"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 nginx虚拟机配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-nginx反向代理"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 nginx反向代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-nginx负载均衡"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 nginx负载均衡</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-多台服务器session共享问题"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 多台服务器session共享问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-总结"><span class="nav-number">4.</span> <span class="nav-text">4.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2018/03/16/Nginx基础/';
+
+      var disqus_title = "Nginx基础";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

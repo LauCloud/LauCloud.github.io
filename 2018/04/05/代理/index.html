@@ -1,0 +1,1062 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="代理," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章主要是想介绍 23 种常用设计模式中的代理模式，我们在这里实现相关代码时也是使用 Java 来实现，掌握了代理之后，对我们后面学习 Spring 等框架也会很有帮助，可以让我们更好地理解这些框架的设计与实现，因此掌握好这些基础就相当于是打地基，下面具体来看。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代理">
+<meta property="og:url" content="http://yoursite.com/2018/04/05/代理/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="这篇文章主要是想介绍 23 种常用设计模式中的代理模式，我们在这里实现相关代码时也是使用 Java 来实现，掌握了代理之后，对我们后面学习 Spring 等框架也会很有帮助，可以让我们更好地理解这些框架的设计与实现，因此掌握好这些基础就相当于是打地基，下面具体来看。">
+<meta property="og:updated_time" content="2020-07-31T02:25:01.334Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="代理">
+<meta name="twitter:description" content="这篇文章主要是想介绍 23 种常用设计模式中的代理模式，我们在这里实现相关代码时也是使用 Java 来实现，掌握了代理之后，对我们后面学习 Spring 等框架也会很有帮助，可以让我们更好地理解这些框架的设计与实现，因此掌握好这些基础就相当于是打地基，下面具体来看。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/05/代理/"/>
+
+
+
+
+
+  <title> 代理 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/05/代理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                代理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-05T10:22:18+08:00">
+                2018-04-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/05/代理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/05/代理/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/04/05/代理/" class="leancloud_visitors" data-flag-title="代理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章主要是想介绍 <code>23</code> 种常用设计模式中的代理模式，我们在这里实现相关代码时也是使用 <code>Java</code> 来实现，掌握了代理之后，对我们后面学习 <code>Spring</code> 等框架也会很有帮助，可以让我们更好地理解这些框架的设计与实现，因此掌握好这些基础就相当于是打地基，下面具体来看。</p>
+<a id="more"></a>
+<h3 id="1-代理定义"><a href="#1-代理定义" class="headerlink" title="1.代理定义"></a>1.代理定义</h3><p>代理模式是指为其它调用对象提供一种代理以控制对目标对象的访问，某些情况下，一个对象不适合或者不能直接引用另一个对象，这时候代理对象就可以在客户端和目标对象之间起到中介的作用。</p>
+<h3 id="2-代理组成"><a href="#2-代理组成" class="headerlink" title="2.代理组成"></a>2.代理组成</h3><p>代理模式由三个角色组成，分别为：抽象角色，代理角色和目标角色。三种角色的具体职责如下：</p>
+<pre><code>抽象角色：通过接口或者抽象类声明真实角色实现的业务方法；
+代理角色：实现抽象角色，是真实角色的代理，通过真实角色的业务逻辑方法来实现抽象方法，并可以附加自己的操作；
+真实角色：实现抽象角色，定义真实角色所要实现的业务逻辑，供代理角色调用。
+</code></pre><h3 id="3-代理代码案例"><a href="#3-代理代码案例" class="headerlink" title="3.代理代码案例"></a>3.代理代码案例</h3><p>下面我们通过一个简单的代码案例来演示上面所说的代理中三种角色，需要注意的一点是，代理角色和真实角色必须要实现同一接口，也就是抽象角色，下面看具体代码：</p>
+<p>抽象角色：</p>
+<pre><code>public interface ITarget {
+
+    public void show();
+}
+</code></pre><p>真实角色：</p>
+<pre><code>public class Target implements ITarget {
+
+    public void show() {
+        System.out.println(&quot;show...&quot;);
+    }
+}
+</code></pre><p>代理角色：</p>
+<pre><code>public class TargetProxy implements ITarget {
+
+    private ITarget target;
+
+    public TargetProxy(ITarget target) {
+        this.target = target;
+    }
+
+    public void show() {
+        // 在代理中通过目标对象调用真是行为
+        // 1.判断是否有权限调用目标行为
+        // 2.进行日志操作
+        // 3.性能监控
+        target.show();
+    }
+}
+</code></pre><p>我们现在就可以来看一下使用代理与不使用代理时，相关调用代理有何不同：</p>
+<p>不使用代理：</p>
+<pre><code>@Test
+public void test() {
+    ITarget target = new Target();
+    target.show();
+}
+</code></pre><p>上面的代码我们是很熟悉的，直接创建目标对象，然后调用其中的具体方法，就可以达到我们想要的目的了。</p>
+<p>使用代理：</p>
+<pre><code>@Test
+public void test2() {
+    ITarget target = new Target();
+    TargetProxy proxy = new TargetProxy(target);
+    proxy.show();
+}
+</code></pre><p>使用代理时，我们是先创建目标对象，然后在创建代理对象时将目标对象的引用传递进去，最后代理对象调用具体方法时其实还是调用的目标对象中的方法。这时候可能会有一个疑问，本来可以直接使用目标对象调用具体方法，为什么还要使用代理呢？其实使用代理是为了大家的职责更清晰，比如目标对象就只需要实现具体的业务逻辑，而其它不是具体业务逻辑的事情，比如判断当前用户是否有权限调用当前代码，或者对具体业务逻辑方法前后增加日志打印，这些都可以放到代理类中去完成，而目标对象只要不是具体业务逻辑发生改变都是不需要改变的，这样减少核心业务逻辑代码的更改，也使得程序更加安全。</p>
+<h3 id="4-代理优点"><a href="#4-代理优点" class="headerlink" title="4.代理优点"></a>4.代理优点</h3><p>使用代理的优点主要有以下 <code>3</code> 点：</p>
+<pre><code>1.职责清晰。真实角色只需要实现实际的业务逻辑，不用关心其他非本职责的事务，通过后期的代理完成一些其它事务，这样的结果就是编程简洁，职责清晰。
+2.代理对象可以在客户端和目标对象之间起到中介的作用和保护了目标对象的作用。
+3.高扩展性。
+</code></pre><h3 id="5-代理分类"><a href="#5-代理分类" class="headerlink" title="5.代理分类"></a>5.代理分类</h3><p>代理可以分为两类，一类是静态代理，另一类就是动态代理了，两类代理具体定义如下：</p>
+<pre><code>静态代理：是由程序员创建或工具生成代理类的源码，再编译代理类。所谓静态也就是在程序运行前就已经存在代理类的字节码文件，代理类和目标类的关系在运行前就确定了。
+动态代理：是在实现阶段不用关心代理类，而在运行阶段才指定创建代理类。
+</code></pre><p>上面写的代理代码案例中展示的便是静态代理了，因为程序运行前代理类就被我们创建好了，而且代理类和目标类之间的关系也已经确定了，那掌握了静态代理之后，我们下面再来看动态代理。</p>
+<h3 id="6-动态代理"><a href="#6-动态代理" class="headerlink" title="6.动态代理"></a>6.动态代理</h3><p>在 <code>JDK</code> 为我们提供的 <code>api</code> 中我们可以使用 <code>Proxy</code> 来实现动态代理，它的类全称为 <code>java.lang.reflect.Proxy</code>，需要注意的是，当我们使用该类来为目标对象创建动态代理对象时，目标对象所属的类必须是实现了接口的。动态代理对象是在程序运行期间才被创建的，因此动态代理其实是在内存中生成的代理对象。</p>
+<p><code>Proxy</code> 类中具体生成动态代理对象的方法为：</p>
+<pre><code>public static Object newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler h) throws IllegalArgumentException
+</code></pre><p>我们先不具体看该方法的参数等细节，而是先看如何使用该方法为目标对象创建代理对象，使用方法为：</p>
+<pre><code>@Test
+public void test3() {
+    // 1.创建目标对象
+    final ITarget target = new Target();
+
+    // 2.使用Proxy的newProxyInstance方法完成代理对象的创建
+    ITarget proxy = (ITarget) Proxy.newProxyInstance(target.getClass().getClassLoader(),
+            target.getClass().getInterfaces(), new InvocationHandler() {
+
+                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                    return method.invoke(target, args);
+                }
+            });
+
+    proxy.show();
+}
+</code></pre><h3 id="7-Proxy详解"><a href="#7-Proxy详解" class="headerlink" title="7.Proxy详解"></a>7.Proxy详解</h3><p>我们先看一下 <code>Proxy</code> 类中 <code>newProxyInstance()</code> 方法的各个参数，第 <code>1</code> 个参数 <code>ClassLoader loader</code> 为目标对象的类加载器，第 <code>2</code> 个参数 <code>Class&lt;?&gt;[] interfaces</code> 为目标对象实现接口的 <code>Class</code> 数组，第 <code>3</code> 个参数 <code>InvocationHandler h</code> 为代理对象调用目标对象所实现的接口。前两个参数主要是帮我们在内存中构建目标对象的代理对象，而最后一个参数 <code>InvocationHandler</code> 则是让我们能监听代理对象调用方法，帮助我们调用目标对象。</p>
+<p>我们在使用 <code>Proxy</code> 类中 <code>newProxyInstance()</code> 方法来创建代理对象时，其中的第三个参数我们需要传入 <code>InvocationHandler</code> 接口的实现类，而在 <code>InvocationHandler</code> 接口中有一个 <code>invoke()</code> 方法，我们在实现该接口时也需要实现该方法，方法具体信息如下：</p>
+<pre><code>public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
+</code></pre><p>其中的第 <code>1</code> 个参数 <code>Object proxy</code> 则是代理对象本身，第 <code>2</code> 个参数 <code>Method method</code> 则是代理对象调用目标对象中的方法对象，第 <code>3</code> 个参数 <code>Object[] args</code> 则是代理对象调用目标对象中的方法所传递的参数数组，下面我们也通过一个例子来进行说明。</p>
+<p>抽象角色：</p>
+<pre><code>public interface IUserService {
+
+    public void addUser(String username, String password);
+}
+</code></pre><p>真实角色：</p>
+<pre><code>public class UserServiceImpl implements IUserService {
+
+    public void addUser(String username, String password) {
+        System.out.println(&quot;添加用户：&quot; + username + &quot;   &quot; + password);
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>动态代理创建工具类：</p>
+<pre><code>public class ProxyBuilder {
+
+    private Object target;
+
+    public ProxyBuilder(Object target) {
+        this.target = target;
+    }
+
+    public Object createProxy() {
+        ClassLoader classLoader = target.getClass().getClassLoader();
+        Class&lt;?&gt;[] interfaces = target.getClass().getInterfaces();
+        return Proxy.newProxyInstance(classLoader, interfaces, new InvocationHandler() {
+
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+//                System.out.println(proxy);
+                System.out.println(method);
+                System.out.println(args[0] + &quot;   &quot; + args[1]);
+                Object returnValue = method.invoke(target, args);
+                return returnValue;
+            }
+        });
+    }
+}
+</code></pre><p>使用代码：</p>
+<pre><code>@Test
+public void test() {
+    IUserService userService = new UserServiceImpl();
+
+    ProxyBuilder proxyBuilder = new ProxyBuilder(userService);
+    IUserService proxy = (IUserService) proxyBuilder.createProxy();
+    proxy.addUser(&quot;tom&quot;, &quot;123&quot;);
+}
+</code></pre><p>在动态代理创建工具类中，实现 <code>InvocationHandler</code> 接口中的 <code>invoke()</code> 方法时，我们没有打印 <code>proxy</code> 代理对象的值出来，这是因为如果放开代码注释的话，会导致堆栈内存溢出出错，因为这里打印 <code>proxy</code> 对象，其实是打印 <code>proxy</code> 对象调用 <code>toString()</code> 方法后返回的值，而 <code>proxy</code> 代理对象调用 <code>toString()</code> 方法，其实是调用目标对象的 <code>toString()</code> 方法，在代理对象调用目标对象的 <code>toString()</code> 方法时，又会触发 <code>InvocationHandler</code> 接口实现类中的 <code>invoke()</code> 方法，这样的话就会形成一个死循环，导致内存溢出。</p>
+<h3 id="8-性能监控案例"><a href="#8-性能监控案例" class="headerlink" title="8.性能监控案例"></a>8.性能监控案例</h3><p>为了监控程序功能的运行时间，我们可以在代理对象中查看程序运行的时间，而不需要在目标对象中增加与业务逻辑无关的代码，下面是具体代码实现：</p>
+<pre><code>public class ProxyBuilder {
+
+    private Object target;
+
+    public ProxyBuilder(Object target) {
+        this.target = target;
+    }
+
+    public Object createProxy() {
+        ClassLoader classLoader = target.getClass().getClassLoader();
+        Class&lt;?&gt;[] interfaces = target.getClass().getInterfaces();
+        return Proxy.newProxyInstance(classLoader, interfaces, new InvocationHandler() {
+
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+//                System.out.println(proxy);
+                System.out.println(method);
+                System.out.println(args[0] + &quot;   &quot; + args[1]);
+                long t1 = System.currentTimeMillis();
+                Object returnValue = method.invoke(target, args);
+                long t2 = System.currentTimeMillis();
+                System.out.println(method.getName() + &quot;方法耗时时间：&quot; + (t2 - t1) + &quot;ms&quot;);
+                return returnValue;
+            }
+        });
+    }
+}
+</code></pre><p>这样的话我们就可以知道代理对象调用目标对象中的各个方法都耗费了多长时间，也就实现了我们想要查看性能情况的想法。</p>
+<h3 id="9-总结"><a href="#9-总结" class="headerlink" title="9.总结"></a>9.总结</h3><p>掌握 <code>Java</code> 中的动态代理技术，对于我们后面学习各个框架是十分有帮助的，可以让我们更好地理解框架是如何实现的，因此现在的每一分积累都是为了后面更好地成长，掌握好这些基础知识也能帮我们更好地理解框架的设计，因此踏实积累吧。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/代理/" rel="tag"># 代理</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/16/Nginx基础/" rel="next" title="Nginx基础">
+                <i class="fa fa-chevron-left"></i> Nginx基础
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/04/注解/" rel="prev" title="注解">
+                注解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-代理定义"><span class="nav-number">1.</span> <span class="nav-text">1.代理定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-代理组成"><span class="nav-number">2.</span> <span class="nav-text">2.代理组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-代理代码案例"><span class="nav-number">3.</span> <span class="nav-text">3.代理代码案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-代理优点"><span class="nav-number">4.</span> <span class="nav-text">4.代理优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-代理分类"><span class="nav-number">5.</span> <span class="nav-text">5.代理分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-动态代理"><span class="nav-number">6.</span> <span class="nav-text">6.动态代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-Proxy详解"><span class="nav-number">7.</span> <span class="nav-text">7.Proxy详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-性能监控案例"><span class="nav-number">8.</span> <span class="nav-text">8.性能监控案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-总结"><span class="nav-number">9.</span> <span class="nav-text">9.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2018/04/05/代理/';
+
+      var disqus_title = "代理";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

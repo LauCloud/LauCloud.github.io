@@ -1,0 +1,1206 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="DbUtils," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="DbUtils 是一个非常轻巧的操作数据库的工具，我们在之前的文章中也有介绍，使用它可以非常方便地对数据库进行操作，特别是查询时，这个工具提供了很多对结果集的封装，因此可以将查询数据库得到的结果集封装成 Java 对象，操作起来十分方便，现在在使用过程中，发现当数据表中的字段和我们 Java 类中定义的字段名称不一致时，封装成 Java 对象时，对象中对应的属性值是没有的，也就是说没有将数据表中查">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DbUtils优化">
+<meta property="og:url" content="http://yoursite.com/2018/06/01/DbUtils优化/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="DbUtils 是一个非常轻巧的操作数据库的工具，我们在之前的文章中也有介绍，使用它可以非常方便地对数据库进行操作，特别是查询时，这个工具提供了很多对结果集的封装，因此可以将查询数据库得到的结果集封装成 Java 对象，操作起来十分方便，现在在使用过程中，发现当数据表中的字段和我们 Java 类中定义的字段名称不一致时，封装成 Java 对象时，对象中对应的属性值是没有的，也就是说没有将数据表中查">
+<meta property="og:updated_time" content="2020-07-31T02:35:57.884Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DbUtils优化">
+<meta name="twitter:description" content="DbUtils 是一个非常轻巧的操作数据库的工具，我们在之前的文章中也有介绍，使用它可以非常方便地对数据库进行操作，特别是查询时，这个工具提供了很多对结果集的封装，因此可以将查询数据库得到的结果集封装成 Java 对象，操作起来十分方便，现在在使用过程中，发现当数据表中的字段和我们 Java 类中定义的字段名称不一致时，封装成 Java 对象时，对象中对应的属性值是没有的，也就是说没有将数据表中查">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/01/DbUtils优化/"/>
+
+
+
+
+
+  <title> DbUtils优化 | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/01/DbUtils优化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                DbUtils优化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-01T10:33:06+08:00">
+                2018-06-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/01/DbUtils优化/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/06/01/DbUtils优化/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/06/01/DbUtils优化/" class="leancloud_visitors" data-flag-title="DbUtils优化">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>DbUtils</code> 是一个非常轻巧的操作数据库的工具，我们在之前的文章中也有介绍，使用它可以非常方便地对数据库进行操作，特别是查询时，这个工具提供了很多对结果集的封装，因此可以将查询数据库得到的结果集封装成 <code>Java</code> 对象，操作起来十分方便，现在在使用过程中，发现当数据表中的字段和我们 <code>Java</code> 类中定义的字段名称不一致时，封装成 <code>Java</code> 对象时，对象中对应的属性值是没有的，也就是说没有将数据表中查取出来的数据成功封装到 <code>Java</code> 对象上面，这也是我们这篇文章想要解决的问题。</p>
+<a id="more"></a>
+<h3 id="1-问题描述"><a href="#1-问题描述" class="headerlink" title="1.问题描述"></a>1.问题描述</h3><p>在使用 <code>DbUtils</code> 查询数据库时，我们一般的写法会是这样的。</p>
+<pre><code>String sql = &quot;select * from person limit 1&quot;;
+QueryRunner queryRunner = new QueryRunner();
+List&lt;Person&gt; personList = queryRunner.query(conn, sql, new BeanListHandler&lt;Person&gt;(Person.class));
+</code></pre><p>这样查询时，<code>DbUtils</code> 就会自动帮我们将从数据表查出来的结果集对象封装为 <code>Java</code> 对象，但是这样封装成功是有前提的，前提就是数据表中字段的名称和 <code>Java</code> 类中定义的名称是一致的。</p>
+<p>那如果是这种情况呢？数据表如下：</p>
+<pre><code>CREATE TABLE `person` (
+    `id` BIGINT (32) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT &apos;自增主键&apos;,
+    `order_id` VARCHAR (32) DEFAULT NULL,
+    `user_account_type` VARCHAR (3) DEFAULT NULL,
+    `user_account` VARCHAR (128) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB AUTO_INCREMENT = 9074 DEFAULT CHARSET = utf8 COMMENT = &apos;用户表&apos;;
+</code></pre><p><code>Java</code> 类如下：</p>
+<pre><code>public class Person {
+
+    private Long id;
+
+    private String orderId;
+
+    private String userAccountType;
+
+    private String userAccount;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getUserAccountType() {
+        return userAccountType;
+    }
+
+    public void setUserAccountType(String userAccountType) {
+        this.userAccountType = userAccountType;
+    }
+
+    public String getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(String userAccount) {
+        this.userAccount = userAccount;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Person [id=&quot; + id + &quot;, orderId=&quot; + orderId + &quot;, userAccountType=&quot; + userAccountType + &quot;, userAccount=&quot;
+                + userAccount + &quot;]&quot;;
+    }
+}
+</code></pre><p>很明显在这种情况下，数据表中的字段和 <code>Java</code> 类中的字段，它们的字段名称是不一致的，那这种情况我们应该如何处理，而且要保证数据映射成功呢？我们下面来介绍。</p>
+<h3 id="2-第一种方法"><a href="#2-第一种方法" class="headerlink" title="2.第一种方法"></a>2.第一种方法</h3><p>首先说明下我们使用的 <code>DbUtils</code> 版本为 <code>1.7</code>，后续有对 <code>DbUtils</code> 进行代码扩展也是在该版本进行扩展的。</p>
+<p>这里我们先说第一种方法，第一种方法便是使用别名的方式，使用方式如下：</p>
+<pre><code>String sql = &quot;select id, order_id AS orderId, user_account_type AS userAccountType, user_account AS userAccount from person limit 1&quot;;
+QueryRunner queryRunner = new QueryRunner();
+List&lt;Person&gt; personList = queryRunner.query(conn, sql, new BeanListHandler&lt;Person&gt;(Person.class));
+</code></pre><p>也就是在写 <code>SQL</code> 语句时，使用 <code>as</code> 关键字来完成数据表字段到 <code>Java</code> 类字段的映射。这种方法如果字段较少时，使用还是很方便的，但是当字段名称不同的很多时，修改 <code>SQL</code> 还是比较费劲的。</p>
+<h3 id="3-第二种方法"><a href="#3-第二种方法" class="headerlink" title="3.第二种方法"></a>3.第二种方法</h3><p>我们首先需要看看在使用 <code>QueryRunner</code> 类调用 <code>query()</code> 方法查询时，执行的流程到底是怎样的，该 <code>query()</code> 方法实际执行的代码为：</p>
+<pre><code>private &lt;T&gt; T query(Connection conn, boolean closeConn, String sql, ResultSetHandler&lt;T&gt; rsh, Object... params) throws SQLException {
+    if (conn == null) {
+        throw new SQLException(&quot;Null connection&quot;);
+    }
+
+    if (sql == null) {
+        if (closeConn) {
+            close(conn);
+        }
+        throw new SQLException(&quot;Null SQL statement&quot;);
+    }
+
+    if (rsh == null) {
+        if (closeConn) {
+            close(conn);
+        }
+        throw new SQLException(&quot;Null ResultSetHandler&quot;);
+    }
+
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    T result = null;
+
+    try {
+        stmt = this.prepareStatement(conn, sql);
+        this.fillStatement(stmt, params);
+        rs = this.wrap(stmt.executeQuery());
+        result = rsh.handle(rs);
+    } catch (SQLException e) {
+        this.rethrow(e, sql, params);
+    } finally {
+        try {
+            close(rs);
+        } finally {
+            close(stmt);
+            if (closeConn) {
+                close(conn);
+            }
+        }
+    }
+    return result;
+}
+</code></pre><p>这次我们需要关注的代码主要是将查询得到的结果集封装为 <code>Java</code> 对象的部分，也就是这行代码：</p>
+<pre><code>result = rsh.handle(rs);
+</code></pre><p>这里其实是 <code>ResultSetHandler</code> 接口中定义的一个封装方法，这个接口有很多实现类，其中一个就是 <code>BeanListHandler</code>，这个类我们很熟悉了，就是我们之前经常使用的，将数据结果集封装为一个 <code>Java</code> 中的 <code>List</code> 对象，它其中的实现为：</p>
+<pre><code>@Override
+public List&lt;T&gt; handle(ResultSet rs) throws SQLException {
+    return this.convert.toBeanList(rs, type);
+}
+</code></pre><p>很显然它也进一步调用的类中 <code>convert</code> 对象中的 <code>toBeanList()</code> 方法完成的封装，而这个 <code>convert</code> 对象其实是在 <code>BeanListHandler</code> 类中声明的一个成员属性：</p>
+<pre><code>private final RowProcessor convert;
+</code></pre><p>我们接着跳转进入上面的 <code>this.convert.toBeanList()</code> 方法中，会发现进入到了 <code>BasicRowProcessor</code> 类中的 <code>toBeanList()</code> 方法，方法内容为下：</p>
+<pre><code>@Override
+public &lt;T&gt; List&lt;T&gt; toBeanList(ResultSet rs, Class&lt;? extends T&gt; type) throws SQLException {
+    return this.convert.toBeanList(rs, type);
+}
+</code></pre><p>为什么会调转到 <code>BasicRowProcessor</code> 类中的 <code>toBeanList()</code> 方法呢？原来 <code>RowProcessor</code> 只是一个接口，而它有一个实现类就是 <code>BasicRowProcessor</code>，所以才会跳转到这里。那我们接着看 <code>BasicRowProcessor</code> 类中的 <code>toBeanList()</code> 方法，发现它调用的是 <code>BeanProcessor</code> 类中的 <code>toBeanList()</code> 方法，具体内容为下：</p>
+<pre><code>public &lt;T&gt; List&lt;T&gt; toBeanList(ResultSet rs, Class&lt;? extends T&gt; type) throws SQLException {
+    List&lt;T&gt; results = new ArrayList&lt;T&gt;();
+
+    if (!rs.next()) {
+        return results;
+    }
+
+    PropertyDescriptor[] props = this.propertyDescriptors(type);
+    ResultSetMetaData rsmd = rs.getMetaData();
+    int[] columnToProperty = this.mapColumnsToProperties(rsmd, props);
+
+    do {
+        results.add(this.createBean(rs, type, props, columnToProperty));
+    } while (rs.next());
+
+    return results;
+}
+</code></pre><p>为什么会调转到这里呢？这是因为在 <code>BasicRowProcessor</code> 类中的 <code>toBeanList()</code> 方法里面的 <code>this.convert</code> 对象引用的其实是类中声明的一个成员属性 <code>BeanProcessor</code>。</p>
+<pre><code>private final BeanProcessor convert;
+</code></pre><p>好了，我们接着看 <code>BeanProcessor</code> 类中的 <code>toBeanList()</code> 方法，这个方法中我们需要关注的就是数据表字段和 <code>Java</code> 类属性映射的部分，也就是下面这个代码：</p>
+<pre><code>int[] columnToProperty = this.mapColumnsToProperties(rsmd, props);
+</code></pre><p>我们直接跳转到这个 <code>mapColumnsToProperties()</code> 方法，内容为下：</p>
+<pre><code>protected int[] mapColumnsToProperties(ResultSetMetaData rsmd,
+PropertyDescriptor[] props) throws SQLException {
+    int cols = rsmd.getColumnCount();
+    int[] columnToProperty = new int[cols + 1];
+    Arrays.fill(columnToProperty, PROPERTY_NOT_FOUND);
+
+    for (int col = 1; col &lt;= cols; col++) {
+        String columnName = rsmd.getColumnLabel(col);
+        if (null == columnName || 0 == columnName.length()) {
+          columnName = rsmd.getColumnName(col);
+        }
+        String propertyName = columnToPropertyOverrides.get(columnName);
+        if (propertyName == null) {
+            propertyName = columnName;
+        }
+        for (int i = 0; i &lt; props.length; i++) {
+
+            if (propertyName.equalsIgnoreCase(props[i].getName())) {
+                columnToProperty[col] = i;
+                break;
+            }
+        }
+    }
+
+    return columnToProperty;
+}
+</code></pre><p>看上面这段代码，是在其中定义的一个数组 <code>columnToProperty</code> 保存的数据表字段到 <code>Java</code> 类字段的映射，也就是根据这个映射，后面才能将数据表中查出来的结果映射到 <code>Java</code> 类中，还需要说明一下的是，上面方法中的 <code>columnToPropertyOverrides</code>，这个 <code>Map</code> 集合对象，保存的是数据表字段到 <code>Java</code> 类字段名称的映射，现在这个 <code>Map</code> 集合是空的，因此只有当数据表字段名和 <code>Java</code> 类中字段名称一样时，才能找到对应的映射索引，如果没有找到的话，<code>columnToProperty</code> 数组保存的映射索引位置其对应的值就还是 <code>-1</code>，以表示 <code>Java</code> 类中没有和数据表该字段相映射的字段，这也就是当前 <code>DbUtils</code> 只支持数据表字段和 <code>Java</code> 类字段完全一样的情况的原因。那如果我们为这个 <code>columnToPropertyOverrides</code> 存入数据表字段和 <code>Java</code> 类字段名称对应好的映射呢？那不就是可以实现我们想要的功能了。</p>
+<p>我们先理一下这个流程，<code>QueryRunner</code> 类在查询得到结果集对象后，是使用的 <code>ResultSetHandler</code> 接口的实现类 <code>BeanListHandler</code> 类来实现到 <code>Java</code> 对象的转换的，而 <code>BeanListHandler</code> 类则是调用它其中的成员属性 <code>RowProcessor</code> 接口的实现类 <code>BasicRowProcessor</code> 来完成转换的，而 <code>BasicRowProcessor</code> 类则是调用它其中的成员属性 <code>BeanProcessor</code> 类完成转换的。也就是在 <code>BeanProcessor</code> 类的 <code>mapColumnsToProperties()</code> 方法中我们得到了数据表字段和 <code>Java</code> 类字段的映射关系，那这时候，如果我们新建一个类，继承 <code>BeanProcessor</code> 类，重写其中的 <code>mapColumnsToProperties()</code> 方法，使这个方法可以返回我们想要的映射关系，然后再将这个类传入到 <code>BasicRowProcessor</code> 类中，使得 <code>BasicRowProcessor</code> 类中的成员属性 <code>BeanProcessor</code> 引用拿到的是我们自己建的类，然后再将 <code>BasicRowProcessor</code> 类传入到 <code>BeanListHandler</code> 类中，最后将 <code>BeanListHandler</code> 类传入到 <code>QueryRunner</code> 类的 <code>query()</code> 方法中，我们就能够实现目的了。</p>
+<p>先看我们写的 <code>BeanProcessor</code> 类的实现类：</p>
+<pre><code>public class ColumnBeanProcessor extends BeanProcessor {
+
+    private final Map&lt;String, String&gt; columnToPropertyOverrides;
+
+    public ColumnBeanProcessor(Map&lt;String, String&gt; columnToPropertyOverrides) {
+        super();
+        this.columnToPropertyOverrides = columnToPropertyOverrides;
+    }
+
+    @Override
+    protected int[] mapColumnsToProperties(ResultSetMetaData rsmd, PropertyDescriptor[] props) throws SQLException {
+        int cols = rsmd.getColumnCount();
+        int[] columnToProperty = new int[cols + 1];
+        Arrays.fill(columnToProperty, PROPERTY_NOT_FOUND);
+
+        for (int col = 1; col &lt;= cols; col++) {
+            String columnName = rsmd.getColumnLabel(col);
+            if (null == columnName || 0 == columnName.length()) {
+                columnName = rsmd.getColumnName(col);
+            }
+            String propertyName = columnToPropertyOverrides.get(columnName);
+            if (propertyName == null) {
+                propertyName = columnName;
+            }
+            for (int i = 0; i &lt; props.length; i++) {
+                if (propertyName.equalsIgnoreCase(props[i].getName())) {
+                    columnToProperty[col] = i;
+                    break;
+                }
+            }
+        }
+        return columnToProperty;
+    }
+}
+</code></pre><p>看上去和之前的 <code>BeanProcessor</code> 类没有区别，这里最大的不同就是新加了一个成员属性<code>columnToPropertyOverrides</code>，而且允许在新建该类的时候传入对该属性的引用，之前我们已经说过，<code>columnToPropertyOverrides</code> 集合中应该保存的是数据表字段名称到 <code>Java</code> 类字段名称的对应关系，那我们怎么得到这个对应关系呢？我这里想到的办法是，新建一个注解用于标识数据表字段名称，然后将该注解用到 <code>Java</code> 类中的每个成员属性上面，这样我们就能通过反射拿到它们之间的对应关系了。</p>
+<p>注解：</p>
+<pre><code>@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+public @interface ColumnName {
+
+    String value();
+}
+</code></pre><p><code>Java</code> 类：</p>
+<pre><code>public class Person {
+
+    @ColumnName(&quot;id&quot;)
+    private Long id;
+
+    @ColumnName(&quot;order_id&quot;)
+    private String orderId;
+
+    @ColumnName(&quot;user_account_type&quot;)
+    private String userAccountType;
+
+    @ColumnName(&quot;user_account&quot;)
+    private String userAccount;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getUserAccountType() {
+        return userAccountType;
+    }
+
+    public void setUserAccountType(String userAccountType) {
+        this.userAccountType = userAccountType;
+    }
+
+    public String getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(String userAccount) {
+        this.userAccount = userAccount;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Person [id=&quot; + id + &quot;, orderId=&quot; + orderId + &quot;, userAccountType=&quot; + userAccountType + &quot;, userAccount=&quot;
+                + userAccount + &quot;]&quot;;
+    }
+}
+</code></pre><p>获取数据表字段名和 <code>Java</code> 类字段名的对应关系：</p>
+<pre><code>public class ColumnBeanProcessorUtils {
+
+    public static &lt;T&gt; Map&lt;String, String&gt; getColumnNameMap(Class&lt;T&gt; clazz) {
+        Map&lt;String, String&gt; columnNameMap = new HashMap&lt;&gt;();
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            ColumnName columnName = field.getAnnotation(ColumnName.class);
+            if (null != columnName) {
+                columnNameMap.put(columnName.value(), field.getName());
+            } else {
+                columnNameMap.put(field.getName(), field.getName());
+            }
+        }
+        return columnNameMap;
+    }
+}
+</code></pre><p>这样我们就能完成我们想要的效果了，为了后续使用方便，我们可以将查询部分也抽取公共方法。</p>
+<pre><code>public final class QueryUtils {
+
+    private static QueryRunner queryRunner = new QueryRunner();
+
+    public static &lt;T&gt; List&lt;T&gt; selectBeanList(Connection conn, String sql, Class&lt;T&gt; type, Object[] params)
+            throws Exception {
+        System.out.println(&quot;select sql:[&quot; + sql + &quot;]&quot;);
+        Map&lt;String, String&gt; columnNameMap = ColumnBeanProcessorUtils.getColumnNameMap(type);
+        ColumnBeanProcessor convert = new ColumnBeanProcessor(columnNameMap);
+        RowProcessor rp = new BasicRowProcessor(convert);
+        ResultSetHandler&lt;List&lt;T&gt;&gt; bh = new BeanListHandler&lt;T&gt;(type, rp);
+        List&lt;T&gt; list = queryRunner.query(conn, sql, bh, params);
+        return list;
+    }
+
+    public static &lt;T&gt; List&lt;T&gt; selectBeanList(Connection conn, String sql, Class&lt;T&gt; type) throws Exception {
+        return selectBeanList(conn, sql, type, null);
+    }
+}
+</code></pre><h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h3><p>这次扩展主要是为了解决实际使用中的一些问题，真的能实现感觉还是很开心的。还是像这样慢慢地积累吧，通过积累让自己的能力一步一步地提升。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/DbUtils/" rel="tag"># DbUtils</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/04/注解/" rel="next" title="注解">
+                <i class="fa fa-chevron-left"></i> 注解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-问题描述"><span class="nav-number">1.</span> <span class="nav-text">1.问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-第一种方法"><span class="nav-number">2.</span> <span class="nav-text">2.第一种方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-第二种方法"><span class="nav-number">3.</span> <span class="nav-text">3.第二种方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-总结"><span class="nav-number">4.</span> <span class="nav-text">4.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2018/06/01/DbUtils优化/';
+
+      var disqus_title = "DbUtils优化";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
