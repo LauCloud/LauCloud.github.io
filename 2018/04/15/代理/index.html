@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Java," />
+  <meta name="keywords" content="代理," />
 
 
 
@@ -87,16 +87,16 @@
 
 
 
-<meta name="description" content="这一篇文章主要是介绍对上次写的学生管理系统的升级，因为上次写的系统数据都是保存在一个ArrayList集合之中的，这样的话就会有一个问题:每次程序执行完了之后集合中的数据都会被清空，到下一次再启动程序的时候就完全是一次重新的开始，很显然，这样是不够完善的，需要将多次程序运行时候的数据联系起来。">
+<meta name="description" content="这篇文章主要是想介绍 23 种常用设计模式中的代理模式，我们在这里实现相关代码时也是使用 Java 来实现，掌握了代理之后，对我们后面学习 Spring 等框架也会很有帮助，可以让我们更好地理解这些框架的设计与实现，因此掌握好这些基础就相当于是打地基，下面具体来看。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="学生管理系统(增加IO流功能)">
-<meta property="og:url" content="http://yoursite.com/2017/05/31/学生管理系统(增加IO流功能)/index.html">
+<meta property="og:title" content="代理">
+<meta property="og:url" content="http://yoursite.com/2018/04/15/代理/index.html">
 <meta property="og:site_name" content="云开">
-<meta property="og:description" content="这一篇文章主要是介绍对上次写的学生管理系统的升级，因为上次写的系统数据都是保存在一个ArrayList集合之中的，这样的话就会有一个问题:每次程序执行完了之后集合中的数据都会被清空，到下一次再启动程序的时候就完全是一次重新的开始，很显然，这样是不够完善的，需要将多次程序运行时候的数据联系起来。">
-<meta property="og:updated_time" content="2017-05-31T10:28:54.000Z">
+<meta property="og:description" content="这篇文章主要是想介绍 23 种常用设计模式中的代理模式，我们在这里实现相关代码时也是使用 Java 来实现，掌握了代理之后，对我们后面学习 Spring 等框架也会很有帮助，可以让我们更好地理解这些框架的设计与实现，因此掌握好这些基础就相当于是打地基，下面具体来看。">
+<meta property="og:updated_time" content="2020-11-01T05:05:10.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="学生管理系统(增加IO流功能)">
-<meta name="twitter:description" content="这一篇文章主要是介绍对上次写的学生管理系统的升级，因为上次写的系统数据都是保存在一个ArrayList集合之中的，这样的话就会有一个问题:每次程序执行完了之后集合中的数据都会被清空，到下一次再启动程序的时候就完全是一次重新的开始，很显然，这样是不够完善的，需要将多次程序运行时候的数据联系起来。">
+<meta name="twitter:title" content="代理">
+<meta name="twitter:description" content="这篇文章主要是想介绍 23 种常用设计模式中的代理模式，我们在这里实现相关代码时也是使用 Java 来实现，掌握了代理之后，对我们后面学习 Spring 等框架也会很有帮助，可以让我们更好地理解这些框架的设计与实现，因此掌握好这些基础就相当于是打地基，下面具体来看。">
 
 
 
@@ -124,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/05/31/学生管理系统(增加IO流功能)/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/04/15/代理/"/>
 
 
 
 
 
-  <title> 学生管理系统(增加IO流功能) | 云开 </title>
+  <title> 代理 | 云开 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -269,7 +269,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/31/学生管理系统(增加IO流功能)/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/15/代理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Lau Cloud">
@@ -290,7 +290,7 @@
             
             
               
-                学生管理系统(增加IO流功能)
+                代理
               
             
           </h1>
@@ -305,8 +305,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-31T18:27:19+08:00">
-                2017-05-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-15T09:34:09+08:00">
+                2018-04-15
               </time>
             
 
@@ -328,8 +328,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
                   </a>
                 </span>
 
@@ -346,8 +346,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/05/31/学生管理系统(增加IO流功能)/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/31/学生管理系统(增加IO流功能)/" itemprop="commentCount"></span>
+                <a href="/2018/04/15/代理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/15/代理/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -355,7 +355,7 @@
 
           
           
-             <span id="/2017/05/31/学生管理系统(增加IO流功能)/" class="leancloud_visitors" data-flag-title="学生管理系统(增加IO流功能)">
+             <span id="/2018/04/15/代理/" class="leancloud_visitors" data-flag-title="代理">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -384,47 +384,171 @@
       
 
       
-        <p>这一篇文章主要是介绍对上次写的学生管理系统的升级，因为上次写的系统数据都是保存在一个ArrayList集合之中的，这样的话就会有一个问题:每次程序执行完了之后集合中的数据都会被清空，到下一次再启动程序的时候就完全是一次重新的开始，很显然，这样是不够完善的，需要将多次程序运行时候的数据联系起来。</p>
+        <p>这篇文章主要是想介绍 <code>23</code> 种常用设计模式中的代理模式，我们在这里实现相关代码时也是使用 <code>Java</code> 来实现，掌握了代理之后，对我们后面学习 <code>Spring</code> 等框架也会很有帮助，可以让我们更好地理解这些框架的设计与实现，因此掌握好这些基础就相当于是打地基，下面具体来看。</p>
 <a id="more"></a>
-<p>解决的办法就是使用一个文本文件保存之前我们用ArrayList集合保存的数据，在每次程序开始运行的时候，先去加载一次文本文件中的数据，这样上一次程序运行时保存的数据在这一次也可以使用，同时，在系统的主要功能之中，当有涉及到修改和增加以及删除数据的时候，都去更新一下文本文件中的数据。</p>
-<p>之前的系统都是程序和保存在ArrayList集合中的数据进行交互，这一次想要引入文本文件保存数据的话，最简单的办法是使用ArrayList去和文本文件进行交互，这样原来已经存在的东西也不用改多少，只需要增加后面这一部分就好了，所以下面的重点就是说明ArrayList和文本文件之间的转换。</p>
-<h3 id="1-从文本文件中将数据读取到集合中"><a href="#1-从文本文件中将数据读取到集合中" class="headerlink" title="1.从文本文件中将数据读取到集合中"></a>1.从文本文件中将数据读取到集合中</h3><p>保存在文本文件再的每行数据都是一个Student类的对象，对象的每个属性都使用”,”进行分割。</p>
-<pre><code>public static void readData(String fileName, ArrayList&lt;Student&gt; arr)
-        throws IOException {
-    BufferedReader br = new BufferedReader(new FileReader(fileName));
+<h3 id="1-代理定义"><a href="#1-代理定义" class="headerlink" title="1.代理定义"></a>1.代理定义</h3><p>代理模式是指为其它调用对象提供一种代理以控制对目标对象的访问，某些情况下，一个对象不适合或者不能直接引用另一个对象，这时候代理对象就可以在客户端和目标对象之间起到中介的作用。</p>
+<h3 id="2-代理组成"><a href="#2-代理组成" class="headerlink" title="2.代理组成"></a>2.代理组成</h3><p>代理模式由三个角色组成，分别为：抽象角色，代理角色和目标角色。三种角色的具体职责如下：</p>
+<pre><code>抽象角色：通过接口或者抽象类声明真实角色实现的业务方法；
+代理角色：实现抽象角色，是真实角色的代理，通过真实角色的业务逻辑方法来实现抽象方法，并可以附加自己的操作；
+真实角色：实现抽象角色，定义真实角色所要实现的业务逻辑，供代理角色调用。
+</code></pre><h3 id="3-代理代码案例"><a href="#3-代理代码案例" class="headerlink" title="3.代理代码案例"></a>3.代理代码案例</h3><p>下面我们通过一个简单的代码案例来演示上面所说的代理中三种角色，需要注意的一点是，代理角色和真实角色必须要实现同一接口，也就是抽象角色，下面看具体代码：</p>
+<p>抽象角色：</p>
+<pre><code>public interface ITarget {
 
-    String line;
-    while ((line = br.readLine()) != null) {
-        String[] strArr = line.split(&quot;,&quot;);
-        Student s = new Student();
-        s.setId(strArr[0]);
-        s.setName(strArr[1]);
-        s.setAge(strArr[2]);
-        s.setAddress(strArr[3]);
-        arr.add(s);
-    }
-    br.close();
+    public void show();
 }
-</code></pre><h3 id="2-将集合中的数据写入到文本文件中"><a href="#2-将集合中的数据写入到文本文件中" class="headerlink" title="2.将集合中的数据写入到文本文件中"></a>2.将集合中的数据写入到文本文件中</h3><p>写入数据的时候也是将ArrayList中的每个对象用约定好的格式写入到文本文件中。</p>
-<pre><code>public static void writeData(String fileName, ArrayList&lt;Student&gt; arr)
-        throws IOException {
-    BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
+</code></pre><p>真实角色：</p>
+<pre><code>public class Target implements ITarget {
 
-    for (int i = 0; i &lt; arr.size(); i++) {
-        Student s = arr.get(i);
-        StringBuilder sb = new StringBuilder();
-        sb.append(s.getId() + &quot;,&quot; + s.getName() + &quot;,&quot; + s.getAge() + &quot;,&quot;
-                + s.getAddress());
-        bw.write(sb.toString());
-        bw.newLine();
-        bw.flush();
+    public void show() {
+        System.out.println(&quot;show...&quot;);
     }
-    bw.close();
 }
-</code></pre><h3 id="3-何时读取文本，何时写入文本"><a href="#3-何时读取文本，何时写入文本" class="headerlink" title="3.何时读取文本，何时写入文本"></a>3.何时读取文本，何时写入文本</h3><p>这个就是这次升级最关键的部分了，因为之前的系统大部分功能已经实现了，上面也把ArrayList和文本文件之间的相互转换做好了，现在最关键的一点就是在程序运行的时候何时读取文本中的数据以及何时将数据更新到文本文件中。</p>
-<p>何时读取呢？其实只需要读取一次，就是程序最开始运行起来的时候读取一次。</p>
-<p>何时更新呢？其实只需要在程序退出之前更新一次就好了，因为程序运行时的数据是会完全保存在ArrayList集合之中的，在程序退出之时将其中的数据写入文本文件就好了，所以可以在<code>case &quot;5&quot;:</code>和<code>default:</code>之后加一个写入数据的方法就好了，不过我做的时候是在ArrayList有变动的时候就会写入一遍，其实也没有很多地方，增加成功的时候，删除成功的时候，最后就是修改成功的时候，在这几个地方调用一次写入方法就好了。</p>
-<h3 id="4-完整程序"><a href="#4-完整程序" class="headerlink" title="4.完整程序"></a>4.完整程序</h3><p>完整的程序还是放在GitHub上面了，链接是<a href="https://github.com/LauCloud/studentManager" target="_blank" rel="external">https://github.com/LauCloud/studentManager</a></p>
+</code></pre><p>代理角色：</p>
+<pre><code>public class TargetProxy implements ITarget {
+
+    private ITarget target;
+
+    public TargetProxy(ITarget target) {
+        this.target = target;
+    }
+
+    public void show() {
+        // 在代理中通过目标对象调用真是行为
+        // 1.判断是否有权限调用目标行为
+        // 2.进行日志操作
+        // 3.性能监控
+        target.show();
+    }
+}
+</code></pre><p>我们现在就可以来看一下使用代理与不使用代理时，相关调用代理有何不同：</p>
+<p>不使用代理：</p>
+<pre><code>@Test
+public void test() {
+    ITarget target = new Target();
+    target.show();
+}
+</code></pre><p>上面的代码我们是很熟悉的，直接创建目标对象，然后调用其中的具体方法，就可以达到我们想要的目的了。</p>
+<p>使用代理：</p>
+<pre><code>@Test
+public void test2() {
+    ITarget target = new Target();
+    TargetProxy proxy = new TargetProxy(target);
+    proxy.show();
+}
+</code></pre><p>使用代理时，我们是先创建目标对象，然后在创建代理对象时将目标对象的引用传递进去，最后代理对象调用具体方法时其实还是调用的目标对象中的方法。这时候可能会有一个疑问，本来可以直接使用目标对象调用具体方法，为什么还要使用代理呢？其实使用代理是为了大家的职责更清晰，比如目标对象就只需要实现具体的业务逻辑，而其它不是具体业务逻辑的事情，比如判断当前用户是否有权限调用当前代码，或者对具体业务逻辑方法前后增加日志打印，这些都可以放到代理类中去完成，而目标对象只要不是具体业务逻辑发生改变都是不需要改变的，这样减少核心业务逻辑代码的更改，也使得程序更加安全。</p>
+<h3 id="4-代理优点"><a href="#4-代理优点" class="headerlink" title="4.代理优点"></a>4.代理优点</h3><p>使用代理的优点主要有以下 <code>3</code> 点：</p>
+<pre><code>1.职责清晰。真实角色只需要实现实际的业务逻辑，不用关心其他非本职责的事务，通过后期的代理完成一些其它事务，这样的结果就是编程简洁，职责清晰。
+2.代理对象可以在客户端和目标对象之间起到中介的作用和保护了目标对象的作用。
+3.高扩展性。
+</code></pre><h3 id="5-代理分类"><a href="#5-代理分类" class="headerlink" title="5.代理分类"></a>5.代理分类</h3><p>代理可以分为两类，一类是静态代理，另一类就是动态代理了，两类代理具体定义如下：</p>
+<pre><code>静态代理：是由程序员创建或工具生成代理类的源码，再编译代理类。所谓静态也就是在程序运行前就已经存在代理类的字节码文件，代理类和目标类的关系在运行前就确定了。
+动态代理：是在实现阶段不用关心代理类，而在运行阶段才指定创建代理类。
+</code></pre><p>上面写的代理代码案例中展示的便是静态代理了，因为程序运行前代理类就被我们创建好了，而且代理类和目标类之间的关系也已经确定了，那掌握了静态代理之后，我们下面再来看动态代理。</p>
+<h3 id="6-动态代理"><a href="#6-动态代理" class="headerlink" title="6.动态代理"></a>6.动态代理</h3><p>在 <code>JDK</code> 为我们提供的 <code>api</code> 中我们可以使用 <code>Proxy</code> 来实现动态代理，它的类全称为 <code>java.lang.reflect.Proxy</code>，需要注意的是，当我们使用该类来为目标对象创建动态代理对象时，目标对象所属的类必须是实现了接口的。动态代理对象是在程序运行期间才被创建的，因此动态代理其实是在内存中生成的代理对象。</p>
+<p><code>Proxy</code> 类中具体生成动态代理对象的方法为：</p>
+<pre><code>public static Object newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler h) throws IllegalArgumentException
+</code></pre><p>我们先不具体看该方法的参数等细节，而是先看如何使用该方法为目标对象创建代理对象，使用方法为：</p>
+<pre><code>@Test
+public void test3() {
+    // 1.创建目标对象
+    final ITarget target = new Target();
+
+    // 2.使用Proxy的newProxyInstance方法完成代理对象的创建
+    ITarget proxy = (ITarget) Proxy.newProxyInstance(target.getClass().getClassLoader(),
+            target.getClass().getInterfaces(), new InvocationHandler() {
+
+                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                    return method.invoke(target, args);
+                }
+            });
+
+    proxy.show();
+}
+</code></pre><h3 id="7-Proxy详解"><a href="#7-Proxy详解" class="headerlink" title="7.Proxy详解"></a>7.Proxy详解</h3><p>我们先看一下 <code>Proxy</code> 类中 <code>newProxyInstance()</code> 方法的各个参数，第 <code>1</code> 个参数 <code>ClassLoader loader</code> 为目标对象的类加载器，第 <code>2</code> 个参数 <code>Class&lt;?&gt;[] interfaces</code> 为目标对象实现接口的 <code>Class</code> 数组，第 <code>3</code> 个参数 <code>InvocationHandler h</code> 为代理对象调用目标对象所实现的接口。前两个参数主要是帮我们在内存中构建目标对象的代理对象，而最后一个参数 <code>InvocationHandler</code> 则是让我们能监听代理对象调用方法，帮助我们调用目标对象。</p>
+<p>我们在使用 <code>Proxy</code> 类中 <code>newProxyInstance()</code> 方法来创建代理对象时，其中的第三个参数我们需要传入 <code>InvocationHandler</code> 接口的实现类，而在 <code>InvocationHandler</code> 接口中有一个 <code>invoke()</code> 方法，我们在实现该接口时也需要实现该方法，方法具体信息如下：</p>
+<pre><code>public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
+</code></pre><p>其中的第 <code>1</code> 个参数 <code>Object proxy</code> 则是代理对象本身，第 <code>2</code> 个参数 <code>Method method</code> 则是代理对象调用目标对象中的方法对象，第 <code>3</code> 个参数 <code>Object[] args</code> 则是代理对象调用目标对象中的方法所传递的参数数组，下面我们也通过一个例子来进行说明。</p>
+<p>抽象角色：</p>
+<pre><code>public interface IUserService {
+
+    public void addUser(String username, String password);
+}
+</code></pre><p>真实角色：</p>
+<pre><code>public class UserServiceImpl implements IUserService {
+
+    public void addUser(String username, String password) {
+        System.out.println(&quot;添加用户：&quot; + username + &quot;   &quot; + password);
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>动态代理创建工具类：</p>
+<pre><code>public class ProxyBuilder {
+
+    private Object target;
+
+    public ProxyBuilder(Object target) {
+        this.target = target;
+    }
+
+    public Object createProxy() {
+        ClassLoader classLoader = target.getClass().getClassLoader();
+        Class&lt;?&gt;[] interfaces = target.getClass().getInterfaces();
+        return Proxy.newProxyInstance(classLoader, interfaces, new InvocationHandler() {
+
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+//                System.out.println(proxy);
+                System.out.println(method);
+                System.out.println(args[0] + &quot;   &quot; + args[1]);
+                Object returnValue = method.invoke(target, args);
+                return returnValue;
+            }
+        });
+    }
+}
+</code></pre><p>使用代码：</p>
+<pre><code>@Test
+public void test() {
+    IUserService userService = new UserServiceImpl();
+
+    ProxyBuilder proxyBuilder = new ProxyBuilder(userService);
+    IUserService proxy = (IUserService) proxyBuilder.createProxy();
+    proxy.addUser(&quot;tom&quot;, &quot;123&quot;);
+}
+</code></pre><p>在动态代理创建工具类中，实现 <code>InvocationHandler</code> 接口中的 <code>invoke()</code> 方法时，我们没有打印 <code>proxy</code> 代理对象的值出来，这是因为如果放开代码注释的话，会导致堆栈内存溢出出错，因为这里打印 <code>proxy</code> 对象，其实是打印 <code>proxy</code> 对象调用 <code>toString()</code> 方法后返回的值，而 <code>proxy</code> 代理对象调用 <code>toString()</code> 方法，其实是调用目标对象的 <code>toString()</code> 方法，在代理对象调用目标对象的 <code>toString()</code> 方法时，又会触发 <code>InvocationHandler</code> 接口实现类中的 <code>invoke()</code> 方法，这样的话就会形成一个死循环，导致内存溢出。</p>
+<h3 id="8-性能监控案例"><a href="#8-性能监控案例" class="headerlink" title="8.性能监控案例"></a>8.性能监控案例</h3><p>为了监控程序功能的运行时间，我们可以在代理对象中查看程序运行的时间，而不需要在目标对象中增加与业务逻辑无关的代码，下面是具体代码实现：</p>
+<pre><code>public class ProxyBuilder {
+
+    private Object target;
+
+    public ProxyBuilder(Object target) {
+        this.target = target;
+    }
+
+    public Object createProxy() {
+        ClassLoader classLoader = target.getClass().getClassLoader();
+        Class&lt;?&gt;[] interfaces = target.getClass().getInterfaces();
+        return Proxy.newProxyInstance(classLoader, interfaces, new InvocationHandler() {
+
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+//                System.out.println(proxy);
+                System.out.println(method);
+                System.out.println(args[0] + &quot;   &quot; + args[1]);
+                long t1 = System.currentTimeMillis();
+                Object returnValue = method.invoke(target, args);
+                long t2 = System.currentTimeMillis();
+                System.out.println(method.getName() + &quot;方法耗时时间：&quot; + (t2 - t1) + &quot;ms&quot;);
+                return returnValue;
+            }
+        });
+    }
+}
+</code></pre><p>这样的话我们就可以知道代理对象调用目标对象中的各个方法都耗费了多长时间，也就实现了我们想要查看性能情况的想法。</p>
+<h3 id="9-总结"><a href="#9-总结" class="headerlink" title="9.总结"></a>9.总结</h3><p>掌握 <code>Java</code> 中的动态代理技术，对于我们后面学习各个框架是十分有帮助的，可以让我们更好地理解框架是如何实现的，因此现在的每一分积累都是为了后面更好地成长，掌握好这些基础知识也能帮我们更好地理解框架的设计，因此踏实积累吧。</p>
 
       
     </div>
@@ -448,7 +572,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Java/" rel="tag"># Java</a>
+            <a href="/tags/代理/" rel="tag"># 代理</a>
           
         </div>
       
@@ -461,8 +585,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/30/Java中IO流读写文本文件/" rel="next" title="Java中IO流读写文本文件">
-                <i class="fa fa-chevron-left"></i> Java中IO流读写文本文件
+              <a href="/2018/03/16/Nginx基础/" rel="next" title="Nginx基础">
+                <i class="fa fa-chevron-left"></i> Nginx基础
               </a>
             
           </div>
@@ -471,8 +595,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/06/12/Java中的时间/" rel="prev" title="Java中的时间">
-                Java中的时间 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/04/注解/" rel="prev" title="注解">
+                注解 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -639,7 +763,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-从文本文件中将数据读取到集合中"><span class="nav-number">1.</span> <span class="nav-text">1.从文本文件中将数据读取到集合中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-将集合中的数据写入到文本文件中"><span class="nav-number">2.</span> <span class="nav-text">2.将集合中的数据写入到文本文件中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-何时读取文本，何时写入文本"><span class="nav-number">3.</span> <span class="nav-text">3.何时读取文本，何时写入文本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-完整程序"><span class="nav-number">4.</span> <span class="nav-text">4.完整程序</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-代理定义"><span class="nav-number">1.</span> <span class="nav-text">1.代理定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-代理组成"><span class="nav-number">2.</span> <span class="nav-text">2.代理组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-代理代码案例"><span class="nav-number">3.</span> <span class="nav-text">3.代理代码案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-代理优点"><span class="nav-number">4.</span> <span class="nav-text">4.代理优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-代理分类"><span class="nav-number">5.</span> <span class="nav-text">5.代理分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-动态代理"><span class="nav-number">6.</span> <span class="nav-text">6.动态代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-Proxy详解"><span class="nav-number">7.</span> <span class="nav-text">7.Proxy详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-性能监控案例"><span class="nav-number">8.</span> <span class="nav-text">8.性能监控案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-总结"><span class="nav-number">9.</span> <span class="nav-text">9.总结</span></a></li></ol></div>
             
 
           </div>
@@ -777,9 +901,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'laucloudparty';
-      var disqus_identifier = '2017/05/31/学生管理系统(增加IO流功能)/';
+      var disqus_identifier = '2018/04/15/代理/';
 
-      var disqus_title = "学生管理系统(增加IO流功能)";
+      var disqus_title = "代理";
 
 
       function run_disqus_script(disqus_script) {

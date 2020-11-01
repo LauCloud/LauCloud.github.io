@@ -1,0 +1,1279 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Oracle," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="现在我们就要开始学习 Oracle 数据库了，因为之前我们已经学习过 MySQL 数据库，所以学习起来还是比较好理解的，相关的概念都是可以进行类比学习的，Oracle 是一个大型数据库系统，我们主要是介绍它的基本概念、具体使用以及使用 Java 语言操作它，掌握 Oracle 之后，我们的工具库里面就能又多了一个利器了，下面具体来学习。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle数据库(一)">
+<meta property="og:url" content="http://yoursite.com/2018/07/17/Oracle数据库(一)/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="现在我们就要开始学习 Oracle 数据库了，因为之前我们已经学习过 MySQL 数据库，所以学习起来还是比较好理解的，相关的概念都是可以进行类比学习的，Oracle 是一个大型数据库系统，我们主要是介绍它的基本概念、具体使用以及使用 Java 语言操作它，掌握 Oracle 之后，我们的工具库里面就能又多了一个利器了，下面具体来学习。">
+<meta property="og:updated_time" content="2020-11-01T05:12:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle数据库(一)">
+<meta name="twitter:description" content="现在我们就要开始学习 Oracle 数据库了，因为之前我们已经学习过 MySQL 数据库，所以学习起来还是比较好理解的，相关的概念都是可以进行类比学习的，Oracle 是一个大型数据库系统，我们主要是介绍它的基本概念、具体使用以及使用 Java 语言操作它，掌握 Oracle 之后，我们的工具库里面就能又多了一个利器了，下面具体来学习。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/17/Oracle数据库(一)/"/>
+
+
+
+
+
+  <title> Oracle数据库(一) | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/17/Oracle数据库(一)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Oracle数据库(一)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-17T09:34:09+08:00">
+                2018-07-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/07/17/Oracle数据库(一)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/17/Oracle数据库(一)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/07/17/Oracle数据库(一)/" class="leancloud_visitors" data-flag-title="Oracle数据库(一)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>现在我们就要开始学习 <code>Oracle</code> 数据库了，因为之前我们已经学习过 <code>MySQL</code> 数据库，所以学习起来还是比较好理解的，相关的概念都是可以进行类比学习的，<code>Oracle</code> 是一个大型数据库系统，我们主要是介绍它的基本概念、具体使用以及使用 <code>Java</code> 语言操作它，掌握 <code>Oracle</code> 之后，我们的工具库里面就能又多了一个利器了，下面具体来学习。</p>
+<a id="more"></a>
+<h3 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h3><h4 id="1-1-什么是Oracle"><a href="#1-1-什么是Oracle" class="headerlink" title="1.1 什么是Oracle"></a>1.1 什么是Oracle</h4><p><code>Oracle</code> 数据库系统是美国 <code>Oracle</code> 公司（甲骨文）提供的以分布式数据库为核心的一组软件产品，是目前最流行的客户/服务器（B/S）体系结构的数据库之一。<code>Oracle</code> 是通常应用于大型系统的数据库产品，也是目前世界上使用最广泛的数据库管理系统，作为一个通用的数据库系统，它具有完整的数据管理功能；作为一个关系数据库，它是一个完备关系的产品；作为分布式数据库，它实现了分布式处理功能。</p>
+<p><code>Oracle</code> 数据库具有以下特点：</p>
+<pre><code>1.支持多用户、大事务量的事务处理；
+2.数据安全性和完整性控制；
+3.支持分布式数据处理；
+4.可移植性。
+</code></pre><h4 id="1-2-Oracle体系结构"><a href="#1-2-Oracle体系结构" class="headerlink" title="1.2 Oracle体系结构"></a>1.2 Oracle体系结构</h4><p>下面我们来看 <code>Oracle</code> 的体系结构，最主要的是理解其中的相关概念，下面我们具体来看：</p>
+<h5 id="1-2-1-数据库"><a href="#1-2-1-数据库" class="headerlink" title="1.2.1 数据库"></a>1.2.1 数据库</h5><p><code>Oracle</code> 数据库是数据的物理存储。主要包括数据文件 <code>ora</code> 或者 <code>dbf</code>、控制文件、联机文件、参数文件。其实 <code>Oracle</code> 中数据库的概念和其它数据库的不一样，这里的数据库是一个管理系统只有一个库，因此 <code>Oracle</code> 可以看作是只有一个大数据库。</p>
+<h5 id="1-2-2-实例"><a href="#1-2-2-实例" class="headerlink" title="1.2.2 实例"></a>1.2.2 实例</h5><p>一个 <code>Oracle</code> 实例由一系列后台进程和内存结构组成，一个数据库可以有多个实例。</p>
+<h5 id="1-2-3-数据文件（dbf）"><a href="#1-2-3-数据文件（dbf）" class="headerlink" title="1.2.3 数据文件（dbf）"></a>1.2.3 数据文件（dbf）</h5><p>数据文件是数据库的物理存储单位。数据库的数据是存储在表空间中的，物理上是在一个或者多个数据文件当中的，而一个表空间可以由一个或者多个数据文件组成，一个数据文件只能属于一个表空间。一旦数据文件被加入到某个表空间后，就不能删除这个文件，如果要删除某个数据文件，只能删除其所属于的表空间才行。</p>
+<h5 id="1-2-4-表空间"><a href="#1-2-4-表空间" class="headerlink" title="1.2.4 表空间"></a>1.2.4 表空间</h5><p>表空间是 <code>Oracle</code> 对物理数据库上相关数据文件的逻辑映射，一个数据库在逻辑上被划分成一到多个表空间，每个表空间都包含在逻辑上相关联的一组结构。每个数据库至少有一个表空间（<code>System</code> 表空间）。</p>
+<p>和表空间同样作为 <code>Oracle</code> 数据库中逻辑单位的，还有段、区和数据块，只是这些都是更细的逻辑单位，一个表空间对应多个段，一个段对应多个区，一个区对应多个数据块；而和数据文件同样作为 <code>Oracle</code> 数据库中物理单位的，还有磁盘块，通常是一个数据文件对应多个磁盘块，上面我们已经知道，<code>Oracle</code> 中逻辑单位的设定是为了更好地管理物理单位，一个表空间通常对应于一个到多个数据文件，同时一个数据块对应于多个磁盘块。</p>
+<p><code>Oracle</code> 中的数据库不是普通的概念，<code>Oracle</code> 是由用户和表空间对数据进行管理和存放的，但是数据表不是由表空间进行查询的，而是由用户进行查询的。因为不用的用户可以在同一表空间建立同一名字的表，区分的时候则是使用用户进行区分。</p>
+<h5 id="1-2-5-用户"><a href="#1-2-5-用户" class="headerlink" title="1.2.5 用户"></a>1.2.5 用户</h5><p>用户是在表空间下建立的，用户在登录后只能看到和操作自己的表，<code>Oracle</code> 中的用户其实是和 <code>MySQL</code> 中数据库的概念是相对的，使用 <code>MySQL</code> 进行开发时，每一个应用都对应一个数据库，而使用 <code>Oracle</code> 进行开发时，每个应用则对应一个用户。</p>
+<h3 id="2-Oracle的安装与配置"><a href="#2-Oracle的安装与配置" class="headerlink" title="2.Oracle的安装与配置"></a>2.Oracle的安装与配置</h3><p>下面我们就来进行 <code>Oracle</code> 的安装和配置操作，因为 <code>Oracle</code> 一旦在安装过程中出现问题，后续的安装和卸载都会比较麻烦，因此在这里我们将 <code>Oracle</code> 安装在虚拟机中，操作系统是使用的 <code>windows server 2003</code>，这里虚拟机版本最好也用最新的，因为对于软件来说，最新的版本肯定是优化了很多细节了，与我们最新的操作系统也能更好地适配。</p>
+<h4 id="2-1-虚拟机挂载windows-server-2003"><a href="#2-1-虚拟机挂载windows-server-2003" class="headerlink" title="2.1 虚拟机挂载windows server 2003"></a>2.1 虚拟机挂载windows server 2003</h4><p>这里的 <code>windows server 2003</code> 是我们之前已经在虚拟机中安装好的，所以本地是有对应的文件的，因此在安装好虚拟机之后，只需要将它挂载到虚拟机上面就可以使用了，挂载的方法就是在 <code>windows server 2003</code> 的目录文件当中找到扩展名为 <code>.vmx</code> 的文件，然后双击这个文件就挂载好了，我们在虚拟机的管理界面就可以看到这个系统的存在的，我们也就可以使用这个系统了。</p>
+<h4 id="2-2-网络设置"><a href="#2-2-网络设置" class="headerlink" title="2.2 网络设置"></a>2.2 网络设置</h4><p>为了保证我们在本地操作系统中能访问到虚拟机中操作系统上面安装的 <code>Oracle</code> 数据库，必须要保证我们本地操作系统是能和虚拟机中的操作系统是在一个局域网之内的，这样就可以进行通信，因此我们需要在这里进行网络设置，创建一张虚拟网卡来保证双方的通信。</p>
+<p>打开虚拟机管理界面，然后选中其中的编辑菜单，然后选中其中的虚拟网络编辑器，就可以在里面新增虚拟网络了，点击添加网络按钮，名称我们可以选择 <code>VMnet2</code>，连接模式的话有 <code>3</code> 种，分别是：桥接模式、<code>NAT</code> 模式和仅主机模式，下面分别进行说明：</p>
+<p>桥接模式表示本地计算机和虚拟机中计算机处于一个局域网之中，但是要求必须有外部的网络环境，也就是要求我们本地的计算机必须使用网线连接到交换机上面，如果没有网线连接到交换机的话，本地的计算机则无法和虚拟机中的计算机进行通信。</p>
+<p>仅主机模式表示本地计算机和虚拟机中计算机使用一根网线直接连接，这样就不依赖外部的网络环境了。</p>
+<p><code>NAT</code> 模式表示本地计算机和虚拟机中计算机是共用一个 <code>IP</code> 地址的，当本地计算机可以访问网络时，虚拟机中计算机也是可以访问网络的，但是本地计算机和虚拟机中计算机是无法进行访问的。</p>
+<p>终上所述的话，我们在这里就是选择仅主机模式了，选择好连接模式之后，再下面的 <code>使用本地DHCP服务将IP地址分配给虚拟机</code> 选项，我们可以对该选项不进行选中设置，最后是 <code>子网IP</code> 和 <code>子网掩码</code>，这里 <code>子网IP</code> 可以设置为 <code>192.168.10.0</code>，<code>子网掩码</code> 设置为 <code>255.255.255.0</code>。进行完上面的设置之后，我们需要的虚拟网卡就设置好了，点击确定就可以了。</p>
+<p>新增好虚拟网卡之后，我们可以在本地计算机中查看是否有我们刚才设置的虚拟网卡，可以在 <code>控制面板</code> 下面的 <code>网络和Internet</code> 再然后的 <code>网络连接</code> 中进行查看，正常情况下就能看到我们刚才新建的 <code>VMnet2</code> 虚拟网卡了。右键选中我们刚创建的网卡，选择属性，然后点击进去 <code>Internet协议版本</code>，查看我们的 <code>IP</code> 地址，这时候系统会为我们分配一个 <code>IP</code> 地址，我们也可以自己进行指定，将 <code>IP地址</code> 设置为 <code>192.168.10.8</code>，<code>子网掩码</code> 还是设置为 <code>255.255.255.0</code>，这样就可以了。</p>
+<p>现在我们就将虚拟网卡完整地创建好了，但是这时候这张网卡和我们的虚拟机还没有关系，这里我们就需要将这张网卡绑定到虚拟机上面。进入到虚拟机的管理界面，右键点击我们之前挂载的 <code>windows server 2003</code> 服务器，然后选择 <code>设置</code> 选项，在选中 <code>网络适配器</code> 选项，对于右边的 <code>网络连接</code>，我们需要选择 <code>自定义</code> ，然后选中下拉框中我们刚创建的 <code>VMnet2</code> 虚拟网卡，最后点击确定就完成了虚拟网卡的绑定。</p>
+<p>最后为了保证本地计算机可以和虚拟机中计算机能够通信，我们需要让两方计算机的 <code>IP</code> 地址处于一个网段当中，也就是虚拟机中计算机的 <code>IP</code> 地址也需要在 <code>192.168.10</code> 网段当中，所以我们就还需要设置下虚拟机中计算机的 <code>IP</code> 地址，因为和之前设置本地计算机的 <code>IP</code> 地址类似，因此在这里就不再赘述了，我们可以将虚拟机中计算机的 <code>IP</code> 地址设置为 <code>192.168.10.9</code>，<code>子网掩码</code> 还是设置为 <code>255.255.255.0</code>，这样设置好了之后就可以了，此时应该也可以看到虚拟机中计算机的本地连接图标是亮的了。</p>
+<p>其实我们还可以使用 <code>ping</code> 命令来进行测试下，在本地计算机中打开 <code>命令提示符</code>，然后输入 <code>ping 192.168.10.9</code> 查看是否可以连接到虚拟机中的计算机，能够连接那就说明网络没有问题了。</p>
+<h4 id="2-3-安装Oracle"><a href="#2-3-安装Oracle" class="headerlink" title="2.3 安装Oracle"></a>2.3 安装Oracle</h4><p>下面我们开始安装 <code>Oracle</code> 数据库，因为我们虚拟机中的计算机只有 <code>C</code> 盘一个盘，因此我们可以直接将安装文件复制到该目录下，复制好之后进入目录，双击执行 <code>setup.exe</code> 文件就开始进行安装了，安装过程中最重要的是需要记住设置口令界面设置的密码是多少，其它的只需要一直点击执行下一步就好了。</p>
+<p>安装完成之后，为了测试是否安装成功，我们可以打开虚拟机中计算机的命令提示符，使用下面命令进行测试是否安装成功：</p>
+<pre><code>sqlplus 用户名/密码
+</code></pre><p>这里的用户名我们可以使用系统的用户名 <code>system</code>，密码的话就是我们在安装过程中设置的密码，如果一切正常的话，这时候会提示连接成功，同时还等待我们输入 <code>SQL</code> 语句，这里我们可以输入：</p>
+<pre><code>select * from tabs;
+</code></pre><p>会返回 <code>141</code> 行结果，都是系统自带的表，这里 <code>Oracle</code> 的安装就完成了。</p>
+<h4 id="2-4-SQLPlus远程连接Oracle"><a href="#2-4-SQLPlus远程连接Oracle" class="headerlink" title="2.4 SQLPlus远程连接Oracle"></a>2.4 SQLPlus远程连接Oracle</h4><p>刚才我们安装成功 <code>Oracle</code> 数据库之后，在虚拟机内的计算机上面使用命令提示符是可以成功进行连接了，但是我们平时肯定还是不能都跑去安装 <code>Oracle</code> 数据库的主机上面进行连接操作，一般都是在自己本地计算机进行连接操作的，这就涉及到远程连接 <code>Oracle</code> 数据库了，<code>Oracle</code> 为我们提供了一个远程连接的工具，那就是 <code>instanceclient</code> 工具了，可以将这个工具放在我们本地计算机的 <code>D</code> 盘，我这里是使用的 <code>instantclient_12_1</code> 版本，使用的话还是进入到命令提示符，然后再进入到 <code>D:\instantclient_12_1</code> 目录，执行下面的命令进行连接操作：</p>
+<pre><code>./sqlplus 用户名/密码@ip:port/orcl
+</code></pre><p>举例的话可以这样使用：</p>
+<pre><code>./sqlplus system/lauloud@192.168.10.9:1521/orcl
+</code></pre><p><code>192.168.10.9</code> 当然就是安装 <code>Oracle</code> 数据库的远程主机 <code>IP</code>，<code>1521</code> 则是 <code>Oracle</code> 数据库占据的端口号，<code>orcl</code> 则是数据库的实例名，如果安装时没有进行修改直接使用该名称就好了。</p>
+<p>执行上面的命令，正常情况下会提示连接成功，并等待我们输入 <code>SQL</code> 语句，这里我们再次输入：</p>
+<pre><code>select * from tabs;
+</code></pre><p>得到的结果还是和之前返回的一样，是 <code>141</code> 条结果记录。</p>
+<h4 id="2-5-PLSQL-Developer安装与配置"><a href="#2-5-PLSQL-Developer安装与配置" class="headerlink" title="2.5 PLSQL Developer安装与配置"></a>2.5 PLSQL Developer安装与配置</h4><p>上面我们已经可以远程连接 <code>Oracle</code> 数据库了，但是仍然还是命令行的方式进行访问的，因此开发时仍然不是那么好用，我们最习惯的通常还是可视化的工具，所以我们就需要安装 <code>PLSQL Developer</code> 这个工具。</p>
+<h5 id="2-5-1-安装PLSQL-Developer"><a href="#2-5-1-安装PLSQL-Developer" class="headerlink" title="2.5.1 安装PLSQL Developer"></a>2.5.1 安装PLSQL Developer</h5><p>安装只需要双击 <code>PLSQL Developer</code> 的可执行文件，然后就会自动安装了，唯一需要注意的一点就是安装目录，安装目录不能有空格和中文，因此我是安装在了 <code>D:\PLSQLDeveloper</code> 目录。</p>
+<h5 id="2-5-2-配置客户端路径"><a href="#2-5-2-配置客户端路径" class="headerlink" title="2.5.2 配置客户端路径"></a>2.5.2 配置客户端路径</h5><p>安装完成之后，我们双击图标时会弹出登录界面，但是这时还需要进行一些设置才能进行登录，因此这时需要先点击取消按钮，进入到主界面，点击主界面中的工具菜单按钮，然后选择首选项进入到设置界面，这里需要设置的就是第一项，<code>Oracle</code> 下面的连接选项，点击该选项，我们需要设置右边界面中的 <code>Oracle Home</code> 和 <code>OCI library</code> 这两项，因为 <code>PLSQL Developer</code> 本身没有远程连接的功能，因此我们需要在这里借助上面 <code>instantclient</code> 的功能来达到目的，第一个 <code>Oracle Home</code> 需要设置 <code>instantclient</code> 的安装目录，第二个 <code>OCI library</code> 则需要设置 <code>instantclient</code> 安装目录中的 <code>oci.dll</code> 文件，因此我的设置如下：</p>
+<pre><code>Oracle Home:D:\instantclient_12_1
+OCI library:D:\instantclient_12_1\oci.dll
+</code></pre><p>设置好了之后，一定要记得点击应用按钮，因为这样设置才会生效。</p>
+<h5 id="2-5-3-编辑ora文件"><a href="#2-5-3-编辑ora文件" class="headerlink" title="2.5.3 编辑ora文件"></a>2.5.3 编辑ora文件</h5><p>这里我们需要将 <code>Oracle</code> 安装目录中的 <code>tnsnames.ora</code> 文件拷贝到本地计算机上面，这个文件在哪里呢？因为我是将 <code>Oracle</code> 数据库就安装在 <code>C</code> 盘，因此该文件所在目录为：</p>
+<pre><code>C:\oracle\product\10.2.0\db_1\NETWORK\ADMIN
+</code></pre><p>拷贝到本地计算机之后，我们可以将该文件直接放在 <code>D</code> 盘根目录，这里我们需要编辑该文件，使用文本编辑器打开该文件，修改 <code>ORCL</code> 节点中的 <code>HOST</code> 所对应属性值，这里需要设置为安装 <code>Oracle</code> 数据库的远程主机 <code>IP</code> 地址，很显然我们这里是 <code>192.168.10.9</code>，因此<code>ORCL</code> 节点修改之后如下：</p>
+<pre><code>ORCL =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.10.9)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = orcl)
+    )
+  )
+</code></pre><h5 id="2-5-4-设置环境变量TNS-ADMIN"><a href="#2-5-4-设置环境变量TNS-ADMIN" class="headerlink" title="2.5.4 设置环境变量TNS_ADMIN"></a>2.5.4 设置环境变量TNS_ADMIN</h5><p>上面编辑完 <code>tnsnames.ora</code> 文件之后，我们还需要让操作系统知道该文件所在的目录，因此就需要配置 <code>TNS_ADMIN</code> 环境变量，该环境变量对应的属性值就是 <code>tnsnames.ora</code> 文件所在目录了。</p>
+<pre><code>TNS_ADMIN:D:\
+</code></pre><h5 id="2-5-5-进入系统"><a href="#2-5-5-进入系统" class="headerlink" title="2.5.5 进入系统"></a>2.5.5 进入系统</h5><p>现在都配置好了之后我们就可以使用 <code>PLSQL Developer</code> 工具来登录 <code>Oracle</code> 数据库了，进入到登录界面，输入用户名和密码就可以登录成功了。</p>
+<h5 id="2-5-6-中文编码设置"><a href="#2-5-6-中文编码设置" class="headerlink" title="2.5.6 中文编码设置"></a>2.5.6 中文编码设置</h5><p>登录到 <code>PLSQL Developer</code> 软件主界面之后，可以看到文件菜单按钮下面有一个像白纸一样的按钮，那就是新建文件按钮，点击该按钮，就可以新建各种文件了，我们这里写 <code>SQL</code> 的话，就是新建 <code>SQL Window</code>，然后在右边就出现一块可编辑区域，我们就可以在其中编写 <code>SQL</code>，执行的话，可以看到新建按钮下面一排第二个有个齿轮一样的执行按钮，点击该按钮就可以执行我们刚才编写的 <code>SQL</code> 语句了。</p>
+<p>这里为了防止中文乱码，我们需要设置一个环境变量，而这个环境变量的值，需要我们使用下面的 <code>SQL</code> 查询出来：</p>
+<pre><code>select userenv(&apos;language&apos;) from dual
+</code></pre><p>这里我的结果是 <code>AMERICAN_AMERICA.ZHS16GBK</code>，然后我们新建的环境变量名称是 <code>NLS_LANG</code>，对应的属性值则是我们刚才查出来的结果。这样的话，<code>PLSQL Developer</code> 完整的安装和配置就完成了。</p>
+<h3 id="3-创建表空间、用户以及用户赋权"><a href="#3-创建表空间、用户以及用户赋权" class="headerlink" title="3.创建表空间、用户以及用户赋权"></a>3.创建表空间、用户以及用户赋权</h3><p>我们在安装好 <code>Oracle</code> 数据库之后，如果想要使用 <code>Oracle</code> 的话，则必须先创建表空间，只有创建了表空间，我们才能使用 <code>Oracle</code> 数据库，而我们可以使用下面的语句来创建表空间。</p>
+<pre><code>create tablespace waterboss
+datafile &apos;c:\waterboss.dbf&apos;
+size 100m
+autoextend on
+next 10m;
+</code></pre><p>上面的语句是创建名称为 <code>waterboss</code> 的表空间，其对应的数据文件为 <code>C</code> 盘下的 <code>waterboss.dbf</code> 文件，同时预先为该数据文件指定 <code>100</code> 兆的大小，当实际文件大小达到 <code>100</code> 兆时，该文件大小会自动扩充，每次以 <code>10</code> 兆大小进行扩充，这便是上面语句的作用。</p>
+<p>在 <code>Oracle</code> 数据库中，用户是属于表空间的，而数据表又是属于用户的，因此如果我们想操作数据表以及表中数据的话，则必须先创建用户，下面则是创建用户的语句。</p>
+<pre><code>create user wateruser
+identified by laucloud
+default tablespace waterboss;
+</code></pre><p>上面语句是创建用户名为 <code>wateruser</code> 而密码为 <code>laucloud</code> 的用户，并说明该用户属于 <code>waterboss</code> 这个表空间。这样的话，我们就创建好了用户，那我们是不是就可以使用这个新用户进行登录了呢？还不行，因为这个新建的用户还是空白的，没有赋予任何权限，所以我们还需要为它赋予权限。</p>
+<pre><code>grant dba to wateruser;
+</code></pre><p>上面的语句便是为 <code>wateruser</code> 用户赋予 <code>dba</code> 角色的权限，赋予了权限之后我们就可以使用该用户登录 <code>Oracle</code> 数据库了。</p>
+<h3 id="4-数据表的操作"><a href="#4-数据表的操作" class="headerlink" title="4.数据表的操作"></a>4.数据表的操作</h3><p>对于数据表的操作，最主要的便是数据表的创建，修改以及删除了，因此在这一节我们主要就是介绍这三种操作，下面具体来看。</p>
+<h4 id="4-1-创建数据表"><a href="#4-1-创建数据表" class="headerlink" title="4.1 创建数据表"></a>4.1 创建数据表</h4><p>在 <code>Oracle</code> 数据库中创建数据表的语法如下：</p>
+<pre><code>CREATE TABLE 表名称(
+ 字段名 类型(长度) primary key,
+ 字段名 类型(长度),
+ .......
+);
+</code></pre><p>其实和之前学习的 <code>MySQL</code> 数据库也有类似之处，主要是指定表名，然后指定各个字段名以及对应的数据类型，当然还要指定主键的字段，以及哪些字段具有索引，我们这里需要注意的是，<code>Oracle</code> 数据库中的数据类型和 <code>MySQL</code> 中的还是有些差距的，我们在这里列出学习下：</p>
+<p>1.字符型</p>
+<pre><code>（1）CHAR：固定长度的字符类型，最多存储2000个字节
+（2）VARCHAR2:可变长度的字符类型，最多存储4000个字节
+（3）LONG:大文本类型。最大可以存储2个G
+</code></pre><p>2.数值型</p>
+<pre><code>NUMBER:数值类型
+例如：
+NUMBER(5) 最大可以存的数为99999 
+NUMBER(5,2) 最大可以存的数为999.99
+</code></pre><p>这里数值类型需要注意的是，后面括号中的数字是指定数据的位数，如果只有一个数字，则表示该字段的数字最大位数为该数字，如果是两个数字，第一个数字还是该字段的数字最大位数为该数字，第二个数字则是小数位最大占据的位数。</p>
+<p>3.日期型</p>
+<pre><code>（1）DATE：日期时间型，精确到秒
+（2）TIMESTAMP：精确到秒的小数点后9位
+</code></pre><p>4.二进制型（大数据类型）</p>
+<pre><code>（1）CLOB:存储字符,最大可以存4个G
+（2）BLOB:存储图像、声音、视频等二进制数据,最多可以存4个G
+</code></pre><p>这四种数据类型便是 <code>Oracle</code> 提供给我们使用的，掌握了这四种数据类型我们便可以创建想要的表模型了。</p>
+<p>下面举个具体的例子，创建一张业主表：</p>
+<pre><code>create table t_owners (
+    id number primary key,
+    name varchar2(30),
+    addressid number,
+    housenumber varchar2(30),
+    watermeter varchar2(30),
+    adddate date,
+    ownertypeid number
+)
+</code></pre><h4 id="4-2-修改数据表"><a href="#4-2-修改数据表" class="headerlink" title="4.2 修改数据表"></a>4.2 修改数据表</h4><p>对数据表的修改主要是涉及到对字段进行增加，修改，删除以及对字段名的变更，下面我们对这几项进行详细说明。</p>
+<p>1.增加字段</p>
+<p>增加字段语法如下：</p>
+<pre><code>ALTER TABLE 表名称 ADD(列名1 类型 [DEFAULT 默认值]，列名2 类型 [DEFAULT 默认值]...)
+</code></pre><p>针对上面我们创建的业主表，我们可以使用上面的语法增加字段：</p>
+<pre><code>ALTER TABLE T_OWNERS ADD
+(
+ REMARK VARCHAR2(20),
+ OUTDATE DATE
+)
+</code></pre><p>2.修改字段</p>
+<p>修改字段语法如下：</p>
+<pre><code>ALTER TABLE 表名称 MODIFY(列名1 类型 [DEFAULT 默认值]，列名2 类型 [DEFAULT 默认值]...)
+</code></pre><p>同样的我们也可以针对业主表进行修改字段的操作：</p>
+<pre><code>ALTER TABLE T_OWNERS MODIFY
+(
+REMARK CHAR(20),
+OUTDATE TIMESTAMP
+)
+</code></pre><p>3.修改字段名</p>
+<p>修改字段名语法如下：</p>
+<pre><code>ALTER TABLE 表名称 RENAME COLUMN 原列名 TO 新列名
+</code></pre><p>针对业主表进行字段名修改操作：</p>
+<pre><code>ALTER TABLE T_OWNERS RENAME COLUMN OUTDATE TO EXITDATE
+</code></pre><p>4.删除字段</p>
+<p>删除字段语法如下：</p>
+<pre><code>ALTER TABLE 表名称 DROP COLUMN 列名
+ALTER TABLE 表名称 DROP (列名1,列名2...)
+</code></pre><p>针对业务表进行删除字段操作：</p>
+<pre><code>ALTER TABLE T_OWNERS DROP COLUMN REMARK
+</code></pre><h4 id="4-3-删除数据表"><a href="#4-3-删除数据表" class="headerlink" title="4.3 删除数据表"></a>4.3 删除数据表</h4><p>最后我们介绍对数据表的操作，那就是删除数据表，删除数据表语法如下：</p>
+<pre><code>DROP TABLE 表名称
+</code></pre><p>如果要删除我们之前创建的业主表，那语句应该是：</p>
+<pre><code>drop table t_owners
+</code></pre><h3 id="5-表中数据的操作"><a href="#5-表中数据的操作" class="headerlink" title="5.表中数据的操作"></a>5.表中数据的操作</h3><p>上面介绍完了对数据表的操作，下面我们来看对表中数据的操作，表中数据的操作，主要就是对数据的增加，删除，修改以及查询操作了，下面我们具体来看每个部分。</p>
+<h4 id="5-1-增加数据"><a href="#5-1-增加数据" class="headerlink" title="5.1 增加数据"></a>5.1 增加数据</h4><p>往数据表中插入数据的语法如下：</p>
+<pre><code>INSERT INTO 表名 [(列名1，列名2，...)] VALUES (值1，值2，...)
+</code></pre><p>为了说明具体的使用，我们还是以前面的业主表为例，写出具体的执行语句。</p>
+<pre><code>insert into t_owners (id,name,addressid) values (1,&apos;张三&apos;,1);
+commit;
+</code></pre><p>这里的插入语句是针对需要插入数据的列指定插入的，通过对指定列名的赋值来达到插入数据的目的，当然我们也可以不指定具体列名，不过那样的话就是默认每个列都插入了，赋值顺序就是数据表创建时各个字段的顺序，语句可以如下：</p>
+<pre><code>insert into t_owners values (3,&apos;王五&apos;,2,&apos;6-1&apos;,&apos;100&apos;,sysdate,1);
+commit;
+</code></pre><p>当然还需要注意的一点就是，执行 <code>SQL</code> 语句之后一定要提交事务，也就是我们上面的第二条 <code>commit</code> 命令。</p>
+<h4 id="5-2-修改数据"><a href="#5-2-修改数据" class="headerlink" title="5.2 修改数据"></a>5.2 修改数据</h4><p>对数据表中数据进行修改的语法如下：</p>
+<pre><code>UPDATE 表名 SET 列名1=值1，列名2=值2，....WHERE 修改条件
+</code></pre><p>具体使用的话可以如下：</p>
+<pre><code>update t_owners set adddate = adddate-3 where id = 3;
+commit;
+</code></pre><p>上面的 <code>SQL</code> 是将 <code>adddate</code> 这个日期修改为 <code>3</code> 天之前，同样的，执行 <code>SQL</code> 之后一定要提交事务。</p>
+<h4 id="5-3-删除数据"><a href="#5-3-删除数据" class="headerlink" title="5.3 删除数据"></a>5.3 删除数据</h4><p>删除数据表中数据的语法一共有两种，我们先看第一种：</p>
+<pre><code>DELETE FROM 表名 WHERE 删除条件;
+</code></pre><p>上面这种方法便是对数据表中指定条件的数据进行删除操作，具体使用可以如下：</p>
+<pre><code>delete from t_owners where id = 1;
+commit;
+</code></pre><p>这样的话我们就可以删除数据表中某些我们想删除的数据了，同样的， <code>SQL</code> 执行之后也需要提交事务。</p>
+<p>再看第二种删除数据的语法：</p>
+<pre><code>TRUNCATE TABLE 表名称
+</code></pre><p>这种语法是将数据表中所有数据全部清除，实现逻辑其实是先摧毁表结构，然后再新建的数据表，具体使用可以如下：</p>
+<pre><code>truncate table t_owners;
+</code></pre><p>这里是不需要提交事务的，关于使用 <code>delete</code> 和 <code>truncate</code> 删除数据的区别如下：</p>
+<pre><code>1. delete删除的数据可以回滚
+2. delete删除可能产生碎片，并且不释放空间
+3. truncate是先摧毁表结构，再重构表结构
+</code></pre><h3 id="6-Java连接Oracle数据库"><a href="#6-Java连接Oracle数据库" class="headerlink" title="6.Java连接Oracle数据库"></a>6.Java连接Oracle数据库</h3><p>上面介绍的内容都是直接使用 <code>Oracle</code> 数据库，但是平时开发中，我们一般是使用 <code>Java</code> 来操作数据库的，因此下面我们就来看如何使用 <code>Java</code> 来操作 <code>Oracle</code> 数据库。</p>
+<h4 id="6-1-获取驱动包"><a href="#6-1-获取驱动包" class="headerlink" title="6.1 获取驱动包"></a>6.1 获取驱动包</h4><p>要想使用 <code>Java</code> 连接并操作数据库，和使用 <code>MySQL</code> 数据库一样，我们也需要先加载驱动，那连接 <code>Oracle</code> 数据库的驱动包在哪里呢？其实在安装目录中是有的，这里我是安装在 <code>C</code> 盘，那驱动包的位置则是：</p>
+<pre><code>C:\oracle\product\10.2.0\db_1\jdbc\lib\ojdbc14.jar
+</code></pre><p>因此我们可以将该驱动包文件复制并加入到工程的 <code>Build Path</code> 中，这样我们就可以使用驱动包中的代码了。</p>
+<h4 id="6-2-加载驱动获取数据库连接"><a href="#6-2-加载驱动获取数据库连接" class="headerlink" title="6.2 加载驱动获取数据库连接"></a>6.2 加载驱动获取数据库连接</h4><p>得到驱动包之后，我们就可以加载驱动程序并获取得到数据库连接了，下面看具体代码。</p>
+<p>加载驱动：</p>
+<pre><code>Class.forName(&quot;oracle.jdbc.driver.OracleDriver&quot;);
+</code></pre><p>获取数据库连接：</p>
+<pre><code>DriverManager.getConnection(&quot;jdbc:oracle:thin:@192.168.10.9:1521:orcl&quot;, &quot;wateruser&quot;, &quot;laucloud&quot;);
+</code></pre><p>当然我们可以将这两个功能放到工具类中，这样也就方便我们使用了，其实还可以加入资源释放的功能。</p>
+<pre><code>public class BaseDao {
+
+    static {
+        try {
+            // 加载驱动
+            Class.forName(&quot;oracle.jdbc.driver.OracleDriver&quot;);
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    // 获取数据库连接
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(&quot;jdbc:oracle:thin:@192.168.10.9:1521:orcl&quot;, &quot;wateruser&quot;, &quot;liucheng&quot;);
+    }
+
+    public static void closeAll(ResultSet resultSet, Statement statement, Connection connection) {
+        if (null != resultSet) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        if (null != statement) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        if (null != connection) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre><h4 id="6-3-操作数据库"><a href="#6-3-操作数据库" class="headerlink" title="6.3 操作数据库"></a>6.3 操作数据库</h4><p>操作数据库的部分，我们也可以将功能封装到工具类中，以上面我们创建的业主表为例，我们可以建立对应的实体类以及工具类。</p>
+<p>实体类：</p>
+<pre><code>public class Owners {
+
+    private Long id;// 编号
+    private String name;// 业主名称
+    private Long addressId;// 地址id
+    private String houseNumber;// 门牌号
+    private String waterMeter;// 水表编号
+    private Date addDate;// 添加日期
+    private Long ownerTypeId;// 业主类型
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
+    }
+
+    public String getHouseNumber() {
+        return houseNumber;
+    }
+
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public String getWaterMeter() {
+        return waterMeter;
+    }
+
+    public void setWaterMeter(String waterMeter) {
+        this.waterMeter = waterMeter;
+    }
+
+    public Date getAddDate() {
+        return addDate;
+    }
+
+    public void setAddDate(Date addDate) {
+        this.addDate = addDate;
+    }
+
+    public Long getOwnerTypeId() {
+        return ownerTypeId;
+    }
+
+    public void setOwnerTypeId(Long ownerTypeId) {
+        this.ownerTypeId = ownerTypeId;
+    }
+}
+</code></pre><p>操作数据库工具类：</p>
+<pre><code>public class OwnersDao {
+
+    public static void add(Owners owners) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = BaseDao.getConnection();
+            statement = connection.prepareStatement(&quot;insert into t_owners values (?,?,?,?,?,?,?)&quot;);
+            statement.setLong(1, owners.getId());// 编号
+            statement.setString(2, owners.getName());// 业主名称
+            statement.setLong(3, owners.getAddressId());// 地址编号
+            statement.setString(4, owners.getHouseNumber());// 门牌号
+            statement.setString(5, owners.getWaterMeter());// 水表编号
+            statement.setDate(6, new Date(owners.getAddDate().getTime()));
+            statement.setLong(7, owners.getOwnerTypeId());
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            BaseDao.closeAll(null, statement, connection);
+        }
+    }
+
+    public static void update(Owners owners) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = BaseDao.getConnection();
+            statement = connection.prepareStatement(
+                    &quot;update t_owners set name = ?,addressid = ?,housenumber = ?,watermeter = ?,adddate = ?,ownertypeid = ? where id = ?&quot;);
+            statement.setString(1, owners.getName());// 业主名称
+            statement.setLong(2, owners.getAddressId());// 地址编号
+            statement.setString(3, owners.getHouseNumber());// 门牌号
+            statement.setString(4, owners.getWaterMeter());// 水表编号
+            statement.setDate(5, new Date(owners.getAddDate().getTime()));
+            statement.setLong(6, owners.getOwnerTypeId());
+            statement.setLong(7, owners.getId());// 编号
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            BaseDao.closeAll(null, statement, connection);
+        }
+    }
+
+    public static void update(Long id) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = BaseDao.getConnection();
+            statement = connection.prepareStatement(&quot;delete from t_owners where id = ?&quot;);
+            statement.setLong(1, id);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            BaseDao.closeAll(null, statement, connection);
+        }
+    }
+}
+</code></pre><p>其实从上面的代码可以看出，使用 <code>Java</code> 操作 <code>Oracle</code> 数据库和 <code>MySQL</code> 数据库是非常类似的，只是加载驱动名称和获取数据库连接时连接字符串有些差异，其它的大部分都是相同的操作了，因此学习还是很好理解的。</p>
+<h3 id="7-数据导入导出"><a href="#7-数据导入导出" class="headerlink" title="7.数据导入导出"></a>7.数据导入导出</h3><p>为了防止安装 <code>Oracle</code> 数据库的服务器出现意外的损坏，一般我们都会将数据库中的数据定期备份到别的服务器上面，这样就算服务器意外损坏的话，我们也能保证数据没有丢失，所以这里就需要用到数据库的数据导入导出功能，当然 <code>Oracle</code> 数据库已经提供了该功能，下面我们具体来看。</p>
+<h4 id="7-1-整库导入导出"><a href="#7-1-整库导入导出" class="headerlink" title="7.1 整库导入导出"></a>7.1 整库导入导出</h4><p>我们先看整库导出，整库导出是将 <code>Oracle</code> 数据库中所有数据全部导出到文件当中，包括系统数据，以及我们新建用户所产生的数据，其命令为：</p>
+<pre><code>exp system/laucloud full=y
+</code></pre><p>上面命令中的 <code>full=y</code> 参数则是表示整库导出，前面的 <code>system/laucloud</code> 便是用户名和密码了，这条命令会将数据库的所有数据导出到 <code>EXPDAT.DMP</code> 文件当中，也就是默认的文件名，如果想要指定文件名的话，则需要加上 <code>file</code> 参数，那命令就是：</p>
+<pre><code>exp system/laucloud file=文件名 full=y
+</code></pre><p>下面再看整库导入功能，其命令为：</p>
+<pre><code>imp system/laucloud full=y
+</code></pre><p>该命令便是使用默认文件 <code>EXPDAT.DMP</code> 进行整库导入操作，如果我们想使用指定文件进行导入操作，则需要使用 <code>file</code> 参数进行指定：</p>
+<pre><code>imp system/laucloud full=y file=water.dmp
+</code></pre><h4 id="7-2-按用户导入导出"><a href="#7-2-按用户导入导出" class="headerlink" title="7.2 按用户导入导出"></a>7.2 按用户导入导出</h4><p>整库导入导出数据量太大，一般需要耗费的时间也长，因此我们还可以根据具体用户来进行数据的导入导出操作，下面先看导出命令：</p>
+<pre><code>exp system/laucloud owner=wateruser file=wateruser.dmp
+</code></pre><p>上面的命令便是导出 <code>wateruser</code> 用户的数据，并将导出的文件命名为 <code>wateruser.dmp</code>，下面我们再看导入的命令：</p>
+<pre><code>imp system/laucloud file=wateruser.dmp fromuser=wateruser
+</code></pre><p>同样的，上面的用户便是从 <code>wateruser.dmp</code> 文件当中，导入 <code>wateruser</code> 用户的数据。</p>
+<h4 id="7-3-按表导入导出"><a href="#7-3-按表导入导出" class="headerlink" title="7.3 按表导入导出"></a>7.3 按表导入导出</h4><p>最后我们还可以根据表来导入导出数据，先看导出命令：</p>
+<pre><code>exp wateruser/laucloud file=a.dmp tables=t_account,a_area
+</code></pre><p>上面命令便是将 <code>t_account</code> 和 <code>a_area</code> 这两个表的数据导出到 <code>a.dmp</code> 文件当中，其中的 <code>tables</code> 参数便是指定哪些表名的，接着我们再看导入的命令：</p>
+<pre><code>imp wateruser/laucloud file=a.dmp tables=t_account,a_area
+</code></pre><p>同样的，上面的命令则是从 <code>a.dmp</code> 文件当中，导入 <code>t_account</code> 和 <code>a_area</code> 这两个表的数据。</p>
+<p>关于数据的导入导出，需要注意的一点就是，数据导入导出的范围，整库操作是要大于用户操作的，而用户操作又是大于表的操作的，因此如果我们导出时的数据是大范围的，那么我们导入时可以只导入小范围的数据，也就是说，我们导出时是导出的整库数据到一个文件当中，那导入时我们是可以用该文件按用户或者表来进行数据的导入的。</p>
+<h3 id="8-总结"><a href="#8-总结" class="headerlink" title="8.总结"></a>8.总结</h3><p>这篇博客主要是介绍了 <code>Oracle</code> 的安装以及一些基本的操作，对于我来说，最大的意义在于，以前觉得 <code>Oracle</code> 好难，甚至安装都好不容易，但是现在整理完的话，就感觉还好，其实有时候觉得某些知识很难理解的话，可能只是因为没有找到适合自己的学习资料，或者自己积累的理解能力还不够，不用太慌张，慢慢地去积累就好了。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Oracle/" rel="tag"># Oracle</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/01/DbUtils优化/" rel="next" title="DbUtils优化">
+                <i class="fa fa-chevron-left"></i> DbUtils优化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-介绍"><span class="nav-number">1.</span> <span class="nav-text">1.介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-什么是Oracle"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 什么是Oracle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-Oracle体系结构"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 Oracle体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-1-数据库"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.2.1 数据库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-2-实例"><span class="nav-number">1.2.2.</span> <span class="nav-text">1.2.2 实例</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-3-数据文件（dbf）"><span class="nav-number">1.2.3.</span> <span class="nav-text">1.2.3 数据文件（dbf）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-4-表空间"><span class="nav-number">1.2.4.</span> <span class="nav-text">1.2.4 表空间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-5-用户"><span class="nav-number">1.2.5.</span> <span class="nav-text">1.2.5 用户</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Oracle的安装与配置"><span class="nav-number">2.</span> <span class="nav-text">2.Oracle的安装与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-虚拟机挂载windows-server-2003"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 虚拟机挂载windows server 2003</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-网络设置"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 网络设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-安装Oracle"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 安装Oracle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-SQLPlus远程连接Oracle"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 SQLPlus远程连接Oracle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-PLSQL-Developer安装与配置"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 PLSQL Developer安装与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-1-安装PLSQL-Developer"><span class="nav-number">2.5.1.</span> <span class="nav-text">2.5.1 安装PLSQL Developer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-2-配置客户端路径"><span class="nav-number">2.5.2.</span> <span class="nav-text">2.5.2 配置客户端路径</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-3-编辑ora文件"><span class="nav-number">2.5.3.</span> <span class="nav-text">2.5.3 编辑ora文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-4-设置环境变量TNS-ADMIN"><span class="nav-number">2.5.4.</span> <span class="nav-text">2.5.4 设置环境变量TNS_ADMIN</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-5-进入系统"><span class="nav-number">2.5.5.</span> <span class="nav-text">2.5.5 进入系统</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-6-中文编码设置"><span class="nav-number">2.5.6.</span> <span class="nav-text">2.5.6 中文编码设置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-创建表空间、用户以及用户赋权"><span class="nav-number">3.</span> <span class="nav-text">3.创建表空间、用户以及用户赋权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-数据表的操作"><span class="nav-number">4.</span> <span class="nav-text">4.数据表的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-创建数据表"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 创建数据表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-修改数据表"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 修改数据表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-删除数据表"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 删除数据表</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-表中数据的操作"><span class="nav-number">5.</span> <span class="nav-text">5.表中数据的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-增加数据"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 增加数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-修改数据"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 修改数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-删除数据"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 删除数据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Java连接Oracle数据库"><span class="nav-number">6.</span> <span class="nav-text">6.Java连接Oracle数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-获取驱动包"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 获取驱动包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-加载驱动获取数据库连接"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 加载驱动获取数据库连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-操作数据库"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 操作数据库</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-数据导入导出"><span class="nav-number">7.</span> <span class="nav-text">7.数据导入导出</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-整库导入导出"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 整库导入导出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-按用户导入导出"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 按用户导入导出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-按表导入导出"><span class="nav-number">7.3.</span> <span class="nav-text">7.3 按表导入导出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-总结"><span class="nav-number">8.</span> <span class="nav-text">8.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2018/07/17/Oracle数据库(一)/';
+
+      var disqus_title = "Oracle数据库(一)";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
