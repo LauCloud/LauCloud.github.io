@@ -1,0 +1,1119 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Oracle," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这篇博客的话我们主要是想介绍 Oracle 数据库的查询，主要是各种查询方式和函数的学习，掌握了这些之后，我们就能熟练地进行 Oracle 的查询，完成相关的需求任务，学会这些知识，也能让我们对 Oracle 的使用有更深入的把握。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle数据库(二)">
+<meta property="og:url" content="http://yoursite.com/2018/08/15/Oracle数据库(二)/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="这篇博客的话我们主要是想介绍 Oracle 数据库的查询，主要是各种查询方式和函数的学习，掌握了这些之后，我们就能熟练地进行 Oracle 的查询，完成相关的需求任务，学会这些知识，也能让我们对 Oracle 的使用有更深入的把握。">
+<meta property="og:updated_time" content="2020-12-20T15:56:30.134Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle数据库(二)">
+<meta name="twitter:description" content="这篇博客的话我们主要是想介绍 Oracle 数据库的查询，主要是各种查询方式和函数的学习，掌握了这些之后，我们就能熟练地进行 Oracle 的查询，完成相关的需求任务，学会这些知识，也能让我们对 Oracle 的使用有更深入的把握。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/15/Oracle数据库(二)/"/>
+
+
+
+
+
+  <title> Oracle数据库(二) | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/15/Oracle数据库(二)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Oracle数据库(二)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-15T09:34:09+08:00">
+                2018-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/15/Oracle数据库(二)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/08/15/Oracle数据库(二)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/08/15/Oracle数据库(二)/" class="leancloud_visitors" data-flag-title="Oracle数据库(二)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇博客的话我们主要是想介绍 <code>Oracle</code> 数据库的查询，主要是各种查询方式和函数的学习，掌握了这些之后，我们就能熟练地进行 <code>Oracle</code> 的查询，完成相关的需求任务，学会这些知识，也能让我们对 <code>Oracle</code> 的使用有更深入的把握。</p>
+<a id="more"></a>
+<h3 id="1-单表查询"><a href="#1-单表查询" class="headerlink" title="1.单表查询"></a>1.单表查询</h3><h4 id="1-1-简单条件查询"><a href="#1-1-简单条件查询" class="headerlink" title="1.1 简单条件查询"></a>1.1 简单条件查询</h4><p>我们先来学习简单的条件查询，主要是包括精确查询，模糊查询，<code>and</code> 运算符和 <code>or</code> 运算符的使用，范围查询以及空值查询，我们直接通过 <code>SQL</code> 语句来进行熟悉。</p>
+<p>1.精确查询</p>
+<pre><code>select * from t_owners where watermeter=&apos;30408&apos;
+</code></pre><p>2.模糊查询</p>
+<pre><code>select * from t_owners where name like &apos;%刘%&apos;
+</code></pre><p>3.and运算符</p>
+<pre><code>select * from t_owners where name like &apos;%刘%&apos; and housenumber like &apos;%5%&apos;
+</code></pre><p>4.or运算符</p>
+<pre><code>select * from t_owners where name like &apos;%刘%&apos; or housenumber like &apos;%5%&apos;
+</code></pre><p>5.and与or运算符混合使用</p>
+<pre><code>select * from t_owners where (name like &apos;%刘%&apos; or housenumber like &apos;%5%&apos;) and addressid=3
+</code></pre><p>这里需要说明的是，当我们记不清 <code>and</code> 运算符和 <code>or</code> 运算符两者之间的运算优先级的时候，我们就可以使用小括号来进行区分，这样也便于我们理解。</p>
+<p>6.范围查询</p>
+<pre><code>select * from t_account where usenum&gt;=10000 and usenum&lt;=20000
+select * from t_account where usenum between 10000 and 20000
+</code></pre><p>7.空值查询</p>
+<pre><code>select * from t_pricetable t where maxnum is null
+select * from t_pricetable t where maxnum is not null
+</code></pre><h4 id="1-2-去掉重复记录"><a href="#1-2-去掉重复记录" class="headerlink" title="1.2 去掉重复记录"></a>1.2 去掉重复记录</h4><p>当我们查询出来数据，却发现根据业务需求来说，某些记录是重复的，那这时我们就可以使用 <code>distinct</code> 关键字去除掉重复记录。</p>
+<pre><code>select distinct addressid from t_owners
+</code></pre><p>上面这是根据一个字段来进行去重，那如果要根据多个字段进行去重呢？其实只需要在 <code>distinct</code> 关键字后面把多个字段加上就可以了，字段间以逗号分隔。</p>
+<h4 id="1-3-排序查询"><a href="#1-3-排序查询" class="headerlink" title="1.3 排序查询"></a>1.3 排序查询</h4><p>查询出来的数据我们也可以根据某些字段进行排序操作，升序和降序都可以。</p>
+<pre><code>select * from t_account order by usenum asc
+</code></pre><p>上面这条语句便是以 <code>usenum</code> 字段进行排序，<code>asc</code> 则是指定数据按升序排列，降序排列则是如下：</p>
+<pre><code>select * from t_account order by usenum desc
+</code></pre><p>这里我们使用 <code>desc</code> 关键字指定数据降序排列。</p>
+<h4 id="1-4-基于伪列的查询"><a href="#1-4-基于伪列的查询" class="headerlink" title="1.4 基于伪列的查询"></a>1.4 基于伪列的查询</h4><p>在 <code>Oracle</code> 的数据表中，还有一些附加的列，这些列便是伪列，伪列和数据表中其它的列是一样的，但是伪列在数据表中并不存储，只能查询，也不能进行增删改的操作，我们下面将会学习 <code>rowid</code> 和 <code>rownum</code> 这两个伪列。</p>
+<p>1.rowid</p>
+<p>数据表中的每一行数据在数据文件当中都有一个物理地址，<code>rowid</code> 伪列返回的便是该行数据的物理地址，我们也可以通过 <code>rowid</code> 快速地查询得到数据表中的某一行记录。</p>
+<pre><code>select rowid,t.* from t_area t
+select rowid,t.* from t_area t where rowid=&apos;AAAM1uAAGAAAAD8AAC&apos;
+</code></pre><p>2.rownum</p>
+<p><code>rownum</code> 伪列则为查询结果集中每一行标识的行号，第一列的行号为 <code>1</code>，第二列的行号为 <code>2</code>，以此类推，我们也可以通过 <code>rownum</code> 伪列限制查询结果集返回的行数，以此来实现分页查询。</p>
+<pre><code>select rownum,t.* from t_ownertype t
+</code></pre><h4 id="1-5-聚合统计"><a href="#1-5-聚合统计" class="headerlink" title="1.5 聚合统计"></a>1.5 聚合统计</h4><p><code>Oracle</code> 中的聚合统计是通过分组函数来实现的，下面我们具体来看。</p>
+<h5 id="1-5-1-聚合函数"><a href="#1-5-1-聚合函数" class="headerlink" title="1.5.1 聚合函数"></a>1.5.1 聚合函数</h5><p>1.求和sum</p>
+<pre><code>select sum(usenum) from t_account where year=&apos;2012&apos;
+</code></pre><p>2.求平均</p>
+<pre><code>select avg(usenum) from t_account where year=&apos;2012&apos;
+</code></pre><p>3.求最大值max</p>
+<pre><code>select max(usenum) from t_account where year=&apos;2012&apos;
+</code></pre><p>4.求最小值min</p>
+<pre><code>select min(usenum) from t_account where year=&apos;2012&apos;
+</code></pre><p>5.统计记录个数count</p>
+<pre><code>select count(*) from t_owners t where ownertypeid=1
+</code></pre><h5 id="1-5-2-分组聚合group-by"><a href="#1-5-2-分组聚合group-by" class="headerlink" title="1.5.2 分组聚合group by"></a>1.5.2 分组聚合group by</h5><p>分组聚合则是按照某些字段进行分组，然后再统计该分组中的数据情况，主要是通过 <code>group by</code> 字段来实现。</p>
+<pre><code>select areaid,sum(money) from t_account group by areaid
+</code></pre><p>需要注意的是，进行分组聚合时，<code>select</code> 后面的查询字段只能是分组字段或者是聚合函数，不能是其它字段。</p>
+<h5 id="1-5-3-分组后条件查询having"><a href="#1-5-3-分组后条件查询having" class="headerlink" title="1.5.3 分组后条件查询having"></a>1.5.3 分组后条件查询having</h5><p><code>having</code> 关键字主要是对分组后的数据进行条件过滤，而 <code>where</code> 关键字则是在分组前对数据进行条件过滤。</p>
+<pre><code>select areaid,sum(money) from t_account group by areaid having sum(money)&gt;169000
+</code></pre><h3 id="2-连接查询"><a href="#2-连接查询" class="headerlink" title="2.连接查询"></a>2.连接查询</h3><p>有时候需求需要用到多个表中的数据，我们就需要用到多表连接查询，而连接查询又分为内连接与外连接，下面我们具体来看。</p>
+<h4 id="2-1-多表内连接查询"><a href="#2-1-多表内连接查询" class="headerlink" title="2.1 多表内连接查询"></a>2.1 多表内连接查询</h4><p>我们以两张表的内连接查询作说明，更多张表的情况类似，两张表做内连接查询，相当于是对两张表的数据做了一个笛卡尔积，第一张表有 <code>10</code> 条数据，第二张表有 <code>5</code> 条数据，直接内连接查询则会产生 <code>50</code> 条数据记录，具体使用如下：</p>
+<pre><code>select * from t_owners o,t_ownertype ot
+</code></pre><p>通常情况下，两张表连接都会根据具体业务进行连接，也就是根据两张表中的具体字段进行匹配连接，那这时候只需要直接在 <code>where</code> 后面加匹配条件就好了，其实还是相当于先做笛卡尔积，然后根据条件筛选出符合条件的记录。</p>
+<pre><code>select * from t_owners o,t_ownertype ot where o.ownertypeid=ot.id
+</code></pre><h4 id="2-2-左外连接查询"><a href="#2-2-左外连接查询" class="headerlink" title="2.2 左外连接查询"></a>2.2 左外连接查询</h4><p>在介绍外连接查询之前，我们先说明一下为什么需要外连接？这肯定是因为内连接有满足不了我们需要的场景了，比如说我们需要统计客户的账务信息，第一张表是客户信息表，第二张表是客户账务表，那我们可以对这两张表进行内连接查询，但是如果这时候要求，就算客户现在还没有账务信息，也需要在查询出来的结果中有客户信息，只是客户账务信息的那几列是空的，这时候内连接就满足不了需求了，因为两张表根据相关字段进行内连接查询时，如果第二张表中和第一张表根据相关字段没有对应的记录，那第一张表中的记录也不会查询出来了，也就是被过滤掉了，这种情况我们就可以使用左外连接查询了，也就是以左边的表为主表，然后右边的表根据相关字段和左边的表进行连接，当左边的表中有记录而右边的表没有对应记录的话，这时候也会显示左边表中的记录数据，而右边表对应的栏位数据显示为空。</p>
+<pre><code>select ow.id,ow.name,ac.year,ac.month,ac.money from t_owners ow left join t_account ac on ow.id=ac.owneruuid
+</code></pre><p>上面的 <code>SQL</code> 语句是 <code>SQL1999</code> 标准的语法，也就是说除了在 <code>Oracle</code> 数据库中可以执行外，其它关系型数据库也是可以执行的，比如 <code>MySQL</code> 数据库，上面的 <code>SQL</code> 用 <code>left join</code> 关键字进行两张表的关联，该关键字左边的表就是主表了，也就意味着即使右边的表没有相应的记录与之对应，左边表的数据也会显示出来，<code>on</code> 关键字则是两张表关联的具体条件，也就是根据哪些字段进行关联。除了 <code>SQL1999</code> 标准的语法之外，<code>Oracle</code> 数据库还提供了它自己的实现：</p>
+<pre><code>select ow.id,ow.name,ac.year,ac.month,ac.money from t_owners ow,t_account ac where ow.id=ac.owneruuid(+)
+</code></pre><p><code>Oracle</code> 提供的实现和内连接的写法很类似，只是在连接条件的部分有些不同，如果是左外连接，则需要在右边表的连接条件字段上面加 <code>(+)</code>。</p>
+<h4 id="2-3-右外连接查询"><a href="#2-3-右外连接查询" class="headerlink" title="2.3 右外连接查询"></a>2.3 右外连接查询</h4><p>介绍完了左外连接查询，与之相对应的右外连接查询也就很简单了，右外连接查询则是以右边的表为主表，当左边的表中没有数据与右边的表记录相对应时，右边表中的数据仍会显示出来，先看 <code>SQL1999</code> 标准语法：</p>
+<pre><code>select ow.id,ow.name,ac.year,ac.month,ac.money from t_owners ow right join t_account ac on ow.id=ac.owneruuid
+</code></pre><p>再看 <code>Oracle</code> 数据库提供的实现：</p>
+<pre><code>select ow.id,ow.name,ac.year,ac.month,ac.money from t_owners ow , t_account ac where ow.id(+)=ac.owneruuid
+</code></pre><p><code>Oracle</code> 数据库所提供的右外连接查询实现和内连接查询的写法也很像，区别就在于当为右外连接查询时，则需要在左边表的连接查询条件字段上面加 <code>(+)</code>。</p>
+<h3 id="3-子查询"><a href="#3-子查询" class="headerlink" title="3.子查询"></a>3.子查询</h3><p>子查询主要是一个 <code>SQL</code> 语句中包含多个查询语句，一个查询语句的结果是另一个查询语句的条件，这样就形成了子查询。</p>
+<h4 id="3-1-where子句中的子查询"><a href="#3-1-where子句中的子查询" class="headerlink" title="3.1 where子句中的子查询"></a>3.1 where子句中的子查询</h4><p><code>where</code> 子句中的子查询其实就是 <code>where</code> 关键字的查询条件不是直接指定的值，而是靠另外一个查询语句查询出来的，因为查询语句查询出来的值可能是单个，也可能是多个，这样的话这种类型的子查询也就分为两类了，第一类便是单行子查询，也就是 <code>where</code> 关键后面的查询语句只返回一个值：</p>
+<pre><code>select * from t_account where year=&apos;2012&apos; and month=&apos;01&apos; and usenum &gt; (select avg(usenum) from t_account where year=&apos;2012&apos; and month=&apos;01&apos;)
+</code></pre><p>第二类便是多行子查询了，<code>where</code> 关键字后面的查询语句可能会返回多个值。</p>
+<pre><code>select * from t_owners where addressid in ( select id from t_address where name like &apos;%花园%&apos; )
+</code></pre><h4 id="3-2-from子句中的子查询"><a href="#3-2-from子句中的子查询" class="headerlink" title="3.2 from子句中的子查询"></a>3.2 from子句中的子查询</h4><p><code>from</code> 子句中的子查询则是表示 <code>from</code> 关键字后面是一个子查询，之前都是一张数据表的，这里的话相当于是我们在一个查询结果中再进行查询，<code>from</code> 子句中的子查询一般为多行子查询。</p>
+<pre><code>select * from (select o.id 业主编号,o.name 业主名称,ot.name 业主类型 from t_owners o,t_ownertype ot where o.ownertypeid=ot.id) where 业主类型=&apos;居民&apos;
+</code></pre><h4 id="3-3-select子句中的子查询"><a href="#3-3-select子句中的子查询" class="headerlink" title="3.3 select子句中的子查询"></a>3.3 select子句中的子查询</h4><p><code>select</code> 子句中的子查询表示的是 <code>select</code> 关键字后面列出的不是一个一个具体的字段，而是一个子查询，当然，子查询其实也是查询其它表获取的字段值，<code>select</code> 子句中的子查询只能是单行子查询，因为如果返回多行的话那就没法显示了。</p>
+<pre><code>select id,name, (select name from t_address where id=addressid) addressname from t_owners
+</code></pre><p>当需求的业务比较复杂时，写子查询也许需要嵌套很多层，显得比较复杂，其实可以从最简单的写起，然后将它们拼接起来，形成最后我们需要的结果，这样就可以达到我们的要求了。</p>
+<h3 id="4-分页查询"><a href="#4-分页查询" class="headerlink" title="4.分页查询"></a>4.分页查询</h3><p>我们再来看如何在 <code>Oracle</code> 数据库中实现分页查询，<code>MySQL</code> 数据库是使用 <code>limit</code> 关键字来实现的，但是 <code>Oracle</code> 不是这样实现的，我们具体来看。</p>
+<h4 id="4-1-简单分页"><a href="#4-1-简单分页" class="headerlink" title="4.1 简单分页"></a>4.1 简单分页</h4><p>先看简单分页，就是一张表数据量太大，我们不可能一次性全部查出来，因此选择每次查询 <code>10</code> 行记录，第一次是 <code>1</code>到 <code>10</code> 条记录，第二次则是 <code>11</code> 到第 <code>20</code> 条记录，以此类推，我们可以使用 <code>rownum</code> 伪列来实现，比如第 <code>1</code> 到第 <code>10</code> 条记录，我们可以通过如下 <code>SQL</code> 查询：</p>
+<pre><code>select rownum,t.* from t_account t where rownum&lt;=10
+</code></pre><p>这样就可以满足我们的要求了，那第 <code>11</code> 条记录到 <code>20</code> 条记录呢，我们应该如何查询呢？</p>
+<pre><code>select rownum,t.* from t_account t where rownum&gt;10 and rownum&lt;=20
+</code></pre><p>这样的话就可以了吧，但是我们执行 <code>SQL</code> 的时候却发现并没有查询出来记录，这是为什么呢？其实这里就需要说明下 <code>rownum</code> 这个伪列是在什么时候产生的了，<code>rownum</code> 伪列是在我们查询数据表，扫描表中每条记录时产生的，每扫描一条记录则产生对应记录的 <code>rownum</code>，那为什么我们上面的 <code>SQL</code> 没有查询出来结果呢？就是因为上面 <code>SQL</code> 中的查询条件中 <code>rownum</code> 使用了大于符号来判断，<code>rownum</code> 是在扫描每条记录时产生的，后续的记录还没扫描到，<code>rownum</code> 也还没产生，这时候使用 <code>rownum</code> 大于来查询当然就是查不到记录了，因此需要记住使用 <code>rownum</code> 来判断时只能使用小于或者小于等于，这样才能正常地查询出来记录。那回到最开始的问题，我们应该如何实现分页呢？其实可以借助我们上面已经学过的子查询来完成，就是在查询 <code>SQL</code> 的 <code>from</code> 部分不是直接查表，而是查询已经生成了 <code>rownum</code> 的记录结果，这样的话就可以实现我们想要的目标了。</p>
+<pre><code>select * from (select rownum r,t.* from t_account t where rownum&lt;=20) where r&gt;10
+</code></pre><h4 id="4-2-基于排序的分页"><a href="#4-2-基于排序的分页" class="headerlink" title="4.2 基于排序的分页"></a>4.2 基于排序的分页</h4><p>上面我们介绍了简单分页，下面我们再看基于字段排序的分页，基于上面简单分页的结果，如果我们要实现字段排序后的分页，那就可以这样：</p>
+<pre><code>select * from (select rownum r,t.* from t_account t where rownum&lt;=20 order by usenum desc) where r&gt;10
+</code></pre><p>先根据 <code>usenum</code> 字段进行排序，然后得到对应的 <code>rownum</code> 字段，最后根据子查询来实现分页，就可以得到结果了，但事实真是这样的吗？其实不是的，上面我们已经说过，<code>rownum</code> 是在扫描表时产生的，因此下面这条 <code>SQL</code> 会先得到 <code>rownum</code>，然后再根据 <code>usenum</code> 字段进行排序。</p>
+<pre><code>select rownum r,t.* from t_account t where rownum&lt;=20 order by usenum desc
+</code></pre><p>这样的话，这时候我们得到的 <code>rownum</code> 其实已经是乱序的了，因为是先获取的 <code>rownum</code>，然后再排的序，那如果想得到正确的结果应该怎么办呢？就是应该先根据 <code>usenum</code> 字段进行排序，然后获取得到 <code>rownum</code> 字段，最后再使用子查询进行分页，这样就可以实现我们的要求了。</p>
+<pre><code>select * from (select rownum r,t.* from (select * from t_account order by usenum desc) t where rownum&lt;=20 ) where r&gt;10
+</code></pre><h3 id="5-单行函数"><a href="#5-单行函数" class="headerlink" title="5.单行函数"></a>5.单行函数</h3><p><code>Oracle</code> 还提供了许多函数供我们使用，像字符函数、数值函数、日期函数和转换函数这样的，通过这些函数我们可以实现更多复杂的功能，当然这些函数也可以在 <code>Oracle</code> 提供的文档中进行查询，我们下面挑选几个进行说明。</p>
+<h4 id="5-1-字符函数"><a href="#5-1-字符函数" class="headerlink" title="5.1 字符函数"></a>5.1 字符函数</h4><h5 id="5-1-1-求字符串长度函数length"><a href="#5-1-1-求字符串长度函数length" class="headerlink" title="5.1.1 求字符串长度函数length"></a>5.1.1 求字符串长度函数length</h5><pre><code>select length(&apos;ABCD&apos;) from dual;
+</code></pre><p>这里返回的结果就是 <code>4</code> 了，这个函数的作用就是返回字符串的长度。</p>
+<h5 id="5-1-2-求字符串的子串substr"><a href="#5-1-2-求字符串的子串substr" class="headerlink" title="5.1.2 求字符串的子串substr"></a>5.1.2 求字符串的子串substr</h5><pre><code>select substr(&apos;ABCD&apos;,2,2) from dual;
+</code></pre><p>这个函数其实是用来截取字符串的，该函数有 <code>3</code> 个参数，第 <code>1</code> 个为原字符串，第 <code>2</code> 个参数为从哪一位开始截取，这里以 <code>1</code> 开始计数，第 <code>3</code> 个参数则是截取字符串的长度，因此上面的 <code>SQL</code> 返回的结果应该是字符串 <code>BC</code>。</p>
+<h5 id="5-1-3-字符串拼接concat"><a href="#5-1-3-字符串拼接concat" class="headerlink" title="5.1.3 字符串拼接concat"></a>5.1.3 字符串拼接concat</h5><pre><code>select concat(&apos;ABC&apos;,&apos;D&apos;) from dual;
+</code></pre><p>上面 <code>SQL</code> 的作用便是将两个字符串进行拼接，得到的结果就是 <code>ABCD</code> 这个字符串了，其实我们也可以使用 <code>||</code> 符号来做，那 <code>SQL</code> 应该为：</p>
+<pre><code>select &apos;ABC&apos;||&apos;D&apos; from dual;
+</code></pre><p>结果是一样的，<code>||</code> 符号可以拼接多个字符串，而 <code>concat</code> 函数只能拼接两个字符串。</p>
+<h4 id="5-2-数值函数"><a href="#5-2-数值函数" class="headerlink" title="5.2 数值函数"></a>5.2 数值函数</h4><p><code>Oracle</code> 中同样提供了许多数学函数以便我们使用，下面我们也列举一些进行说明。</p>
+<h5 id="5-2-1-四舍五入函数round"><a href="#5-2-1-四舍五入函数round" class="headerlink" title="5.2.1 四舍五入函数round"></a>5.2.1 四舍五入函数round</h5><pre><code>select round(100.456) from dual
+select round(100.567) from dual
+</code></pre><p>上面的两个 <code>SQL</code> 返回的结果分别为 <code>100</code> 和 <code>101</code>，这样的话就可以看出默认情况下该函数是进行的整数的四舍五入操作，那如果我们想进行小数位的四舍五入操作呢？比如保留两位小数，那我们就可以在函数中再增加一个参数，使用如下：</p>
+<pre><code>select round(100.456,2) from dual
+select round(100.567,2) from dual
+</code></pre><p>这时候我们得到的结果就是 <code>100.46</code> 和 <code>100.57</code> 了。</p>
+<h5 id="5-2-2-截取函数trunc"><a href="#5-2-2-截取函数trunc" class="headerlink" title="5.2.2 截取函数trunc"></a>5.2.2 截取函数trunc</h5><pre><code>select trunc(100.567) from dual
+</code></pre><p>上面 <code>SQL</code> 返回的结果为 <code>100</code>，也就是直接截取整数位，那如果想保留小数呢？其实和上面 <code>round</code> 函数类似，也可以增加一个参数，指定保留小数位的位数。</p>
+<pre><code>select trunc(100.567,2) from dual
+</code></pre><p>这时候返回的结果就是 <code>100.56</code> 了。</p>
+<h5 id="5-2-3-取模函数mod"><a href="#5-2-3-取模函数mod" class="headerlink" title="5.2.3 取模函数mod"></a>5.2.3 取模函数mod</h5><pre><code>select mod(10,3) from dual
+</code></pre><p>这便是我们数学上面的取模运算了，很显然的是返回 <code>1</code> 这个结果了。</p>
+<h4 id="5-3-日期函数"><a href="#5-3-日期函数" class="headerlink" title="5.3 日期函数"></a>5.3 日期函数</h4><p><code>Oracle</code> 中同样为我们提供了很多的日期函数供我们使用，下面我们选取一些进行说明。</p>
+<h5 id="5-3-1-加月函数add-months"><a href="#5-3-1-加月函数add-months" class="headerlink" title="5.3.1 加月函数add_months"></a>5.3.1 加月函数add_months</h5><pre><code>select add_months(sysdate,2) from dual
+</code></pre><p>首先需要说明的是 <code>sysdate</code> 表示的是当前时间，这里为了方便说明，我们暂定当前时间为 <code>2018-06-04 16:09:23</code>，那上面 <code>SQL</code> 返回的结果应该是什么呢？使用 <code>add_months</code> 函数加 <code>2</code> 个月，也就是当前时间往后推两个月，因此我们得到的应该是 `2018-08-04 16:09:23’。</p>
+<h5 id="5-3-2-求所在月最后一天last-day"><a href="#5-3-2-求所在月最后一天last-day" class="headerlink" title="5.3.2 求所在月最后一天last_day"></a>5.3.2 求所在月最后一天last_day</h5><pre><code>select last_day(sysdate) from dual
+</code></pre><p>上面的 <code>SQL</code> 便是返回当前时间所在月的最后一天的时间了。</p>
+<h5 id="5-3-3-日期截取trunc"><a href="#5-3-3-日期截取trunc" class="headerlink" title="5.3.3 日期截取trunc"></a>5.3.3 日期截取trunc</h5><p>最后我们要介绍的这个日期函数为日期截取函数 <code>trunc</code>，为了方便进行说明，我们还是暂定当前时间为 <code>2018-06-04 16:09:23</code>，然后再讲解下面的 <code>SQL</code>。</p>
+<pre><code>select trunc(sysdate) from dual
+</code></pre><p>上面的 <code>SQL</code> 便是对当前日期进行截取，默认是对日进行截取，那就是表示日以下的时间单位全部置为最小值，那得到的值就应该是 <code>2018-06-04 00:00:00</code>，那除了对日进行截取，还能不能对其它单位进行截取呢？当然是可以的，比如对年进行截取。</p>
+<pre><code>select trunc(sysdate,&apos;yyyy&apos;) from dual
+</code></pre><p>对年进行截取，那就是表示年以下单位都设置为最小值，得到的结果应该为 <code>2018-01-01</code>。同理按月进行截取呢？</p>
+<pre><code>select trunc(sysdate,&apos;mm&apos;) from dual
+</code></pre><p>同理对月以下单位都设置为最小值，得到的结果为 <code>2018-06-01</code>。</p>
+<h4 id="5-4-转换函数"><a href="#5-4-转换函数" class="headerlink" title="5.4 转换函数"></a>5.4 转换函数</h4><p>转换函数主要是各种数据类型之间的转换，比如数值类型转换为字符串类型，日期类型数据转换为字符串类型等，下面我们具体说明几种。</p>
+<h5 id="5-4-1-数字转字符串to-char"><a href="#5-4-1-数字转字符串to-char" class="headerlink" title="5.4.1 数字转字符串to_char"></a>5.4.1 数字转字符串to_char</h5><pre><code>select to_char(1024) from dual
+</code></pre><p>上面的 <code>SQL</code> 便是将数字 <code>1024</code> 转换为字符串 <code>1024</code>。</p>
+<h5 id="5-4-2-日期转字符串to-char"><a href="#5-4-2-日期转字符串to-char" class="headerlink" title="5.4.2 日期转字符串to_char"></a>5.4.2 日期转字符串to_char</h5><pre><code>select to_char(sysdate,&apos;yyyy-mm-dd&apos;) from dual
+</code></pre><p>上面的 <code>SQL</code> 则是表示将当前时间以指定格式返回，我们这时候就能够得到当天的日期了，下面的 <code>SQL</code> 则是可以得到日期加时间的格式：</p>
+<pre><code>select to_char(sysdate,&apos;yyyy-mm-dd hh:mi:ss&apos;) from dual
+</code></pre><h5 id="5-4-3-字符串转日期to-date"><a href="#5-4-3-字符串转日期to-date" class="headerlink" title="5.4.3 字符串转日期to_date"></a>5.4.3 字符串转日期to_date</h5><pre><code>select to_date(&apos;2017-01-01&apos;,&apos;yyyy-mm-dd&apos;) from dual
+</code></pre><p>上面的 <code>SQL</code> 则是将字符串转换为日期，然后返回，当然需要注意的一点就是，字符串和给定的日期转换格式必须是匹配的，这样才能转换成功。</p>
+<h5 id="5-4-4-字符串转数字to-number"><a href="#5-4-4-字符串转数字to-number" class="headerlink" title="5.4.4 字符串转数字to_number"></a>5.4.4 字符串转数字to_number</h5><pre><code>select to_number(&apos;100&apos;) from dual
+</code></pre><p>上面的 <code>SQL</code> 便是将字符串 <code>100</code> 转换成了数字 <code>100</code>。</p>
+<h4 id="5-5-其它函数"><a href="#5-5-其它函数" class="headerlink" title="5.5 其它函数"></a>5.5 其它函数</h4><p>下面我们再来看看 <code>Oracle</code> 为我们提供的一些其它函数，比如空值处理函数和条件取值函数，下面具体来看。</p>
+<h5 id="5-5-1-空值处理函数NVL"><a href="#5-5-1-空值处理函数NVL" class="headerlink" title="5.5.1 空值处理函数NVL"></a>5.5.1 空值处理函数NVL</h5><p>空值处理函数 <code>NVL</code> 的语法如下：</p>
+<pre><code>NVL(检测的值,如果为null的值);
+</code></pre><p>也就是说如果检测的值为 <code>null</code> 的话，那就会返回函数中的第 <code>2</code> 个参数，如果不为 <code>null</code> 的话，那就直接返回检测的值。</p>
+<pre><code>select NVL(NULL,0) from dual
+select NVL(100,0) from dual
+</code></pre><p>因此上面的 <code>SQL</code> 的返回值应该是 <code>0</code> 和 <code>100</code>。</p>
+<h5 id="5-5-2-空值处理函数NVL2"><a href="#5-5-2-空值处理函数NVL2" class="headerlink" title="5.5.2 空值处理函数NVL2"></a>5.5.2 空值处理函数NVL2</h5><p>空值处理函数 <code>NVL2</code> 的语法如下：</p>
+<pre><code>NVL2(检测的值,如果不为null的值,如果为null的值);
+</code></pre><p>当检测的值不为 <code>null</code> 时返回函数中的第 <code>2</code> 个参数，当检测的值为 <code>null</code> 时返回函数中的第 <code>3</code> 个参数。</p>
+<pre><code>select PRICE,MINNUM,NVL2(MAXNUM,to_char(MAXNUM),&apos;不限&apos;) from t_pricetable where OWNERTYPEID=1
+</code></pre><h5 id="5-5-3-条件取值函数decode"><a href="#5-5-3-条件取值函数decode" class="headerlink" title="5.5.3 条件取值函数decode"></a>5.5.3 条件取值函数decode</h5><p>条件取值函数 <code>decode</code> 的语法如下：</p>
+<pre><code>decode(条件,值1,翻译值1,值2,翻译值2,...值n,翻译值n,缺省值)
+</code></pre><p>该函数的作用主要就是检测条件是否与后面的值相匹配，如果和值 <code>1</code> 匹配，那就返回翻译值 <code>1</code>，如果和值 <code>2</code> 匹配，就返回翻译值 <code>2</code>，以此类推下去，如果都没有匹配到，那就返回缺省值，当然缺省值是可以没有的，当没有缺省值，又没有值与条件相匹配的时候，就会返回 <code>null</code>。</p>
+<pre><code>select decode(100,1,2,3,4,100,200,400) from dual
+select decode(300,1,2,3,4,100,200,400) from dual
+</code></pre><p>上面的 <code>SQL</code> 则会返回 <code>200</code> 和 <code>400</code>。</p>
+<pre><code>select name,decode(ownertypeid,1,&apos;居民&apos;,2,&apos;行政事业单位&apos;,3,&apos;商业&apos;) as 类型 from t_owners
+</code></pre><p>上面的 <code>SQL</code> 也是同样的使用了，当 <code>ownertypeid</code> 和 <code>1</code> 匹配时返回居民，和 <code>2</code> 匹配时返回行政事业单位，和 <code>3</code> 匹配时返回商业。其实上面的 <code>SQL</code> 我们也可以使用 <code>case when then</code> 语句来实现。</p>
+<pre><code>select name ,(case ownertypeid when 1 then &apos;居民&apos; when 2 then &apos;行政事业单位&apos; when 3 then &apos;商业&apos; else &apos;其它&apos; end ) from t_owners
+</code></pre><p>还有另外一种写法：</p>
+<pre><code>select name,(case when ownertypeid= 1 then &apos;居民&apos; when ownertypeid= 2 then &apos;行政事业&apos; when ownertypeid= 3 then &apos;商业&apos; end ) from t_owners
+</code></pre><h3 id="6-行列转换"><a href="#6-行列转换" class="headerlink" title="6.行列转换"></a>6.行列转换</h3><p>行列转换主要是当我们有些数据需要统计时，将一些列维度的数据转换到行的维度进行展示，便于我们进行查看，这里我们主要是通过 <code>case when then</code> 语句来实现。</p>
+<p>需求：按月份统计2012年各个地区的水费</p>
+<pre><code>select (select name from T_AREA where id=areaid ) 区域,
+    sum( case when month=&apos;01&apos; then money else 0 end) 一月,
+    sum( case when month=&apos;02&apos; then money else 0 end) 二月,
+    sum( case when month=&apos;03&apos; then money else 0 end) 三月,
+    sum( case when month=&apos;04&apos; then money else 0 end) 四月,
+    sum( case when month=&apos;05&apos; then money else 0 end) 五月,
+    sum( case when month=&apos;06&apos; then money else 0 end) 六月,
+    sum( case when month=&apos;07&apos; then money else 0 end) 七月,
+    sum( case when month=&apos;08&apos; then money else 0 end) 八月,
+    sum( case when month=&apos;09&apos; then money else 0 end) 九月,
+    sum( case when month=&apos;10&apos; then money else 0 end) 十月,
+    sum( case when month=&apos;11&apos; then money else 0 end) 十一月,
+    sum( case when month=&apos;12&apos; then money else 0 end) 十二月
+    from t_account where year=&apos;2012&apos; group by areaid
+</code></pre><p>需求：按季度统计2012年各个地区的水费</p>
+<pre><code>select (select name from T_AREA where id=areaid ) 区域,
+    sum( case when month&gt;=&apos;01&apos; and month&lt;=&apos;03&apos; then money else 0 end) 第一季度,
+    sum( case when month&gt;=&apos;04&apos; and month&lt;=&apos;06&apos; then money else 0 end) 第二季度,
+    sum( case when month&gt;=&apos;07&apos; and month&lt;=&apos;09&apos; then money else 0 end) 第三季度,
+    sum( case when month&gt;=&apos;10&apos; and month&lt;=&apos;12&apos; then money else 0 end) 第四季度
+    from t_account where year=&apos;2012&apos; group by areaid
+</code></pre><h3 id="7-分析函数"><a href="#7-分析函数" class="headerlink" title="7.分析函数"></a>7.分析函数</h3><p>下面我们开始介绍 <code>Oracle</code> 为我们提供的 <code>3</code> 种分析函数，都是用于进行排名的，为了方便进行说明，我们先根据数据说明 <code>3</code> 中不同的排序方法。</p>
+<pre><code>分数        排法1    排法2    排法3
+100        1        1        1
+90        2        2        2
+90        2        2        3
+90        2        2        4
+88        5        3        5
+86        6        4        6
+85        7        5        7
+85        7        5        8
+84        9        6        9
+82        10        7        10
+</code></pre><p>其实上面的这三种排序方法便是我们今天要来介绍的三种分析函数，下面一一具体介绍。</p>
+<h4 id="7-1-rank"><a href="#7-1-rank" class="headerlink" title="7.1 rank"></a>7.1 rank</h4><p><code>rank()</code> 函数的排名效果为值相同时排名相同，而排名是跳跃的，也就是我们上面的排法 <code>1</code>。</p>
+<pre><code>select rank() over(order by usenum desc ),usenum from t_account
+</code></pre><h4 id="7-2-dense-rank"><a href="#7-2-dense-rank" class="headerlink" title="7.2 dense_rank"></a>7.2 dense_rank</h4><p><code>dense_rank()</code> 函数的排名效果为相同的值排名相同，排名连续，也就是我们上面的排法 <code>2</code>。</p>
+<pre><code>select dense_rank() over(order by usenum desc ),usenum from t_account
+</code></pre><h4 id="7-3-row-number"><a href="#7-3-row-number" class="headerlink" title="7.3 row_number"></a>7.3 row_number</h4><p><code>row_number()</code> 函数的排名效果为返回连续的排名，无论值是否相等，也就是我们上面的排法 <code>3</code>。</p>
+<pre><code>select row_number() over(order by usenum desc ),usenum from t_account
+</code></pre><p>其实我们还可以使用 <code>row_number()</code> 函数来实现分页查询。</p>
+<pre><code>select * from (select row_number() over(order by usenum desc) rownumber,usenum from t_account) where rownumber&gt;10 and rownumber&lt;=20
+</code></pre><p>这也就是我们想要介绍的三个分析函数了。</p>
+<h3 id="8-集合运算"><a href="#8-集合运算" class="headerlink" title="8.集合运算"></a>8.集合运算</h3><p>我们都知道数学上面的集合运算，无外乎是并集、交集和差集，那 <code>Oracle</code> 提供的集合运算又是怎样的呢？其实也是这三种操作，不过是对记录之间的运算。</p>
+<pre><code>UNION ALL(并集)，返回各个查询的所有记录，包括重复记录。
+UNION(并集)，返回各个查询的所有记录，不包括重复记录。
+INTERSECT(交集)，返回两个查询共有的记录。
+MINUS(差集)，返回第一个查询检索出的记录减去第二个查询检索出的记录之后剩余的记录。
+</code></pre><p>这便是我们将要介绍的集合运算的内容。</p>
+<h4 id="8-1-并集运算"><a href="#8-1-并集运算" class="headerlink" title="8.1 并集运算"></a>8.1 并集运算</h4><p><code>UNION ALL</code> 不去掉重复记录</p>
+<pre><code>select * from t_owners where id&lt;=7 
+union all 
+select * from t_owners where id&gt;=5
+</code></pre><p><code>UNION</code> 去掉重复记录</p>
+<pre><code>select * from t_owners where id&lt;=7 
+union 
+select * from t_owners where id&gt;=5
+</code></pre><h4 id="8-2-交集运算"><a href="#8-2-交集运算" class="headerlink" title="8.2 交集运算"></a>8.2 交集运算</h4><pre><code>select * from t_owners where id&lt;=7 
+intersect 
+select * from t_owners where id&gt;=5
+</code></pre><h4 id="8-3-差集运算"><a href="#8-3-差集运算" class="headerlink" title="8.3 差集运算"></a>8.3 差集运算</h4><pre><code>select * from t_owners where id&lt;=7
+minus 
+select * from t_owners where id&gt;=5
+</code></pre><p>上面就是我们想要介绍的集合运算的全部内容了，最后想要说明的一点就是，使用差集运算也能实现分页，而且还不用使用子查询。</p>
+<pre><code>select rownum,t.* from t_account t where rownum&lt;=20 
+minus 
+select rownum,t.* from t_account t where rownum&lt;=10
+</code></pre><h3 id="9-总结"><a href="#9-总结" class="headerlink" title="9.总结"></a>9.总结</h3><p>这篇博客主要是记录的关于 <code>Oracle</code> 查询相关的内容，整理完之后对 <code>Oracle</code> 的使用也有了更多的把握，知道了更多的使用技能和原则，收获很多了。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Oracle/" rel="tag"># Oracle</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/17/Oracle数据库(一)/" rel="next" title="Oracle数据库(一)">
+                <i class="fa fa-chevron-left"></i> Oracle数据库(一)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-单表查询"><span class="nav-number">1.</span> <span class="nav-text">1.单表查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-简单条件查询"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 简单条件查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-去掉重复记录"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 去掉重复记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-排序查询"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 排序查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-基于伪列的查询"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 基于伪列的查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-聚合统计"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 聚合统计</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-5-1-聚合函数"><span class="nav-number">1.5.1.</span> <span class="nav-text">1.5.1 聚合函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-5-2-分组聚合group-by"><span class="nav-number">1.5.2.</span> <span class="nav-text">1.5.2 分组聚合group by</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-5-3-分组后条件查询having"><span class="nav-number">1.5.3.</span> <span class="nav-text">1.5.3 分组后条件查询having</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-连接查询"><span class="nav-number">2.</span> <span class="nav-text">2.连接查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-多表内连接查询"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 多表内连接查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-左外连接查询"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 左外连接查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-右外连接查询"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 右外连接查询</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-子查询"><span class="nav-number">3.</span> <span class="nav-text">3.子查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-where子句中的子查询"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 where子句中的子查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-from子句中的子查询"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 from子句中的子查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-select子句中的子查询"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 select子句中的子查询</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-分页查询"><span class="nav-number">4.</span> <span class="nav-text">4.分页查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-简单分页"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 简单分页</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-基于排序的分页"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 基于排序的分页</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-单行函数"><span class="nav-number">5.</span> <span class="nav-text">5.单行函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-字符函数"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 字符函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-1-求字符串长度函数length"><span class="nav-number">5.1.1.</span> <span class="nav-text">5.1.1 求字符串长度函数length</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-2-求字符串的子串substr"><span class="nav-number">5.1.2.</span> <span class="nav-text">5.1.2 求字符串的子串substr</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-3-字符串拼接concat"><span class="nav-number">5.1.3.</span> <span class="nav-text">5.1.3 字符串拼接concat</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-数值函数"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 数值函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5-2-1-四舍五入函数round"><span class="nav-number">5.2.1.</span> <span class="nav-text">5.2.1 四舍五入函数round</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-2-2-截取函数trunc"><span class="nav-number">5.2.2.</span> <span class="nav-text">5.2.2 截取函数trunc</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-2-3-取模函数mod"><span class="nav-number">5.2.3.</span> <span class="nav-text">5.2.3 取模函数mod</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-日期函数"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 日期函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5-3-1-加月函数add-months"><span class="nav-number">5.3.1.</span> <span class="nav-text">5.3.1 加月函数add_months</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-3-2-求所在月最后一天last-day"><span class="nav-number">5.3.2.</span> <span class="nav-text">5.3.2 求所在月最后一天last_day</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-3-3-日期截取trunc"><span class="nav-number">5.3.3.</span> <span class="nav-text">5.3.3 日期截取trunc</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-转换函数"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 转换函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5-4-1-数字转字符串to-char"><span class="nav-number">5.4.1.</span> <span class="nav-text">5.4.1 数字转字符串to_char</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-4-2-日期转字符串to-char"><span class="nav-number">5.4.2.</span> <span class="nav-text">5.4.2 日期转字符串to_char</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-4-3-字符串转日期to-date"><span class="nav-number">5.4.3.</span> <span class="nav-text">5.4.3 字符串转日期to_date</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-4-4-字符串转数字to-number"><span class="nav-number">5.4.4.</span> <span class="nav-text">5.4.4 字符串转数字to_number</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-其它函数"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 其它函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5-5-1-空值处理函数NVL"><span class="nav-number">5.5.1.</span> <span class="nav-text">5.5.1 空值处理函数NVL</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-5-2-空值处理函数NVL2"><span class="nav-number">5.5.2.</span> <span class="nav-text">5.5.2 空值处理函数NVL2</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-5-3-条件取值函数decode"><span class="nav-number">5.5.3.</span> <span class="nav-text">5.5.3 条件取值函数decode</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-行列转换"><span class="nav-number">6.</span> <span class="nav-text">6.行列转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-分析函数"><span class="nav-number">7.</span> <span class="nav-text">7.分析函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-rank"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 rank</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-dense-rank"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 dense_rank</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-row-number"><span class="nav-number">7.3.</span> <span class="nav-text">7.3 row_number</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-集合运算"><span class="nav-number">8.</span> <span class="nav-text">8.集合运算</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8-1-并集运算"><span class="nav-number">8.1.</span> <span class="nav-text">8.1 并集运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2-交集运算"><span class="nav-number">8.2.</span> <span class="nav-text">8.2 交集运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-3-差集运算"><span class="nav-number">8.3.</span> <span class="nav-text">8.3 差集运算</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-总结"><span class="nav-number">9.</span> <span class="nav-text">9.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2018/08/15/Oracle数据库(二)/';
+
+      var disqus_title = "Oracle数据库(二)";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
