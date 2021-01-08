@@ -1,0 +1,1188 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Oracle," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这篇博客我们主要想介绍的是 Oracle 数据库中的对象，这次我们会介绍的是视图、物化视图、序列、同义词和索引，掌握了这几个对象，对我们使用 Oracle 来说当然会更加得心应手，因此还是非常必要的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle数据库(三)">
+<meta property="og:url" content="http://yoursite.com/2018/09/02/Oracle数据库(三)/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="这篇博客我们主要想介绍的是 Oracle 数据库中的对象，这次我们会介绍的是视图、物化视图、序列、同义词和索引，掌握了这几个对象，对我们使用 Oracle 来说当然会更加得心应手，因此还是非常必要的。">
+<meta property="og:updated_time" content="2021-01-08T12:08:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle数据库(三)">
+<meta name="twitter:description" content="这篇博客我们主要想介绍的是 Oracle 数据库中的对象，这次我们会介绍的是视图、物化视图、序列、同义词和索引，掌握了这几个对象，对我们使用 Oracle 来说当然会更加得心应手，因此还是非常必要的。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/02/Oracle数据库(三)/"/>
+
+
+
+
+
+  <title> Oracle数据库(三) | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/02/Oracle数据库(三)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Oracle数据库(三)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-02T06:34:09+08:00">
+                2018-09-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/02/Oracle数据库(三)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/09/02/Oracle数据库(三)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/09/02/Oracle数据库(三)/" class="leancloud_visitors" data-flag-title="Oracle数据库(三)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇博客我们主要想介绍的是 <code>Oracle</code> 数据库中的对象，这次我们会介绍的是视图、物化视图、序列、同义词和索引，掌握了这几个对象，对我们使用 <code>Oracle</code> 来说当然会更加得心应手，因此还是非常必要的。</p>
+<a id="more"></a>
+<h3 id="1-视图"><a href="#1-视图" class="headerlink" title="1.视图"></a>1.视图</h3><h4 id="1-1-什么是视图"><a href="#1-1-什么是视图" class="headerlink" title="1.1 什么是视图"></a>1.1 什么是视图</h4><p>我们先看看什么是视图，视图是一种数据库对象，是从一个或者多个数据表或者视图中导出的虚表，视图中的数据并不真的存储在视图中，而是存储在视图所引用的数据表中，视图的结构和数据是对数据表进行查询的结果。</p>
+<p>根据视图创建时所下的定义，视图可以是一个数据表的一部分，也可以是多个数据表的联合，它存储了视图进行检索时所要执行查询语句的定义，以便在引用视图时执行。</p>
+<p>使用视图有如下优点：</p>
+<pre><code>1.简化数据操作：视图可以简化用户处理数据的方式。
+2.着重于特定数据：不必要的数据或敏感数据可以不出现在视图中，比如密码。
+3.视图提供了一个简单而有效的安全机制，可以定制不同用户对数据的访问权限，比如只读视图。
+4.提供向后兼容性：视图使用户能够在表的结构更改时为表创建向后兼容接口。
+</code></pre><h4 id="1-2-创建或修改视图语法"><a href="#1-2-创建或修改视图语法" class="headerlink" title="1.2 创建或修改视图语法"></a>1.2 创建或修改视图语法</h4><p>视图创建和修改的语法如下：</p>
+<pre><code>CREATE [OR REPLACE] [FORCE] VIEW view_name 
+AS subquery 
+[WITH CHECK OPTION ] 
+[WITH READ ONLY]
+</code></pre><p>下面我们再来看其中的一些参数：</p>
+<pre><code>OR REPLACE：若所创建的试图已经存在，ORACLE自动重建该视图，也就是可以进行修改视图操作；
+FORCE：不管基表是否存在，ORACLE都会自动创建该视图；
+subquery：一条完整的SELECT语句，可以在该语句中定义别名；
+WITH CHECK OPTION：插入或修改的数据行必须满足视图定义的约束，比如在定义视图的查询语句中指定type字段为1，那插入和修改也就必须符合这个条件；
+WITH READ ONLY：该视图上不能进行任何DML操作，也就是只读视图。
+</code></pre><h4 id="1-3-删除视图的语法"><a href="#1-3-删除视图的语法" class="headerlink" title="1.3 删除视图的语法"></a>1.3 删除视图的语法</h4><p>视图删除语法如下：</p>
+<pre><code>DROP VIEW view_name
+</code></pre><h4 id="1-4-案例"><a href="#1-4-案例" class="headerlink" title="1.4 案例"></a>1.4 案例</h4><p>下面我们通过一些具体的案例来学习视图的使用，以便能够更深刻地掌握视图。</p>
+<h5 id="1-4-1-简单视图"><a href="#1-4-1-简单视图" class="headerlink" title="1.4.1 简单视图"></a>1.4.1 简单视图</h5><p>什么是简单视图呢？就是视图中只是单表查询，而且没有聚合函数，这样的就是简单视图。可以使用如下方式进行创建：</p>
+<pre><code>create or replace view view_owners1 as
+select * from T_OWNERS where ownertypeid=1
+</code></pre><p>使用视图进行查询：</p>
+<pre><code>select * from view_owners1 where addressid=1;
+</code></pre><p>其实和使用数据表是一样的，同样的，我们还可以对视图进行增删改的操作，如：</p>
+<pre><code>update view_owners1 set name=&apos;王刚&apos; where id=2;
+commit;
+</code></pre><p>再次查询视图，我们就会发现视图数据已经修改了，那基表中的数据有没有修改呢？其实也已经修改了，我们也可以同样地查询看看，就可以看到修改后的结果了。因为视图是对于基表查询结果的虚表，因此对视图的修改也就是对基表的修改，对基表的修改当然也会影响到视图的查询结果。一个视图存储的并不是数据，而只是一条 <code>SQL</code> 语句。</p>
+<h5 id="1-4-2-带检查约束的视图"><a href="#1-4-2-带检查约束的视图" class="headerlink" title="1.4.2 带检查约束的视图"></a>1.4.2 带检查约束的视图</h5><p>下面我们来看带检查约束的视图，先看创建的方式。</p>
+<pre><code>create or replace view view_address2 as
+select * from T_ADDRESS where areaid=2
+with check option
+</code></pre><p>这样就创建好了，那我们再对视图中的数据进行修改。</p>
+<pre><code>update view_address2 set areaid=1 where id=4
+</code></pre><p>这时候会发现报错了，这就是因为在视图创建时带了检查约束，后面进行修改时是不能修改视图创建时 <code>SQL</code> 的查询条件的。</p>
+<h5 id="1-4-3-只读视图"><a href="#1-4-3-只读视图" class="headerlink" title="1.4.3 只读视图"></a>1.4.3 只读视图</h5><p>只读视图也就是只能用来查询，不能进行修改，创建方式为：</p>
+<pre><code>create or replace view view_owners1 as
+select * from T_OWNERS where ownertypeid=1
+with read only
+</code></pre><p>如果我们对视图中数据进行修改呢：</p>
+<pre><code>update view_owners1 set name=&apos;王刚&apos; where id=2;
+</code></pre><p>这时候再想修改，就会发现报错了，这是因为视图是只读的，不能被修改。</p>
+<h5 id="1-4-4-带错误的视图"><a href="#1-4-4-带错误的视图" class="headerlink" title="1.4.4 带错误的视图"></a>1.4.4 带错误的视图</h5><p>下面我们再看如何创建带错误的视图，我们先假设还没有 <code>T_TEMP</code> 这张数据表，创建方式为：</p>
+<pre><code>create or replace FORCE view view_temp as
+select * from T_TEMP
+</code></pre><p>这个时候是可以创建成功的，如果我们把 <code>FORCE</code> 关键字去掉，就会发现创建不了了，这就是创建带错误视图的方法，那就有一个问题了，为什么要创建带错误的视图呢？其实有时候可能视图需要在数据表创建之前存在，因此就需要创建这种带错误的视图。</p>
+<h5 id="1-4-5-复杂视图"><a href="#1-4-5-复杂视图" class="headerlink" title="1.4.5 复杂视图"></a>1.4.5 复杂视图</h5><p>复杂视图，其实就是指创建视图的 <code>SQL</code> 中，有聚合函数或者多表关联查询的，下面我们具体来看。</p>
+<p>1.多表关联查询</p>
+<p>我们还是以例子来进行说明，先创建一个多表关联的视图。</p>
+<pre><code>create or replace view view_owners as
+select o.id 业主编号,o.name 业主名称,ot.name 业主类型
+from T_OWNERS o,T_OWNERTYPE ot 
+where o.ownertypeid=ot.id
+</code></pre><p>然后查询该视图的数据:</p>
+<pre><code>select * from view_owners
+</code></pre><p>是可以进行查询的，那修改呢？</p>
+<pre><code>update view_owners set 业主名称=&apos;范小冰&apos; where 业主编号=1;
+</code></pre><p>也是可以的，我们再试下下面的修改语句：</p>
+<pre><code>update view_owners set 业主类型=&apos;普通居民&apos; where 业主编号=1;
+</code></pre><p>这次却发现报错了，这是为什么呢？报错信息提示为修改的列不属于键保留表，因此不能修改，这里就需要说明下，什么是键保留表了，键保留表是在视图创建时多表关联中，其主键也保留在了视图当中，而且在视图当中该基表的主键也是唯一且非空的，也就是说该主键也可以作为视图的主键，那么这张基表就是键保留表，而在多表关联的视图中，只有键保留表的字段是可以更新的，非键保留表的字段是不能被更新的，这也就是上面的修改语句为什么会报错的原因了。</p>
+<p>2.分组聚合统计</p>
+<p>我们再来看分组聚合统计的复杂视图，还是通过例子来进行说明，先创建视图。</p>
+<pre><code>create view view_accountsum as
+select year,month,sum(money) moneysum 
+from T_ACCOUNT 
+group by year,month
+order by year,month
+</code></pre><p>那这时候我们修改可以吗？比如如下操作：</p>
+<pre><code>update view_accountsum set moneysum=10000 where year=&apos;2012&apos; and month=&apos;03&apos;;
+</code></pre><p>答案当然是不行的，因为使用了聚合函数，视图中也没有键保留表了。</p>
+<h3 id="2-物化视图"><a href="#2-物化视图" class="headerlink" title="2.物化视图"></a>2.物化视图</h3><h4 id="2-1-什么是物化视图"><a href="#2-1-什么是物化视图" class="headerlink" title="2.1 什么是物化视图"></a>2.1 什么是物化视图</h4><p>上面我们介绍的视图是一张虚表，主要是基于定义时的查询语句返回的结果集，每次使用视图这个查询语句都会查询一次，为了避免每次都去执行这个查询语句，我们可以将第一次返回的结果集保存下来，存储在一个真实的物理空间，其实这个就是物化视图。</p>
+<p>物化视图和视图最大的区别就是在于，物化视图会有真实的存储空间，就类似于一张表一样，然后查询物化视图的效率就和查询一张表是一样的。</p>
+<h4 id="2-2-创建物化视图语法"><a href="#2-2-创建物化视图语法" class="headerlink" title="2.2 创建物化视图语法"></a>2.2 创建物化视图语法</h4><p>物化视图创建语法如下：</p>
+<pre><code>CREATE METERIALIZED VIEW view_name
+[BUILD IMMEDIATE | BUILD DEFERRED]
+REFRESH [FAST|COMPLETE|FORCE]
+[
+ON [COMMIT |DEMAND ] | START WITH (start_time) NEXT (next_time)
+]
+AS
+subquery
+</code></pre><p>我们看下其中的一些参数：</p>
+<pre><code>BUILD IMMEDIATE:是在创建物化视图的时候就生成数据。
+BUILD DEFERRED:则在创建时不生成数据，以后根据需要再生成数据。
+默认为BUILD IMMEDIATE。
+REFRESH:指当基表发生了DML操作后，物化视图何时采用哪种方式和基表进行同步。
+REFRESH后跟着指定的刷新方法有三种:FAST、COMPLETE、FORCE。
+FAST刷新采用增量刷新，只刷新自上次刷新以后进行的修改。
+COMPLETE刷新对整个物化视图进行完全的刷新。
+如果选择FORCE方式，则Oracle在刷新时会去判断是否可以进行快速刷新，如果可以则采用FAST方式，否则采用COMPLETE的方式。
+FORCE是默认的方式。
+刷新的模式有两种：ON DEMAND和ON COMMIT。
+ON DEMAND指需要手动刷新物化视图（默认）。
+ON COMMIT指在基表发生COMMIT操作时自动刷新。
+</code></pre><h4 id="2-3-案例"><a href="#2-3-案例" class="headerlink" title="2.3 案例"></a>2.3 案例</h4><p>下面我们通过几个具体的案例来学习物化视图。</p>
+<h5 id="2-3-1-手动刷新的物化视图"><a href="#2-3-1-手动刷新的物化视图" class="headerlink" title="2.3.1 手动刷新的物化视图"></a>2.3.1 手动刷新的物化视图</h5><p>首先创建一个物化视图。</p>
+<pre><code>create materialized view mv_address 
+as
+select ad.id,ad.name adname,ar.name ar_name 
+from t_address ad,t_area ar 
+where ad.areaid=ar.id
+</code></pre><p>因为视图创建没有指定何时刷新，因此是默认 <code>ON DEMAND</code> 选项，也就是手动刷新，接着我们查询物化视图看看是否创建成功。</p>
+<pre><code>select * from mv_address;
+</code></pre><p>查询是可以得到结果的，说明创建物化视图是成功的，接着我们往基表中插入数据，看看物化视图是否会自动刷新。</p>
+<pre><code>insert into t_address values(8,&apos;宏福苑小区&apos;,1,1);
+commit;
+</code></pre><p>然后查询基表和物化视图，会发现在基表中已经可以看到刚才插入的数据了，但是在物化视图中还没有，这就说明我们刚才创建的物化视图是不会自动刷新的，也就是需要手动刷新，那应该怎样进行手动刷新呢？可以通过下面的 <code>PL/SQL</code> 语句进行手动刷新。</p>
+<pre><code>begin
+DBMS_MVIEW.refresh(&apos;MV_ADDRESS&apos;,&apos;C&apos;);
+end;
+</code></pre><p>这样当我们再次查询物化视图时，就可以看到我们刚才向基表中插入的数据了，上面语句中的第一个参数则是物化视图名称，第二个参数则是 <code>COMPLETE</code> 的首字母，也就是表示完全刷新。除了上面使用 <code>PL/SQL</code> 语句的方式之外，我们还可以在命令行窗口使用下面的命令进行手动刷新，也可以达到同样的效果。</p>
+<pre><code>EXEC DBMS_MVIEW.refresh(&apos;MV_ADDRESS&apos;,&apos;C&apos;);
+</code></pre><h5 id="2-3-2-自动刷新的物化视图"><a href="#2-3-2-自动刷新的物化视图" class="headerlink" title="2.3.2 自动刷新的物化视图"></a>2.3.2 自动刷新的物化视图</h5><p>下面我们再创建一个自动刷新的物化视图，其实就是需要在基表进行数据提交时自动刷新物化视图，我们看具体的例子。</p>
+<pre><code>create materialized view mv_address2 
+refresh 
+on commit
+as
+select ad.id,ad.name adname,ar.name ar_name 
+from t_address ad,t_area ar 
+where ad.areaid=ar.id
+</code></pre><p>上面的物化视图创建语句中，就是指定了物化视图在数据提交时自动刷新，其实还可以通过插入数据进行测试下。</p>
+<pre><code>insert into t_address values(9,&apos;宏福来小区&apos;,1,1);
+commit;
+</code></pre><p>这时候我们再查询基表和物化视图时，就可以发现两者中都已经可以看到刚才插入的数据了。</p>
+<h5 id="2-3-3-创建时不生成数据的物化视图"><a href="#2-3-3-创建时不生成数据的物化视图" class="headerlink" title="2.3.3 创建时不生成数据的物化视图"></a>2.3.3 创建时不生成数据的物化视图</h5><p>下面我们再看创建时不生成数据的物化视图，也就是指定延迟生成数据。</p>
+<pre><code>create materialized view mv_address3
+build deferred 
+refresh
+on commit
+as
+select ad.id,ad.name adname,ar.name ar_name 
+from t_address ad,t_area ar 
+where ad.areaid=ar.id;
+</code></pre><p>这时候我们查询物化视图数据，会发现其中是没有数据的，这时候向基表中插入数据，物化视图中也不会有数据，这时候就还是需要我们手动刷新下物化视图。</p>
+<pre><code>begin
+DBMS_MVIEW.refresh(&apos;MV_ADDRESS3&apos;,&apos;C&apos;);
+end;
+</code></pre><p>这样手动刷新之后，当我们再次向基表中插入数据时，物化视图也能看到相应的插入数据了。</p>
+<h5 id="2-3-4-创建增量刷新的物化视图"><a href="#2-3-4-创建增量刷新的物化视图" class="headerlink" title="2.3.4 创建增量刷新的物化视图"></a>2.3.4 创建增量刷新的物化视图</h5><p>下面我们再看以增量方式刷新的物化视图，要想创建增量刷新的物化视图，必须先创建对应基表的物化视图日志，这样当基表数据有变化时，记录该日志表，然后再更新物化视图。首先我们创建物化视图日志。</p>
+<pre><code>create materialized view log on t_address with rowid;
+create materialized view log on t_area with rowid;
+</code></pre><p>这里可以看到我们是以基表中的 <code>rowid</code> 字段作为建立物化视图日志的根据的，因为该字段唯一，方便我们记录和更新数据，创建好之后的物化视图日志名称为 <code>MLOG$_表名称</code>。</p>
+<p>下面我们再创建物化视图，指定为增量刷新，然后默认为手动刷新，这里需要设置为手动刷新，主要是想当我们向基表中插入数据之后，会生成物化视图日志，这时候还不要自动更新物化视图，然后我们就可以看到物化视图日志是怎样的格式了，然后再手动刷新，这时候会根据物化视图日志更新物化视图，然后物化视图日志消失，其实设置手动刷新就是方便我们查看物化视图日志。</p>
+<pre><code>create materialized view mv_address4
+refresh fast
+as
+select ad.rowid adrowid ,ar.rowid arrowid, ad.id,ad.name 
+adname,ar.name ar_name 
+from t_address ad,t_area ar 
+where ad.areaid=ar.id;
+</code></pre><p>这里创建增量刷新的物化视图需要注意两点，第一点就是在创建物化视图之前，要先创建基表的物化视图日志；第二点便是在创建物化视图的查询语句字段中，必须包含基表的 <code>rowid</code> 字段，因为我们是以基表的 <code>rowid</code> 字段来建立物化视图日志的，物化视图中也需要查出来，以便后续根据该字段使用物化视图日志更新物化视图。</p>
+<p>我们可以向 <code>t_address</code> 这张基表中插入一条数据，然后再看一下其对应的物化视图日志，就能看到我们插入的数据是如何记录物化视图日志的了，我们可以看下物化视图日志其中的一些字段。</p>
+<pre><code>SNAPTIME$$:用于表示刷新时间。
+DMLTYPE$$:用于表示DML操作类型，I表示INSERT，D表示DELETE，U表示UPDATE。
+OLD_NEW$$:用于表示这个值是新值还是旧值。N（EW）表示新值，O（LD）表示旧值。
+CHANGE_VECTOR$$:表示修改矢量，用来表示被修改的是哪个或哪几个字段。此列是二进制数据类型，Oracle采用的方式就是用每个bit位去映射一个列。插入操作显示为FE, 删除显示为00，更新操作则根据更新字段的位置而显示不同的值。
+</code></pre><p>最后当我们手动刷新物化视图，物化视图日志会被清空，物化视图更新。</p>
+<h3 id="3-序列"><a href="#3-序列" class="headerlink" title="3.序列"></a>3.序列</h3><h4 id="3-1-什么是序列"><a href="#3-1-什么是序列" class="headerlink" title="3.1 什么是序列"></a>3.1 什么是序列</h4><p>序列是 <code>Oracle</code> 数据库中提供的用于产生一系列唯一数字的数据库对象，当我们将它用在主键上面为每一列的主键赋值时，其实和 <code>MySQL</code> 数据库中设置主键自动增长是一样的效果。</p>
+<h4 id="3-2-创建与使用简单序列"><a href="#3-2-创建与使用简单序列" class="headerlink" title="3.2 创建与使用简单序列"></a>3.2 创建与使用简单序列</h4><p>创建序列语法如下：</p>
+<pre><code>create sequence 序列名称
+</code></pre><p>这样我们便创建好一个序列了，那如何根据创建好的序列获取序列的值呢？我们可以通过序列的伪列来完成。</p>
+<pre><code>NEXTVAL 返回序列的下一个值
+CURRVAL 返回序列的当前值
+</code></pre><p>通过这两个伪列我们便可以获得序列的当前值以及下一个值了，需要注意的一点是，在刚建好序列之后，是没有办法获取序列当前值的，只有先获取下一个值才能再次获取当前值。</p>
+<p>获取下一个值：</p>
+<pre><code>select 序列名称.nextval from dual
+</code></pre><p>获取当前值：</p>
+<pre><code>select 序列名称.currval from dual
+</code></pre><h4 id="3-3-创建复杂序列"><a href="#3-3-创建复杂序列" class="headerlink" title="3.3 创建复杂序列"></a>3.3 创建复杂序列</h4><p>有时候我们需要使用一些复杂的序列，比如获取值是跳跃的，不是连续的，还有就是设置初始值、最小值和最大值，以及是否可以循环获取值，这些都可以通过下面创建序列的语法来进行完成。</p>
+<pre><code>CREATE SEQUENCE sequence //创建序列名称
+[INCREMENT BY n] //递增的序列值是n，如果n是正数就递增，如果是负数就递减，默认是1
+[START WITH n] //开始的值，递增默认是minvalue，递减是maxvalue
+[{MAXVALUE n | NOMAXVALUE}] //最大值
+[{MINVALUE n | NOMINVALUE}] //最小值
+[{CYCLE | NOCYCLE}] //循环/不循环
+[{CACHE n | NOCACHE}];//预先分配并存入到内存中
+</code></pre><h4 id="3-4-案例"><a href="#3-4-案例" class="headerlink" title="3.4 案例"></a>3.4 案例</h4><p>为了更好地理解和使用序列，我们通过几个具体的案例来学习序列。</p>
+<h5 id="3-4-1-有最大值的非循环序列"><a href="#3-4-1-有最大值的非循环序列" class="headerlink" title="3.4.1 有最大值的非循环序列"></a>3.4.1 有最大值的非循环序列</h5><p>创建的语法应该为：</p>
+<pre><code>create sequence seq_test1 
+increment by 10
+start with 10
+maxvalue 300
+minvalue 5
+</code></pre><p>需要注意的一点就是创建序列时，设置的最小值必须小于开始值，否则就会报错，同时，当我们获取序列的值到达 <code>300</code> 之后，再获取序列的下一个值，就会发现报错了，这是因为非循环序列的值不能大于设置的最大值。</p>
+<h5 id="3-4-2-有最大值的循环序列"><a href="#3-4-2-有最大值的循环序列" class="headerlink" title="3.4.2 有最大值的循环序列"></a>3.4.2 有最大值的循环序列</h5><p>创建的语法应该为：</p>
+<pre><code>create sequence seq_test2
+increment by 10
+start with 10
+maxvalue 300
+minvalue 5
+cycle ;
+</code></pre><p>上面创建的序列，当我们获取该序列的下一个值时，我们会发现第一次循环的第一个值是 <code>10</code>，当循环到 <code>300</code>，然后进入下一循环时，第二次循环的第一个值是 <code>5</code>，因此可以看出第一次循环是从开始值开始循环，第二次循环则是从最小值开始循环。还有一点需要注意的就是，如果是创建的循环序列，那在创建时就必须设置序列的最大值。</p>
+<h5 id="3-4-3-带缓存的序列"><a href="#3-4-3-带缓存的序列" class="headerlink" title="3.4.3 带缓存的序列"></a>3.4.3 带缓存的序列</h5><p>我们可以先这样创建：</p>
+<pre><code>create sequence seq_test3
+increment by 10
+start with 10
+maxvalue 300
+minvalue 5
+cycle
+cache 50;
+</code></pre><p>执行的时候会发现报错了，这是为什么呢？这是因为我们是设置的要缓存 <code>50</code> 的值，而每次的增长值为 <code>10</code>，那如果条件允许的话，序列的值就会到达 <code>500</code> 了，但是我们设置的最大值又是 <code>300</code>，很显然冲突了， <code>Oracle</code> 数据库中也是设定序列缓存中设置的数必须小于每次循环设置的数。</p>
+<p>那我们修改如下：</p>
+<pre><code>create sequence seq_test4
+increment by 10
+start with 10
+maxvalue 500
+minvalue 10
+cycle
+cache 50;
+</code></pre><p>这样设置的话，执行时还是会报同样的错，最小值和最大值刚好满足还是不行，这时候将最小值减 <code>1</code> 或者最大值加 <code>1</code>，就可以满足要求了。</p>
+<pre><code>create sequence seq_test5
+increment by 10
+start with 10
+maxvalue 500
+minvalue 9
+cycle
+cache 50;
+</code></pre><h4 id="3-5-修改和删除序列"><a href="#3-5-修改和删除序列" class="headerlink" title="3.5 修改和删除序列"></a>3.5 修改和删除序列</h4><p>修改序列：</p>
+<p>修改序列需要使用 <code>ALTER SEQUENCE</code> 语句进行修改，同时需要注意的一点是，不能修改序列的 <code>START WITH</code> 参数。</p>
+<pre><code>ALTER SEQUENCE 序列名称 MAXVALUE 5000 CYCLE;
+</code></pre><p>删除序列：</p>
+<pre><code>DROP SEQUENCE 序列名称;
+</code></pre><h3 id="4-同义词"><a href="#4-同义词" class="headerlink" title="4.同义词"></a>4.同义词</h3><h4 id="4-1-什么是同义词"><a href="#4-1-什么是同义词" class="headerlink" title="4.1 什么是同义词"></a>4.1 什么是同义词</h4><p>简单来说的话，同义词就是为数据库对象起的一个别名，这些对象可以是数据表，也可以是视图、序列等等对象，当我们使用同义词时，其实就是在使用这些原有的对象。</p>
+<p>同义词创建时默认是创建私有的，也就是只有当前用户可以使用该同义词，我们也可以创建公共同义词，这样的话所有的用户就都可以使用该同义词了。</p>
+<h4 id="4-2-创建与使用同义词"><a href="#4-2-创建与使用同义词" class="headerlink" title="4.2 创建与使用同义词"></a>4.2 创建与使用同义词</h4><p>创建同义词的语法为：</p>
+<pre><code>create [public] SYNONYM synonym for object;
+</code></pre><p>其中的 <code>synonym</code> 则是想要创建的同义词名称，<code>object</code> 则是数据表、视图或者序列这些我们想要创建同义词的对象名称，最后 <code>[public]</code> 则是设置是创建私有同义词还是公有同义词。</p>
+<h4 id="4-3-案例"><a href="#4-3-案例" class="headerlink" title="4.3 案例"></a>4.3 案例</h4><p>下面我们通过几个具体的案例来学习同义词。</p>
+<h5 id="4-3-1-私有同义词"><a href="#4-3-1-私有同义词" class="headerlink" title="4.3.1 私有同义词"></a>4.3.1 私有同义词</h5><p>我们就直接为一张数据表创建一个同义词。</p>
+<pre><code>create synonym OWNERS for T_OWNERS;
+</code></pre><p>创建好之后，我们就可以使用这个同义词了，使用同义词和使用原数据表是一样的用法。</p>
+<pre><code>select * from OWNERS;
+</code></pre><p>得到的查询结果也是一样的，这时候因为是创建的私有同义词，我们换一个用户登录，然后再执行上面的同义词查询语句，就会发现使用不了了。</p>
+<h5 id="4-3-2-公共同义词"><a href="#4-3-2-公共同义词" class="headerlink" title="4.3.2 公共同义词"></a>4.3.2 公共同义词</h5><p>同样的，我们也可以为一张数据表建立公共同义词。</p>
+<pre><code>create public synonym OWNERS2 for T_OWNERS;
+</code></pre><p>这时候我们使用同义词也是和使用原数据表一样的，当我们切换一个用户登录时，仍然可以使用该同义词。</p>
+<h3 id="5-索引"><a href="#5-索引" class="headerlink" title="5.索引"></a>5.索引</h3><h4 id="5-1-什么是索引"><a href="#5-1-什么是索引" class="headerlink" title="5.1 什么是索引"></a>5.1 什么是索引</h4><p>索引主要是用来加速查询数据的数据库对象，创建合理的索引可以让我们更快地查到想要的数据。同时，创建索引之后是需要一定的物理空间来维持的，索引通常是一个树结构，树的节点就是保存的每条记录的物理地址，也就是我们之前说过的伪列 <code>rowid</code>。</p>
+<p>当没有建立索引之前，我们通过某个字段进行查询时，其实是对数据表进行逐行扫描，然后匹配得到符合的记录，当建立索引之后，再查询时，就会先到树状结构的索引结构中匹配，匹配到再获取对应的物理地址。</p>
+<h4 id="5-2-普通索引"><a href="#5-2-普通索引" class="headerlink" title="5.2 普通索引"></a>5.2 普通索引</h4><p>创建索引的语法如下：</p>
+<pre><code>create index 索引名称 on 表名(列名);
+</code></pre><p>具体例子可以如下：</p>
+<pre><code>create index index_owners_name on T_OWNERS(name)
+</code></pre><p>我们也可以创建一张数据表，插入部分数据，然后分别使用索引字段和非索引字段查询，看看需要耗费的时间是多少，就可以看出创建索引是否有作用。</p>
+<p>创建数据表：</p>
+<pre><code>create table T_INDEXTEST (
+ ID NUMBER,
+ NAME VARCHAR2(30)
+);
+</code></pre><p>然后再往其中插入 <code>100</code> 万行记录。</p>
+<pre><code>BEGIN
+    FOR i in 1..1000000
+    loop
+        INSERT INTO T_INDEXTEST VALUES(i,&apos;AA&apos;||i);
+    end loop;
+    commit;
+END;
+</code></pre><p>再为 <code>name</code> 字段建立索引：</p>
+<pre><code>CREATE INDEX INDEX_TESTINDEX on T_INDEXTEST(name)
+</code></pre><p>最后我们分别使用两个字段进行多次查询，看看哪个字段耗时更少，就能看出为字段建立索引是否有用了。</p>
+<pre><code>SELECT * from T_INDEXTEST where ID=765432;
+SELECT * from T_INDEXTEST where NAME=&apos;AA765432&apos;;
+</code></pre><p>事实也是证明，建立了索引的 <code>name</code> 字段查询起来确实是要更快的。</p>
+<h4 id="5-3-唯一索引"><a href="#5-3-唯一索引" class="headerlink" title="5.3 唯一索引"></a>5.3 唯一索引</h4><p>唯一索引就是在一张数据表中，某一列的值是不会重复的，那这时候就可以创建唯一索引，唯一索引创建语法如下：</p>
+<pre><code>create unique index 索引名称 on 表名(列名);
+</code></pre><p>具体例子可以如下：</p>
+<pre><code>create unique index index_owners_watermeter on T_OWNERS(watermeter);
+</code></pre><h4 id="5-4-复合索引"><a href="#5-4-复合索引" class="headerlink" title="5.4 复合索引"></a>5.4 复合索引</h4><p>有时候我们查询数据表时，不是使用某个字段，而是使用多个字段，这时候如果为多个字段分别建立索引的话，查询时就还需要先到多个树上查找，然后才能找到对应记录，这时候查询效率就不一定高了，这时我们就可以为多个字段创建复合索引，查询时就只需要查询一棵树了，能够保证查询效率。</p>
+<p>复合索引创建语法：</p>
+<pre><code>create index 索引名称 on 表名(列名,列名.....);
+</code></pre><p>具体例子可以如下：</p>
+<pre><code>create index owners_index_ah on T_OWNERS(addressid,housenumber);
+</code></pre><h4 id="5-5-反向键索引"><a href="#5-5-反向键索引" class="headerlink" title="5.5 反向键索引"></a>5.5 反向键索引</h4><p>当数据表中某列的值是连续的时候，比如 <code>1</code> 到 <code>10</code>，这时候如果我们为该字段建立的是普通索引，那得到的索引树就不是一个均匀的树，层次很深，但是每一层的节点数量很少，这样查询时效率就会很差，也就是像我们现实生活中的歪脖子树，而如果我们使用反向键索引，就能使该字段的值变得更加随机，建立的索引树也会更加均匀，下面看具体的反向键是如何转换的。</p>
+<pre><code>十进制        二进制        反向键        结果
+1        0001        1000        8
+2        0010        0100        4
+3        0011        1100        12
+4        0100        0010        2
+5        0101        1010        10
+6        0110        0110        6
+7        0111        1110        14
+8        1000        0001        1
+9        1001        1001        9
+10        1010        0101        5
+</code></pre><p>建立反向键索引的语法为：</p>
+<pre><code>create index 索引名称 on 表名(列名) reverse;
+</code></pre><h4 id="5-6-位图索引"><a href="#5-6-位图索引" class="headerlink" title="5.6 位图索引"></a>5.6 位图索引</h4><p>位图索引适合用于低基数列上，也就是一个字段的取值只有少数几个值，类似于 <code>Java</code> 中的枚举类型，位图索引不直接存储 <code>rowid</code>，而是存储字节位到 <code>rowid</code> 的映射，使用位图索引的优势就是，减少响应时间，节省空间占用。</p>
+<p>位图索引创建语法为：</p>
+<pre><code>create bitmap index 索引名称 on 表名(列名);
+</code></pre><p>具体使用例子可以为：</p>
+<pre><code>create bitmap index index_owners_typeid on T_OWNERS(ownertypeid)
+</code></pre><h3 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h3><p>本篇博客主要是介绍了 <code>Oracle</code> 数据库中的几个对象，视图、物化视图、序列、同义词以及索引，梳理一下也是一种储备，以后需要用到时方便查找。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Oracle/" rel="tag"># Oracle</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/15/Oracle数据库(二)/" rel="next" title="Oracle数据库(二)">
+                <i class="fa fa-chevron-left"></i> Oracle数据库(二)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-视图"><span class="nav-number">1.</span> <span class="nav-text">1.视图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-什么是视图"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 什么是视图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-创建或修改视图语法"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 创建或修改视图语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-删除视图的语法"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 删除视图的语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-案例"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 案例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-1-简单视图"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.4.1 简单视图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-2-带检查约束的视图"><span class="nav-number">1.4.2.</span> <span class="nav-text">1.4.2 带检查约束的视图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-3-只读视图"><span class="nav-number">1.4.3.</span> <span class="nav-text">1.4.3 只读视图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-4-带错误的视图"><span class="nav-number">1.4.4.</span> <span class="nav-text">1.4.4 带错误的视图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-5-复杂视图"><span class="nav-number">1.4.5.</span> <span class="nav-text">1.4.5 复杂视图</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-物化视图"><span class="nav-number">2.</span> <span class="nav-text">2.物化视图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-什么是物化视图"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 什么是物化视图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-创建物化视图语法"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 创建物化视图语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-案例"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 案例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-1-手动刷新的物化视图"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.3.1 手动刷新的物化视图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-2-自动刷新的物化视图"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.3.2 自动刷新的物化视图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-3-创建时不生成数据的物化视图"><span class="nav-number">2.3.3.</span> <span class="nav-text">2.3.3 创建时不生成数据的物化视图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-4-创建增量刷新的物化视图"><span class="nav-number">2.3.4.</span> <span class="nav-text">2.3.4 创建增量刷新的物化视图</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-序列"><span class="nav-number">3.</span> <span class="nav-text">3.序列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-什么是序列"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 什么是序列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-创建与使用简单序列"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 创建与使用简单序列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-创建复杂序列"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 创建复杂序列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-案例"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 案例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-1-有最大值的非循环序列"><span class="nav-number">3.4.1.</span> <span class="nav-text">3.4.1 有最大值的非循环序列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-2-有最大值的循环序列"><span class="nav-number">3.4.2.</span> <span class="nav-text">3.4.2 有最大值的循环序列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-3-带缓存的序列"><span class="nav-number">3.4.3.</span> <span class="nav-text">3.4.3 带缓存的序列</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-修改和删除序列"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 修改和删除序列</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-同义词"><span class="nav-number">4.</span> <span class="nav-text">4.同义词</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-什么是同义词"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 什么是同义词</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-创建与使用同义词"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 创建与使用同义词</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-案例"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 案例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-1-私有同义词"><span class="nav-number">4.3.1.</span> <span class="nav-text">4.3.1 私有同义词</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-2-公共同义词"><span class="nav-number">4.3.2.</span> <span class="nav-text">4.3.2 公共同义词</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-索引"><span class="nav-number">5.</span> <span class="nav-text">5.索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-什么是索引"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 什么是索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-普通索引"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 普通索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-唯一索引"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 唯一索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-复合索引"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 复合索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-反向键索引"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 反向键索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-6-位图索引"><span class="nav-number">5.6.</span> <span class="nav-text">5.6 位图索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-总结"><span class="nav-number">6.</span> <span class="nav-text">6.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2018/09/02/Oracle数据库(三)/';
+
+      var disqus_title = "Oracle数据库(三)";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
