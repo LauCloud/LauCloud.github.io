@@ -1,0 +1,1452 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Struts2," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/website.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="现在我们就开始 Struts2 框架的学习了，这是我们整理的第一个框架，掌握了之后我们的技能包中就又多了一个利器了。这篇博客具体的内容就是用 Struts2 框架实现了登录跳转的功能，同时我们会讲解其中各个配置文件的具体作用，以便我们更好地使用该框架。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Struts2框架(一)">
+<meta property="og:url" content="http://yoursite.com/2018/11/10/Struts2框架(一)/index.html">
+<meta property="og:site_name" content="云开">
+<meta property="og:description" content="现在我们就开始 Struts2 框架的学习了，这是我们整理的第一个框架，掌握了之后我们的技能包中就又多了一个利器了。这篇博客具体的内容就是用 Struts2 框架实现了登录跳转的功能，同时我们会讲解其中各个配置文件的具体作用，以便我们更好地使用该框架。">
+<meta property="og:updated_time" content="2021-05-02T16:07:27.340Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Struts2框架(一)">
+<meta name="twitter:description" content="现在我们就开始 Struts2 框架的学习了，这是我们整理的第一个框架，掌握了之后我们的技能包中就又多了一个利器了。这篇博客具体的内容就是用 Struts2 框架实现了登录跳转的功能，同时我们会讲解其中各个配置文件的具体作用，以便我们更好地使用该框架。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/10/Struts2框架(一)/"/>
+
+
+
+
+
+  <title> Struts2框架(一) | 云开 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">云开</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">努力成长，To be strong!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            爱心公益
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/10/Struts2框架(一)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lau Cloud">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="云开">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Struts2框架(一)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-10T07:30:09+08:00">
+                2018-11-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Struts2/" itemprop="url" rel="index">
+                    <span itemprop="name">Struts2</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/10/Struts2框架(一)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/11/10/Struts2框架(一)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/11/10/Struts2框架(一)/" class="leancloud_visitors" data-flag-title="Struts2框架(一)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>现在我们就开始 <code>Struts2</code> 框架的学习了，这是我们整理的第一个框架，掌握了之后我们的技能包中就又多了一个利器了。这篇博客具体的内容就是用 <code>Struts2</code> 框架实现了登录跳转的功能，同时我们会讲解其中各个配置文件的具体作用，以便我们更好地使用该框架。</p>
+<a id="more"></a>
+<h3 id="1-框架介绍"><a href="#1-框架介绍" class="headerlink" title="1.框架介绍"></a>1.框架介绍</h3><p>首先我们先看看，在软件领域，框架的概念是什么？框架其实是一组组件的结合，供我们用于解决特定领域中的问题，因为框架本身提供了很多可重用的组件与功能，因此可以大大地提高我们的开发效率，同时也能很好地保证质量。当我们使用框架进行开发时，由于它提供了统一的标准，这样就能大大降低我们后期的维护成本。我们在学习各种框架时，最重要的就是知道这个框架提供了哪些功能，同时为了完成我们想要的功能，我们还需要做些什么。</p>
+<h3 id="2-Java常用开发框架"><a href="#2-Java常用开发框架" class="headerlink" title="2.Java常用开发框架"></a>2.Java常用开发框架</h3><p>由于每个框架都是解决特定领域内的问题的，因此在实际开发中，往往都是多个框架组合起来进行开发，常用的组合就有 <code>SSH</code>，<code>SSM</code> 以及 <code>SSI</code>，它们分别指什么呢？</p>
+<pre><code>SSH:Struts2,Spring,Hibernate
+SSM:SpringMvc,Spring,Mybatis
+SSI:SpringMvc,Spring,ibatis
+</code></pre><p>那它们分别是负责哪一块呢？我们以 <code>SSH</code> 架构举例来进行说明，<code>Struts2</code> 框架主要是负责 <code>web</code> 层，也就是表现层，<code>Hibernate</code> 框架主要是负责 <code>dao</code> 层，也就是负责和数据库进行交互的持久化层，而 <code>Spring</code> 框架比较特殊，它是一个一栈式框架，可以用在 <code>service</code> 层，也就是负责业务逻辑操作，同时也可以在表现层和持久化层进行使用，后续我们都会进行讲解。</p>
+<h3 id="3-Struts2框架介绍"><a href="#3-Struts2框架介绍" class="headerlink" title="3.Struts2框架介绍"></a>3.Struts2框架介绍</h3><p><code>Struts2</code> 是一个基于 <code>MVC</code> 设计模式的 <code>Web</code> 应用框架，本质上相当于一个 <code>Servlet</code>，在 <code>MVC</code> 设计模式中，<code>Struts2</code> 框架主要是作为控制器来建立模型与视图之间的数据交互的。<code>Struts2</code> 框架的核心点主要有以下 <code>3</code> 个：</p>
+<pre><code>1.拦截器 interceptor
+2.action
+3.ognl和valueStack
+</code></pre><p>现在开发中和 <code>Struts2</code> 框架比较类似的框架就是 <code>SpringMvc</code> 框架了，平时使用中也是作为和前端交互的控制器来使用的。</p>
+<h3 id="4-简单登录案例"><a href="#4-简单登录案例" class="headerlink" title="4.简单登录案例"></a>4.简单登录案例</h3><p>为了便于我们学习 <code>Struts2</code> 框架的使用，我们可以从一个简单的登录案例来入手，这里我们先看使用 <code>Servlet</code> 和 <code>JSP</code> 如何实现登录案例，然后接着再使用 <code>Struts2</code> 框架来实现，这样我们就能掌握 <code>Struts2</code> 框架的基础使用了。</p>
+<p>我们先使用 <code>Servlet</code> 和 <code>JSP</code> 来实现，首先需要三个页面，一个登录页面 <code>login.jsp</code>，一个登录成功页面 <code>success.jsp</code>，一个登录失败页面 <code>failer.jsp</code>，还要一个 <code>Servlet</code> 来实现业务逻辑和页面的控制跳转 <code>LoginServlet</code>，首先我们在登录页面中输入用户名和密码，然后点击登录按钮，这时候会向 <code>Servlet</code> 发送请求，如果用户名和密码正确，那就跳转到登录成功页面，如果用户名和密码不正确，那就跳转到失败页面。</p>
+<p>login.jsp</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;登录页面&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form action=&quot;${pageContext.request.contextPath}/login&quot; method=&quot;post&quot;&gt;
+        username:&lt;input type=&quot;text&quot; name=&quot;username&quot; /&gt;&lt;br&gt;
+        password:&lt;input type=&quot;password&quot; name=&quot;password&quot; /&gt;&lt;br&gt;
+        &lt;input type=&quot;submit&quot; name=&quot;login&quot; /&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>success.jsp</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;登录成功页面&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    登录成功
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>failer.jsp</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;登录失败页面&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    登录失败
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>LoginServlet</p>
+<pre><code>public class LoginServlet extends HttpServlet {
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String username = request.getParameter(&quot;username&quot;);
+        String password = request.getParameter(&quot;password&quot;);
+        System.out.println(username + &quot;   &quot; + password);
+        if (&quot;tom&quot;.equals(username) &amp;&amp; &quot;123&quot;.equals(password)) {
+            response.sendRedirect(request.getContextPath() + &quot;/success.jsp&quot;);
+        } else {
+            response.sendRedirect(request.getContextPath() + &quot;/failer.jsp&quot;);
+        }
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
+    }
+}
+</code></pre><p><code>LoginServlet</code> 在 <code>web.xml</code> 文件中的配置：</p>
+<pre><code>&lt;servlet&gt;
+    &lt;description&gt;&lt;/description&gt;
+    &lt;display-name&gt;LoginServlet&lt;/display-name&gt;
+    &lt;servlet-name&gt;LoginServlet&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;party.laucloud.web.servlet.LoginServlet&lt;/servlet-class&gt;
+&lt;/servlet&gt;
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;LoginServlet&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/login&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+</code></pre><h3 id="5-Struts2框架入门"><a href="#5-Struts2框架入门" class="headerlink" title="5.Struts2框架入门"></a>5.Struts2框架入门</h3><p>学习 <code>Struts2</code> 框架，我们需要先去下载它的 <code>jar</code> 包，最好的方式便是去官网下载了。</p>
+<pre><code>https://struts.apache.org/
+</code></pre><p>我这里是使用的 <code>2.3.24</code> 版本的，下载到完整文件为 <code>struts-2.3.24-all.zip</code>，解压之后会看到几个文件夹，名称以及对应的含义为：</p>
+<pre><code>apps：示例代码
+docs：文档
+lib：相关jar包
+src：源代码
+</code></pre><p>如果我们要使用 <code>Struts2</code> 框架，是不是需要将 <code>lib</code> 目录下的所有 <code>jar</code> 包导入到工程当中呢？不是的，没有必要导入这么多，我们一般会根据 <code>apps</code> 目录下的 <code>struts2-blank.war</code> 文件来新建我们的 <code>Struts2</code> 工程，这个文件包含了 <code>Struts2</code> 工程可运行的最小单元，因此我们完全可以根据这个工程来编写我们的项目，这个文件我们也可以使用压缩软件打开，其中的 <code>jar</code> 包和配置文件我们都可以使用。</p>
+<p>使用 <code>Struts2</code> 框架的基本步骤如下：</p>
+<pre><code>1.导入相关的jar文件
+2.在web.xml文件当中配置Struts2框架的核心过滤器StrutsPrepareAndExecuteFilter
+3.增加struts.xml配置文件
+4.创建Action来完成逻辑操作
+</code></pre><p>那我们就照着这个步骤，新建一个 <code>Struts2</code> 项目，第一步是导入 <code>jar</code> 包，我们就可以使用上面 <code>struts2-blank</code> 工程中的 <code>jar</code> 包文件，打开工程下面 <code>WEB-INF</code> 目录下面的 <code>lib</code> 目录，就可以看到其中有 <code>13</code> 个 <code>jar</code> 包文件，导入我们自己的工程中就可以了。</p>
+<p>第二步是配置 <code>Struts2</code> 框架的核心过滤器，主要在 <code>web.xml</code> 文件中配置如下：</p>
+<pre><code>&lt;filter&gt;
+    &lt;filter-name&gt;struts2&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter&lt;/filter-class&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;struts2&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre><p>很显然便是拦截对于项目的一切请求，然后转到用框架进行逻辑处理。第三步便是增加 <code>struts.xml</code> 配置文件，我们同样也可以使用 <code>struts2-blank</code> 工程中的，其位置在 <code>WEB-INF</code> 目录下面的 <code>classes</code> 目录下面，需要注意的是这个是工程的部署目录，那开发时这个文件应该放到哪个地方呢？其实只需要放在我们的 <code>src</code> 目录下就可以了，那为什么呢？其实可以用鼠标右键点击 <code>src</code> 目录，然后选择 <code>Build Path</code> 按钮，接着选择其中的最后一个选项 <code>Configure Build Path...</code>，就可以看到弹出的面板中有个 <code>Default output folder</code>，其中显示的正是 <code>classes</code> 目录，因此开发时 <code>struts.xml</code> 文件放在 <code>src</code> 目录就好了。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE struts PUBLIC
+    &quot;-//Apache Software Foundation//DTD Struts Configuration 2.3//EN&quot;
+    &quot;http://struts.apache.org/dtds/struts-2.3.dtd&quot;&gt;
+
+&lt;struts&gt;
+    &lt;package name=&quot;default&quot; namespace=&quot;/&quot; extends=&quot;struts-default&quot;&gt;
+
+    &lt;/package&gt;
+&lt;/struts&gt;
+</code></pre><p>第四步便是编写具体的 <code>Action</code> 来完成业务逻辑操作了，我们可以创建一个简单的 <code>Struts2Action</code>，然后在 <code>struts.xml</code> 文件中增加对应配置。</p>
+<p>Struts2Action</p>
+<pre><code>public class Struts2Action {
+
+    public void show() {
+        System.out.println(&quot;hello Struts2......&quot;);
+    }
+}
+</code></pre><p>struts.xml</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE struts PUBLIC
+    &quot;-//Apache Software Foundation//DTD Struts Configuration 2.3//EN&quot;
+    &quot;http://struts.apache.org/dtds/struts-2.3.dtd&quot;&gt;
+
+&lt;struts&gt;
+    &lt;package name=&quot;default&quot; namespace=&quot;/&quot; extends=&quot;struts-default&quot;&gt;            
+        &lt;action name=&quot;struts2&quot; class=&quot;party.laucloud.web.action.Struts2Action&quot;
+            method=&quot;show&quot;&gt;&lt;/action&gt;
+    &lt;/package&gt;
+&lt;/struts&gt;
+</code></pre><p>为了演示效果，我们可以再新建一个 <code>jsp</code> 页面 <code>index.jsp</code>。</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;主页&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;a href=&quot;${pageContext.request.contextPath}/struts2&quot;&gt;Struts2入门&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>当我们访问 <code>index.jsp</code> 并点击其中的超链接按钮时，便会向我们的项目发送 <code>/struts2</code> 的请求，因为我们在 <code>web.xml</code> 文件中配置了 <code>Struts2</code> 框架的核心过滤器，是拦截一切请求的，因此会拦截到该请求，然后再去 <code>struts.xml</code> 文件中匹配对应的 <code>Java</code> 类以及方法，因此我们就能在控制台看到打印的日志了。</p>
+<h3 id="6-Struts2框架完成登录操作"><a href="#6-Struts2框架完成登录操作" class="headerlink" title="6.Struts2框架完成登录操作"></a>6.Struts2框架完成登录操作</h3><p>上面完成了 <code>Struts2</code> 框架的基本使用，那如果我们想使用 <code>Struts2</code> 框架完成上面的登录案例呢？其实也非常简单，我们可以创建一个 <code>Action</code>，然后在其中接受前端传递的用户名和密码，判断是否正确，最后进行页面跳转的操作。</p>
+<p>login.jsp</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;登录页面&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form action=&quot;${pageContext.request.contextPath}/login&quot; method=&quot;post&quot;&gt;
+        username:&lt;input type=&quot;text&quot; name=&quot;username&quot; /&gt;&lt;br&gt;
+        password:&lt;input type=&quot;password&quot; name=&quot;password&quot; /&gt;&lt;br&gt;
+        &lt;input type=&quot;submit&quot; name=&quot;login&quot; /&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>LoginAction</p>
+<pre><code>public class LoginAction {
+
+    private String username;
+
+    private String password;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String login() {
+        System.out.println(&quot;LoginAction login()&quot;);
+        System.out.println(username + &quot;   &quot; + password);
+        if (&quot;tom&quot;.equals(username) &amp;&amp; &quot;123&quot;.equals(password)) {
+            return &quot;success&quot;;
+        } else {
+            return &quot;failer&quot;;
+        }
+    }
+}
+</code></pre><p>struts.xml</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE struts PUBLIC
+    &quot;-//Apache Software Foundation//DTD Struts Configuration 2.3//EN&quot;
+    &quot;http://struts.apache.org/dtds/struts-2.3.dtd&quot;&gt;
+
+&lt;struts&gt;
+    &lt;package name=&quot;default&quot; namespace=&quot;/&quot; extends=&quot;struts-default&quot;&gt;
+        &lt;action name=&quot;login&quot; class=&quot;party.laucloud.web.action.LoginAction&quot;
+            method=&quot;login&quot;&gt;
+            &lt;result name=&quot;success&quot;&gt;/success.jsp&lt;/result&gt;
+            &lt;result name=&quot;failer&quot;&gt;/failer.jsp&lt;/result&gt;
+        &lt;/action&gt;
+    &lt;/package&gt;
+&lt;/struts&gt;
+</code></pre><p>主要的代码和配置就是上面这样了，主要注意的两点是接收前端页面传递参数的部分和页面进行跳转的部分，先看接收前端传递参数的部分，这里是创建两个和前端传递参数名称一样的两个成员变量，然后再新建对应的 <code>get/set</code> 方法，这样我们就可以直接在 <code>Action</code> 中拿到前端传递的数据了；还有一部分便是页面跳转的部分，是在对应的方法上面加了一个 <code>String</code> 类型的返回参数，然后会在方法中返回相关的值，那程序是怎么判断应该跳转到哪个页面中的呢？其实这时拿到方法返回的具体值后，会再去 <code>struts.xml</code> 文件中找到对应 <code>action</code> 的配置，然后匹配其中的 <code>result</code> 配置，跳转到这里面设置的页面，这样就完成我们想要的功能了。</p>
+<h3 id="7-Struts2框架执行流程"><a href="#7-Struts2框架执行流程" class="headerlink" title="7.Struts2框架执行流程"></a>7.Struts2框架执行流程</h3><h4 id="7-1-Struts2源代码导入"><a href="#7-1-Struts2源代码导入" class="headerlink" title="7.1 Struts2源代码导入"></a>7.1 Struts2源代码导入</h4><p>我们先看看如何在 <code>Eclipse</code> 中关联 <code>Struts2</code> 框架的源代码，<code>Struts2</code> 框架的源代码一共分为以下三部分：</p>
+<pre><code>1.Struts2核心部分源代码
+2.Struts2中xwork核心部分源代码
+3.Struts2插件的源代码
+</code></pre><p>先看 <code>Struts2</code> 核心部分的源代码，这类代码一般是以 <code>org.apache.struts2</code> 包名开头的，比如我们之前使用的核心过滤器 <code>StrutsPrepareAndExecuteFilter</code>，如果我们之前没有配置过源代码，当我们点击进入该类时，会报源代码找不到的提示，我们可以点击其中的 <code>Attach Source...</code> 按钮，因为我们这里想要关联的是我们下载的 <code>Struts2</code> 包中的源代码，所以需要选择弹出界面中的 <code>External location</code> 选项，然后再点击 <code>External Folder</code>，选择到 <code>/struts-2.3.24/src/core/src/main/java</code> 这一级目录就可以了，这时候 <code>Struts2</code> 框架核心部分源代码就关联成功了。</p>
+<p><code>Struts2</code> 中 <code>xwork</code> 核心部分源代码，通常是以 <code>com.opensymphony.xwork2</code> 包名开头的，关联源代码和上面的类似，只是对应的目录不一样罢了，目录应该为 <code>/struts-2.3.24/src/xwork-core/src/main/java</code>。</p>
+<p><code>Struts2</code> 插件的源代码关联和上面的步骤类似，只是对应的目录不一样罢了，目录为 <code>/struts-2.3.24/src/plugins</code>，由于有多个插件，因此需要针对具体插件，选择其中具体的目录进行匹配，不过步骤都是一样的。</p>
+<h4 id="7-2-struts-xml文件中的提示问题"><a href="#7-2-struts-xml文件中的提示问题" class="headerlink" title="7.2 struts.xml文件中的提示问题"></a>7.2 struts.xml文件中的提示问题</h4><p>当我们使用 <code>Struts2</code> 框架，在 <code>struts.xml</code> 文件中增加配置时，会有自动的内容提示，这是因为当我们联网时，工具会自动帮我们缓存 <code>http://struts.apache.org/dtds/struts-2.3.dtd</code>，因此才会有自动内容提示，那如果没有网络连接时呢？其实也是可以有自动的内容提示的，只是需要我们增加一些配置。</p>
+<p>上面的 <code>struts-2.3.dtd</code> 在我们下载的 <code>Struts2</code> 包中同样也是存在的，因此我们只需要增加配置指向它就好了，首先点击 <code>Window</code> 按钮，点击其中出现的 <code>Preferences</code> 按钮，在弹出的面板中，选择 <code>XML</code> 节点下的 <code>XML Catalog</code> 选项，然后点击 <code>add</code> 按钮，<code>Location</code> 通过 <code>File System</code> 选中我们下载的 <code>Struts2</code> 包中的 <code>struts-2.3.dtd</code> 文件，其目录为 <code>/struts-2.3.24/src/core/src/main/resources/struts-2.3.dtd</code>，<code>Key type</code> 选择 <code>URI</code>，下面的 <code>Key</code> 填入 <code>http://struts.apache.org/dtds/struts-2.3.dtd</code>，这样的话即使在无网络环境中编辑 <code>struts.xml</code> 文件也会有自动内容提示了。</p>
+<h4 id="7-3-Struts2框架执行流程"><a href="#7-3-Struts2框架执行流程" class="headerlink" title="7.3 Struts2框架执行流程"></a>7.3 Struts2框架执行流程</h4><p><code>Struts2</code> 框架的执行流程如下：</p>
+<pre><code>1.当通过浏览器发送一个请求
+2.会被StrutsPrepareAndExecuteFilter拦截
+3.会调用struts2框架默认的拦截器(interceptor)完成部分功能
+4.再执行Action中操作
+5.根据Action中方法的执行结果来选择跳转页面result视图
+</code></pre><p>其中 <code>Struts2</code> 框架的默认拦截器是在 <code>struts-default.xml</code> 文件中定义的，该文件在 <code>struts2-core-2.3.24.jar</code> 当中，在配置文件当中可以看到，<code>Struts2</code> 框架定义好了很多拦截器，而默认使用的拦截器栈是 <code>defaultStack</code>。</p>
+<h3 id="8-Struts2框架配置详解"><a href="#8-Struts2框架配置详解" class="headerlink" title="8.Struts2框架配置详解"></a>8.Struts2框架配置详解</h3><p>下面我们再来看看 <code>Struts2</code> 框架搭建的项目使用时，需要加载哪些配置文件，以及配置文件当中一些具体的配置。</p>
+<h4 id="8-1-Struts2框架配置文件加载顺序"><a href="#8-1-Struts2框架配置文件加载顺序" class="headerlink" title="8.1 Struts2框架配置文件加载顺序"></a>8.1 Struts2框架配置文件加载顺序</h4><p>要想知道 <code>Struts2</code> 框架会加载哪些配置文件，我们可以在 <code>StrutsPrepareAndExecuteFilter</code> 类的源码中进行查找，首先可以看到该类中有个 <code>init()</code> 的初始化方法，其中会初始化一个 <code>Dispatcher</code> 对象，我们需要进去看该对象是如何初始化的。</p>
+<pre><code>dispatcher = init.initDispatcher(config);
+</code></pre><p>点进去会发现其中又调用了它自身的 <code>init()</code> 方法，接着查看，就会发现在这个 <code>init()</code> 方法当中，就有加载配置文件的逻辑。</p>
+<pre><code>init_DefaultProperties(); // [1]
+init_TraditionalXmlConfigurations(); // [2]
+init_LegacyStrutsProperties(); // [3]
+init_CustomConfigurationProviders(); // [5]
+init_FilterInitParameters() ; // [6]
+init_AliasStandardObjects() ; // [7]
+</code></pre><p>下面我们便具体地来看看，这 <code>6</code> 个方法到底加载了哪些配置文件。</p>
+<p>第一个加载的是 <code>default.properties</code> 文件，该文件是在 <code>struts2-core.jar</code> 文件的 <code>org.apache.struts2</code> 包当中，其中主要是配置的一些 <code>Struts2</code> 框架的常量，比如编码方式，是否允许动态方法调用之类的。</p>
+<p>第二个加载的是一批配置文件，主要是以下三个。</p>
+<pre><code>struts-default.xml
+struts-plugin.xml
+struts.xml
+</code></pre><p><code>struts-default.xml</code> 文件在 <code>struts2-core.jar</code> 文件当中，主要是声明了一些 <code>interceptor</code>，<code>result</code> 和 <code>bean</code>。</p>
+<p><code>struts-plugin.xml</code> 文件则是在各个具体的插件包中，主要是用于对插件的声明配置。</p>
+<p><code>struts.xml</code> 文件则是我们工程中自己创建的，主要是我们工程使用 <code>Struts2</code> 框架时的一些配置。</p>
+<p>第三个加载的则是 <code>struts.properties</code> 文件，也是我们自己进行创建的，和 <code>struts.xml</code> 文件一样保存在我们的 <code>src</code> 目录下，主要是用于定制常量。</p>
+<p>第四个加载的是一些自定义配置提供。</p>
+<p>第五个加载的是 <code>web.xml</code> 文件，主要是加载 <code>Struts2</code> 框架在 <code>web.xml</code> 文件中的相关配置。</p>
+<p>第六个加载的 <code>bean</code> 相关配置。</p>
+<p>主要加载的就是上面这些配置文件了，其中需要重点掌握的是下面这些：</p>
+<pre><code>1.default.properties
+2.struts-default.xml
+3.struts-plugin.xml
+4.struts.xml
+5.web.xml
+</code></pre><h4 id="8-2-struts-xml配置文件介绍"><a href="#8-2-struts-xml配置文件介绍" class="headerlink" title="8.2 struts.xml配置文件介绍"></a>8.2 struts.xml配置文件介绍</h4><p><code>struts.xml</code> 配置文件中主要设置的是对于 <code>action</code> 访问的配置，而对于一个 <code>action</code> 的访问来说，最主要的就是 <code>package</code>、<code>action</code> 和 <code>result</code> 这三种配置了，下面我们具体来看这三种配置。</p>
+<h5 id="8-2-1-package配置"><a href="#8-2-1-package配置" class="headerlink" title="8.2.1 package配置"></a>8.2.1 package配置</h5><p><code>package</code> 配置中主要属性以及作用如下：</p>
+<pre><code>name属性:定义一个包的名称，必须保持唯一；
+namespace属性:主要是与action标签的name属性联合使用来确定一个action的访问路径;
+extends属性:主要指定继承自哪个包,一般值是struts-default，这个值是在struts-default.xml文件中声明的;
+abstruct属性:代表当前包是抽象的，主要是用于被继承。
+</code></pre><h5 id="8-2-2-action配置"><a href="#8-2-2-action配置" class="headerlink" title="8.2.2 action配置"></a>8.2.2 action配置</h5><p><code>action</code> 配置中主要属性以及作用如下：</p>
+<pre><code>name属性:主要是与package的namespace联合使用来确定一个action的访问路径；
+class属性:用于指示当前的action类；
+method属性:用于指示当前的action类中的哪个方法执行。
+</code></pre><h5 id="8-2-3-result配置"><a href="#8-2-3-result配置" class="headerlink" title="8.2.3 result配置"></a>8.2.3 result配置</h5><p><code>result</code> 配置中主要属性以及作用如下：</p>
+<pre><code>name属性:主要是与action类中的method方法的返回值进行匹配，来确定跳转路径；
+type属性:作用是用于指定跳转方式，可以指定为请求转发和重定向等方式，默认是请求转发。
+</code></pre><p><code>type</code> 属性的属性值，其实是在 <code>struts-default.xml</code> 文件中进行配置的，就在 <code>struts-default</code> 的 <code>package</code> 配置中，其中有个 <code>result-types</code> 的配置：</p>
+<pre><code>&lt;result-types&gt;
+    &lt;result-type name=&quot;chain&quot; class=&quot;com.opensymphony.xwork2.ActionChainResult&quot;/&gt;
+    &lt;result-type name=&quot;dispatcher&quot; class=&quot;org.apache.struts2.dispatcher.ServletDispatcherResult&quot; default=&quot;true&quot;/&gt;
+    &lt;result-type name=&quot;freemarker&quot; class=&quot;org.apache.struts2.views.freemarker.FreemarkerResult&quot;/&gt;
+    &lt;result-type name=&quot;httpheader&quot; class=&quot;org.apache.struts2.dispatcher.HttpHeaderResult&quot;/&gt;
+    &lt;result-type name=&quot;redirect&quot; class=&quot;org.apache.struts2.dispatcher.ServletRedirectResult&quot;/&gt;
+    &lt;result-type name=&quot;redirectAction&quot; class=&quot;org.apache.struts2.dispatcher.ServletActionRedirectResult&quot;/&gt;
+    &lt;result-type name=&quot;stream&quot; class=&quot;org.apache.struts2.dispatcher.StreamResult&quot;/&gt;
+    &lt;result-type name=&quot;velocity&quot; class=&quot;org.apache.struts2.dispatcher.VelocityResult&quot;/&gt;
+    &lt;result-type name=&quot;xslt&quot; class=&quot;org.apache.struts2.views.xslt.XSLTResult&quot;/&gt;
+    &lt;result-type name=&quot;plainText&quot; class=&quot;org.apache.struts2.dispatcher.PlainTextResult&quot; /&gt;
+    &lt;result-type name=&quot;postback&quot; class=&quot;org.apache.struts2.dispatcher.PostbackResult&quot; /&gt;
+&lt;/result-types&gt;
+</code></pre><p>这些便都是 <code>type</code> 属性的属性值了，可以看出默认是 <code>dispatcher</code> 方式，也就是请求转发方式，这里我们先介绍几种常用的方式。</p>
+<pre><code>dispatcher:代表的是请求转发。针对于jsp页面
+redirect:代表的是重定向。针对于jsp页面 
+chain:类似于请示转发。针对于action跳转
+redirectAction:类似于重定向。针对于action
+</code></pre><p>同时如果多个 <code>action</code> 中的 <code>result</code> 都是一样的，我们还可以设置全局的 <code>result</code> 配置，同样也是在 <code>package</code> 节点中进行配置。</p>
+<pre><code>&lt;global-results&gt;
+    &lt;result name=&quot;success&quot;&gt;/success.jsp&lt;/result&gt;
+    &lt;result name=&quot;failer&quot;&gt;/failer.jsp&lt;/result&gt;
+&lt;/global-results&gt;
+</code></pre><p>下面我们再来看看 <code>action</code> 配置和 <code>result</code> 配置中各个属性的默认值是怎样的？我们可以先新建下面这样的一个 <code>action</code> 配置：</p>
+<pre><code>&lt;action name=&quot;test&quot;&gt;
+    &lt;result&gt;/success.jsp&lt;/result&gt;
+&lt;/action&gt;
+</code></pre><p>然后根据 <code>/test</code> 来访问这个 <code>action</code>，页面中会是什么效果呢？我们会发现页面成功跳转到 <code>success.jsp</code> 页面了，同时浏览器的访问路径没有变化，这是什么原因呢？这就需要先说明下，在声明 <code>action</code> 时没有指定 <code>class</code> 属性和 <code>method</code> 属性，那访问该 <code>action</code> 时会访问哪个类？其实在 <code>struts-default.xml</code> 文件中是有配置的，那就是：</p>
+<pre><code>&lt;default-class-ref class=&quot;com.opensymphony.xwork2.ActionSupport&quot; /&gt;
+</code></pre><p>也就是在没有指定 <code>class</code> 属性的情况下，会默认访问这个类，那访问这个类中的哪个方法呢？是 <code>execute()</code> 方法，我们再看下这个方法的定义：</p>
+<pre><code>public String execute() throws Exception {
+    return SUCCESS;
+}
+</code></pre><p>也就是直接返回了 <code>success</code> 字符串，这里我们就要接着说 <code>result</code> 配置的默认值了，<code>result</code> 配置中的 <code>name</code> 属性默认值便是 <code>success</code> 了，而 <code>type</code> 属性，由页面跳转了之后浏览器的访问路径不变，就可以看出是请求转发方式了，也就是 <code>dispatcher</code>。</p>
+<h4 id="8-3-常量配置"><a href="#8-3-常量配置" class="headerlink" title="8.3 常量配置"></a>8.3 常量配置</h4><p>前面已经说过，在 <code>default.properties</code> 配置文件当中，默认设置了很多常量，那如果我们想再定义一些常量或者修改常量设置的默认值呢？可以有下面三种方法：</p>
+<pre><code>1.可以在src下创建一个struts.properties配置文件
+2.可以在web.xml文件中配置
+3.可以直接在struts.xml文件中定义常量
+</code></pre><p>一般我们都会使用第 <code>3</code> 中方式来进行设置，通过 <code>constant</code> 的配置便可以设置了，例如：</p>
+<pre><code>&lt;constant name=&quot;struts.devMode&quot; value=&quot;true&quot;&gt;&lt;/constant&gt;
+&lt;constant name=&quot;struts.enable.DynamicMethodInvocation&quot; value=&quot;true&quot;&gt;&lt;/constant&gt;
+</code></pre><p>需要注意的一点是，后加载配置文件中的设置会覆盖前面配置文件中的设置。</p>
+<h3 id="9-Struts2框架Action详解"><a href="#9-Struts2框架Action详解" class="headerlink" title="9.Struts2框架Action详解"></a>9.Struts2框架Action详解</h3><p>关于 <code>Struts2</code> 框架中的 <code>Action</code>，主要是用来完成业务逻辑的操作，相当于是代替了之前的 <code>Servlet</code>，对于 <code>Action</code>，我们最关注的两点就是，如何创建一个 <code>Action</code>，以及如何访问一个 <code>Action</code>。</p>
+<h4 id="9-1-Action的创建方式"><a href="#9-1-Action的创建方式" class="headerlink" title="9.1 Action的创建方式"></a>9.1 Action的创建方式</h4><p><code>Action</code> 类创建一共有三种方式，分别如下：</p>
+<pre><code>1.创建一个普通的Java类
+2.创建一个类实现Action接口
+3.创建一个类继承ActionSupport类
+</code></pre><p>第一种创建一个普通的 <code>Java</code> 类，这种方式不会实现任何接口，也不会继承任何类，最主要的优点便是无耦合，缺点则是所有的功能都需要自己来实现。</p>
+<p>第二种方式是实现 <code>Action</code> 接口，即是 <code>com.opensymphony.xwork2.Action</code> 接口，<code>Action</code> 接口中声明了五个常量和一个 <code>execute()</code> 方法，五个常量其实是便于我们返回五个结果视图。</p>
+<pre><code>ERROR:错误视图
+INPUT:它是struts2框架中interceptor中发现问题后会访问的一个视图
+LOGIN:它是一个登录视图，可以在权限操作中使用
+NONE:它代表的是null,什么都不做（也不会做跳转操作）
+SUCCESS:成功视图
+</code></pre><p>使用实现 <code>Action</code> 接口的方式，优点是耦合度低，但是还是有很多功能需要自己来实现。</p>
+<p>第三种方式是继承 <code>ActionSupport</code> 类，即是 <code>com.opensymphony.xwork2.ActionSupport</code> 类，其实 <code>ActionSupport</code> 类也实现了 <code>Action</code> 接口，我们在开发中也一般是使用这种方式，这种方式的优点是具有丰富的功能，比如表单校验，错误信息设置以及国际化，缺点则是耦合度高。</p>
+<h4 id="9-2-Action的访问方式"><a href="#9-2-Action的访问方式" class="headerlink" title="9.2 Action的访问方式"></a>9.2 Action的访问方式</h4><p><code>Action</code> 的访问方式一共有以下两种：</p>
+<pre><code>1.直接通过&lt;action&gt;标签来配置，通过method来指定访问的方法，如果method没有，默认访问的是execute方法。
+2.简化的action访问方式，可以使用*通配符来访问。
+</code></pre><p>我们可以通过具体的例子来进行说明，比如有下面的 <code>BookAction</code> 类。</p>
+<pre><code>public class BookAction {
+
+    public void add() {
+        System.out.println(&quot;BookAction add()&quot;);
+    }
+
+    public void del() {
+        System.out.println(&quot;BookAction del()&quot;);
+    }
+
+    public void update() {
+        System.out.println(&quot;BookAction update()&quot;);
+    }
+
+    public void find() {
+        System.out.println(&quot;BookAction find()&quot;);
+    }
+}
+</code></pre><p>按照第一种方法，我们需要这样配置：</p>
+<pre><code>&lt;action name=&quot;book_add&quot; class=&quot;party.laucloud.web.action.BookAction&quot;    method=&quot;add&quot;&gt;&lt;/action&gt;
+&lt;action name=&quot;book_del&quot; class=&quot;party.laucloud.web.action.BookAction&quot;    method=&quot;del&quot;&gt;&lt;/action&gt;
+&lt;action name=&quot;book_update&quot; class=&quot;party.laucloud.web.action.BookAction&quot; method=&quot;update&quot;&gt;&lt;/action&gt;
+&lt;action name=&quot;book_find&quot; class=&quot;party.laucloud.web.action.BookAction&quot;    method=&quot;find&quot;&gt;&lt;/action&gt;
+</code></pre><p>很显然，使用第一种方法的话，如果需要访问的方法很多，那么对应的配置也需要增加很多，如果使用第二种方式呢？那就可以像下面这样。</p>
+<pre><code>&lt;action name=&quot;book_*&quot; class=&quot;party.laucloud.web.action.BookAction&quot;        method=&quot;{1}&quot;&gt;&lt;/action&gt;
+</code></pre><p><code>method</code> 属性中的 <code>{1}</code> 其实是对应着 <code>name</code> 参数中的第 <code>1</code> 个 <code>*</code> 号，当请求为 <code>/book_add</code> 时，就是访问的 <code>add()</code> 方法了，其它的以此类推。</p>
+<p>当不止有 <code>BookAction</code>，还有下面的 <code>PersonAction</code> 类时，应该怎么配置呢？</p>
+<pre><code>public class PersonAction {
+
+    public void add() {
+        System.out.println(&quot;PersonAction add()&quot;);
+    }
+
+    public void del() {
+        System.out.println(&quot;PersonAction del()&quot;);
+    }
+
+    public void update() {
+        System.out.println(&quot;PersonAction update()&quot;);
+    }
+
+    public void find() {
+        System.out.println(&quot;PersonAction find()&quot;);
+    }
+}
+</code></pre><p>其实如果想覆盖这两个 <code>Action</code> 类的访问的话，我们可以这样进行配置。</p>
+<pre><code>&lt;action name=&quot;*_*&quot; class=&quot;party.laucloud.web.action.{1}Action&quot;        method=&quot;{2}&quot;&gt;&lt;/action&gt;
+</code></pre><p>同样的，<code>class</code> 属性中的 <code>{1}</code> 其实是对应着 <code>name</code> 参数中的第 <code>1</code> 个 <code>*</code> 号，<code>method</code> 属性中的 <code>{2}</code> 其实是对应着 <code>name</code> 参数中的第 <code>2</code> 个 <code>*</code> 号，当请求为 <code>/Person_add</code> 时，便是访问的 <code>PersonAction</code> 类中的 <code>add()</code> 方法了，其它的同样以此类推。</p>
+<p>使用 <code>*</code> 通配符这种方式访问 <code>Action</code>，不建议使用过多的 <code>*</code>，以免造成阅读障碍，难于理解，通常使用 <code>*</code> 号通配符这种方式进行访问时，对应的名称规范应该统一。</p>
+<h4 id="9-3-动态方法调用"><a href="#9-3-动态方法调用" class="headerlink" title="9.3 动态方法调用"></a>9.3 动态方法调用</h4><p>访问 <code>Action</code> 还有一种方法，那便是通过动态方法进行调用，要想使用动态方法调用，需要先在 <code>struts.xml</code> 文件当中开启动态方法调用的配置。</p>
+<pre><code>&lt;constant name=&quot;struts.enable.DynamicMethodInvocation&quot; value=&quot;true&quot;&gt;&lt;/constant&gt;
+</code></pre><p>开启之后我们便可以使用了，具体访问时可以使用 <code>/struts2!show</code> 进行访问，<code>Struts2</code> 框架便会根据 <code>/struts2</code> 的访问路径在 <code>struts.xml</code> 文件中找到对应的 <code>Action</code> 类，然后调用其中的 <code>show()</code> 方法。</p>
+<p>其实最好不要使用动态调用方法，因为之前也是暴露出了漏洞。</p>
+<h3 id="10-Struts2框架封装数据"><a href="#10-Struts2框架封装数据" class="headerlink" title="10.Struts2框架封装数据"></a>10.Struts2框架封装数据</h3><p>这个部分主要想实现的功能是，在 <code>Action</code> 中如何获取前端传过来的数据，比如我们之前登录案例中的用户名和密码信息，一共有下面属性驱动和模型驱动两种方法。</p>
+<h4 id="10-1-属性驱动"><a href="#10-1-属性驱动" class="headerlink" title="10.1 属性驱动"></a>10.1 属性驱动</h4><p>属性驱动同样可以分为下面两种方式：</p>
+<pre><code>a.直接在action类中提供与请求参数匹配属性，提供get/set方法
+b.在action类中创建一个javaBean,对其提供get/set方法,在请求页面上要进行修改，例如user.username和user.password,需要使用ognl表达式
+</code></pre><p>为了更好地理解，我们就使用登录案例分别来进行说明。</p>
+<p>属性驱动中的第一种方法：</p>
+<p>login.jsp：</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;登录页面&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form action=&quot;${pageContext.request.contextPath}/login&quot; method=&quot;post&quot;&gt;
+        username:&lt;input type=&quot;text&quot; name=&quot;username&quot; /&gt;&lt;br&gt;
+        password:&lt;input type=&quot;password&quot; name=&quot;password&quot; /&gt;&lt;br&gt;
+        &lt;input type=&quot;submit&quot; name=&quot;login&quot; /&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>LoginAction.java:</p>
+<pre><code>public class LoginAction {
+
+    private String username;
+
+    private String password;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String login() {
+        System.out.println(&quot;LoginAction login()&quot;);
+        System.out.println(username + &quot;   &quot; + password);
+        if (&quot;tom&quot;.equals(username) &amp;&amp; &quot;123&quot;.equals(password)) {
+            return &quot;success&quot;;
+        } else {
+            return &quot;failer&quot;;
+        }
+    }
+}
+</code></pre><p>属性驱动中的第二种方法：</p>
+<p>login2.jsp:</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;登录页面&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form action=&quot;${pageContext.request.contextPath}/login2&quot; method=&quot;post&quot;&gt;
+        username:&lt;input type=&quot;text&quot; name=&quot;user.username&quot; /&gt;&lt;br&gt;
+        password:&lt;input type=&quot;password&quot; name=&quot;user.password&quot; /&gt;&lt;br&gt;
+        &lt;input type=&quot;submit&quot; name=&quot;login&quot; /&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>LoginAction2.java:</p>
+<pre><code>public class LoginAction2 {
+
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String login() {
+        System.out.println(user.getUsername() + &quot;   &quot; + user.getPassword());
+        if (&quot;tom&quot;.equals(user.getUsername()) &amp;&amp; &quot;123&quot;.equals(user.getPassword())) {
+            return &quot;success&quot;;
+        } else {
+            return &quot;failer&quot;;
+        }
+    }
+}
+</code></pre><p>User.java:</p>
+<pre><code>public class User {
+
+    private String username;
+
+    private String password;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+}
+</code></pre><p>对于上面的这两种方法来说，第一种比较简单，在实际操作时我们需要将 <code>action</code> 的属性再赋值给模型 <code>(javaBean)</code> 去操作；第二种不需要再直接将值给 <code>javaBean</code> 模型，因为直接将数据封装到了 <code>javaBean</code> 中，但是它要求在页面上必须使用 <code>ognl</code> 表达式，就存在页面不通用问题。</p>
+<h4 id="10-2-模型驱动"><a href="#10-2-模型驱动" class="headerlink" title="10.2 模型驱动"></a>10.2 模型驱动</h4><p>使用模型驱动的步骤如下：</p>
+<pre><code>1.Action类要实现ModelDriven接口
+2.实例化模型对象(就是要new出来javaBean)
+3.重写getModel方法将实例化的模型返回。
+</code></pre><p>同样的，我们使用登录案例来进行说明。</p>
+<p>login3.jsp</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;登录页面&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form action=&quot;${pageContext.request.contextPath}/login3&quot; method=&quot;post&quot;&gt;
+        username:&lt;input type=&quot;text&quot; name=&quot;username&quot; /&gt;&lt;br&gt;
+        password:&lt;input type=&quot;password&quot; name=&quot;password&quot; /&gt;&lt;br&gt;
+        &lt;input type=&quot;submit&quot; name=&quot;login&quot; /&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>LoginAction3.java:</p>
+<pre><code>public class LoginAction3 implements ModelDriven&lt;User&gt; {
+
+    private User user = new User();
+
+    @Override
+    public User getModel() {
+        return user;
+    }
+
+    public String login() {
+        System.out.println(user.getUsername() + &quot;   &quot; + user.getPassword());
+        if (&quot;tom&quot;.equals(user.getUsername()) &amp;&amp; &quot;123&quot;.equals(user.getPassword())) {
+            return &quot;success&quot;;
+        } else {
+            return &quot;failer&quot;;
+        }
+    }
+}
+</code></pre><p>这便是模型驱动的使用了，和属性驱动相比的话，模型驱动在开发中是使用更多的，不过它只能对一个模型数据进行封装。</p>
+<h3 id="11-总结"><a href="#11-总结" class="headerlink" title="11.总结"></a>11.总结</h3><p>关于这篇博客，最主要的内容便是能使用 <code>Struts2</code> 框架实现登录案例，能实现这个案例，便掌握了具体的使用流程，其它的配置细节可以慢慢地再进行填补，大的流程通了，便能建立大局观，学习也就稳固了。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Struts2/" rel="tag"># Struts2</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/01/Oracle数据库(四)/" rel="next" title="Oracle数据库(四)">
+                <i class="fa fa-chevron-left"></i> Oracle数据库(四)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Lau Cloud" />
+          <p class="site-author-name" itemprop="name">Lau Cloud</p>
+           
+              <p class="site-description motion-element" itemprop="description">想保护一个人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LauCloud" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-框架介绍"><span class="nav-number">1.</span> <span class="nav-text">1.框架介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Java常用开发框架"><span class="nav-number">2.</span> <span class="nav-text">2.Java常用开发框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Struts2框架介绍"><span class="nav-number">3.</span> <span class="nav-text">3.Struts2框架介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-简单登录案例"><span class="nav-number">4.</span> <span class="nav-text">4.简单登录案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Struts2框架入门"><span class="nav-number">5.</span> <span class="nav-text">5.Struts2框架入门</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Struts2框架完成登录操作"><span class="nav-number">6.</span> <span class="nav-text">6.Struts2框架完成登录操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-Struts2框架执行流程"><span class="nav-number">7.</span> <span class="nav-text">7.Struts2框架执行流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-Struts2源代码导入"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 Struts2源代码导入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-struts-xml文件中的提示问题"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 struts.xml文件中的提示问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-Struts2框架执行流程"><span class="nav-number">7.3.</span> <span class="nav-text">7.3 Struts2框架执行流程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-Struts2框架配置详解"><span class="nav-number">8.</span> <span class="nav-text">8.Struts2框架配置详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8-1-Struts2框架配置文件加载顺序"><span class="nav-number">8.1.</span> <span class="nav-text">8.1 Struts2框架配置文件加载顺序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2-struts-xml配置文件介绍"><span class="nav-number">8.2.</span> <span class="nav-text">8.2 struts.xml配置文件介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#8-2-1-package配置"><span class="nav-number">8.2.1.</span> <span class="nav-text">8.2.1 package配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8-2-2-action配置"><span class="nav-number">8.2.2.</span> <span class="nav-text">8.2.2 action配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8-2-3-result配置"><span class="nav-number">8.2.3.</span> <span class="nav-text">8.2.3 result配置</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-3-常量配置"><span class="nav-number">8.3.</span> <span class="nav-text">8.3 常量配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-Struts2框架Action详解"><span class="nav-number">9.</span> <span class="nav-text">9.Struts2框架Action详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#9-1-Action的创建方式"><span class="nav-number">9.1.</span> <span class="nav-text">9.1 Action的创建方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-2-Action的访问方式"><span class="nav-number">9.2.</span> <span class="nav-text">9.2 Action的访问方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-3-动态方法调用"><span class="nav-number">9.3.</span> <span class="nav-text">9.3 动态方法调用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-Struts2框架封装数据"><span class="nav-number">10.</span> <span class="nav-text">10.Struts2框架封装数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#10-1-属性驱动"><span class="nav-number">10.1.</span> <span class="nav-text">10.1 属性驱动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-2-模型驱动"><span class="nav-number">10.2.</span> <span class="nav-text">10.2 模型驱动</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-总结"><span class="nav-number">11.</span> <span class="nav-text">11.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lau Cloud</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'laucloudparty';
+      var disqus_identifier = '2018/11/10/Struts2框架(一)/';
+
+      var disqus_title = "Struts2框架(一)";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("HOfS0Gs4yDR8hYgXvwhoQatu-gzGzoHsz", "Hpz44Tn78X4lsNc34GD6Rl1v");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
